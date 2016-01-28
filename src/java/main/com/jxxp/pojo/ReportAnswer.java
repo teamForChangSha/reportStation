@@ -6,7 +6,7 @@ package com.jxxp.pojo;
  * @author pan
  * 
  */
-public class ReportDetail {
+public class ReportAnswer {
 	private long rdId;
 
 	/**

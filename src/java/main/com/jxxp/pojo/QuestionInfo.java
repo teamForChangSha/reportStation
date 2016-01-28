@@ -1,8 +1,6 @@
 package com.jxxp.pojo;
 
 public class QuestionInfo {
-	private long questId;
-
 	/**
 	 * 举报所填问题的关键索引，为维护问题的可读性，程序中应使用此索引值来表示问题
 	 */
@@ -18,4 +16,8 @@ public class QuestionInfo {
 	 */
 	private String questDesc;
 
+	/**
+	 * 该问题是否必填
+	 */
+	private boolean isNeeded;
 }

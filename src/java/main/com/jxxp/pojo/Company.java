@@ -1,6 +1,7 @@
 package com.jxxp.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 代表公司的业务对象，管理方作为系统添加的公司，默认便存在
@@ -50,4 +51,9 @@ public class Company {
 	 * 公司其他信息，通常情况下无需加载此信息，只在必须时才加载
 	 */
 	private CompanyOther otherInfo;
+
+	/**
+	 * 该公司所选取的问题列表
+	 */
+	private List<QuestionInfo> questList;
 }

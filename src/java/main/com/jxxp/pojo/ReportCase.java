@@ -77,15 +77,11 @@ public class ReportCase {
 	 * 案件所属的用户输入内容映射表<br>
 	 * 以Map形式保存用户输入，map的key为ReportDetail中的key，值为对应的ReportDetail
 	 */
-	private Map<String, ReportDetail> detail;
+	private Map<String, ReportAnswer> detail;
 
 	/**
 	 * 本案件的状态改变列表
 	 */
 	private List<CaseChangeLog> changeList;
 
-	/**
-	 * 该公司所选取的问题列表
-	 */
-	private List<QuestionInfo> questList;
 }
