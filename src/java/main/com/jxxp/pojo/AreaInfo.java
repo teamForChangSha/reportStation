@@ -22,6 +22,6 @@ public class AreaInfo {
 	/**
 	 * 上级行政单位的id，不直接使用对象，因为通常的用法是从省到市，暂不考虑反过来索引
 	 */
-	private int parentId;
+	private long parentId;
 
 }
