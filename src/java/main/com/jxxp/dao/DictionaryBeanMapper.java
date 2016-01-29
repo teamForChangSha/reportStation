@@ -2,6 +2,8 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jxxp.pojo.DictionaryBean;
 
 /**
@@ -20,10 +22,12 @@ public interface DictionaryBeanMapper {
 	 *            字典名称
 	 * @return 获取得到的字典对象
 	 */
-	DictionaryBean getDictionary(Long dictType, String dictName);
+	DictionaryBean getDictionary(@Param("dictType") Long dictType,
+			@Param("dictName") String dictName);
 
 	/**
 	 * @param dictType
+	 *            类型
 	 * @return 获得某个类别下的所有字典
 	 */
 	List<DictionaryBean> findByType(Long dictType);
