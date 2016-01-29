@@ -19,9 +19,18 @@ public interface ReportCaseMapper {
 	 * 
 	 * @param cId
 	 *            案件号
-	 * @return
+	 * @return 案件
 	 */
-	ReportCase findById(long cId);
+	ReportCase findById(long rcId);
+
+	/**
+	 * 通过案件追踪码查询
+	 * 
+	 * @param trackingNo
+	 *            案件追踪码
+	 * @return 案件
+	 */
+	ReportCase findByNo(String trackingNo);
 
 	/**
 	 * 更新案件 比如更改举报的状态、追加备注等操作
@@ -63,6 +72,6 @@ public interface ReportCaseMapper {
 	 * @param cId
 	 * @return
 	 */
-	int deleteById(long cId);
+	int deleteById(long rcId);
 
 }
