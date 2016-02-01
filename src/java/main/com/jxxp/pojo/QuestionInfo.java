@@ -20,4 +20,36 @@ public class QuestionInfo {
 	 * 该问题是否必填
 	 */
 	private boolean isNeeded;
+
+	public String getQuestKey() {
+		return questKey;
+	}
+
+	public void setQuestKey(String questKey) {
+		this.questKey = questKey;
+	}
+
+	public String getQuest() {
+		return quest;
+	}
+
+	public void setQuest(String quest) {
+		this.quest = quest;
+	}
+
+	public String getQuestDesc() {
+		return questDesc;
+	}
+
+	public void setQuestDesc(String questDesc) {
+		this.questDesc = questDesc;
+	}
+
+	public boolean isNeeded() {
+		return isNeeded;
+	}
+
+	public void setNeeded(boolean isNeeded) {
+		this.isNeeded = isNeeded;
+	}
 }

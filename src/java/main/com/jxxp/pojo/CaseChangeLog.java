@@ -41,4 +41,60 @@ public class CaseChangeLog {
 	 */
 	private Company handlerAfter;
 
+	public long getCclId() {
+		return cclId;
+	}
+
+	public void setCclId(long cclId) {
+		this.cclId = cclId;
+	}
+
+	public Date getChangeTime() {
+		return changeTime;
+	}
+
+	public void setChangeTime(Date changeTime) {
+		this.changeTime = changeTime;
+	}
+
+	public int getStateBefore() {
+		return stateBefore;
+	}
+
+	public void setStateBefore(int stateBefore) {
+		this.stateBefore = stateBefore;
+	}
+
+	public int getStateAfter() {
+		return stateAfter;
+	}
+
+	public void setStateAfter(int stateAfter) {
+		this.stateAfter = stateAfter;
+	}
+
+	public User getOperator() {
+		return operator;
+	}
+
+	public void setOperator(User operator) {
+		this.operator = operator;
+	}
+
+	public Company getHandlerBefore() {
+		return handlerBefore;
+	}
+
+	public void setHandlerBefore(Company handlerBefore) {
+		this.handlerBefore = handlerBefore;
+	}
+
+	public Company getHandlerAfter() {
+		return handlerAfter;
+	}
+
+	public void setHandlerAfter(Company handlerAfter) {
+		this.handlerAfter = handlerAfter;
+	}
+
 }

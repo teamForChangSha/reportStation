@@ -84,4 +84,124 @@ public class ReportCase {
 	 */
 	private List<CaseChangeLog> changeList;
 
+	public long getRcId() {
+		return rcId;
+	}
+
+	public void setRcId(long rcId) {
+		this.rcId = rcId;
+	}
+
+	public List<ReportType> getRtList() {
+		return rtList;
+	}
+
+	public void setRtList(List<ReportType> rtList) {
+		this.rtList = rtList;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public CompanyBranch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(CompanyBranch branch) {
+		this.branch = branch;
+	}
+
+	public Reporter getReporter() {
+		return reporter;
+	}
+
+	public void setReporter(Reporter reporter) {
+		this.reporter = reporter;
+	}
+
+	public Company getCurrentHandler() {
+		return currentHandler;
+	}
+
+	public void setCurrentHandler(Company currentHandler) {
+		this.currentHandler = currentHandler;
+	}
+
+	public int getCaseState() {
+		return caseState;
+	}
+
+	public void setCaseState(int caseState) {
+		this.caseState = caseState;
+	}
+
+	public Date getStateChanged() {
+		return stateChanged;
+	}
+
+	public void setStateChanged(Date stateChanged) {
+		this.stateChanged = stateChanged;
+	}
+
+	public String getAccessCode() {
+		return accessCode;
+	}
+
+	public void setAccessCode(String accessCode) {
+		this.accessCode = accessCode;
+	}
+
+	public String getTrackingNo() {
+		return trackingNo;
+	}
+
+	public void setTrackingNo(String trackingNo) {
+		this.trackingNo = trackingNo;
+	}
+
+	public List<CaseAttach> getAttachList() {
+		return attachList;
+	}
+
+	public void setAttachList(List<CaseAttach> attachList) {
+		this.attachList = attachList;
+	}
+
+	public List<CaseComment> getCommentList() {
+		return commentList;
+	}
+
+	public void setCommentList(List<CaseComment> commentList) {
+		this.commentList = commentList;
+	}
+
+	public Map<String, ReportAnswer> getDetail() {
+		return detail;
+	}
+
+	public void setDetail(Map<String, ReportAnswer> detail) {
+		this.detail = detail;
+	}
+
+	public List<CaseChangeLog> getChangeList() {
+		return changeList;
+	}
+
+	public void setChangeList(List<CaseChangeLog> changeList) {
+		this.changeList = changeList;
+	}
+
 }

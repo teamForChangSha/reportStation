@@ -56,4 +56,84 @@ public class Company {
 	 * 该公司所选取的问题列表
 	 */
 	private List<QuestionInfo> questList;
+
+	public long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public DictionaryBean getCompanyType() {
+		return companyType;
+	}
+
+	public void setCompanyType(DictionaryBean companyType) {
+		this.companyType = companyType;
+	}
+
+	public DictionaryBean getCompanyState() {
+		return companyState;
+	}
+
+	public void setCompanyState(DictionaryBean companyState) {
+		this.companyState = companyState;
+	}
+
+	public Date getStateChanged() {
+		return stateChanged;
+	}
+
+	public void setStateChanged(Date stateChanged) {
+		this.stateChanged = stateChanged;
+	}
+
+	public CompanyOther getOtherInfo() {
+		return otherInfo;
+	}
+
+	public void setOtherInfo(CompanyOther otherInfo) {
+		this.otherInfo = otherInfo;
+	}
+
+	public List<QuestionInfo> getQuestList() {
+		return questList;
+	}
+
+	public void setQuestList(List<QuestionInfo> questList) {
+		this.questList = questList;
+	}
 }

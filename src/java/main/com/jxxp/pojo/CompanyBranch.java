@@ -44,4 +44,68 @@ public class CompanyBranch {
 	 */
 	private Company owner;
 
+	public long getBranchId() {
+		return branchId;
+	}
+
+	public void setBranchId(long branchId) {
+		this.branchId = branchId;
+	}
+
+	public AreaInfo getProvince() {
+		return province;
+	}
+
+	public void setProvince(AreaInfo province) {
+		this.province = province;
+	}
+
+	public AreaInfo getCity() {
+		return city;
+	}
+
+	public void setCity(AreaInfo city) {
+		this.city = city;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getContactor() {
+		return contactor;
+	}
+
+	public void setContactor(String contactor) {
+		this.contactor = contactor;
+	}
+
+	public Company getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Company owner) {
+		this.owner = owner;
+	}
+
 }

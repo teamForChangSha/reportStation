@@ -24,4 +24,36 @@ public class ReportAnswer {
 	 */
 	private String questValue;
 
+	public long getRdId() {
+		return rdId;
+	}
+
+	public void setRdId(long rdId) {
+		this.rdId = rdId;
+	}
+
+	public long getRcId() {
+		return rcId;
+	}
+
+	public void setRcId(long rcId) {
+		this.rcId = rcId;
+	}
+
+	public String getQuestKey() {
+		return questKey;
+	}
+
+	public void setQuestKey(String questKey) {
+		this.questKey = questKey;
+	}
+
+	public String getQuestValue() {
+		return questValue;
+	}
+
+	public void setQuestValue(String questValue) {
+		this.questValue = questValue;
+	}
+
 }

@@ -37,4 +37,52 @@ public class CaseComment {
 	 */
 	private Date postTime;
 
+	public long getCcId() {
+		return ccId;
+	}
+
+	public void setCcId(long ccId) {
+		this.ccId = ccId;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public boolean isReporter() {
+		return isReporter;
+	}
+
+	public void setReporter(boolean isReporter) {
+		this.isReporter = isReporter;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public Company getOwnerCompany() {
+		return ownerCompany;
+	}
+
+	public void setOwnerCompany(Company ownerCompany) {
+		this.ownerCompany = ownerCompany;
+	}
+
+	public Date getPostTime() {
+		return postTime;
+	}
+
+	public void setPostTime(Date postTime) {
+		this.postTime = postTime;
+	}
+
 }

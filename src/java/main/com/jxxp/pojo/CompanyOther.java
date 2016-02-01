@@ -38,4 +38,60 @@ public class CompanyOther {
 	 * logo的高度，预留
 	 */
 	private int logoHeight;
+
+	public long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getServiceProtocol() {
+		return serviceProtocol;
+	}
+
+	public void setServiceProtocol(String serviceProtocol) {
+		this.serviceProtocol = serviceProtocol;
+	}
+
+	public String getSpHtml() {
+		return spHtml;
+	}
+
+	public void setSpHtml(String spHtml) {
+		this.spHtml = spHtml;
+	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
+	public String getLogoPath() {
+		return logoPath;
+	}
+
+	public void setLogoPath(String logoPath) {
+		this.logoPath = logoPath;
+	}
+
+	public int getLogoWidth() {
+		return logoWidth;
+	}
+
+	public void setLogoWidth(int logoWidth) {
+		this.logoWidth = logoWidth;
+	}
+
+	public int getLogoHeight() {
+		return logoHeight;
+	}
+
+	public void setLogoHeight(int logoHeight) {
+		this.logoHeight = logoHeight;
+	}
 }

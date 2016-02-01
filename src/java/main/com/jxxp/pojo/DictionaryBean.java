@@ -36,4 +36,52 @@ public class DictionaryBean {
 	 */
 	private String dictDesc;
 
+	public long getDictId() {
+		return dictId;
+	}
+
+	public void setDictId(long dictId) {
+		this.dictId = dictId;
+	}
+
+	public String getDictType() {
+		return dictType;
+	}
+
+	public void setDictType(String dictType) {
+		this.dictType = dictType;
+	}
+
+	public String getDictName() {
+		return dictName;
+	}
+
+	public void setDictName(String dictName) {
+		this.dictName = dictName;
+	}
+
+	public String getDictValue() {
+		return dictValue;
+	}
+
+	public void setDictValue(String dictValue) {
+		this.dictValue = dictValue;
+	}
+
+	public int getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(int displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+
+	public String getDictDesc() {
+		return dictDesc;
+	}
+
+	public void setDictDesc(String dictDesc) {
+		this.dictDesc = dictDesc;
+	}
+
 }

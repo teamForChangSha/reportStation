@@ -48,4 +48,68 @@ public class CaseAttach {
 	 */
 	private long attachSize;
 
+	public long getCaId() {
+		return caId;
+	}
+
+	public void setCaId(long caId) {
+		this.caId = caId;
+	}
+
+	public String getAttachName() {
+		return attachName;
+	}
+
+	public void setAttachName(String attachName) {
+		this.attachName = attachName;
+	}
+
+	public String getAttachUrl() {
+		return attachUrl;
+	}
+
+	public void setAttachUrl(String attachUrl) {
+		this.attachUrl = attachUrl;
+	}
+
+	public String getAttachPath() {
+		return attachPath;
+	}
+
+	public void setAttachPath(String attachPath) {
+		this.attachPath = attachPath;
+	}
+
+	public String getAttachExt() {
+		return attachExt;
+	}
+
+	public void setAttachExt(String attachExt) {
+		this.attachExt = attachExt;
+	}
+
+	public String getAttachFileName() {
+		return attachFileName;
+	}
+
+	public void setAttachFileName(String attachFileName) {
+		this.attachFileName = attachFileName;
+	}
+
+	public Image getThumb() {
+		return thumb;
+	}
+
+	public void setThumb(Image thumb) {
+		this.thumb = thumb;
+	}
+
+	public long getAttachSize() {
+		return attachSize;
+	}
+
+	public void setAttachSize(long attachSize) {
+		this.attachSize = attachSize;
+	}
+
 }

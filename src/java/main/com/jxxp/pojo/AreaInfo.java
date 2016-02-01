@@ -24,4 +24,36 @@ public class AreaInfo {
 	 */
 	private long parentId;
 
+	public long getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(long areaId) {
+		this.areaId = areaId;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(long parentId) {
+		this.parentId = parentId;
+	}
+
 }

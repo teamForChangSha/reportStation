@@ -61,4 +61,92 @@ public class User {
 	 * 用户状态最后一次改变时间
 	 */
 	private Date stateChanged;
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public DictionaryBean getUserType() {
+		return userType;
+	}
+
+	public void setUserType(DictionaryBean userType) {
+		this.userType = userType;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getUserPwd() {
+		return userPwd;
+	}
+
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Company getUserCompany() {
+		return userCompany;
+	}
+
+	public void setUserCompany(Company userCompany) {
+		this.userCompany = userCompany;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getWorkNo() {
+		return workNo;
+	}
+
+	public void setWorkNo(String workNo) {
+		this.workNo = workNo;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public DictionaryBean getUserState() {
+		return userState;
+	}
+
+	public void setUserState(DictionaryBean userState) {
+		this.userState = userState;
+	}
+
+	public Date getStateChanged() {
+		return stateChanged;
+	}
+
+	public void setStateChanged(Date stateChanged) {
+		this.stateChanged = stateChanged;
+	}
 }

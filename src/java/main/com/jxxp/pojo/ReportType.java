@@ -32,4 +32,44 @@ public class ReportType {
 	 */
 	private String rtDesc;
 
+	public long getRtId() {
+		return rtId;
+	}
+
+	public void setRtId(long rtId) {
+		this.rtId = rtId;
+	}
+
+	public boolean isStandard() {
+		return isStandard;
+	}
+
+	public void setStandard(boolean isStandard) {
+		this.isStandard = isStandard;
+	}
+
+	public Company getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Company owner) {
+		this.owner = owner;
+	}
+
+	public String getRtTitle() {
+		return rtTitle;
+	}
+
+	public void setRtTitle(String rtTitle) {
+		this.rtTitle = rtTitle;
+	}
+
+	public String getRtDesc() {
+		return rtDesc;
+	}
+
+	public void setRtDesc(String rtDesc) {
+		this.rtDesc = rtDesc;
+	}
+
 }
