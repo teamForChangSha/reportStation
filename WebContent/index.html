@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="bootstrap3/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="bootstrap3/css/bootstrap-theme.min.css" />
+		<script src="bootstrap3/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bootstrap3/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bootstrap3/js/localdata.js" type="text/javascript" charset="utf-8"></script>
+		<script src="bootstrap3/js/jquery.autocomplete.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				padding: 50px 0;
+			}
+			
+			button.list-group-item {
+				text-align: center;
+			}
+			
+			.well {
+				margin-top: 10px;
+				padding: 0;
+				background: transparent;
+				border: none;
+				box-shadow: none;
+			}
+			
+			.list-group-item>.btn-link {
+				color: #fff;
+			}
+			
+			.img-thumbnail {
+				border: none;
+				box-shadow: none;
+				padding: 40px;
+			}
+			
+			.navbar-text {
+				float: inherit;
+			}
+			
+			#username {
+				background-image: url(bootstrap3/css/img/input_icons.png);
+				background-repeat: no-repeat;
+				background-position: 0 -64px;
+				padding: 6px 12px 6px 32px;
+			}
+			
+			#username:focus {
+				background-position: 0 -104px;
+			}
+			
+			#password {
+				background-image: url(bootstrap3/css/img/input_icons.png);
+				background-repeat: no-repeat;
+				background-position: 0 -144px;
+				padding: 6px 12px 6px 32px;
+			}
+			
+			#password:focus {
+				background-position: 0 -184px;
+			}
+			
+			.modal {
+				top: 10%;
+			}
+			
+			.glyphicon {
+				right: 50px;
+			}
+			
+			#phoneIcon {
+				right: 110px;
+			}
+			
+			.glyphicon-ok {
+				color: #419641;
+			}
+			
+			.glyphicon-remove {
+				color: #C12E2A;
+			}
+			
+			.ac_results {
+				padding: 0px;
+				border: 1px solid rgba(0, 0, 0, .15);
+				overflow: hidden;
+				z-index: 99999;
+				border-radius: 4px;
+				background-color: #fff;
+				background-clip: padding-box;
+				box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+			}
+			
+			.ac_results ul {
+				width: 100%;
+				list-style-position: outside;
+				list-style: none;
+				float: left;
+				min-width: 160px;
+				padding: 5px 0;
+				margin: 2px 0 0;
+				font-size: 14px;
+				text-align: left;
+			}
+			
+			.ac_results li {
+				margin: 0px;
+				padding: 2px 5px;
+				cursor: default;
+				display: block;
+				font-size: 12px;
+				line-height: 16px;
+				overflow: hidden;
+			}
+			
+			.ac_over {
+				background-color: #e8e8e8;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="index1.html">首页</a></li>
+						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
+						<li><a href="#">常见问题</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-sm-4">
+
+			</div>
+			<div class="col-sm-4 text-center">
+				<img class="img-responsive img-thumbnail" src="bootstrap3/css/img/bd_logo1.png" alt="logo">
+			</div>
+			<div class="col-sm-4">
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+
+			</div>
+			<div class="col-sm-4">
+				<div class="list-group text-center">
+					<a class="active list-group-item">
+						<button class="btn btn-link" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><u>我要举报</u>
+						</button>
+						<div class="collapse" id="collapseExample">
+							<div class="well">
+								<form action="" method="post">
+									<div class="input-group">
+										<input type="text" id="keyword" class="form-control" />
+										<span id="keywordIcon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+										<span class="input-group-btn">
+        							<button id="next" class="btn btn-default" type="button">Go!</button>
+      								</span>
+									</div>
+								</form>
+							</div>
+						</div>
+					</a>
+					<a class="list-group-item">
+						<form action="" method="post">
+							<div class="input-group">
+								<input id="num" type="text" class="form-control" placeholder="请输入跟踪单号">
+								<span id="numIcon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+								<span class="input-group-btn">
+        							<button id="numBtn" class="btn btn-default" type="button">查询</button>
+      								</span>
+							</div>
+						</form>
+					</a>
+					<a class="list-group-item">
+						<form action="userPages/report_list.html" method="post">
+							<div class="input-group">
+								<input id="phone" type="text" maxlength="11" class="form-control" placeholder="请输入实名手机号">
+								<span id="phoneIcon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+								<span class="input-group-btn">
+        							<button id="phoneBtn" class="btn btn-default" type="button">获取临时密码</button>
+      							</span>
+							</div>
+							<div class="input-group" id="right-bottom">
+								<input id="pwd" type="password" maxlength="6" class="form-control" placeholder="请输入临时密码">
+								<span id="pwdIcon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+								<span class="input-group-btn">
+        							<button id="pwdBtn" class="btn btn-default" type="button">查询</button>
+      							</span>
+							</div>
+						</form>
+					</a>
+					<a class="list-group-item btn btn-link" data-toggle="modal" data-target="#loginPanel"><u>企业用户登录</u></a>
+				</div>
+			</div>
+			<div class="col-sm-4">
+
+			</div>
+		</div>
+		<nav class="navbar navbar-default navbar-fixed-bottom">
+			<div class="container text-center">
+				<p class="navbar-text">Copyright © 2016-2018 用户举报系统</p>
+			</div>
+		</nav>
+
+		<!--登陆对话框-->
+		<div class="modal fade bs-example-modal-sm" id="loginPanel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h5 class="modal-title" id="exampleModalLabel">企业用户登录</h5>
+					</div>
+					<div class="modal-body">
+						<form action="" method="post">
+							<div class="form-group">
+								<input type="text" id="username" class="form-control" placeholder="手机/用户名">
+							</div>
+							<div class="form-group">
+								<input type="text" id="password" class="form-control" placeholder="密码">
+							</div>
+							<div class="form-group">
+								<input type="submit" value="登陆" class="btn btn-primary form-control" />
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<a href="userPages/forget_pwd.html" target="_blank" id="forgetPwd" type="button" class="btn btn-link">忘记密码</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			var num = $("#num"),
+				phone = $("#phone"),
+				pwd = $("#pwd"),
+				keyword = $("#keyword");
+			var numIcon = $("#numIcon"),
+				phoneIcon = $("#phoneIcon"),
+				pwdIcon = $("#pwdIcon"),
+				keywordIcon = $("#keywordIcon");
+			var numBtn = $("#numBtn"),
+				phoneBtn = $("#phoneBtn"),
+				pwdBtn = $("#pwdBtn"),
+				next = $("#next");
+			var regStr = /(1[3-9]\d{9}$)/;
+			var t, i = 60;
+			num.blur(function() {
+				isEmty(num, numIcon);
+			});
+			pwd.blur(function() {
+				isEmty(pwd, pwdIcon);
+			});
+			phone.blur(function() {
+				reg(phone, phoneIcon);
+			});
+			keyword.blur(function() {
+				isEmty(keyword, keywordIcon);
+			});
+			/**
+			 * 判断手机号是否合法 
+			 * @param {Object} inp
+			 * @param {Object} iconId
+			 */
+			function reg(inp, iconId) {
+				if (!regStr.test(inp.get(0).value)) {
+					iconId.removeClass("glyphicon-ok");
+					iconId.addClass("glyphicon-remove");
+					return false;
+				} else {
+					iconId.removeClass("glyphicon-remove");
+					iconId.addClass("glyphicon-ok");
+					return true;
+				}
+			}
+			/**
+			 * 判断是否为空
+			 * @param {Object} inp
+			 * @param {Object} iconId
+			 */
+			function isEmty(inp, iconId) {
+				if ($.trim(inp.val()) == null || $.trim(inp.val()) == "") {
+					iconId.removeClass("glyphicon-ok");
+					iconId.addClass("glyphicon-remove");
+					return false;
+				} else {
+					iconId.removeClass("glyphicon-remove");
+					iconId.addClass("glyphicon-ok");
+					return true;
+				}
+			}
+			/**
+			 * 根据单号匿名查询
+			 */
+			numBtn.click(function() {
+				if (!isEmty(num, numIcon)) {
+					return alert("请输入跟踪单号");
+				}
+				$("form").submit();
+			});
+			/**
+			 * 获取临时密码
+			 */
+			phoneBtn.click(function() {
+					if (!reg(phone, phoneIcon)) {
+						return alert("请输入正确的手机号");
+					}
+					phoneBtn.attr("disabled", true);
+					phoneBtn.html("(" + i + ")秒后重试");
+					t = setInterval(function() {
+						if (i == 0) {
+							clearInterval(t);
+							t = null;
+							phoneBtn.removeAttr("disabled");
+							phoneBtn.html("获取临时密码");
+							i = 60;
+						} else {
+							phoneBtn.attr("disabled", true);
+							i--;
+							phoneBtn.html("(" + i + ")秒后重试");
+						}
+					}, 1000);
+				})
+				/**
+				 * 发送查询请求 
+				 */
+			pwdBtn.click(function() {
+				if (!isEmty(phone, phoneIcon)) {
+					return alert("请输入正确的手机");
+				}
+				if (!isEmty(pwd, pwdIcon)) {
+					return alert("请输入正确的临时密码");
+				}
+				$("form").submit();
+			});
+			/**
+			 * 选择企业发送举报请求 
+			 */
+			next.click(function() {
+				if (!isEmty(keyword, keywordIcon)) {
+					return alert("请选择被举报的企业");
+				}
+				$("form").submit();
+			});
+			/**
+			 * 跳转到找回密码页面 
+			 */
+			$("#forgetPwd").click(function() {
+				$("#loginPanel").modal('hide');
+			});
+			/**
+			 * 自动完成
+			 */
+			keyword.autocomplete(enterprise, {
+				minChars: 0,
+				max: 12,
+				autoFill: true,
+				mustMatch: true,
+				matchContains: true,
+				scrollHeight: 220,
+				formatItem: function(row, i, max) {
+					return row.name;
+				}
+			}).result(function(event, row) {
+				$(this).attr("data-id", row.id);
+			});
+		});
+	</script>
+
+</html>

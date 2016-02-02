@@ -1,0 +1,34 @@
+#top-bg {
+	background: url(img/bg.jpg) repeat scroll top left;
+	padding: 0px;
+}
+
+#top-row {
+	background-color: #337AB7;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	margin: 0;
+}
+
+.navbar-nav > li > a {
+	color: white;
+}
+
+.navbar-nav > li > a:hover {
+	text-decoration: underline;
+	color: white;
+}
+
+.navbar-nav > li > a:focus {
+	color: white;
+	background-color: transparent;
+}
+
+.navbar-nav > li > a:active {
+	color: #ddd;
+}
+
+h2 {
+	padding: 90px 30px;
+	color: #337AB7;
+}
