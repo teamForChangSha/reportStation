@@ -1,88 +1,127 @@
 package com.jxxp.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
+import com.jxxp.dao.CompanyOtherMapper;
+import com.jxxp.dao.CompanyQuestionMapper;
+import com.jxxp.dao.QuestionInfoMapper;
+import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyOther;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
 
+
+/**
+ * 
+ * @author cuijian
+ *
+ */
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
 	@Resource
 	private CompanyMapper companyMapper;
+	@Resource
+	private CompanyOtherMapper companyOtherMapper; 
+	@Resource
+	private CompanyQuestionMapper companyQuestionMapper;
+	@Resource
+	private QuestionInfoMapper questionInfoMapper;
+	@Resource
+	private ReportTypeMapper reportTypeMapper;
+	@Resource
+	private CompanyBranchMapper companyBranchMapper;
 
 	@Override
 	public boolean saveCompanyInfo(Company company) {
-		int i = companyMapper.insert(company);
-		if (i >= 1) {
-			return true;
-		}
-		return false;
+		return companyMapper.insert(company) > 0;
 	}
 
-	@Override
+	@Transactional
 	public boolean saveWholeCompany(CompanyWholeInfo wholeCompany) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag1 = saveCompanyInfo(wholeCompany.getCompany());
+		boolean flag2 = companyOtherMapper.insert(wholeCompany.getCompanyOther()) > 0;
+		return flag1 && flag2;
 	}
 
 	@Override
 	public Company getCompany(String name) {
-		Company company = companyMapper.findByName(name);
-		return company;
-
+		return companyMapper.findByName(name);
 	}
 
 	@Override
 	public CompanyWholeInfo getCompanyWhole(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Company company = companyMapper.findByName(name);
+		CompanyOther companyOther = companyOtherMapper.findByCompanyId(company.getCompanyId());
+		return new CompanyWholeInfo(company,companyOther);
 	}
 
-	@Override
+	@Transactional
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = false;
+		for (int i = 0; i < questList.size(); i++) {
+			flag = companyQuestionMapper.add(company.getCompanyId(),questList.get(i).getQuestKey());
+			if(!flag)	
+				break;
+		}
+		return flag;
 	}
 
 	@Override
 	public Map<String, QuestionInfo> getCompanyQuestions(Company company) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, QuestionInfo> map = new HashMap<String, QuestionInfo>();
+		List<String> questKeys = companyQuestionMapper.getQuestKeyByCompanyId(company.getCompanyId());
+		for (String questKey : questKeys) {
+			map.put(questKey, questionInfoMapper.findByKey(questKey));
+		}
+		return map;
 	}
 
-	@Override
+	@Transactional
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = false;
+		if(reportTypeMapper.deleteByCompanyId(company.getCompanyId()) >= 0) {
+			for (ReportType reportType : rtList) {
+				flag = reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
+				if(!flag) {
+					break;
+				}
+			}
+		}
+		return flag;
 	}
 
 	@Override
 	public boolean addCompanyReportType(Company company, ReportType reportType) {
-		// TODO Auto-generated method stub
-		return false;
+		return reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
 	}
 
 	@Override
 	public List<ReportType> getCompanyReportType(Company company) {
-		// TODO Auto-generated method stub
-		return null;
+		return reportTypeMapper.getAllByCompanyId(company.getCompanyId());
 	}
 
 	@Override
 	public List<CompanyBranch> getCompanyBranchByArea(AreaInfo area, Company company) {
-		// TODO Auto-generated method stub
-		return null;
+		return companyBranchMapper.getAllByArea(area, company);
+	}
+
+	@Override
+	public List<Company> getAllCompanyList() {
+		return companyMapper.getAllCompany();
 	}
 
 }
