@@ -2,6 +2,9 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 
@@ -31,13 +34,17 @@ public interface CompanyBranchMapper {
 	int update(CompanyBranch branch);
 
 	/**
-	 * 获取某个公司下的所有分支机构
+	 * 获取某地的公司分支机构信息，若地区为空则获取某个公司下的所有分支机构<br>
+	 * 公司的总部也算作一个分支机构
 	 * 
-	 * @param companyId
-	 *            公司id号
+	 * @param area
+	 *            地区
+	 * @param company
+	 *            公司
 	 * @return
 	 */
-	List<CompanyBranch> getAllByCompany(Company companyId);
+	List<CompanyBranch> getAllByArean(@Param("area") AreaInfo area,
+			@Param("company") Company company);
 
 	CompanyBranch findById(long branchId);
 

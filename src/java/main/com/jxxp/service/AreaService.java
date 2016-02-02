@@ -48,4 +48,13 @@ public interface AreaService {
 	 */
 	AreaInfo getCity(long cityId);
 
+	/**
+	 * 通过上一级区域获取下一集区域
+	 * 
+	 * @param parent
+	 *            上一级区域
+	 * @return 所有下一级区域
+	 */
+	List<AreaInfo> getByParent(AreaInfo parent);
+
 }

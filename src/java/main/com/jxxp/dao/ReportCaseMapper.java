@@ -2,6 +2,8 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
 import com.jxxp.pojo.User;
@@ -24,13 +26,14 @@ public interface ReportCaseMapper {
 	ReportCase findById(long rcId);
 
 	/**
-	 * 通过案件追踪码查询
+	 * 通过案件追踪码和密码查询
 	 * 
 	 * @param trackingNo
-	 *            案件追踪码
+	 * @param accessCode
 	 * @return 案件
 	 */
-	ReportCase findByNo(String trackingNo);
+	ReportCase findByNo(@Param("trackingNo") String trackingNo,
+			@Param("accessCode") String accessCode);
 
 	/**
 	 * 更新案件 比如更改举报的状态、追加备注等操作
@@ -42,7 +45,7 @@ public interface ReportCaseMapper {
 	int update(ReportCase reportCase);
 
 	/**
-	 * 通过举报人获得该举报人提交过的所有案件 TODO===讨论 参数为 id还是对象好些
+	 * 通过举报人获得该举报人提交过的所有案件
 	 * 
 	 * @param report
 	 *            举报人
