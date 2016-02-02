@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.AreaInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.AreaInfo" >
+    <id column="area_id" property="areaId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    area_id, name, level, parent_id
+  </sql>
+  
+   <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from areainfo    
+  </select>
+  
+   <select id="getAreaByParent" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from areainfo where parent_id = #{parentId,jdbcType=BIGINT}
+   
+  </select>
+  
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from areainfo
+    where area_id = #{areaId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findByName" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from areainfo
+    where name = #{name,jdbcType=BIGINT}
+  </select>
+  
+ 
+  <insert id="insert" parameterType="com.jxxp.pojo.AreaInfo" >
+    insert into areainfo (area_id, name, level, 
+      parent_id)
+    values (#{areaId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{parentId,jdbcType=BIGINT})
+  </insert>
+  
+  <update id="update" parameterType="com.jxxp.pojo.AreaInfo" >
+    update areainfo
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where area_id = #{areaId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

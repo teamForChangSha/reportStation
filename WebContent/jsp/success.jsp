@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>SUCESS!</h1>
+	<h1>SUCESS!!!!${company.companyName} ${company.companyType}</h1>
 </body>
 </html>

@@ -8,6 +8,7 @@ import com.jxxp.pojo.AreaInfo;
  * @author gcx
  * 
  */
+
 public interface AreaInfoMapper {
 	/**
 	 * 保存一个行政区域
@@ -45,11 +46,11 @@ public interface AreaInfoMapper {
 	/**
 	 * 通过上级行政区域获取下级行政区域（目前：是通过省获取属于该省的所有市区）
 	 * 
-	 * @param parentId
-	 *            行政区域id
+	 * @param AreaInfo
+	 *            父级行政区域
 	 * @return 某上级行政区域的所有下级行政区域
 	 */
-	List<AreaInfo> getAreaByParent(Long parentId);
+	List<AreaInfo> getAreaByParent(long parentId);
 
 	/**
 	 * 通过级别获得行政区区域
@@ -67,4 +68,6 @@ public interface AreaInfoMapper {
 	 * @return 删除的记录数目
 	 */
 	int deleteById(long areaId);
+
+	List<AreaInfo> getAll();
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 
@@ -25,6 +26,34 @@ public interface CompanyService {
 	 * @return 保存成功返回true，否则返回false
 	 */
 	boolean saveCompanyInfo(Company company);
+
+	/**
+	 * 保存完整的公司信息，公司的其他信息以及以后可能添加的更多公司信息，不再提供单独的业务接口进行保存<br>
+	 * 统一以此接口保存公司的所有信息（即便基本相关信息或其他相关信息没有发生变化）
+	 * 
+	 * @param wholeCompany
+	 *            要保存的公司完整信息，将本数据完全覆盖到已有数据，不做其他处理
+	 * @return 所有信息保存成功则返回true，否则返回false，返回false需要恢复为之前的数据
+	 */
+	boolean saveWholeCompany(CompanyWholeInfo wholeCompany);
+
+	/**
+	 * 获得公司的基本信息
+	 * 
+	 * @param name
+	 *            公司名称，后期若支持相似名字合并，则可以是合并后的任意一个公司名称
+	 * @return 返回查询到的公司基本信息
+	 */
+	Company getCompany(String name);
+
+	/**
+	 * 获得公司的所有信息，包括基本信息、其余信息，以及未来可能添加的更多信息
+	 * 
+	 * @param name
+	 *            公司名称，后期若支持相似名字合并，则可以是合并后的任意一个公司名称
+	 * @return 返回查询到的公司完整信息
+	 */
+	CompanyWholeInfo getCompanyWhole(String name);
 
 	/**
 	 * 保存公司选定的举报问题<br>
@@ -93,4 +122,5 @@ public interface CompanyService {
 	 * @return 返回查询到的公司分支机构的信息列表，无分支机构则返回空列表
 	 */
 	List<CompanyBranch> getCompanyBranchByArea(AreaInfo area, Company company);
+
 }

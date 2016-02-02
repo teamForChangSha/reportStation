@@ -32,4 +32,12 @@ public interface DictionaryBeanMapper {
 	 */
 	List<DictionaryBean> findByType(Long dictType);
 
+	/**
+	 * 通过名字获取
+	 * 
+	 * @param dictName
+	 * @return
+	 */
+	List<DictionaryBean> findByName(String dictName);
+
 }
