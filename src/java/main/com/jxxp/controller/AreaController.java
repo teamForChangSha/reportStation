@@ -19,6 +19,12 @@ public class AreaController {
 	@Resource
 	private AreaService areaService;
 
+	/**
+	 * 获取所有
+	 * 
+	 * @author gcx
+	 * @return
+	 */
 	@RequestMapping("/getAll.do")
 	public String getAllProvice(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
@@ -28,6 +34,17 @@ public class AreaController {
 
 	}
 
+	/**
+	 * 获取某个行政区域的下一级行政区域
+	 * 
+	 * @author gcx
+	 * @param parent
+	 *            父级行政区域
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 */
 	@RequestMapping("/getChildArea.do")
 	public String getChildArea(AreaInfo parent, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
