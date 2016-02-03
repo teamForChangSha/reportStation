@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -48,7 +50,7 @@
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="../index.html">首页</a></li>
+						<li><a href="../jsp/index.jsp">首页</a></li>
 						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
 						<li><a href="#">常见问题</a></li>
 					</ul>
@@ -60,6 +62,7 @@
 			<form action="" method="post" class="form-horizontal">
 				<div class="row" id="typeList">
 					<p><strong>请从以下列表中选择您要报告的问题类型：</strong></p>
+					//TODO 遍历所有的问题列表
 				</div>
 				<div class="row text-center">
 					<button id="next" type="button" class="btn btn-primary">下一步</button>
@@ -94,7 +97,7 @@
 				if ($("input[type=checkbox]:checked").length <= 0) {
 					return alert("请至少选择一个举报类型");
 				}
-				location.href = "reportCase.html";
+				location.href = "reportCase.jsp";
 			});
 		});
 	</script>

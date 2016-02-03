@@ -8,7 +8,8 @@
 		city = $("#seachcity");
 
 	function initProvince() {
-		$.getJSON("bootstrap3/js/area.json", function(result) {
+		var url = "?companyId="+$("#etpList li a").attr("data-id");
+		$.getJSON(url, function(result) {
 			province.empty();
 			if (result.length == 0) {
 				$(area_array).each(function(i) {
@@ -19,7 +20,7 @@
 				});
 			} else {
 				$(result).each(function() {
-					var opt = $("<option/>").text(this.p).attr("value", this.p);
+					var opt = $("<option/>").text(this.name).attr("value", this.areaId);
 					province.append(opt);
 				});
 			}
@@ -28,7 +29,7 @@
 	};
 
 	var initCity = function() {
-		$.getJSON("bootstrap3/js/area.json", function(result) {
+		$.getJSON("../bootstrap3/js/area.json", function(result) {
 			city.empty();
 			if (result.length == 0) {
 				var index = province.val();
@@ -82,7 +83,6 @@
 	changeClass(keyword, keywordIcon, false);
 	changeSelectClass(province, false);
 	changeSelectClass(city, false);
-	getEtpList();
 	/**
 	 * 判断手机号是否合法 
 	 * @param {Object} inp
@@ -138,6 +138,13 @@
 		}
 	}
 
+	$("#etpList li a").click(function() {
+		keyword.val(this.innerHTML);
+		$("input[name=companyId]").val($(this).attr("data-id"));
+		changeClass(keyword, keywordIcon, false);
+		console.log($("input[name=companyId]").val());
+	});
+	
 	keyword.keyup(function() {
 		province.parent().addClass("hidden");
 		city.parent().addClass("hidden");
@@ -151,7 +158,7 @@
 		if (changeClass(num, numIcon, true)) {
 			$("#reportPanel").modal('hide');
 			//					$("form").submit();
-			location.href = "userPages/report_info.html";
+			location.href = "../userPages/report_info.jsp";
 		}
 	});
 	/**
@@ -189,24 +196,9 @@
 			i = 60;
 			$("#reportPanel").modal('hide');
 			//					$("form").submit();
-			location.href = "userPages/report_list.html";
+			location.href = "../userPages/report_list.jsp";
 		}
 	});
-	/**
-	 * 获取所有企业 
-	 */
-	function getEtpList() {
-		$(data).each(function() {
-			var li = $("<li/>");
-			var a = $("<a/>").text(data.name).attr("href", "#");
-			a.click(function() {
-				keyword.val(this.innerHTML);
-				changeClass(keyword, keywordIcon, false);
-			});
-			li.append(a)
-			etpList.append(li);
-		});
-	}
 	/**
 	 * 选择企业发送举报请求 
 	 */
@@ -222,7 +214,7 @@
 		if (changeClass(keyword, keywordIcon, true) && changeSelectClass(province, true) && changeSelectClass(city, true)) {
 			//					$("form").submit();
 			console.log($("#seachprov  option:selected").text());
-			location.href = "userPages/reportType.html";
+			location.href = "../userPages/reportType.jsp";
 		}
 	});
 	/**

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -102,9 +104,9 @@
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="../index.html">首页</a></li>
-						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
-						<li><a href="#">常见问题</a></li>
+						<li><a href="../jsp/index.jsp">é¦é¡µ</a></li>
+						<li><a href="userPages/privacy.html" target="_blank">åä¸è¡ä¸ºåéå¾·åå</a></li>
+						<li><a href="#">å¸¸è§é®é¢</a></li>
 					</ul>
 				</div>
 			</div>
@@ -118,122 +120,122 @@
 					</div>
 					<div class="col-sm-8" id="content">
 						<div class="form-group text-center">
-							<span>(<span class="xinghao">*</span>为必填项)</span>
+							<span>(<span class="xinghao">*</span>ä¸ºå¿å¡«é¡¹)</span>
 						</div>
 						<div class="form-group text-center">
 							<input type="checkbox" value="" />
-							<label><span class="xinghao">*</span>是 – 我同意这项报告相关的
-								<a href="#" class="btn-link" data-toggle="modal" data-target="#agreeMentPanel">条款与条件</a>
+							<label><span class="xinghao">*</span>æ¯ â æåæè¿é¡¹æ¥åç¸å³ç
+								<a href="#" class="btn-link" data-toggle="modal" data-target="#agreeMentPanel">æ¡æ¬¾ä¸æ¡ä»¶</a>
 							</label>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>请提供一下信息</strong>
+							<span><strong><span class="xinghao">*</span>è¯·æä¾ä¸ä¸ä¿¡æ¯</strong>
 							</span>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">组织/机构：</label>
+							<label class="col-sm-4 control-label">ç»ç»/æºæï¼</label>
 							<div class="col-sm-8">
 								<span class="form-info"><strong>Oracle Corporation</strong></span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">发生事故的地址：</label>
+							<label class="col-sm-4 control-label">åçäºæçå°åï¼</label>
 							<div class="col-sm-8">
 								<span class="form-info">Other / Do Not Wish to Disclose </span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">省份：</label>
+							<label class="col-sm-4 control-label">çä»½ï¼</label>
 							<div class="col-sm-8">
-								<span class="form-info">湖南省</span>
+								<span class="form-info">æ¹åç</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">城市：</label>
+							<label class="col-sm-4 control-label">åå¸ï¼</label>
 							<div class="col-sm-8">
-								<span class="form-info">长沙市</span>
+								<span class="form-info">é¿æ²å¸</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">邮编：</label>
+							<label class="col-sm-4 control-label">é®ç¼ï¼</label>
 							<div class="col-sm-8">
 								<span class="form-info">421000</span>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>您是 XXX 的员工吗？</strong>
+							<span><strong><span class="xinghao">*</span>æ¨æ¯ XXX çåå·¥åï¼</strong>
 							</span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" name="employees" value="true" /> 是
+								<input type="radio" name="employees" value="true" /> æ¯
 							</label>
 							<label class="radio-inline">
-								<input type="radio" checked="true" name="employees" value="false" /> 否
+								<input type="radio" checked="true" name="employees" value="false" /> å¦
 							</label>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>对于这项报告，您是否希望保持匿名身份？</strong>
+							<span><strong><span class="xinghao">*</span>å¯¹äºè¿é¡¹æ¥åï¼æ¨æ¯å¦å¸æä¿æå¿åèº«ä»½ï¼</strong>
 							</span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" name="reportType" value="true" /> 是
+								<input type="radio" name="reportType" value="true" /> æ¯
 							</label>
 							<label class="radio-inline">
-								<input type="radio" checked="true" name="reportType" value="false" /> 否
+								<input type="radio" checked="true" name="reportType" value="false" /> å¦
 							</label>
 						</div>
 						<div id="userInfo">
 							<div class="form-group text-center">
-								<span><strong>如果您希望 Hyatt 知道您的身份，请完成以下内容：</strong></span>
+								<span><strong>å¦ææ¨å¸æ Hyatt ç¥éæ¨çèº«ä»½ï¼è¯·å®æä»¥ä¸åå®¹ï¼</strong></span>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">您的姓名：</label>
+								<label class="col-sm-4 control-label">æ¨çå§åï¼</label>
 								<div class="col-sm-3">
-									<input id="name" type="text" class="form-control" placeholder="名字"></input>
+									<input id="name" type="text" class="form-control" placeholder="åå­"></input>
 								</div>
 								<div class="col-sm-3">
-									<input id="surnames" type="text" class="form-control" placeholder="姓氏"></input>
+									<input id="surnames" type="text" class="form-control" placeholder="å§æ°"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">您的证件号：</label>
+								<label class="col-sm-4 control-label">æ¨çè¯ä»¶å·ï¼</label>
 								<div class="col-sm-3">
 									<select id="certificate" class="form-control">
-										<option>-请选择证件类型-</option>
-										<option>身份证</option>
-										<option>护照</option>
+										<option>-è¯·éæ©è¯ä»¶ç±»å-</option>
+										<option>èº«ä»½è¯</option>
+										<option>æ¤ç§</option>
 									</select>
 								</div>
 								<div class="col-sm-4">
-									<input id="certificateNum" type="text" class="form-control" placeholder="证件号"></input>
+									<input id="certificateNum" type="text" class="form-control" placeholder="è¯ä»¶å·"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">手机号：</label>
+								<label class="col-sm-4 control-label">ææºå·ï¼</label>
 								<div class="input-group col-sm-5" id="phone-input-group">
 									<input id="phone" type="text" maxlength="11" class="form-control">
 									<span class="input-group-btn">
-        								<button id="getCode" class="btn btn-default" type="button">获取验证码</button>
+        								<button id="getCode" class="btn btn-default" type="button">è·åéªè¯ç </button>
       								</span>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">验证码：</label>
+								<label class="col-sm-4 control-label">éªè¯ç ï¼</label>
 								<div class="col-sm-3">
 									<input id="code" type="text" maxlength="6" class="form-control"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">邮箱：</label>
+								<label class="col-sm-4 control-label">é®ç®±ï¼</label>
 								<div class="col-sm-4">
 									<input id="email" type="text" class="form-control"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">与您联系的最佳时间和方式：</label>
+								<label class="col-sm-4 control-label">ä¸æ¨èç³»çæä½³æ¶é´åæ¹å¼ï¼</label>
 								<div class="col-sm-7">
 									<textarea type="text" rows="6" class="form-control"></textarea>
 								</div>
@@ -241,32 +243,32 @@
 						</div>
 					</div>
 				</div>
-				<!--下面的-->
+				<!--ä¸é¢ç-->
 				<div class="row">
 					<div class="col-sm-2">
 
 					</div>
 					<div class="col-sm-8" id="bom">
 						<div class="form-group text-center">
-							<h4 class="bg-info"><strong>报告 - 不当的游说和政治活动</strong></h4>
+							<h4 class="bg-info"><strong>æ¥å - ä¸å½çæ¸¸è¯´åæ¿æ²»æ´»å¨</strong></h4>
 						</div>
 						<div class="form-group text-center">
-							<span><span class="xinghao">*</span><strong>请说明与此行为相关的人的身份</strong></span>
+							<span><span class="xinghao">*</span><strong>è¯·è¯´æä¸æ­¤è¡ä¸ºç¸å³çäººçèº«ä»½</strong></span>
 							<br />
-							<span> 	例如：无名氏，内部审计主管，未知，晚间监督员</span>
+							<span> 	ä¾å¦ï¼æ åæ°ï¼åé¨å®¡è®¡ä¸»ç®¡ï¼æªç¥ï¼æé´çç£å</span>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-3">
 
 							</div>
 							<div class="col-sm-2">
-								<span class="form-info">名字</span>
+								<span class="form-info">åå­</span>
 							</div>
 							<div class="col-sm-2">
-								<span class="form-info">姓氏</span>
+								<span class="form-info">å§æ°</span>
 							</div>
 							<div class="col-sm-3">
-								<span class="form-info">职衔	</span>
+								<span class="form-info">èè¡	</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -313,42 +315,42 @@
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong>您是否怀疑或知道监督或管理人员与此有关？</strong></span>
+							<span><strong>æ¨æ¯å¦æçæç¥éçç£æç®¡çäººåä¸æ­¤æå³ï¼</strong></span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" id="niming" name="reportType" /> 是
+								<input type="radio" id="niming" name="reportType" /> æ¯
 							</label>
 							<label class="radio-inline">
-								<input type="radio" id="shiming" name="reportType" /> 否
+								<input type="radio" id="shiming" name="reportType" /> å¦
 							</label>
 							<label class="radio-inline">
-								<input type="radio" id="shiming" name="reportType" /> 不知道 / 不愿意透露
+								<input type="radio" id="shiming" name="reportType" /> ä¸ç¥é / ä¸æ¿æéé²
 							</label>
-							<p>如果选择是，请指出是谁？</p>
+							<p>å¦æéæ©æ¯ï¼è¯·æåºæ¯è°ï¼</p>
 							<div class="col-sm-3">
 
 							</div>
 							<div class="col-sm-7">
-								<textarea type="text" rows="6" class="form-control" placeholder="例如：无名氏，内部审计主管"></textarea>
+								<textarea type="text" rows="6" class="form-control" placeholder="ä¾å¦ï¼æ åæ°ï¼åé¨å®¡è®¡ä¸»ç®¡"></textarea>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong>管理人员注意到此问题了吗？</strong></span>
+							<span><strong>ç®¡çäººåæ³¨æå°æ­¤é®é¢äºåï¼</strong></span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" id="niming" name="reportType" /> 是
+								<input type="radio" id="niming" name="reportType" /> æ¯
 							</label>
 							<label class="radio-inline">
-								<input type="radio" id="shiming" name="reportType" /> 否
+								<input type="radio" id="shiming" name="reportType" /> å¦
 							</label>
 							<label class="radio-inline">
-								<input type="radio" id="shiming" name="reportType" /> 不知道 / 不愿意透露
+								<input type="radio" id="shiming" name="reportType" /> ä¸ç¥é / ä¸æ¿æéé²
 							</label>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong>此事件的总体特征是什么？</strong></span>
+							<span><strong>æ­¤äºä»¶çæ»ä½ç¹å¾æ¯ä»ä¹ï¼</strong></span>
 							<br />
 						</div>
 						<div class="form-group">
@@ -357,12 +359,12 @@
 							</div>
 							<div class="col-sm-7">
 								<textarea type="text" rows="6" class="form-control"></textarea>
-								<p>这仅为一般说明，稍后我们将询问详细情况。</p>
+								<p>è¿ä»ä¸ºä¸è¬è¯´æï¼ç¨åæä»¬å°è¯¢é®è¯¦ç»æåµã</p>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong>您估计这一行为的货币价值是多少？</strong></span>
+							<span><strong>æ¨ä¼°è®¡è¿ä¸è¡ä¸ºçè´§å¸ä»·å¼æ¯å¤å°ï¼</strong></span>
 							<br />
 						</div>
 						<div class="form-group">
@@ -395,7 +397,7 @@
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong>该事件或违规行为在哪里发生的？</strong></span>
+							<span><strong>è¯¥äºä»¶æè¿è§è¡ä¸ºå¨åªéåççï¼</strong></span>
 							<br />
 						</div>
 						<div class="form-group">
@@ -404,12 +406,12 @@
 							</div>
 							<div class="col-sm-7">
 								<textarea type="text" rows="6" class="form-control"></textarea>
-								<p>我们了解到该事件可能没有确切的发生地点，但如果事件有某些文档或业务交易的记录，请相应指明。</p>
+								<p>æä»¬äºè§£å°è¯¥äºä»¶å¯è½æ²¡æç¡®åçåçå°ç¹ï¼ä½å¦æäºä»¶ææäºææ¡£æä¸å¡äº¤æçè®°å½ï¼è¯·ç¸åºææã</p>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong>请指出该事件发生的确切或大致时间：</strong></span>
+							<span><strong>è¯·æåºè¯¥äºä»¶åççç¡®åæå¤§è´æ¶é´ï¼</strong></span>
 							<br />
 						</div>
 						<div class="form-group">
@@ -418,12 +420,12 @@
 							</div>
 							<div class="col-sm-7">
 								<textarea type="text" rows="6" class="form-control"></textarea>
-								<p>例如：2002 年 5 月 3 日，星期二；两周前；大约一个月以前</p>
+								<p>ä¾å¦ï¼2002 å¹´ 5 æ 3 æ¥ï¼ææäºï¼ä¸¤å¨åï¼å¤§çº¦ä¸ä¸ªæä»¥å</p>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>您认为此问题持续了多少时间？</strong>
+							<span><strong><span class="xinghao">*</span>æ¨è®¤ä¸ºæ­¤é®é¢æç»­äºå¤å°æ¶é´ï¼</strong>
 							</span>
 							<br />
 							<br />
@@ -432,19 +434,19 @@
 							</div>
 							<div class="col-sm-4">
 								<select id="enterprise" class="form-control">
-									<option>-请选择一项-</option>
-									<option>一次</option>
-									<option>一周</option>
-									<option>1至3个月</option>
-									<option>三个月至1年</option>
-									<option>一年以上</option>
-									<option>不知道</option>
+									<option>-è¯·éæ©ä¸é¡¹-</option>
+									<option>ä¸æ¬¡</option>
+									<option>ä¸å¨</option>
+									<option>1è³3ä¸ªæ</option>
+									<option>ä¸ä¸ªæè³1å¹´</option>
+									<option>ä¸å¹´ä»¥ä¸</option>
+									<option>ä¸ç¥é</option>
 								</select>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>您是如何发现此违规行为的？</strong>
+							<span><strong><span class="xinghao">*</span>æ¨æ¯å¦ä½åç°æ­¤è¿è§è¡ä¸ºçï¼</strong>
 							</span>
 							<br />
 							<br />
@@ -453,15 +455,15 @@
 							</div>
 							<div class="col-sm-4">
 								<select id="enterprise" class="form-control">
-									<option>-请选择一项-</option>
-									<option>这是发生在我身上</option>
-									<option>我观察得知</option>
-									<option>我听到的</option>
-									<option>同事告知</option>
-									<option>公司以外的人告知</option>
-									<option>无意中听到的</option>
-									<option>偶然发现了文档或文件</option>
-									<option>其他</option>
+									<option>-è¯·éæ©ä¸é¡¹-</option>
+									<option>è¿æ¯åçå¨æèº«ä¸</option>
+									<option>æè§å¯å¾ç¥</option>
+									<option>æå¬å°ç</option>
+									<option>åäºåç¥</option>
+									<option>å¬å¸ä»¥å¤çäººåç¥</option>
+									<option>æ æä¸­å¬å°ç</option>
+									<option>å¶ç¶åç°äºææ¡£ææä»¶</option>
+									<option>å¶ä»</option>
 								</select>
 							</div>
 						</div>
@@ -470,20 +472,20 @@
 
 							</div>
 							<div class="col-sm-7">
-								<p>如果选择其它，请说明：</p>
+								<p>å¦æéæ©å¶å®ï¼è¯·è¯´æï¼</p>
 								<textarea type="text" rows="6" class="form-control"></textarea>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>您先前是否报告过这一问题？</strong>
+							<span><strong><span class="xinghao">*</span>æ¨ååæ¯å¦æ¥åè¿è¿ä¸é®é¢ï¼</strong>
 							</span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" id="niming" name="reportType" /> 是
+								<input type="radio" id="niming" name="reportType" /> æ¯
 							</label>
 							<label class="radio-inline">
-								<input type="radio" id="shiming" name="reportType" /> 否
+								<input type="radio" id="shiming" name="reportType" /> å¦
 							</label>
 						</div>
 						<div class="form-group">
@@ -491,13 +493,13 @@
 
 							</div>
 							<div class="col-sm-7">
-								<p>如果答案为“是”，您是何时以何种方式向谁报告的？</p>
+								<p>å¦æç­æ¡ä¸ºâæ¯âï¼æ¨æ¯ä½æ¶ä»¥ä½ç§æ¹å¼åè°æ¥åçï¼</p>
 								<textarea type="text" rows="6" class="form-control"></textarea>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>请指出试图隐藏此问题的人以及他们隐藏采取的步骤：</strong>
+							<span><strong><span class="xinghao">*</span>è¯·æåºè¯å¾éèæ­¤é®é¢çäººä»¥åä»ä»¬éèéåçæ­¥éª¤ï¼</strong>
 							</span>
 						</div>
 						<div class="form-group">
@@ -505,13 +507,13 @@
 
 							</div>
 							<div class="col-sm-7">
-								<textarea type="text" rows="6" class="form-control" placeholder="例如：忽略事件；更改文档；说这不是个问题；说他们会调查"></textarea>
-								<p>请指出其姓名和职位。</p>
+								<textarea type="text" rows="6" class="form-control" placeholder="ä¾å¦ï¼å¿½ç¥äºä»¶ï¼æ´æ¹ææ¡£ï¼è¯´è¿ä¸æ¯ä¸ªé®é¢ï¼è¯´ä»ä»¬ä¼è°æ¥"></textarea>
+								<p>è¯·æåºå¶å§ååèä½ã</p>
 							</div>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<span><strong><span class="xinghao">*</span>请提供关于所谓违规行为的所有细节，包括目击者的位置以及任何对于此情形的评估和最终解决有价值的其它信息。 </strong>
+							<span><strong><span class="xinghao">*</span>è¯·æä¾å³äºæè°è¿è§è¡ä¸ºçææç»èï¼åæ¬ç®å»èçä½ç½®ä»¥åä»»ä½å¯¹äºæ­¤æå½¢çè¯ä¼°åæç»è§£å³æä»·å¼çå¶å®ä¿¡æ¯ã </strong>
 							</span>
 						</div>
 						<div class="form-group">
@@ -522,38 +524,38 @@
 								<textarea type="text" rows="6" class="form-control"></textarea>
 							</div>
 							<div class="col-sm-3">
-								<p>请花一些时间尽可能提供细节，但请小心不要提供泄漏您身份的细节，除非您自己愿意。如果您是唯一的知情人，了解这一点非常重要。</p>
+								<p>è¯·è±ä¸äºæ¶é´å°½å¯è½æä¾ç»èï¼ä½è¯·å°å¿ä¸è¦æä¾æ³æ¼æ¨èº«ä»½çç»èï¼é¤éæ¨èªå·±æ¿æãå¦ææ¨æ¯å¯ä¸çç¥æäººï¼äºè§£è¿ä¸ç¹éå¸¸éè¦ã</p>
 							</div>
 						</div>
 						<div class="form-group text-center">
 							<p class="bg-danger">
-								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 EthicsPoint 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您将有机会查阅任何"后续问题"或提交关于此事件的更多信息。
+								æ¨æäº¤æ¥åæ¶ï¼å°ä¼åç»æ¨ä¸ä¸ªä¸¾æ¥ç¼å·ãè¯·è®°ä¸æ­¤ç¼å·å¹¶å­æ¾å¨å®å¨çå°æ¹ãå¨5-6ä¸ªè¥ä¸æ¥åï¼æ¨éè¿ç½ç«æç­çº¿çµè¯è¿å EthicsPoint æ¶ï¼æä»¬ä¼è¦æ±æ¨ä½¿ç¨æ­¤ä¸¾æ¥ç¼å·ä»¥åæ¨éæ©çå¯ç ãå¨5-6ä¸ªè¥ä¸æ¥åè¿åï¼æ¨å°ææºä¼æ¥éä»»ä½"åç»­é®é¢"ææäº¤å³äºæ­¤äºä»¶çæ´å¤ä¿¡æ¯ã
 							</p>
 						</div>
 						<div class="form-group text-center">
 							<div class="page-header"></div>
-							<span><strong> 	此外，在可能的情况下，请附上任何支持您在本次报告中所提供信息的文档。</strong></span>
+							<span><strong> 	æ­¤å¤ï¼å¨å¯è½çæåµä¸ï¼è¯·éä¸ä»»ä½æ¯ææ¨å¨æ¬æ¬¡æ¥åä¸­ææä¾ä¿¡æ¯çææ¡£ã</strong></span>
 							<br />
-							<a href="#" class="btn-link" data-toggle="modal" data-target="#upLoadPanel">单击此处上传文件</a>
+							<a href="#" class="btn-link" data-toggle="modal" data-target="#upLoadPanel">åå»æ­¤å¤ä¸ä¼ æä»¶</a>
 							<br />
-							<p>（可上传大多数常见的文件类型。）</p>
+							<p>ï¼å¯ä¸ä¼ å¤§å¤æ°å¸¸è§çæä»¶ç±»åãï¼</p>
 						</div>
 						<div class="form-group text-center">
 							<div class="page-header"></div>
-							<h3><span class="label label-danger">当前案件编号为：AB09C80567</span></h3>
+							<h3><span class="label label-danger">å½åæ¡ä»¶ç¼å·ä¸ºï¼AB09C80567</span></h3>
 							<br />
-							<span><strong><span class="xinghao">*</span>请输入举报密码：</strong>
+							<span><strong><span class="xinghao">*</span>è¯·è¾å¥ä¸¾æ¥å¯ç ï¼</strong>
 							</span>
-							<p>您的密码必须相匹配而且长度不得少于四个字符。</p>
+							<p>æ¨çå¯ç å¿é¡»ç¸å¹éèä¸é¿åº¦ä¸å¾å°äºåä¸ªå­ç¬¦ã</p>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">密码<span class="xinghao">*</span></label>
+							<label class="col-sm-4 control-label">å¯ç <span class="xinghao">*</span></label>
 							<div class="col-sm-4">
 								<input type="password" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">再次输入密码<span class="xinghao">*</span></label>
+							<label class="col-sm-4 control-label">åæ¬¡è¾å¥å¯ç <span class="xinghao">*</span></label>
 							<div class="col-sm-4">
 								<input type="password" class="form-control" />
 							</div>
@@ -563,7 +565,7 @@
 
 							</div>
 							<div class="col-sm-4">
-								<input type="button" id="submitReport" class="form-control btn btn-primary" value="提交报告" />
+								<input type="button" id="submitReport" class="form-control btn btn-primary" value="æäº¤æ¥å" />
 							</div>
 						</div>
 					</div>
@@ -571,15 +573,15 @@
 			</form>
 		</div>
 		<div class="page-header"></div>
-		<p class="navbar-text text-center">Copyright © 2016-2018 用户举报系统</p>
+		<p class="navbar-text text-center">Copyright Â© 2016-2018 ç¨æ·ä¸¾æ¥ç³»ç»</p>
 
-		<!--条款对话框-->
+		<!--æ¡æ¬¾å¯¹è¯æ¡-->
 		<div class="modal fade bs-example-modal-lg" id="agreeMentPanel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h5 class="modal-title" id="exampleModalLabel">条款与条件</h5>
+						<h5 class="modal-title" id="exampleModalLabel">æ¡æ¬¾ä¸æ¡ä»¶</h5>
 					</div>
 					<div class="modal-body">
 						<iframe src="agreement.html" frameborder="0" width="100%" height="400px"></iframe>
@@ -588,13 +590,13 @@
 			</div>
 		</div>
 
-		<!--上传文件对话框-->
+		<!--ä¸ä¼ æä»¶å¯¹è¯æ¡-->
 		<div class="modal fade bs-example-modal-lg" id="upLoadPanel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h5 class="modal-title" id="exampleModalLabel">上传文件</h5>
+						<h5 class="modal-title" id="exampleModalLabel">ä¸ä¼ æä»¶</h5>
 					</div>
 					<div class="modal-body">
 						<iframe src="upLoadFile.html" frameborder="0" width="100%" height="400px"></iframe>
