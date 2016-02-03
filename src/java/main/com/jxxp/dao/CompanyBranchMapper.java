@@ -43,7 +43,7 @@ public interface CompanyBranchMapper {
 	 *            公司
 	 * @return
 	 */
-	List<CompanyBranch> getAllByArean(@Param("area") AreaInfo area,
+	List<CompanyBranch> getAllByArea(@Param("area") AreaInfo area,
 			@Param("company") Company company);
 
 	CompanyBranch findById(long branchId);

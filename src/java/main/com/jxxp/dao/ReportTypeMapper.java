@@ -60,4 +60,14 @@ public interface ReportTypeMapper {
 
 	int deleteById(long rtId);
 
+	int deleteByCompanyId(long companyId);
+	/**
+	 * 得到属于某个案件的所有举报类型
+	 * 
+	 * @param companyId
+	 *            公司id
+	 * @return
+	 */
+	List<ReportType> getAllByCompanyId(long companyId);
+
 }

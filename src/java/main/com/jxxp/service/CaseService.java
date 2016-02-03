@@ -36,7 +36,7 @@ public interface CaseService {
 	 *            需要追加的comment相关信息
 	 * @return 追加正常返回true，否则返回false
 	 */
-	boolean addCaseComment(CaseComment comment);
+	boolean addCaseComment(CaseComment comment, Long caseId);
 
 	/**
 	 * 得到某个实名举报人举报的所有举报信息

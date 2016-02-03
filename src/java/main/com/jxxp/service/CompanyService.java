@@ -122,5 +122,13 @@ public interface CompanyService {
 	 * @return 返回查询到的公司分支机构的信息列表，无分支机构则返回空列表
 	 */
 	List<CompanyBranch> getCompanyBranchByArea(AreaInfo area, Company company);
+	
+	/**
+	 * 获取所有公司列表信息<br>
+	 * 
+	 * @return 返回查询到的公司信息列表
+	 */
+	List<Company> getAllCompanyList();
+	
 
 }
