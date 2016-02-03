@@ -49,4 +49,16 @@ public class AreaServiceImpl implements AreaService {
 		List<AreaInfo> list = areaMapper.getAreaByParent(parentId);
 		return list;
 	}
+
+	@Override
+	public List<AreaInfo> getProvinceByCompanyId(long companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AreaInfo> getCityByCompanyId(long companyId, long parentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
