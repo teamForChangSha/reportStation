@@ -69,5 +69,16 @@ public interface AreaInfoMapper {
 	 */
 	int deleteById(long areaId);
 
+	List<AreaInfo> getProvinceByCompanyId(long companyId);
+
+	/**
+	 * 获取某一个市的信息
+	 * 
+	 * @param companyId
+	 *            要查询的公司id
+	 * @return 返回查询到的省份信息，若未查询到，则返回null
+	 */
+	List<AreaInfo> getCityByCompanyId(long companyId, long parentId);
+
 	List<AreaInfo> getAll();
 }
