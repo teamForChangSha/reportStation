@@ -10,23 +10,8 @@
 		<script src="../bootstrap3/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../bootstrap3/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
-			body {
-				padding: 60px 0;
-			}
-			
 			.navbar-text {
 				float: inherit;
-			}
-			
-			.col-md-3,
-			.col-xs-3,
-			.col-md-3 {
-				margin-top: -10px;
-			}
-			
-			.img-thumbnail {
-				border: none;
-				box-shadow: none;
 			}
 			
 			.bg-success {
@@ -39,9 +24,8 @@
 				padding: 10px 15px;
 			}
 			
-			.form-horizontal .form-group {
-				margin-right: 0px;
-				margin-left: 0px;
+			.row {
+				margin: 0 10%;
 			}
 			
 			.navbar-right {
@@ -51,46 +35,34 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<span class="navbar-brand">问题类型
-						<div class="col-xs-3 col-md-2">
-							<img alt="Brand" class="img-thumbnail" src="../bootstrap3/css/img/bd_logo1.png">
-						</div>
-					</span>
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 				</div>
-				<p class="navbar-text navbar-right"><a href="../index.html" class="navbar-link">首页</a></p>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="../index.html">首页</a></li>
+						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
+						<li><a href="#">常见问题</a></li>
+					</ul>
+				</div>
 			</div>
 		</nav>
 
 		<div class="container">
 			<form action="" method="post" class="form-horizontal">
-				<div class="row">
-					<div class="col-sm-1">
-
-					</div>
-					<div class="col-sm-10">
-						<p><strong>请从以下列表中选择您要报告的问题类型：</strong></p>
-						<div class="form-group bg-success">
-							<div class="checkbox col-sm-8">
-								<label>
-									<input type="checkbox">我已阅读上述条款并谨
-								</label>
-							</div>
-							<div class="col-sm-4 text-right pull-right">
-								<button type="button" class="btn btn-link" data-toggle="popover" data-container="body" data-placement="bottom" data-content="And here's some amazing content. It's very engaging. Right?">查看描述</button>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-4">
-
-						</div>
-						<div class="col-sm-4">
-							<button id="next" type="button" class="form-control btn btn-primary">下一步</button>
-						</div>
-					</div>
+				<div class="row" id="typeList">
+					<p><strong>请从以下列表中选择您要报告的问题类型：</strong></p>
+				</div>
+				<div class="row text-center">
+					<button id="next" type="button" class="btn btn-primary">下一步</button>
 				</div>
 			</form>
 		</div>
@@ -102,9 +74,27 @@
 	</body>
 	<script type="text/javascript">
 		$(function() {
+			for (var i = 0; i < 10; i++) {
+				var root = $("<div/>").attr("class", "form-group bg-success");
+				var div1 = $("<div/>").attr("class", "checkbox col-sm-6");
+				var lable = $("<label/>");
+				var input = $("<input />").attr("type", "checkbox");
+				lable.append(input).append("标题");
+				div1.append(lable);
+				var div2 = $("<div/>").attr("class", "col-sm-4 text-right pull-right");
+				var button = $("<button />").attr("class", "btn btn-link").attr("type", "button")
+					.attr("data-toggle", "popover").attr("data-container", "body").attr("data-placement", "bottom")
+					.attr("data-content", "描述").text("查看描述");
+				div2.append(button);
+				root.append(div1).append(div2);
+				$("#typeList").append(root);
+			}
 			$('[data-toggle="popover"]').popover();
 			$("#next").click(function() {
-				location.href = "ask_info.html";
+				if ($("input[type=checkbox]:checked").length <= 0) {
+					return alert("请至少选择一个举报类型");
+				}
+				location.href = "reportCase.html";
 			});
 		});
 	</script>
