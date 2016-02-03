@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.GenerateKeyMapper" >
+  <sql id="Base_Column_List" >
+    current_key,next_key
+  </sql>
+  
+   <select id="getKey" >
+   select current_key from generate_key
+  </select>
+  
+  <update id="updateKey" >
+    update generate_key
+		set current_key = next_key,
+		next_key = next_key + 1
+  </update>
+</mapper>
