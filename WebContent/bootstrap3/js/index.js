@@ -82,6 +82,7 @@
 	changeClass(keyword, keywordIcon, false);
 	changeSelectClass(province, false);
 	changeSelectClass(city, false);
+	alert("====");
 	getEtpList();
 	/**
 	 * 判断手机号是否合法 
@@ -196,9 +197,13 @@
 	 * 获取所有企业 
 	 */
 	function getEtpList() {
+		alert("-----");
+		var data = ${areaList};
+		alert(data);
+
 		$(data).each(function() {
 			var li = $("<li/>");
-			var a = $("<a/>").text(data.name).attr("href", "#");
+			var a = $("<a/>").text(areaList.name).attr("href", "#");
 			a.click(function() {
 				keyword.val(this.innerHTML);
 				changeClass(keyword, keywordIcon, false);
