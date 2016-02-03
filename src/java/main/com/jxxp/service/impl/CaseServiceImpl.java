@@ -1,11 +1,8 @@
 package com.jxxp.service.impl;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -54,8 +51,7 @@ public class CaseServiceImpl implements CaseService {
 
 	@Override
 	public ReportCase getReportCase(String trackingNo, String accessCode) {
-		
-		return null;
+		return reportCaseMapper.findByNo(trackingNo, accessCode);
 	}
 
 	@Override

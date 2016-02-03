@@ -5,7 +5,7 @@
     current_key,next_key
   </sql>
   
-   <select id="getKey" >
+   <select id="getKey" resultType="java.lang.Integer">
    select current_key from generate_key
   </select>
   
