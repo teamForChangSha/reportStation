@@ -30,7 +30,7 @@ public class AreaController {
 			ModelMap modelMap) {
 		List<AreaInfo> areaList = areaService.getAllProvince();
 		modelMap.put("areaList", areaList);
-		return "/jsp/areaAll";
+		return "/jsp/index";
 
 	}
 

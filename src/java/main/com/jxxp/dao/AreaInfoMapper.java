@@ -34,7 +34,7 @@ public interface AreaInfoMapper {
 	 * @return 行政区域
 	 */
 
-	AreaInfo findById(long areaId);
+	AreaInfo getById(long areaId);
 
 	/**
 	 * @param name

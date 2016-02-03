@@ -28,12 +28,12 @@ public class AreaServiceImpl implements AreaService {
 
 	@Override
 	public AreaInfo getProvince(long provinceId) {
-		return areaMapper.findById(provinceId);
+		return areaMapper.getById(provinceId);
 	}
 
 	@Override
 	public AreaInfo getCity(long cityId) {
-		return areaMapper.findById(cityId);
+		return areaMapper.getById(cityId);
 	}
 
 	@Override
