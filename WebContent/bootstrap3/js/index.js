@@ -196,19 +196,15 @@
 	 * 获取所有企业 
 	 */
 	function getEtpList() {
-		etpList.css("display","none");
-		$.getJSON("url", function(data) {
-			etpList.css("display","block");
-			$(data).each(function() {
-				var li = $("<li/>");
-				var a = $("<a/>").text(data.name).attr("href", "#");
-				a.click(function() {
-					keyword.val(this.innerHTML);
-					changeClass(keyword, keywordIcon, false);
-				});
-				li.append(a)
-				etpList.append(li);
+		$(data).each(function() {
+			var li = $("<li/>");
+			var a = $("<a/>").text(data.name).attr("href", "#");
+			a.click(function() {
+				keyword.val(this.innerHTML);
+				changeClass(keyword, keywordIcon, false);
 			});
+			li.append(a)
+			etpList.append(li);
 		});
 	}
 	/**
