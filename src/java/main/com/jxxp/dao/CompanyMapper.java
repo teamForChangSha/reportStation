@@ -35,7 +35,7 @@ public interface CompanyMapper {
 	 */
 	Company findByName(String companyName);
 
-	Company getById(long CompanyId);
+	Company getById(long companyId);
 
 	List<Company> getAllCompany();
 

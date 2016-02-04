@@ -22,7 +22,7 @@
   </sql>
    <select id="getById" resultMap="BaseResultMap" parameterType="String" >
     select * from company
-    where company_id = #{CompanyId,jdbcType=VARCHAR}
+    where company_id = #{companyId,jdbcType=VARCHAR}
   </select>
   
    <select id="getAllCompany" resultMap="BaseResultMap">

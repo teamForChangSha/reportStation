@@ -126,14 +126,14 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company getCompanyById(long companyId) {
-		// TODO Auto-generated method stub
-		return null;
+		Company company = companyMapper.getById(companyId);
+		return company;
 	}
 
 	@Override
 	public CompanyBranch getCompanyBranchById(long branchId) {
-		// TODO Auto-generated method stub
-		return null;
+		CompanyBranch branch = companyBranchMapper.getById(branchId);
+		return branch;
 	}
 
 }
