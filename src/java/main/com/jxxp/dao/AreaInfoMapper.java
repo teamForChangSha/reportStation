@@ -2,6 +2,8 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jxxp.pojo.AreaInfo;
 
 /**
@@ -78,7 +80,8 @@ public interface AreaInfoMapper {
 	 *            要查询的公司id
 	 * @return 返回查询到的省份信息，若未查询到，则返回null
 	 */
-	List<AreaInfo> getCityByCompanyId(long companyId, long parentId);
+	List<AreaInfo> getCityByCompanyId(@Param("companyId") long companyId,
+			@Param("parentId") long parentId);
 
 	List<AreaInfo> getAll();
 }

@@ -8,11 +8,11 @@
     <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
 	<result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />	
-	<association property="companyType" column="{companyType=company_type,companyState=company_state}" javaType="com.jxxp.pojo.DictionaryBean"
+	<association property="companyType" column="{dictValue=company_type}" javaType="com.jxxp.pojo.DictionaryBean"
 			select="com.jxxp.dao.DictionaryBeanMapper.getDictionary">
 	</association>
 	
-    <association property="companyState" column="{companyType=company_type,companyState=company_state}" javaType="com.jxxp.pojo.DictionaryBean"
+    <association property="companyState" column="{dictValue=company_state}" javaType="com.jxxp.pojo.DictionaryBean"
 			select="com.jxxp.dao.DictionaryBeanMapper.getDictionary">
 	</association>
   </resultMap>
