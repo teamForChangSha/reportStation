@@ -3,6 +3,7 @@ package com.jxxp.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.AreaService;
 import com.jxxp.service.CompanyService;
@@ -131,28 +133,45 @@ public class ReportStationController {
 	@RequestMapping("/showReportType.do")
 	public String showReportType(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-		long companyId = 0;
 		long branchId = 0;
 
-		String cId = request.getParameter("companyId");
 		String bId = request.getParameter("branchId");
-		if (cId != null) {
-			companyId = Long.parseLong(cId);
-		}
+		
 		if (bId != null) {
 			branchId = Long.parseLong(bId);
 		}
 
-		Company company = companyService.getCompanyById(companyId);
 		CompanyBranch companyBranch = companyService.getCompanyBranchById(branchId);
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("company", company);
 		session.setAttribute("companyBranch", companyBranch);
 		
-		List<ReportType> dataList = companyService.getCompanyReportType(company);
+		List<ReportType> dataList = companyService.getCompanyReportType(companyBranch.getOwner());
 		modelMap.put("rtList", dataList);
 		
 		return "/jsp/pages/reportType";
+	}
+	
+	
+
+	
+	@RequestMapping("/showQuestionPage.do")
+	public String showQuestionPage(HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		String[] strs = request.getParameterValues("reportType");
+		String rtList = "";
+		for (int i = 0; i < strs.length; i++) {
+			rtList += strs[i] + ",";
+		}
+		if(rtList.length() > 0) {
+			rtList = rtList.substring(0, rtList.length() - 1);
+		}
+			
+		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
+		Map<String,QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch.getOwner());
+		modelMap.put("questionMap", dataMap);
+		modelMap.put("rtList", rtList);
+		
+		return "/jsp/pages/reportCase";
 	}
 }
