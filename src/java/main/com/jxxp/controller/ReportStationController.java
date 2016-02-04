@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jxxp.pojo.AreaInfo;
+import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.ReportType;
 import com.jxxp.service.AreaService;
 import com.jxxp.service.CompanyService;
 
@@ -26,11 +28,21 @@ public class ReportStationController {
 	@Resource
 	private AreaService areaService;
 
-	@RequestMapping("/index.do")
+	@RequestMapping("/getAllCompany.do")
 	public String getCompany(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-		modelMap.put("companyList", companyService.getAllCompanyList());
-		return "jsp/index";
+		List<Company> dataList = companyService.getAllCompanyList();
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			String json = JSONArray.toJSONString(dataList);
+			out.print(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@RequestMapping("/getProvinceByCompany.do")
@@ -112,6 +124,38 @@ public class ReportStationController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	@RequestMapping("/showReportType.do")
+	public String showReportType(HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+//		long companyId = 0;
+//		long branchId = 0;
+//
+//		String cId = request.getParameter("companyId");
+//		String bId = request.getParameter("branchId");
+//		if (cId != null) {
+//			companyId = Long.parseLong(cId);
+//		}
+//		if (bId != null) {
+//			branchId = Long.parseLong(bId);
+//		}
+//
+//		Company company = companyService.getCompany(name);
+//		CompanyBranch companyBranch = 
+//		
+//		List<ReportType> dataList = companyService.getCompanyReportType(company);
+//
+//		response.setCharacterEncoding("UTF-8");
+//		PrintWriter out;
+//		try {
+//			out = response.getWriter();
+//			String json = JSONArray.toJSONString(dataList);
+//			out.print(json);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 }
