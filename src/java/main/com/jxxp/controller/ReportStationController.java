@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jxxp.service.CompanyService;
 
-@Controller("companyController")
+@Controller("reportStationController")
 @RequestMapping("/")
 public class ReportStationController {
 	@Resource
@@ -22,4 +22,6 @@ public class ReportStationController {
 		modelMap.put("companyList", companyService.getAllCompanyList());
 		return "jsp/index";
 	}
+	
+	
 }

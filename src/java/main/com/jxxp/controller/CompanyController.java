@@ -31,7 +31,7 @@ public class CompanyController {
 	 * @return
 	 */
 	@RequestMapping("/save.do")
-	public String getAllProvice(Company company, HttpServletRequest request,
+	public String saveCompany(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		companyService.saveCompanyInfo(company);
 		return "/jsp/areaAll";
