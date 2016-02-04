@@ -12,25 +12,25 @@
 <meta charset="UTF-8">
 <title></title>
 <link rel="stylesheet" type="text/css"
-	href="bootstrap3/css/bootstrap.min.css" />
+	href="jsp/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="bootstrap3/css/bootstrap-theme.min.css" />
+	href="jsp/css/bootstrap-theme.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="bootstrap3/css/common_top.css" />
-<script src="bootstrap3/js/jquery-1.12.0.min.js"
+	href="jsp/css/common_top.css" />
+<script src="jsp/js/jquery-1.12.0.min.js"
 	type="text/javascript" charset="utf-8"></script>
-<script src="bootstrap3/js/bootstrap.min.js" type="text/javascript"
+<script src="jsp/js/bootstrap.min.js" type="text/javascript"
 	charset="utf-8"></script>
-<script src="bootstrap3/js/localdata.js" type="text/javascript"
+<script src="jsp/js/localdata.js" type="text/javascript"
 	charset="utf-8"></script>
-<script src="bootstrap3/js/AreaData_min.js" type="text/javascript"></script>
+<script src="jsp/js/AreaData_min.js" type="text/javascript"></script>
 <style type="text/css">
 #loginPanel {
 	top: 20%;
 }
 
 #username {
-	background-image: url(../bootstrap3/css/img/input_icons.png);
+	background-image: url(css/img/input_icons.png);
 	background-repeat: no-repeat;
 	background-position: 0 -64px;
 	padding: 6px 12px 6px 32px;
@@ -41,7 +41,7 @@
 }
 
 #password {
-	background-image: url(../bootstrap3/css/img/input_icons.png);
+	background-image: url(css/img/input_icons.png);
 	background-repeat: no-repeat;
 	background-position: 0 -144px;
 	padding: 6px 12px 6px 32px;
@@ -120,7 +120,7 @@
 							<small>我要举报</small>
 						</h1>
 					</div>
-					<form action="" method="post" class="form-horizontal">
+					<form action="showReportType.do" method="post" class="form-horizontal">
 						<div class="input-group form-group">
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-default dropdown-toggle"
@@ -130,9 +130,6 @@
 										Dropdown</span>
 								</button> <input type="text" hidden="" name="companyId" value="" />
 								<ul class="dropdown-menu" id="etpList">
-									<c:forEach items="${companyList}" var="company">
-										<li><a data-id='${company.companyId}'>${company.companyName}</a></li>
-									</c:forEach>
 								</ul>
 							</span> <input type="text" id="keyword" name="companyName"
 								class="form-control" placeholder="请输入被举报的企业" /> <span
@@ -153,7 +150,7 @@
 						</div>
 						<div class="form-group hidden">
 							<select id="institutions" class="form-control"
-								name="institutions">
+								name="branchId">
 								<option value="-1">请选择</option>
 							</select>
 						</div>
@@ -289,6 +286,6 @@
 		</div>
 	</div>
 </body>
-<script src="bootstrap3/js/index.js" type="text/javascript"
+<script src="jsp/js/index.js" type="text/javascript"
 	charset="utf-8"></script>
 </html>

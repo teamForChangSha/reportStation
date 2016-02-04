@@ -49,6 +49,6 @@
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
   <welcome-file-list>
-    <welcome-file>/jsp/test.jsp</welcome-file>
+    <welcome-file>/jsp/index.jsp</welcome-file>
   </welcome-file-list>
 </web-app>
