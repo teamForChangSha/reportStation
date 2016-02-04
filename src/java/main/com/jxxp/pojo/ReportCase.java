@@ -16,7 +16,7 @@ public class ReportCase {
 	/**
 	 * 案件所属于的举报类型列表（举报类型由用户选择，可多选）
 	 */
-	private List<ReportType> rtList;
+	private String rtList;
 
 	/**
 	 * 举报创建时间
@@ -92,11 +92,11 @@ public class ReportCase {
 		this.rcId = rcId;
 	}
 
-	public List<ReportType> getRtList() {
+	public String getRtList() {
 		return rtList;
 	}
 
-	public void setRtList(List<ReportType> rtList) {
+	public void setRtList(String rtList) {
 		this.rtList = rtList;
 	}
 
