@@ -49,15 +49,6 @@ public interface ReportTypeMapper {
 	 */
 	ReportType getById(long rtId);
 
-	/**
-	 * 得到属于某个案件的所有举报类型
-	 * 
-	 * @param rcId
-	 *            举报案件id
-	 * @return
-	 */
-	List<ReportType> getAllByCase(Long rcId);
-
 	int deleteById(long rtId);
 
 	int deleteByCompanyId(long companyId);

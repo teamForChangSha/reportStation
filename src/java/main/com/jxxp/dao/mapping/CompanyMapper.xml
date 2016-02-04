@@ -20,9 +20,9 @@
     company_id, company_name, description, company_code, phone, company_type, company_state, 
     state_changed
   </sql>
-   <select id="getById" resultMap="BaseResultMap" parameterType="String" >
+   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from company
-    where company_id = #{companyId,jdbcType=VARCHAR}
+    where company_id = #{companyId,jdbcType=BIGINT}
   </select>
   
    <select id="getAllCompany" resultMap="BaseResultMap">

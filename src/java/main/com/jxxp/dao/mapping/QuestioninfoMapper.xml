@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.QuestionInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.QuestionInfo" >
+    <id column="quest_id" property="questId" jdbcType="BIGINT" />
+    <result column="quest_key" property="questKey" jdbcType="VARCHAR" />
+    <result column="quest" property="quest" jdbcType="VARCHAR" />
+    <result column="quest_desc" property="questDesc" jdbcType="VARCHAR" />
+    <result column="is_needed" property="isNeeded" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    quest_id, quest_key, quest, quest_desc, is_needed
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from questioninfo
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getByKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from questioninfo
+    where quest_key = #{questKey,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getAllByCompany" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from questioninfo
+    where quest_id in (select quest_id from company_question where company_id=#{companyId}) 
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from questioninfo
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jxxp.pojo.QuestionInfo" >
+    insert into questioninfo (quest_id, quest_key, quest, 
+      quest_desc, is_needed)
+    values (#{questId,jdbcType=BIGINT}, #{questKey,jdbcType=VARCHAR}, #{quest,jdbcType=VARCHAR}, 
+      #{questDesc,jdbcType=VARCHAR}, #{isNeeded,jdbcType=INTEGER})
+  </insert> 
+  
+  <update id="update" parameterType="com.jxxp.pojo.QuestionInfo" >
+    update questioninfo
+    set quest_key = #{questKey,jdbcType=VARCHAR},
+      quest = #{quest,jdbcType=VARCHAR},
+      quest_desc = #{questDesc,jdbcType=VARCHAR},
+      is_needed = #{isNeeded,jdbcType=INTEGER}
+    where quest_id = #{questId,jdbcType=BIGINT}
+  </update>
+</mapper>

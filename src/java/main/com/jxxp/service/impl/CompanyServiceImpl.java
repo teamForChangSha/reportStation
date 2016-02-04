@@ -85,7 +85,7 @@ public class CompanyServiceImpl implements CompanyService {
 		List<String> questKeys = companyQuestionMapper.getQuestKeyByCompanyId(company
 				.getCompanyId());
 		for (String questKey : questKeys) {
-			map.put(questKey, questionInfoMapper.findByKey(questKey));
+			map.put(questKey, questionInfoMapper.getByKey(questKey));
 		}
 		return map;
 	}

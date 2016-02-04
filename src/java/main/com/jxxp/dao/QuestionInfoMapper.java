@@ -26,6 +26,8 @@ public interface QuestionInfoMapper {
 	 */
 	int update(QuestionInfo question);
 
+	QuestionInfo getById(long questId);
+
 	/**
 	 * 通过问题的关键索引获得该问题对象
 	 * 
@@ -33,7 +35,7 @@ public interface QuestionInfoMapper {
 	 *            举报所填问题的关键索引
 	 * @return
 	 */
-	QuestionInfo findByKey(String questKey);
+	QuestionInfo getByKey(String questKey);
 
 	/**
 	 * 通过客户公司的id号获取该公司所选择的所有问题
@@ -42,7 +44,7 @@ public interface QuestionInfoMapper {
 	 *            公司Id
 	 * @return
 	 */
-	List<QuestionInfo> getAllByCompany(Long companyId);
+	List<QuestionInfo> getAllByCompany(long companyId);
 
 	int deleteById(long id);
 
