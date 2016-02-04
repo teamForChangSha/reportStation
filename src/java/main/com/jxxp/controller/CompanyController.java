@@ -55,7 +55,8 @@ public class CompanyController {
 	@RequestMapping("/getBranches.do")
 	public String getBranches(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		List<CompanyBranch> branchList = companyService.getCompanyBranchByArea(null, company);
+		List<CompanyBranch> branchList = companyService.getCompanyBranchByArea(0,
+				company.getCompanyId());
 		model.put("branchList", branchList);
 		return "jsp/success";
 

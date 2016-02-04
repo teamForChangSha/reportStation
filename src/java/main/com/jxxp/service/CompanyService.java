@@ -3,7 +3,6 @@ package com.jxxp.service;
 import java.util.List;
 import java.util.Map;
 
-import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyWholeInfo;
@@ -115,20 +114,19 @@ public interface CompanyService {
 	 * 获取某地的公司分支机构信息<br>
 	 * 公司的总部也算作一个分支机构
 	 * 
-	 * @param area
+	 * @param areaId
 	 *            欲查询分支机构的信息
-	 * @param company
+	 * @param companyId
 	 *            与查询分支机构的公司
 	 * @return 返回查询到的公司分支机构的信息列表，无分支机构则返回空列表
 	 */
-	List<CompanyBranch> getCompanyBranchByArea(AreaInfo area, Company company);
-	
+	List<CompanyBranch> getCompanyBranchByArea(long areaId, long companyId);
+
 	/**
 	 * 获取所有公司列表信息<br>
 	 * 
 	 * @return 返回查询到的公司信息列表
 	 */
 	List<Company> getAllCompanyList();
-	
 
 }

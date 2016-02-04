@@ -15,7 +15,6 @@ import com.jxxp.dao.CompanyOtherMapper;
 import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportTypeMapper;
-import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
@@ -24,18 +23,17 @@ import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
 
-
 /**
  * 
  * @author cuijian
- *
+ * 
  */
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
 	@Resource
 	private CompanyMapper companyMapper;
 	@Resource
-	private CompanyOtherMapper companyOtherMapper; 
+	private CompanyOtherMapper companyOtherMapper;
 	@Resource
 	private CompanyQuestionMapper companyQuestionMapper;
 	@Resource
@@ -66,15 +64,16 @@ public class CompanyServiceImpl implements CompanyService {
 	public CompanyWholeInfo getCompanyWhole(String name) {
 		Company company = companyMapper.findByName(name);
 		CompanyOther companyOther = companyOtherMapper.findByCompanyId(company.getCompanyId());
-		return new CompanyWholeInfo(company,companyOther);
+		return new CompanyWholeInfo(company, companyOther);
 	}
 
 	@Transactional
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
 		boolean flag = false;
 		for (int i = 0; i < questList.size(); i++) {
-			flag = companyQuestionMapper.add(company.getCompanyId(),questList.get(i).getQuestKey());
-			if(!flag)	
+			flag = companyQuestionMapper
+					.add(company.getCompanyId(), questList.get(i).getQuestKey());
+			if (!flag)
 				break;
 		}
 		return flag;
@@ -83,7 +82,8 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Map<String, QuestionInfo> getCompanyQuestions(Company company) {
 		Map<String, QuestionInfo> map = new HashMap<String, QuestionInfo>();
-		List<String> questKeys = companyQuestionMapper.getQuestKeyByCompanyId(company.getCompanyId());
+		List<String> questKeys = companyQuestionMapper.getQuestKeyByCompanyId(company
+				.getCompanyId());
 		for (String questKey : questKeys) {
 			map.put(questKey, questionInfoMapper.findByKey(questKey));
 		}
@@ -93,10 +93,10 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
 		boolean flag = false;
-		if(reportTypeMapper.deleteByCompanyId(company.getCompanyId()) >= 0) {
+		if (reportTypeMapper.deleteByCompanyId(company.getCompanyId()) >= 0) {
 			for (ReportType reportType : rtList) {
 				flag = reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
-				if(!flag) {
+				if (!flag) {
 					break;
 				}
 			}
@@ -115,8 +115,9 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyBranch> getCompanyBranchByArea(AreaInfo area, Company company) {
-		return companyBranchMapper.getAllByArea(area, company);
+	public List<CompanyBranch> getCompanyBranchByArea(long areaId, long companyId) {
+		System.out.println(areaId + "----" + companyId);
+		return companyBranchMapper.getAllByArea(areaId, companyId);
 	}
 
 	@Override
