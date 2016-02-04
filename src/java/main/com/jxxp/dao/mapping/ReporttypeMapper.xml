@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.ReportTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.ReportType" >
+    <id column="rt_id" property="rtId" jdbcType="BIGINT" />
+    <result column="is_standard" property="isStandard" jdbcType="INTEGER" />
+    <result column="rt_title" property="rtTitle" jdbcType="VARCHAR" />
+    <result column="rt_desc" property="rtDesc" jdbcType="VARCHAR" />
+    <association column="company_id" property="owner" javaType="com.jxxp.pojo.Company" 
+    select="com.jxxp.dao.CompanyMapper.getById"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rt_id, is_standard, company_id, rt_title, rt_desc
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from reporttype
+    where rt_id = #{rtId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getAllByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from reporttype
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from reporttype
+    where rt_id = #{rtId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jxxp.pojo.ReportType" >
+    insert into reporttype (rt_id, is_standard, company_id, 
+      rt_title, rt_desc)
+    values (#{rtId,jdbcType=BIGINT}, #{isStandard,jdbcType=INTEGER}, #{companyId,jdbcType=BIGINT}, 
+      #{rtTitle,jdbcType=VARCHAR}, #{rtDesc,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.jxxp.pojo.ReportType" >
+    update reporttype
+    set is_standard = #{isStandard,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=BIGINT},
+      rt_title = #{rtTitle,jdbcType=VARCHAR},
+      rt_desc = #{rtDesc,jdbcType=VARCHAR}
+    where rt_id = #{rtId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- <insert id="insertSelective" parameterType="com.jxxp.pojo.Reporttype" >
+    insert into reporttype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rtId != null" >
+        rt_id,
+      </if>
+      <if test="isStandard != null" >
+        is_standard,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="rtTitle != null" >
+        rt_title,
+      </if>
+      <if test="rtDesc != null" >
+        rt_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rtId != null" >
+        #{rtId,jdbcType=BIGINT},
+      </if>
+      <if test="isStandard != null" >
+        #{isStandard,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="rtTitle != null" >
+        #{rtTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="rtDesc != null" >
+        #{rtDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jxxp.pojo.Reporttype" >
+    update reporttype
+    <set >
+      <if test="isStandard != null" >
+        is_standard = #{isStandard,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="rtTitle != null" >
+        rt_title = #{rtTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="rtDesc != null" >
+        rt_desc = #{rtDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rt_id = #{rtId,jdbcType=BIGINT}
+  </update> -->
+</mapper>
