@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jxxp.dao.CompanyMapper" >
   <resultMap id="BaseResultMap" type="com.jxxp.pojo.Company" >
-    <id column="company_id" property="companyId" jdbcType="INTEGER" />
+    <id column="company_id" property="companyId" jdbcType="BIGINT" />
     <result column="company_name" property="companyName" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
@@ -20,10 +20,17 @@
     company_id, company_name, description, company_code, phone, company_type, company_state, 
     state_changed
   </sql>
+   <select id="getById" resultMap="BaseResultMap" parameterType="String" >
+    select * from company
+    where company_id = #{CompanyId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getAllCompany" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from company    
+  </select>
+  
   <select id="findByName" resultMap="BaseResultMap" parameterType="String" >
-    select 
-    <include refid="Base_Column_List" />
-    from company
+    select * from company
     where company_name = #{companyName,jdbcType=VARCHAR}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
@@ -86,32 +93,5 @@
       </if>
     </trim>
   </insert>
-  <!-- <update id="update" parameterType="com.jxxp.pojo.Company" >
-    update company
-    <set >
-      <if test="companyName != null" >
-        company_name = #{companyName,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="companyCode != null" >
-        company_code = #{companyCode,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="companyType != null" >
-        company_type = #{companyType,jdbcType=VARCHAR},
-      </if>
-      <if test="companyState != null" >
-        company_state = #{companyState,jdbcType=VARCHAR},
-      </if>
-      <if test="stateChanged != null" >
-        state_changed = #{stateChanged,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where company_id = #{companyId,jdbcType=INTEGER}
-  </update> -->
-
+ 
 </mapper>

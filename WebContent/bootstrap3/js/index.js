@@ -5,55 +5,71 @@
 	};
 
 	var province = $("#seachprov"),
-		city = $("#seachcity");
+		city = $("#seachcity"),
+		institutions = $("#institutions"),
+		companyId = $("input[name=companyId]");
 
 	function initProvince() {
-		var url = "?companyId="+$("#etpList li a").attr("data-id");
+		var url = "?companyId=" + companyId.val();
 		$.getJSON(url, function(result) {
-			province.empty();
-			if (result.length == 0) {
-				$(area_array).each(function(i) {
-					if (area_array[i] != undefined) {
-						var opt = $("<option/>").text(area_array[i]).attr("value", i);
-						province.append(opt);
-					}
-				});
-			} else {
-				$(result).each(function() {
-					var opt = $("<option/>").text(this.name).attr("value", this.areaId);
-					province.append(opt);
-				});
+			if (result.length<0) {
+				return;
 			}
+			province.empty();
+			$(result).each(function() {
+				var opt = $("<option/>").text(this.name).attr("value", this.areaId);
+				province.append(opt);
+			});
 			initCity();
 		});
 	};
 
 	var initCity = function() {
-		$.getJSON("../bootstrap3/js/area.json", function(result) {
-			city.empty();
-			if (result.length == 0) {
-				var index = province.val();
-				$(sub_array[index]).each(function(i) {
-					if (sub_array[index][i] != undefined) {
-						var opt = $("<option/>").text(sub_array[index][i]).attr("value", i);
-						city.append(opt);
-					}
-				});
-			} else {
-				$(result).each(function() {
-					var opt = $("<option/>").text(this.p).attr("value", this.p);
-					city.append(opt);
-				});
+		var url = "?companyId=" + companyId.val() + "&parentId=" + $("#seachprov  option:selected").val();
+		$.getJSON(url, function(result) {
+			if (result.length<0) {
+				return;
 			}
+			city.empty();
+			$(result).each(function() {
+				var opt = $("<option/>").text(this.name).attr("value", this.areaId);
+				city.append(opt);
+			});
+			city.parent().removeClass("hidden");
+			initInstitutions();
 		});
 	};
 
-	var countries = function() {
-
+	var initInstitutions = function() {
+		var url = "?companyId=" + companyId.val() + "&parentId=" + $("#seachcity  option:selected").val();
+		$.getJSON(url, function(result) {
+			if (result.length<0) {
+				return;
+			}
+			institutions.empty();
+			$(result).each(function() {
+				var opt = $("<option/>").text(this.name).attr("value", this.areaId);
+				institutions.append(opt);
+			});
+			institutions.parent().removeClass("hidden");
+			next.parent().removeClass("hidden");
+		});
 	};
+
+	var setData = function(data, ele) {
+		ele.empty();
+		$(data).each(function() {
+			var opt = $("<option/>").text(this.name).attr("value", this.areaId);
+			ele.append(opt);
+		});
+	}
 
 	province.change(function() {
 		initCity();
+	});
+
+	city.change(function() {
+		initInstitutions();
 	});
 
 
@@ -140,14 +156,14 @@
 
 	$("#etpList li a").click(function() {
 		keyword.val(this.innerHTML);
-		$("input[name=companyId]").val($(this).attr("data-id"));
+		companyId.val($(this).attr("data-id"));
 		changeClass(keyword, keywordIcon, false);
-		console.log($("input[name=companyId]").val());
 	});
-	
+
 	keyword.keyup(function() {
 		province.parent().addClass("hidden");
 		city.parent().addClass("hidden");
+		institutions.parent().addClass("hidden");
 		next.parent().addClass("hidden");
 	});
 
@@ -158,7 +174,7 @@
 		if (changeClass(num, numIcon, true)) {
 			$("#reportPanel").modal('hide');
 			//					$("form").submit();
-			location.href = "../userPages/report_info.jsp";
+			location.href = "userPages/report_info.html";
 		}
 	});
 	/**
@@ -196,7 +212,7 @@
 			i = 60;
 			$("#reportPanel").modal('hide');
 			//					$("form").submit();
-			location.href = "../userPages/report_list.jsp";
+			location.href = "userPages/report_list.html";
 		}
 	});
 	/**
@@ -205,16 +221,14 @@
 	getArea.click(function() {
 		if (changeClass(keyword, keywordIcon, true)) {
 			province.parent().removeClass("hidden");
-			city.parent().removeClass("hidden");
-			next.parent().removeClass("hidden");
 			initProvince();
 		}
 	});
 	next.click(function() {
 		if (changeClass(keyword, keywordIcon, true) && changeSelectClass(province, true) && changeSelectClass(city, true)) {
-			//					$("form").submit();
-			console.log($("#seachprov  option:selected").text());
-			location.href = "../userPages/reportType.jsp";
+			$("form").submit();
+			//			console.log($("#seachprov  option:selected").text());
+			//			location.href = "userPages/reportType.html";
 		}
 	});
 	/**

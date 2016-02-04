@@ -24,8 +24,18 @@
    
   </select>
   
+  <select id="getProvinceByCompanyId" resultMap="BaseResultMap" parameterType="com.jxxp.pojo.AreaInfo">
+   select * from areainfo where area_id in 
+   (select provice form companybranch where company_id=#{companyId})
+  </select>
   
-  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="getCityByCompany" resultMap="BaseResultMap" parameterType="com.jxxp.pojo.AreaInfo">
+   select * from areainfo where area_id in 
+   (select city form companybranch where company_id=#{companyId})
+   where parent_id=#{parentId}
+  </select>
+  
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from areainfo

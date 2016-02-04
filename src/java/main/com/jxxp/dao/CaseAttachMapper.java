@@ -28,7 +28,7 @@ public interface CaseAttachMapper {
 	 *            附件id
 	 * @return 附件
 	 */
-	CaseAttach findById(long caId);
+	CaseAttach getById(long caId);
 
 	/**
 	 * 查询

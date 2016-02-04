@@ -28,12 +28,12 @@ public class AreaServiceImpl implements AreaService {
 
 	@Override
 	public AreaInfo getProvince(long provinceId) {
-		return areaMapper.findById(provinceId);
+		return areaMapper.getById(provinceId);
 	}
 
 	@Override
 	public AreaInfo getCity(long cityId) {
-		return areaMapper.findById(cityId);
+		return areaMapper.getById(cityId);
 	}
 
 	@Override
@@ -48,5 +48,17 @@ public class AreaServiceImpl implements AreaService {
 			parentId = 0;
 		List<AreaInfo> list = areaMapper.getAreaByParent(parentId);
 		return list;
+	}
+
+	@Override
+	public List<AreaInfo> getProvinceByCompanyId(long companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<AreaInfo> getCityByCompanyId(long companyId, long parentId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

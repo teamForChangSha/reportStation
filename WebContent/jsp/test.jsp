@@ -16,6 +16,8 @@
 	
 	  <p>
 	
-	<a href="${pageContext.request.contextPath}/company/getByName.do?name=datang">获取大唐公司信息</a>
+	<a href="${pageContext.request.contextPath}/company/getBranches.do?companyId=1">获取大唐公司信息</a>
+
+
 </body>
 </html>
