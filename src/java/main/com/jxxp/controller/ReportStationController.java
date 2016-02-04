@@ -152,6 +152,9 @@ public class ReportStationController {
 		return "/jsp/pages/reportType";
 	}
 	
+	
+
+	
 	@RequestMapping("/showQuestionPage.do")
 	public String showQuestionPage(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
