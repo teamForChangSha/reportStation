@@ -46,6 +46,15 @@ public interface CompanyService {
 	Company getCompany(String name);
 
 	/**
+	 * 获得公司的基本信息
+	 * 
+	 * @param name
+	 *            公司名称，后期若支持相似名字合并，则可以是合并后的任意一个公司名称
+	 * @return 返回查询到的公司基本信息
+	 */
+	Company getCompanyById(long companyId);
+	
+	/**
 	 * 获得公司的所有信息，包括基本信息、其余信息，以及未来可能添加的更多信息
 	 * 
 	 * @param name
@@ -128,5 +137,14 @@ public interface CompanyService {
 	 * @return 返回查询到的公司信息列表
 	 */
 	List<Company> getAllCompanyList();
+	
+	/**
+	 * 根据ID获取公司分支机构信息<br>
+	 * 
+	 * @param companyId
+	 *            与查询分支机构的公司
+	 * @return 返回查询到的公司分支机构的信息列表，无分支机构则返回空列表
+	 */
+	CompanyBranch getCompanyBranchById(long branchId);
 
 }

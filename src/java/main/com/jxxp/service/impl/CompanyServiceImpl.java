@@ -116,13 +116,24 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<CompanyBranch> getCompanyBranchByArea(long areaId, long companyId) {
-		System.out.println(areaId + "----" + companyId);
 		return companyBranchMapper.getAllByArea(areaId, companyId);
 	}
 
 	@Override
 	public List<Company> getAllCompanyList() {
 		return companyMapper.getAllCompany();
+	}
+
+	@Override
+	public Company getCompanyById(long companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CompanyBranch getCompanyBranchById(long branchId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

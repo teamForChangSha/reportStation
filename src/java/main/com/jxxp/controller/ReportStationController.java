@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -130,32 +131,28 @@ public class ReportStationController {
 	@RequestMapping("/showReportType.do")
 	public String showReportType(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-//		long companyId = 0;
-//		long branchId = 0;
-//
-//		String cId = request.getParameter("companyId");
-//		String bId = request.getParameter("branchId");
-//		if (cId != null) {
-//			companyId = Long.parseLong(cId);
-//		}
-//		if (bId != null) {
-//			branchId = Long.parseLong(bId);
-//		}
-//
-//		Company company = companyService.getCompany(name);
-//		CompanyBranch companyBranch = 
-//		
-//		List<ReportType> dataList = companyService.getCompanyReportType(company);
-//
-//		response.setCharacterEncoding("UTF-8");
-//		PrintWriter out;
-//		try {
-//			out = response.getWriter();
-//			String json = JSONArray.toJSONString(dataList);
-//			out.print(json);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		return null;
+		long companyId = 0;
+		long branchId = 0;
+
+		String cId = request.getParameter("companyId");
+		String bId = request.getParameter("branchId");
+		if (cId != null) {
+			companyId = Long.parseLong(cId);
+		}
+		if (bId != null) {
+			branchId = Long.parseLong(bId);
+		}
+
+		Company company = companyService.getCompanyById(companyId);
+		CompanyBranch companyBranch = companyService.getCompanyBranchById(branchId);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("company", company);
+		session.setAttribute("companyBranch", companyBranch);
+		
+		List<ReportType> dataList = companyService.getCompanyReportType(company);
+		modelMap.put("rtList", dataList);
+		
+		return "/jsp/pages/reportType";
 	}
 }
