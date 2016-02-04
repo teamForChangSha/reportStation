@@ -187,7 +187,7 @@
 	numBtn.click(function() {
 		if (changeClass(num, numIcon, true)) {
 			$("#reportPanel").modal('hide');
-			// $("form").submit();
+			// $("#selectByNum").submit();
 			location.href = "userPages/report_info.html";
 		}
 	});
@@ -225,7 +225,7 @@
 			phoneBtn.html("获取临时密码");
 			i = 60;
 			$("#reportPanel").modal('hide');
-			// $("form").submit();
+			// $("#selectByPhone").submit();
 			location.href = "userPages/report_list.html";
 		}
 	});
@@ -242,9 +242,7 @@
 		if (changeClass(keyword, keywordIcon, true)
 				&& changeSelectClass(province, true)
 				&& changeSelectClass(city, true)) {
-			$("form").submit();
-			// console.log($("#seachprov option:selected").text());
-			// location.href = "userPages/reportType.html";
+			$("#sendCompany").submit();
 		}
 	});
 	/**

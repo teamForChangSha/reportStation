@@ -1,28 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-  String path=request.getContextPath();
-  String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
-<base href="<%=basePath%>"/>
+<base href="<%=basePath%>" />
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css"
-	href="jsp/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css"
 	href="jsp/css/bootstrap-theme.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="jsp/css/common_top.css" />
-<script src="jsp/js/jquery-1.12.0.min.js"
-	type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
+<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript"
+	charset="utf-8"></script>
 <script src="jsp/js/bootstrap.min.js" type="text/javascript"
 	charset="utf-8"></script>
-<script src="jsp/js/localdata.js" type="text/javascript"
-	charset="utf-8"></script>
+<script src="jsp/js/localdata.js" type="text/javascript" charset="utf-8"></script>
 <script src="jsp/js/AreaData_min.js" type="text/javascript"></script>
 <style type="text/css">
 #loginPanel {
@@ -83,6 +82,10 @@
 .page-header {
 	margin: 20px 0 20px;
 }
+
+#row-right {
+	padding: 0 15px;
+}
 </style>
 </head>
 
@@ -120,7 +123,8 @@
 							<small>我要举报</small>
 						</h1>
 					</div>
-					<form action="showReportType.do" method="post" class="form-horizontal">
+					<form id="sendCompany" action="showReportType.do" method="post"
+						class="form-horizontal">
 						<div class="input-group form-group">
 							<span class="input-group-btn">
 								<button type="button" class="btn btn-default dropdown-toggle"
@@ -149,8 +153,7 @@
 							</select>
 						</div>
 						<div class="form-group hidden">
-							<select id="institutions" class="form-control"
-								name="branchId">
+							<select id="institutions" class="form-control" name="branchId">
 								<option value="-1">请选择</option>
 							</select>
 						</div>
@@ -245,8 +248,8 @@
 				<div class="modal-body">
 					<div class="row" id="row-right">
 						<div class="col-sm-12">
-							<form action="" method="post" class="form-horizontal"
-								style="margin-bottom: 15px;">
+							<form id="selectByNum" action="" method="post"
+								class="form-horizontal" style="margin-bottom: 15px;">
 								<div class="input-group form-group">
 									<input id="num" type="text" class="form-control"
 										placeholder="请输入跟踪单号"> <span id="numIcon"
@@ -261,7 +264,8 @@
 
 					<div class="row" id="row-right">
 						<div class="col-sm-12">
-							<form action="" method="post" class="form-horizontal">
+							<form id="selectByPhone" action="" method="post"
+								class="form-horizontal">
 								<div class="input-group form-group">
 									<input id="phone" type="text" maxlength="11"
 										class="form-control" placeholder="请输入实名手机号"> <span
@@ -286,6 +290,5 @@
 		</div>
 	</div>
 </body>
-<script src="jsp/js/index.js" type="text/javascript"
-	charset="utf-8"></script>
+<script src="jsp/js/index.js" type="text/javascript" charset="utf-8"></script>
 </html>
