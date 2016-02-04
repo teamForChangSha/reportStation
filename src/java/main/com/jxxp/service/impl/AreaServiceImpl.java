@@ -52,13 +52,16 @@ public class AreaServiceImpl implements AreaService {
 
 	@Override
 	public List<AreaInfo> getProvinceByCompanyId(long companyId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<AreaInfo> list = areaMapper.getProvinceByCompanyId(companyId);
+		System.out.println("service=" + companyId);
+		return list;
 	}
 
 	@Override
 	public List<AreaInfo> getCityByCompanyId(long companyId, long parentId) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("service=--" + companyId + "--" + parentId);
+
+		List<AreaInfo> list = areaMapper.getCityByCompanyId(companyId, parentId);
+		return list;
 	}
 }
