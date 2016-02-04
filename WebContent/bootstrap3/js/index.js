@@ -4,53 +4,63 @@
 		jq.append(opt);
 	};
 
-	var province = $("#seachprov"),
-		city = $("#seachcity"),
-		institutions = $("#institutions"),
-		companyId = $("input[name=companyId]");
+	var province = $("#seachprov"), city = $("#seachcity"), institutions = $("#institutions"), companyId = $("input[name=companyId]");
 
 	function initProvince() {
-		var url = "?companyId=" + companyId.val();
+		var url = "getProvinceByCompany.do?companyId=" + companyId.val();
+		console.log(url);
 		$.getJSON(url, function(result) {
-			if (result.length<0) {
+			console.log("====" + result);
+			if (result == null || result.length < 0) {
 				return;
 			}
 			province.empty();
-			$(result).each(function() {
-				var opt = $("<option/>").text(this.name).attr("value", this.areaId);
-				province.append(opt);
-			});
+			$(result).each(
+					function() {
+						var opt = $("<option/>").text(this.name).attr("value",
+								this.areaId);
+						province.append(opt);
+					});
 			initCity();
 		});
-	};
+	}
+	;
 
 	var initCity = function() {
-		var url = "?companyId=" + companyId.val() + "&parentId=" + $("#seachprov  option:selected").val();
+		var url = "getCityByCompany.do?companyId=" + companyId.val() + "&parentId="
+				+ $("#seachprov  option:selected").val();
 		$.getJSON(url, function(result) {
-			if (result.length<0) {
+			console.log("====" + result);
+			if (result == null || result.length < 0) {
 				return;
 			}
 			city.empty();
-			$(result).each(function() {
-				var opt = $("<option/>").text(this.name).attr("value", this.areaId);
-				city.append(opt);
-			});
+			$(result).each(
+					function() {
+						var opt = $("<option/>").text(this.name).attr("value",
+								this.areaId);
+						city.append(opt);
+					});
 			city.parent().removeClass("hidden");
 			initInstitutions();
 		});
 	};
 
 	var initInstitutions = function() {
-		var url = "?companyId=" + companyId.val() + "&parentId=" + $("#seachcity  option:selected").val();
+		var url = "?companyId=" + companyId.val() + "&parentId="
+				+ $("#seachcity  option:selected").val();
 		$.getJSON(url, function(result) {
-			if (result.length<0) {
+			console.log("====" + result);
+			if (result == null || result.length < 0) {
 				return;
 			}
 			institutions.empty();
-			$(result).each(function() {
-				var opt = $("<option/>").text(this.name).attr("value", this.areaId);
-				institutions.append(opt);
-			});
+			$(result).each(
+					function() {
+						var opt = $("<option/>").text(this.name).attr("value",
+								this.areaId);
+						institutions.append(opt);
+					});
 			institutions.parent().removeClass("hidden");
 			next.parent().removeClass("hidden");
 		});
@@ -58,10 +68,12 @@
 
 	var setData = function(data, ele) {
 		ele.empty();
-		$(data).each(function() {
-			var opt = $("<option/>").text(this.name).attr("value", this.areaId);
-			ele.append(opt);
-		});
+		$(data).each(
+				function() {
+					var opt = $("<option/>").text(this.name).attr("value",
+							this.areaId);
+					ele.append(opt);
+				});
 	}
 
 	province.change(function() {
@@ -72,24 +84,10 @@
 		initInstitutions();
 	});
 
-
-
-
-
 	var etpList = $("#etpList");
-	var num = $("#num"),
-		phone = $("#phone"),
-		pwd = $("#pwd"),
-		keyword = $("#keyword");
-	var numIcon = $("#numIcon"),
-		phoneIcon = $("#phoneIcon"),
-		pwdIcon = $("#pwdIcon"),
-		keywordIcon = $("#keywordIcon");
-	var numBtn = $("#numBtn"),
-		phoneBtn = $("#phoneBtn"),
-		pwdBtn = $("#pwdBtn"),
-		getArea = $("#getArea"),
-		next = $("#next");
+	var num = $("#num"), phone = $("#phone"), pwd = $("#pwd"), keyword = $("#keyword");
+	var numIcon = $("#numIcon"), phoneIcon = $("#phoneIcon"), pwdIcon = $("#pwdIcon"), keywordIcon = $("#keywordIcon");
+	var numBtn = $("#numBtn"), phoneBtn = $("#phoneBtn"), pwdBtn = $("#pwdBtn"), getArea = $("#getArea"), next = $("#next");
 	var regStr = /(1[3-9]\d{9}$)/;
 	var t, i = 60;
 
@@ -100,9 +98,12 @@
 	changeSelectClass(province, false);
 	changeSelectClass(city, false);
 	/**
-	 * 判断手机号是否合法 
-	 * @param {Object} inp
-	 * @param {Object} iconId
+	 * 判断手机号是否合法
+	 * 
+	 * @param {Object}
+	 *            inp
+	 * @param {Object}
+	 *            iconId
 	 */
 	function reg(ele, iconId) {
 		if (!regStr.test($.trim(ele.val()))) {
@@ -114,13 +115,18 @@
 	}
 	/**
 	 * 判断是否为空
-	 * @param {Object} inp
-	 * @param {Object} iconId
-	 * @param {Object} bool
+	 * 
+	 * @param {Object}
+	 *            inp
+	 * @param {Object}
+	 *            iconId
+	 * @param {Object}
+	 *            bool
 	 */
 	function changeClass(ele, iconId, bool) {
 		if (bool) {
-			if ($.trim(ele.val()) == null || $.trim(ele.val()) == "" || $.trim(ele.val()).length <= 0) {
+			if ($.trim(ele.val()) == null || $.trim(ele.val()) == ""
+					|| $.trim(ele.val()).length <= 0) {
 				iconId.addClass("glyphicon-remove");
 				return false;
 			} else {
@@ -173,7 +179,7 @@
 	numBtn.click(function() {
 		if (changeClass(num, numIcon, true)) {
 			$("#reportPanel").modal('hide');
-			//					$("form").submit();
+			// $("form").submit();
 			location.href = "userPages/report_info.html";
 		}
 	});
@@ -181,28 +187,28 @@
 	 * 获取临时密码
 	 */
 	phoneBtn.click(function() {
-			if (!reg(phone, phoneIcon)) {
-				return;
+		if (!reg(phone, phoneIcon)) {
+			return;
+		}
+		phoneBtn.attr("disabled", true);
+		phoneBtn.html("(" + i + ")秒后重试");
+		t = setInterval(function() {
+			if (i == 0) {
+				clearInterval(t);
+				t = null;
+				phoneBtn.removeAttr("disabled");
+				phoneBtn.html("获取临时密码");
+				i = 60;
+			} else {
+				phoneBtn.attr("disabled", true);
+				i--;
+				phoneBtn.html("(" + i + ")秒后重试");
 			}
-			phoneBtn.attr("disabled", true);
-			phoneBtn.html("(" + i + ")秒后重试");
-			t = setInterval(function() {
-				if (i == 0) {
-					clearInterval(t);
-					t = null;
-					phoneBtn.removeAttr("disabled");
-					phoneBtn.html("获取临时密码");
-					i = 60;
-				} else {
-					phoneBtn.attr("disabled", true);
-					i--;
-					phoneBtn.html("(" + i + ")秒后重试");
-				}
-			}, 1000);
-		})
-		/**
-		 * 发送查询请求 
-		 */
+		}, 1000);
+	})
+	/**
+	 * 发送查询请求
+	 */
 	pwdBtn.click(function() {
 		if (reg(phone, phoneIcon) && changeClass(pwd, pwdIcon, true)) {
 			clearInterval(t);
@@ -211,12 +217,12 @@
 			phoneBtn.html("获取临时密码");
 			i = 60;
 			$("#reportPanel").modal('hide');
-			//					$("form").submit();
+			// $("form").submit();
 			location.href = "userPages/report_list.html";
 		}
 	});
 	/**
-	 * 选择企业发送举报请求 
+	 * 选择企业发送举报请求
 	 */
 	getArea.click(function() {
 		if (changeClass(keyword, keywordIcon, true)) {
@@ -225,14 +231,16 @@
 		}
 	});
 	next.click(function() {
-		if (changeClass(keyword, keywordIcon, true) && changeSelectClass(province, true) && changeSelectClass(city, true)) {
+		if (changeClass(keyword, keywordIcon, true)
+				&& changeSelectClass(province, true)
+				&& changeSelectClass(city, true)) {
 			$("form").submit();
-			//			console.log($("#seachprov  option:selected").text());
-			//			location.href = "userPages/reportType.html";
+			// console.log($("#seachprov option:selected").text());
+			// location.href = "userPages/reportType.html";
 		}
 	});
 	/**
-	 * 跳转到找回密码页面 
+	 * 跳转到找回密码页面
 	 */
 	$("#forgetPwd").click(function() {
 		$("#loginPanel").modal('hide');

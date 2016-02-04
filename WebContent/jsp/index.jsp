@@ -1,24 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+  String path=request.getContextPath();
+  String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <html>
 
 <head>
+<base href="<%=basePath%>"/>
 <meta charset="UTF-8">
 <title></title>
 <link rel="stylesheet" type="text/css"
-	href="../bootstrap3/css/bootstrap.min.css" />
+	href="bootstrap3/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../bootstrap3/css/bootstrap-theme.min.css" />
+	href="bootstrap3/css/bootstrap-theme.min.css" />
 <link rel="stylesheet" type="text/css"
-	href="../bootstrap3/css/common_top.css" />
-<script src="../bootstrap3/js/jquery-1.12.0.min.js"
+	href="bootstrap3/css/common_top.css" />
+<script src="bootstrap3/js/jquery-1.12.0.min.js"
 	type="text/javascript" charset="utf-8"></script>
-<script src="../bootstrap3/js/bootstrap.min.js" type="text/javascript"
+<script src="bootstrap3/js/bootstrap.min.js" type="text/javascript"
 	charset="utf-8"></script>
-<script src="../bootstrap3/js/localdata.js" type="text/javascript"
+<script src="bootstrap3/js/localdata.js" type="text/javascript"
 	charset="utf-8"></script>
-<script src="../bootstrap3/js/AreaData_min.js" type="text/javascript"></script>
+<script src="bootstrap3/js/AreaData_min.js" type="text/javascript"></script>
 <style type="text/css">
 #loginPanel {
 	top: 20%;
@@ -97,7 +102,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav pull-right">
-					<li><a href="../jsp/index.jsp">首页</a></li>
+					<li><a href="jsp/index.jsp">首页</a></li>
 					<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
 					<li><a href="#">常见问题</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#loginPanel">企业用户登录</a></li>
@@ -126,7 +131,7 @@
 								</button> <input type="text" hidden="" name="companyId" value="" />
 								<ul class="dropdown-menu" id="etpList">
 									<c:forEach items="${companyList}" var="company">
-										<li><a href=# data-id='${company.companyId}'>${company.companyName}</a></li>
+										<li><a data-id='${company.companyId}'>${company.companyName}</a></li>
 									</c:forEach>
 								</ul>
 							</span> <input type="text" id="keyword" name="companyName"
@@ -284,6 +289,6 @@
 		</div>
 	</div>
 </body>
-<script src="../bootstrap3/js/index.js" type="text/javascript"
+<script src="bootstrap3/js/index.js" type="text/javascript"
 	charset="utf-8"></script>
 </html>
