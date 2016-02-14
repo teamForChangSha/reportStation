@@ -23,7 +23,7 @@ public interface ReportCaseMapper {
 	 *            案件号
 	 * @return 案件
 	 */
-	ReportCase findById(long rcId);
+	ReportCase getById(long rcId);
 
 	/**
 	 * 通过案件追踪码和密码查询

@@ -1,7 +1,5 @@
 package com.jxxp.dao;
 
-import java.util.List;
-
 import com.jxxp.pojo.Reporter;
 
 /**
@@ -27,9 +25,7 @@ public interface ReporterMapper {
 
 	int update(Reporter reporter);
 
-	Reporter findById(long reporterId);
-
-	List<Reporter> getAllReport();
+	Reporter getById(long reporterId);
 
 	int deleteById(long reporterId);
 

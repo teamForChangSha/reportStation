@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.ReportCaseMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.ReportCase" >
+    <id column="rc_id" property="rcId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />    
+    <result column="case_state" property="caseState" jdbcType="VARCHAR" />
+    <result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />
+    <result column="access_code" property="accessCode" jdbcType="VARCHAR" />
+    <result column="trackingNo" property="trackingNo" jdbcType="VARCHAR" />
+    <association column="company_id" property="company" select="com.jxxp.dao.CompanyMapper.getById">
+    </association>
+    <association column="branch_id" property="branch" select="com.jxxp.dao.CompanyBranchMapper.getById">
+    </association>
+    <association column="report_id" property="reporter" select="com.jxxp.dao.ReporterMapper.getById">
+    </association>
+    <association column="handler_company" property="currentHandler"  select="com.jxxp.dao.CompanyMapper.getById">
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rc_id, create_time, company_id, branch_id, report_id, handler_company, case_state, 
+    state_changed, access_code, trackingNo 
+  </sql>  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from reportcase
+    where rc_id = #{rcId,jdbcType=BIGINT}
+  </delete>
+   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reportcase
+    where rc_id = #{rcId,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="com.jxxp.pojo.ReportCase" >
+    insert into reportcase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rcId != null" >
+        rc_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="reportCase.company.companyId != null" >
+        company_id,
+      </if>
+      <if test="reportCase.branch.branchId != null" >
+        branch_id,
+      </if>
+      <if test="reportCase.reporter.reportId != null" >
+        report_id,
+      </if>
+      <if test="reportCase.company.handlerCompany != null" >
+        handler_company,
+      </if>
+      <if test="caseState != null" >
+        case_state,
+      </if>
+      <if test="stateChanged != null" >
+        state_changed,
+      </if>
+      <if test="accessCode != null" >
+        access_code,
+      </if>
+      <if test="trackingNo != null" >
+        trackingNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rcId != null" >
+        #{rcId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportCase.company.companyId != null" >
+         #{reportCase.company.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="reportCase.branch.branchId != null" >      
+        #{reportCase.branch.branchId,jdbcType=BIGINT},
+      </if>
+       <if test="reportCase.reporter.reportId != null" >
+        #{reportCase.reporter.reportId,jdbcType=BIGINT},
+      </if>
+       <if test="reportCase.company.handlerCompany != null" >
+        #{reportCase.currentHandler.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="caseState != null" >
+        #{caseState,jdbcType=VARCHAR},
+      </if>
+      <if test="stateChanged != null" >
+        #{stateChanged,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessCode != null" >
+        #{accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="trackingNo != null" >
+        #{trackingNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+</mapper>
