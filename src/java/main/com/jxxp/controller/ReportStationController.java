@@ -21,6 +21,7 @@ import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.AreaService;
+import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
 
 @Controller("reportStationController")
@@ -30,6 +31,8 @@ public class ReportStationController {
 	private CompanyService companyService;
 	@Resource
 	private AreaService areaService;
+	@Resource
+	private CaseService caseService;
 
 	@RequestMapping("/getAllCompany.do")
 	public String getCompany(HttpServletRequest request, HttpServletResponse response,
@@ -166,8 +169,11 @@ public class ReportStationController {
 		
 		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
 		Map<String,QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch.getOwner());
+		String trackingNo = caseService.getNewTrackingNo(companyBranch.getOwner());
+		
 		modelMap.put("questionMap", dataMap);
 		modelMap.put("rtList", rtList);
+		modelMap.put("trackingNo", trackingNo);
 		
 		return "/jsp/pages/reportCase";
 	}

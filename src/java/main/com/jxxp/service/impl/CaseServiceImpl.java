@@ -1,5 +1,7 @@
 package com.jxxp.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jxxp.dao.CaseCommentMapper;
+import com.jxxp.dao.GenerateKeyMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
@@ -25,6 +28,8 @@ public class CaseServiceImpl implements CaseService {
 	private ReportCaseMapper reportCaseMapper;
 	@Resource
 	private CaseCommentMapper caseCommentMapper;
+	@Resource
+	private GenerateKeyMapper generateKeyMapper;
 	
 	@Override
 	public boolean saveCaseInfo(ReportCase caseInfo) {
@@ -51,8 +56,12 @@ public class CaseServiceImpl implements CaseService {
 	@Override
 	public String getNewTrackingNo(Company company) {
 		//生成规则：公司代码+时间戳
-		
-		return null;
+		String trackingNo = "";
+		trackingNo += company.getCompanyCode();
+		trackingNo += new SimpleDateFormat("yyyyMM").format(new Date());
+		trackingNo += generateKeyMapper.getKey();
+		generateKeyMapper.updateKey();
+		return trackingNo;
 	}
 
 }
