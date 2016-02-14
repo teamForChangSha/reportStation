@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyOtherMapper;
-import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
@@ -34,8 +33,6 @@ public class CompanyServiceImpl implements CompanyService {
 	private CompanyMapper companyMapper;
 	@Resource
 	private CompanyOtherMapper companyOtherMapper;
-	@Resource
-	private CompanyQuestionMapper companyQuestionMapper;
 	@Resource
 	private QuestionInfoMapper questionInfoMapper;
 	@Resource
@@ -71,8 +68,8 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
 		boolean flag = false;
 		for (int i = 0; i < questList.size(); i++) {
-			flag = companyQuestionMapper
-					.add(company.getCompanyId(), questList.get(i).getQuestKey());
+//			flag = questionInfoMapper
+//					.add(company.getCompanyId(), questList.get(i).getQuestKey());
 			if (!flag)
 				break;
 		}
@@ -82,10 +79,9 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Map<String, QuestionInfo> getCompanyQuestions(Company company) {
 		Map<String, QuestionInfo> map = new HashMap<String, QuestionInfo>();
-		List<String> questKeys = companyQuestionMapper.getQuestKeyByCompanyId(company
-				.getCompanyId());
-		for (String questKey : questKeys) {
-			map.put(questKey, questionInfoMapper.getByKey(questKey));
+		List<QuestionInfo> questions = questionInfoMapper.getAllByCompany(company.getCompanyId());
+		for (QuestionInfo question : questions) {
+			map.put(question.getQuestKey(), question);
 		}
 		return map;
 	}

@@ -168,6 +168,7 @@ public class ReportStationController {
 		}
 			
 		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
+		System.out.println(companyBranch.getOwner().getCompanyId());
 		Map<String,QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch.getOwner());
 		modelMap.put("questionMap", dataMap);
 		modelMap.put("rtList", rtList);

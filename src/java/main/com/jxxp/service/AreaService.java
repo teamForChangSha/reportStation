@@ -53,16 +53,18 @@ public interface AreaService {
 	 * 
 	 * @param companyId
 	 *            要查询的公司id
-	 * @return 返回查询到的省份信息，若未查询到，则返回null
+	 * @return 返回查询到的省份信息，若未查询到，则返回空列表
 	 */
 	List<AreaInfo> getProvinceByCompanyId(long companyId);
 
 	/**
-	 * 获取某一个市的信息
+	 * 获取公司旗下有分支机构的市列表的信息，根据公司ID以及省份ID
 	 * 
 	 * @param companyId
 	 *            要查询的公司id
-	 * @return 返回查询到的省份信息，若未查询到，则返回null
+	 * @param parentId
+	 * 			      省份ID           
+	 * @return 返回查询到的省份信息，若未查询到，则返回空列表
 	 */
 	List<AreaInfo> getCityByCompanyId(long companyId,long parentId);
 	
