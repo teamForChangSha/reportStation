@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import com.jxxp.dao.AreaInfoMapper;
 import com.jxxp.pojo.AreaInfo;
 import com.jxxp.service.AreaService;
-
+/**
+ * 
+ * @author cj
+ *
+ */
 @Service("areaService")
 public class AreaServiceImpl implements AreaService {
 	@Resource

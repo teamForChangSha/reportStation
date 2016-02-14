@@ -147,13 +147,10 @@ public class ReportStationController {
 		session.setAttribute("companyBranch", companyBranch);
 		
 		List<ReportType> dataList = companyService.getCompanyReportType(companyBranch.getOwner());
-		modelMap.put("rtList", dataList);
+		modelMap.put("reportTypeList", dataList);
 		
 		return "/jsp/pages/reportType";
 	}
-	
-	
-
 	
 	@RequestMapping("/showQuestionPage.do")
 	public String showQuestionPage(HttpServletRequest request, HttpServletResponse response,
@@ -166,9 +163,8 @@ public class ReportStationController {
 		if(rtList.length() > 0) {
 			rtList = rtList.substring(0, rtList.length() - 1);
 		}
-			
+		
 		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
-		System.out.println(companyBranch.getOwner().getCompanyId());
 		Map<String,QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch.getOwner());
 		modelMap.put("questionMap", dataMap);
 		modelMap.put("rtList", rtList);

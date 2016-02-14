@@ -68,13 +68,4 @@ public interface CaseService {
 	 */
 	String getNewTrackingNo(Company company);
 
-	/**
-	 * 根据公司，获得该公司定制的问题信息
-	 * 
-	 * @param company
-	 *            欲获取问题的公司
-	 * @return 得到的问题信息以map形式返回，map的key为quest的questKey值，value为questInfo<br>
-	 *         若客户未选择该题目，则map中不应存在该条目
-	 */
-	Map<String, QuestionInfo> getQuestByCompany(Company company);
 }

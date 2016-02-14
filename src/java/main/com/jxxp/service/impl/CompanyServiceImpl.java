@@ -24,7 +24,7 @@ import com.jxxp.service.CompanyService;
 
 /**
  * 
- * @author cuijian
+ * @author cj
  * 
  */
 @Service("companyService")
