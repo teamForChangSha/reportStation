@@ -20,7 +20,7 @@ public class QuestionInfo {
 	/**
 	 * 该问题是否必填
 	 */
-	private boolean isNeeded;
+	private int isNeeded;
 
 	public String getQuestKey() {
 		return questKey;
@@ -46,19 +46,19 @@ public class QuestionInfo {
 		this.questDesc = questDesc;
 	}
 
-	public boolean isNeeded() {
-		return isNeeded;
-	}
-
-	public void setNeeded(boolean isNeeded) {
-		this.isNeeded = isNeeded;
-	}
-
 	public long getQuestId() {
 		return questId;
 	}
 
 	public void setQuestId(long questId) {
 		this.questId = questId;
+	}
+
+	public int getIsNeeded() {
+		return isNeeded;
+	}
+
+	public void setIsNeeded(int isNeeded) {
+		this.isNeeded = isNeeded;
 	}
 }
