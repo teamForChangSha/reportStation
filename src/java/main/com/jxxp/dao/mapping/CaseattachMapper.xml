@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.CaseAttachMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.CaseAttach" >
+    <id column="ca_id" property="caId" jdbcType="BIGINT" />
+    <result column="attach_name" property="attachName" jdbcType="VARCHAR" />
+    <result column="attach_url" property="attachUrl" jdbcType="VARCHAR" />
+    <result column="attach_path" property="attachPath" jdbcType="VARCHAR" />
+    <result column="attach_ext" property="attachExt" jdbcType="VARCHAR" />
+    <result column="attach_file_name" property="attachFileName" jdbcType="VARCHAR" />
+    <result column="attach_size" property="attachSize" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jxxp.pojo.CaseAttach" extends="BaseResultMap" >
+    <result column="thumb" property="thumb" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ca_id, rc_id, attach_name, attach_url, attach_path, attach_ext, attach_file_name, 
+    attach_size
+  </sql>
+  <sql id="Blob_Column_List" >
+    thumb
+  </sql>
+  <select id="getById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from caseattach
+    where ca_id = #{caId,jdbcType=BIGINT}
+  </select>
+  <select id="getAllByTrackingNo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from caseattach
+    where tracking_no = #{trackingNo,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from caseattach
+    where ca_id = #{caId,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jxxp.pojo.CaseAttach" >
+    insert into caseattach (tracking_no, attach_name, 
+      attach_url, attach_path, attach_ext, 
+      attach_file_name, attach_size, thumb
+      )
+    values (
+      #{trackingNo,jdbcType=VARCHAR},
+      #{caseAttach.attachName,jdbcType=VARCHAR}, 
+      #{caseAttach.attachUrl,jdbcType=VARCHAR},
+      #{caseAttach.attachPath,jdbcType=VARCHAR}, 
+      #{caseAttach.attachExt,jdbcType=VARCHAR}, 
+      #{caseAttach.attachFileName,jdbcType=VARCHAR},
+      #{caseAttach.attachSize,jdbcType=BIGINT},
+      #{caseAttach.thumb,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  
+  <update id="update" parameterType="com.jxxp.pojo.CaseAttach" >
+    update caseattach
+    <set >      
+      <if test="attachName != null" >
+        attach_name = #{attachName,jdbcType=VARCHAR},
+      </if>
+      <if test="attachUrl != null" >
+        attach_url = #{attachUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="attachPath != null" >
+        attach_path = #{attachPath,jdbcType=VARCHAR},
+      </if>
+      <if test="attachExt != null" >
+        attach_ext = #{attachExt,jdbcType=VARCHAR},
+      </if>
+      <if test="attachFileName != null" >
+        attach_file_name = #{attachFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="attachSize != null" >
+        attach_size = #{attachSize,jdbcType=BIGINT},
+      </if>
+      <if test="thumb != null" >
+        thumb = #{thumb,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ca_id = #{caId,jdbcType=BIGINT}
+  </update>
+ 
+</mapper>
