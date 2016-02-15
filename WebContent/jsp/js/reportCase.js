@@ -192,7 +192,7 @@ $(function() {
 				+ JSON.stringify($("#userInfo").serializeJson());
 		var questions = "questions="
 				+ JSON.stringify($("#questForm").serializeArray());
-		var data = reporter + "," + questions;
+		var data = reporter + "&" + questions;
 		
 		$.post(url, data, function(data, status, xhr) {
 
