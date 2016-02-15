@@ -76,11 +76,11 @@
 				<p>
 					<strong>请从以下列表中选择您要报告的问题类型：</strong>
 				</p>
-				<c:forEach items="${rtList}" var="reportType">
+				<c:forEach items="${reportTypeList}" var="reportType">
 					<div class="form-group bg-success">
 						<div class="checkbox col-sm-6">
 							<label> <input type="checkbox" name="reportType"
-								value="${reportType.rtId }" /> ${reportType.rtTitle }
+								value="${reportType.rtTitle }" /> ${reportType.rtTitle }
 							</label>
 						</div>
 						<div class="col-sm-4 text-right pull-right">
