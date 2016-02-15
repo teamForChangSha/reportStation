@@ -185,7 +185,7 @@ $(function() {
 	 * 合并表单数据发送请求
 	 */
 	function sendForm() {
-		var url = "/case/addCase.do";
+		var url = "case/addCase.do";
 		userAndOther.name.val(userAndOther.surnames.val()
 				+ userAndOther.name.val());
 		var reporter = "reporter="
@@ -193,10 +193,11 @@ $(function() {
 		var questions = "questions="
 				+ JSON.stringify($("#questForm").serializeArray());
 		var data = reporter + "," + questions;
-		console.log(data);
+		
 		$.post(url, data, function(data, status, xhr) {
 
 		}, "json");
+		console.log(data);
 	}
 
 	/*
