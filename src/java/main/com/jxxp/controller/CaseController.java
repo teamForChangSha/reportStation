@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,11 @@ public class CaseController {
      * @param 
      * @return 
      */  
-    @RequestMapping("addCase")
+    @RequestMapping("/addCase.do")
 	public String addCase(HttpServletRequest request, HttpServletResponse response) {
+    	Map map = request.getParameterMap();
     	
+    	System.out.println(map);
 //    	caseService.saveCaseInfo(caseInfo);
     	return null;
 	}
@@ -44,7 +47,7 @@ public class CaseController {
      * @param file 
      * @return 
      */  
-    @RequestMapping("fileUpload")  
+    @RequestMapping("/fileUpload.do")  
     public String fileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request, HttpServletResponse response) {  
         response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
