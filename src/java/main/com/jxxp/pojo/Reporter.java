@@ -17,12 +17,17 @@ public class Reporter {
 	private String mobile;
 
 	/**
-	 * 身份证名称
+	 * 姓名
 	 */
 	private String name;
 
 	/**
-	 * 身份证号
+	 * 证件名称
+	 */
+	private String idName;
+	
+	/**
+	 * 证件号
 	 */
 	private String idNo;
 
@@ -30,6 +35,11 @@ public class Reporter {
 	 * 实名举报者邮箱
 	 */
 	private String email;
+	
+	/**
+	 * 最佳联系时间和方式
+	 */
+	private String bestContact;
 
 	public long getReporterId() {
 		return reporterId;
@@ -69,6 +79,22 @@ public class Reporter {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getIdName() {
+		return idName;
+	}
+
+	public void setIdName(String idName) {
+		this.idName = idName;
+	}
+
+	public String getBestContact() {
+		return bestContact;
+	}
+
+	public void setBestContact(String bestContact) {
+		this.bestContact = bestContact;
 	}
 
 }

@@ -23,7 +23,9 @@ import com.jxxp.pojo.ReportType;
 import com.jxxp.service.AreaService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
-
+/*
+ * auther cj
+ */
 @Controller("reportStationController")
 @RequestMapping("/")
 public class ReportStationController {
