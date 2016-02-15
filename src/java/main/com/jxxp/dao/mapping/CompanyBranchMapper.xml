@@ -7,6 +7,8 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="contactor" property="contactor" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    
     <association property="owner" column="company_id" javaType="com.jxxp.pojo.Company"
     select="com.jxxp.dao.CompanyMapper.getById">
     </association>
@@ -20,7 +22,7 @@
 		</association>
   </resultMap>
   <sql id="Base_Column_List" >
-    branch_id, company_id, province, city, branch_name, address, phone, contactor
+    branch_id, company_id, province, city, branch_name, address, phone, contactor,post_code
   </sql>
   
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -45,10 +47,10 @@
   <insert id="insert" parameterType="com.jxxp.pojo.CompanyBranch" >
     insert into companybranch (branch_id, company_id, province, 
       city, branch_name, address, 
-      phone, contactor)
+      phone, contactor,post_code)
     values (#{branchId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{province,jdbcType=BIGINT}, 
       #{city,jdbcType=BIGINT}, #{branchName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{contactor,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{contactor,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.jxxp.pojo.CompanyBranch" >
@@ -60,6 +62,7 @@
       address = #{address,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       contactor = #{contactor,jdbcType=VARCHAR}
+      post_code = #{postCode,jdbcType=VARCHAR}
     where branch_id = #{branchId,jdbcType=BIGINT}
   </update>
 </mapper>

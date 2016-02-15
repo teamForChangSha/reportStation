@@ -43,6 +43,10 @@ public class CompanyBranch {
 	 * 分支机构所属公司
 	 */
 	private Company owner;
+	/**
+	 * 分支机构邮编
+	 */
+	private String postCode;
 
 	public long getBranchId() {
 		return branchId;
@@ -106,6 +110,14 @@ public class CompanyBranch {
 
 	public void setOwner(Company owner) {
 		this.owner = owner;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
 	}
 
 }
