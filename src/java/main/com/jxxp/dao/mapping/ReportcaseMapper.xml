@@ -40,16 +40,16 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="reportCase.company.companyId != null" >
+      <if test="company.companyId != null" >
         company_id,
       </if>
-      <if test="reportCase.branch.branchId != null" >
+      <if test="branch!= null" >
         branch_id,
       </if>
-      <if test="reportCase.reporter.reportId != null" >
+      <if test="reporter != null" >
         report_id,
       </if>
-      <if test="reportCase.company.handlerCompany != null" >
+      <if test="currentHandler != null" >
         handler_company,
       </if>
       <if test="caseState != null" >
@@ -72,17 +72,17 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="reportCase.company.companyId != null" >
-         #{reportCase.company.companyId,jdbcType=BIGINT},
+      <if test="company.companyId != null" >
+         #{company.companyId,jdbcType=BIGINT},
       </if>
-      <if test="reportCase.branch.branchId != null" >      
-        #{reportCase.branch.branchId,jdbcType=BIGINT},
+      <if test="branch.branchId != null" >      
+        #{branch.branchId,jdbcType=BIGINT},
       </if>
-       <if test="reportCase.reporter.reportId != null" >
-        #{reportCase.reporter.reportId,jdbcType=BIGINT},
+       <if test="reporter.reporterId != null" >
+        #{reporter.reporterId,jdbcType=BIGINT},
       </if>
-       <if test="reportCase.company.handlerCompany != null" >
-        #{reportCase.currentHandler.companyId,jdbcType=BIGINT},
+       <if test="currentHandler != null" >
+        #{currentHandler.companyId,jdbcType=BIGINT},
       </if>
       <if test="caseState != null" >
         #{caseState,jdbcType=VARCHAR},
