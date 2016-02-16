@@ -50,13 +50,13 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2">文件</label>
 					<div class="col-sm-4">
-						<input class="form-info" type="file" accept="image/*,video/*,audio/*" id="realNameUpFile" />
+						<input class="form-info" name="file" type="file" accept="image/*,video/*,audio/*" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-sm-2">描述</label>
 					<div class="col-sm-4">
-						<textarea rows="3" class="form-file"></textarea>
+						<textarea rows="3" name="desc" class="form-file"></textarea>
 					</div>
 				</div>
 				<div class="page-header"></div>
