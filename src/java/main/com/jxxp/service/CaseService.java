@@ -69,12 +69,5 @@ public interface CaseService {
 	 */
 	String getNewTrackingNo(Company company);
 
-	/**
-	 * 增加一个附件信息<br>
-	 * 
-	 * @param comment
-	 *            需要追加的CaseAttach相关信息
-	 * @return 增加正常返回true，否则返回false
-	 */
-	boolean addCaseAttach(CaseAttach caseAttach);
+
 }

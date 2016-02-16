@@ -97,4 +97,12 @@ public class Reporter {
 		this.bestContact = bestContact;
 	}
 
+	@Override
+	public String toString() {
+		return "Reporter [reporterId=" + reporterId + ", mobile=" + mobile
+				+ ", name=" + name + ", idName=" + idName + ", idNo=" + idNo
+				+ ", email=" + email + ", bestContact=" + bestContact + "]";
+	}
+
+	
 }
