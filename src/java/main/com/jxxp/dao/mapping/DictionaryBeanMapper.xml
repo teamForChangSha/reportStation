@@ -8,17 +8,14 @@
     <result column="display_order" property="displayOrder" jdbcType="INTEGER" />
     <result column="dict_desc" property="dictDesc" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="getDictionary" parameterType="java.util.Map" resultType="com.jxxp.pojo.DictionaryBean">
+  <select id="getDictionary" parameterType="java.util.Map" resultMap="BaseResultMap">
 		SELECT * FROM DICTIONARYBEAN
-		WHERE DICT_TYPE=#{dictType} AND DICT_NAME=#{dictName}
-  </select>
+		WHERE DICT_TYPE=#{dictType} AND DICT_NAME=#{dictName} AND DICT_VALUE=#{dictValue}
+  </select>  
   
-  <select id="findByName" parameterType="java.util.Map" resultType="com.jxxp.pojo.DictionaryBean">
-		SELECT * FROM DICTIONARYBEAN
-		WHERE  DICT_NAME=#{dictName}
-  </select>
-   <select id="findByType" parameterType="String" resultType="com.jxxp.pojo.DictionaryBean">
+   <select id="getByType" parameterType="String" resultMap="BaseResultMap">
 		SELECT * FROM DICTIONARYBEAN
 		WHERE DICT_TYPE=#{dictType}
-  </select> 
+  </select>  
+
 </mapper>
