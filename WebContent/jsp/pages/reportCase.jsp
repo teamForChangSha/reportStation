@@ -19,6 +19,9 @@
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
+			body{
+				padding-bottom:0;
+			}
 			.navbar-text {
 				float: inherit;
 			}
@@ -559,9 +562,9 @@
 				<input type="text" name="quest_12" hidden="true" />
 				<input type="text" name="quest_13" hidden="true" />
 				<input type="text" name="quest_14" hidden="true" />
-				<input type="text" name="quest_15" hidden="true" />
-				<input type="text" name="trackingNo" value="${trackingNo }" hidden="true" />
 			</form>
+			<input type="text" name="trackingNo" value="${trackingNo }" hidden="true" />
+			<input type="text" name="rtList" value="${rtList }" hidden="true" />
 		</div>
 		<div class="page-header"></div>
 		<p class="navbar-text text-center">Copyright © 2016-2018 用户举报系统</p>
@@ -582,7 +585,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!--上传文件对话框-->
 		<div class="modal fade bs-example-modal-lg" id="upLoadPanel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-lg">
@@ -602,14 +604,15 @@
 	</body>
 	<script src="jsp/js/reportCase.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-		<c:forEach items ="${questionMap}" var ="question" >
-		/* ${question.key }</br>
-		${question.value.questKey }</br>
-		${question.value.quest }</br>
-		${question.value.questDesc }</br>
-		${question.value.isNeeded }</br>
-		${question.value.questId } */
-		</c:forEach>
+	var questionList = {};
+	<c:forEach items ="${questionMap}" var ="question" >
+		console.log("${question.value.questId}");
+		questionList["${question.key}"]="${question.value.isNeeded}";
+	</c:forEach>
+	
+	var quest = JSON.stringify(questionList);
+	quest = JSON.parse(quest);
+	console.log(quest.key);
 	</script>
 
 </html>
