@@ -49,7 +49,7 @@ public class ReportCaseTest {
 	@Test
 	public void testTrackingNo() {
 		Company company = null;
-		company = companyService.getCompanyById(new Long(1));
+		company = getCompany();
 		String trackingNo1 = caseService.getNewTrackingNo(company);
 		String trackingNo2 = caseService.getNewTrackingNo(company);
 		assertNotNull(trackingNo1);
