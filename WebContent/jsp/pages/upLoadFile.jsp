@@ -45,7 +45,7 @@
 				文件上传:0<br /> 你有100 MB的磁盘空间用于上传。
 			</span>
 			</div>
-			<form action="case/fileUpload.do" method="post" class="form-horizontal">
+			<form action="case/fileUpload.do" enctype="multipart/form-data" method="post" class="form-horizontal">
 			<input type="text" name="trackingNo" value="${trackingNo }" hidden="true" />
 				<div class="form-group">
 					<label class="control-label col-sm-2">文件</label>
