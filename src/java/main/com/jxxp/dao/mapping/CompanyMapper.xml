@@ -38,7 +38,7 @@
     where company_id = #{companyId,jdbcType=INTEGER}
   </delete>
   
-  <insert id="insert" parameterType="com.jxxp.pojo.Company" >
+  <insert id="insert" parameterType="com.jxxp.pojo.Company" useGeneratedKeys="true" keyProperty="companyId">
     insert into company
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="companyId != null" >

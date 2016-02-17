@@ -1,7 +1,5 @@
 package com.jxxp.dao;
 
-import java.util.List;
-
 import com.jxxp.pojo.User;
 
 /**
@@ -28,9 +26,7 @@ public interface UserMapper {
 	 */
 	int update(User user);
 
-	User findById(long userId);
-
-	List<User> getAllUser();
+	User getById(long userId);
 
 	int deleteById(long userId);
 

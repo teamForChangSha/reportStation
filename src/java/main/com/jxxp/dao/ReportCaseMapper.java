@@ -77,4 +77,5 @@ public interface ReportCaseMapper {
 	 */
 	int deleteById(long rcId);
 
+	ReportCase getByTrackingNo(String trackingNo);
 }

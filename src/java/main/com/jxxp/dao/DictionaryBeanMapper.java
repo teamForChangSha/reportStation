@@ -18,12 +18,12 @@ public interface DictionaryBeanMapper {
 	 * 
 	 * @param dictType
 	 *            类型
-	 * @param dictName
-	 *            字典名称
+	 * @param dictValue
+	 *            字典值
 	 * @return 获取得到的字典对象
 	 */
 	DictionaryBean getDictionary(@Param("dictType") String dictType,
-			@Param("dictName") String dictName, @Param("dictValue") int dictValue);
+			@Param("dictValue") int dictValue);
 
 	/**
 	 * @param dictType

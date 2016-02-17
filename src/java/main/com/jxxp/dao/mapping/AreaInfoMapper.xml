@@ -72,5 +72,7 @@
     </set>
     where area_id = #{areaId,jdbcType=BIGINT}
   </update>
-  
+  <delete id="deleteById">
+  delete from areainfo where area_id=#{areaId}
+  </delete>
 </mapper>

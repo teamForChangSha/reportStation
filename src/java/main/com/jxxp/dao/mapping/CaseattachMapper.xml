@@ -14,7 +14,7 @@
     <result column="thumb" property="thumb" jdbcType="LONGVARBINARY" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ca_id, rc_id, attach_name, attach_url, attach_path, attach_ext, attach_file_name, 
+    ca_id, tracking_no, attach_name, attach_url, attach_path, attach_ext, attach_file_name, 
     attach_size
   </sql>
   <sql id="Blob_Column_List" >

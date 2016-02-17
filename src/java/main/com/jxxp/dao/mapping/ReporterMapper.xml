@@ -17,11 +17,15 @@
     from reporter
     where reporter_id = #{reporterId,jdbcType=BIGINT}
   </select>
+  <select id="getByMobile" parameterType="String">
+  select * from reporter where mobile=#{mobile,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from reporter
     where reporter_id = #{reporterId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jxxp.pojo.Reporter" >
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="reporterId" parameterType="com.jxxp.pojo.Reporter" >
     insert into reporter (reporter_id, mobile, name, 
       id_no, email)
     values (#{reporterId,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 

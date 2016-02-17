@@ -55,7 +55,7 @@ public interface CaseCommentMapper {
 	 */
 	List<CaseComment> getByUser(@Param("rcId") Long rcId, @Param("userId") Long userId);
 
-	List<CaseComment> getAllComments();
+	List<CaseComment> getAllByReportCaseId(long crId);
 
 	/**
 	 * @param ccId

@@ -8,19 +8,28 @@
     <result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />
     <result column="access_code" property="accessCode" jdbcType="VARCHAR" />
     <result column="tracking_no" property="trackingNo" jdbcType="VARCHAR" />
+    <result column="rt_list" property="rtList" jdbcType="VARCHAR" />
     <association column="company_id" property="company" select="com.jxxp.dao.CompanyMapper.getById">
     </association>
     <association column="branch_id" property="branch" select="com.jxxp.dao.CompanyBranchMapper.getById">
     </association>
-    <association column="report_id" property="reporter" select="com.jxxp.dao.ReporterMapper.getById">
+    <association column="reporter_id" property="reporter" select="com.jxxp.dao.ReporterMapper.getById">
     </association>
     <association column="handler_company" property="currentHandler"  select="com.jxxp.dao.CompanyMapper.getById">
-    </association>
+    </association>    
+  <!--   <collection property="attachList" column="tracking_no" ofType="com.jxxp.pojo.CaseAttach"
+    	select="com.jxxp.dao.CaseAttachMapper.getAllByTrackingNo">
+	</collection>  -->
+	
+	<collection property="commentList" column="rc_id" ofType="com.jxxp.pojo.CaseComment"
+    	select="com.jxxp.dao.CaseCommentMapper.getAllByReportCaseId">
+	</collection>
+	
   </resultMap>
-  <sql id="Base_Column_List" >
-    rc_id, create_time, company_id, branch_id, report_id, handler_company, case_state, 
-    state_changed, access_code, tracking_no 
-  </sql>  
+   <sql id="Base_Column_List" >
+    rc_id, create_time, company_id, branch_id, report_id, handler_company, rt_list, case_state, 
+    state_changed, access_code, tracking_no
+  </sql> 
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from reportcase
     where rc_id = #{rcId,jdbcType=BIGINT}
@@ -31,7 +40,19 @@
     from reportcase
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
-  <insert id="insert" parameterType="com.jxxp.pojo.ReportCase" >
+  
+  <select id="getByTrackingNo" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from reportcase
+    where tracking_no = #{trackingNo,jdbcType=VARCHAR}
+  </select>
+   
+   <select id="findByNo" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from reportcase
+    where tracking_no = #{trackingNo,jdbcType=VARCHAR} and access_code=#{accessCode,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="rcId" parameterType="com.jxxp.pojo.ReportCase" >
     insert into reportcase
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="rcId != null" >
@@ -51,6 +72,9 @@
       </if>
       <if test="currentHandler != null" >
         handler_company,
+      </if>
+       <if test="rtList != null" >
+       rt_list,
       </if>
       <if test="caseState != null" >
         case_state,
@@ -83,6 +107,9 @@
       </if>
        <if test="currentHandler != null" >
         #{currentHandler.companyId,jdbcType=BIGINT},
+      </if>
+       <if test="rtList != null" >
+       #{rtList,jdbcType=VARCHAR},
       </if>
       <if test="caseState != null" >
         #{caseState,jdbcType=VARCHAR},
