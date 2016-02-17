@@ -2,8 +2,6 @@ package com.jxxp.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.jxxp.pojo.CaseAttach;
 
 /**
@@ -22,7 +20,7 @@ public interface CaseAttachMapper {
 	 *            案件追踪号
 	 * @return
 	 */
-	int insert(@Param("caseAttach") CaseAttach caseAttach, @Param("trackingNo") String trackingNo);
+	int insert(CaseAttach caseAttach);
 
 	/**
 	 * 修改附件 目前不需要更改附件信息，保留

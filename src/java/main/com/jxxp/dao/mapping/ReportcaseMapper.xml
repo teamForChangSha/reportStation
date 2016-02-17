@@ -16,11 +16,10 @@
     <association column="reporter_id" property="reporter" select="com.jxxp.dao.ReporterMapper.getById">
     </association>
     <association column="handler_company" property="currentHandler"  select="com.jxxp.dao.CompanyMapper.getById">
-    </association>    
-  <!--   <collection property="attachList" column="tracking_no" ofType="com.jxxp.pojo.CaseAttach"
-    	select="com.jxxp.dao.CaseAttachMapper.getAllByTrackingNo">
-	</collection>  -->
-	
+    </association> 
+    <collection property="attachList" jdbcType="BIGINT" column="tracking_no" javaType="ArrayList" ofType="com.jxxp.pojo.CaseAttach" 
+     select="com.jxxp.dao.CaseAttachMapper.getAllByTrackingNo">
+	</collection>
 	<collection property="commentList" column="rc_id" ofType="com.jxxp.pojo.CaseComment"
     	select="com.jxxp.dao.CaseCommentMapper.getAllByReportCaseId">
 	</collection>
@@ -41,13 +40,6 @@
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
   
-  <select id="getByTrackingNo" resultMap="BaseResultMap" parameterType="String" >
-    select 
-    <include refid="Base_Column_List" />
-    from reportcase
-    where tracking_no = #{trackingNo,jdbcType=VARCHAR}
-  </select>
-   
    <select id="findByNo" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from reportcase
     where tracking_no = #{trackingNo,jdbcType=VARCHAR} and access_code=#{accessCode,jdbcType=VARCHAR}

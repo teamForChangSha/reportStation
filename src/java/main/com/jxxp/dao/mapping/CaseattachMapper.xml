@@ -28,7 +28,7 @@
     from caseattach
     where ca_id = #{caId,jdbcType=BIGINT}
   </select>
-  <select id="getAllByTrackingNo" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="getAllByTrackingNo" resultMap="ResultMapWithBLOBs" parameterType="String" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -49,13 +49,13 @@
       )
     values (
       #{trackingNo,jdbcType=VARCHAR},
-      #{caseAttach.attachName,jdbcType=VARCHAR}, 
-      #{caseAttach.attachUrl,jdbcType=VARCHAR},
-      #{caseAttach.attachPath,jdbcType=VARCHAR}, 
-      #{caseAttach.attachExt,jdbcType=VARCHAR}, 
-      #{caseAttach.attachFileName,jdbcType=VARCHAR},
-      #{caseAttach.attachSize,jdbcType=BIGINT},
-      #{caseAttach.thumb,jdbcType=LONGVARBINARY}
+      #{attachName,jdbcType=VARCHAR}, 
+      #{attachUrl,jdbcType=VARCHAR},
+      #{attachPath,jdbcType=VARCHAR}, 
+      #{attachExt,jdbcType=VARCHAR}, 
+      #{attachFileName,jdbcType=VARCHAR},
+      #{attachSize,jdbcType=BIGINT},
+      #{thumb,jdbcType=LONGVARBINARY}
       )
   </insert>
   
