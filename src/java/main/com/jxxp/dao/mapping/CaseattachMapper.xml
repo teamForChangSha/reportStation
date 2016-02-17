@@ -9,13 +9,14 @@
     <result column="attach_ext" property="attachExt" jdbcType="VARCHAR" />
     <result column="attach_file_name" property="attachFileName" jdbcType="VARCHAR" />
     <result column="attach_size" property="attachSize" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.jxxp.pojo.CaseAttach" extends="BaseResultMap" >
     <result column="thumb" property="thumb" jdbcType="LONGVARBINARY" />
   </resultMap>
-  <sql id="Base_Column_List" >
+ <sql id="Base_Column_List" >
     ca_id, tracking_no, attach_name, attach_url, attach_path, attach_ext, attach_file_name, 
-    attach_size
+    attach_size, state
   </sql>
   <sql id="Blob_Column_List" >
     thumb
@@ -43,18 +44,13 @@
   </delete>
   
   <insert id="insert" parameterType="com.jxxp.pojo.CaseAttach" >
-    insert into caseattach (tracking_no, attach_name, 
+    insert into caseattach (ca_id, tracking_no, attach_name, 
       attach_url, attach_path, attach_ext, 
-      attach_file_name, attach_size
+      attach_file_name, attach_size, state
       )
-    values (
-      #{trackingNo,jdbcType=VARCHAR},
-      #{attachName,jdbcType=VARCHAR}, 
-      #{attachUrl,jdbcType=VARCHAR},
-      #{attachPath,jdbcType=VARCHAR}, 
-      #{attachExt,jdbcType=VARCHAR}, 
-      #{attachFileName,jdbcType=VARCHAR},
-      #{attachSize,jdbcType=BIGINT}
+    values (#{caId,jdbcType=BIGINT}, #{trackingNo,jdbcType=VARCHAR}, #{attachName,jdbcType=VARCHAR}, 
+      #{attachUrl,jdbcType=VARCHAR}, #{attachPath,jdbcType=VARCHAR}, #{attachExt,jdbcType=VARCHAR}, 
+      #{attachFileName,jdbcType=VARCHAR}, #{attachSize,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}
       )
   </insert>
   
