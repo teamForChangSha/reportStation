@@ -45,7 +45,7 @@
   <insert id="insert" parameterType="com.jxxp.pojo.CaseAttach" >
     insert into caseattach (tracking_no, attach_name, 
       attach_url, attach_path, attach_ext, 
-      attach_file_name, attach_size, thumb
+      attach_file_name, attach_size
       )
     values (
       #{trackingNo,jdbcType=VARCHAR},
@@ -54,8 +54,7 @@
       #{attachPath,jdbcType=VARCHAR}, 
       #{attachExt,jdbcType=VARCHAR}, 
       #{attachFileName,jdbcType=VARCHAR},
-      #{attachSize,jdbcType=BIGINT},
-      #{thumb,jdbcType=LONGVARBINARY}
+      #{attachSize,jdbcType=BIGINT}
       )
   </insert>
   
