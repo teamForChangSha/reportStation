@@ -11,7 +11,10 @@ import java.awt.Image;
  */
 public class CaseAttach {
 	private long caId;
-
+	/**
+	 * 案例追踪号，与案例关联
+	 */
+	private String trackingNo;
 	/**
 	 * 附件名称，可由用户输入，否则用文件名代替
 	 */
@@ -48,6 +51,8 @@ public class CaseAttach {
 	 */
 	private long attachSize;
 
+	private int state;
+	
 	public long getCaId() {
 		return caId;
 	}
@@ -112,4 +117,21 @@ public class CaseAttach {
 		this.attachSize = attachSize;
 	}
 
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	public String getTrackingNo() {
+		return trackingNo;
+	}
+
+	public void setTrackingNo(String trackingNo) {
+		this.trackingNo = trackingNo;
+	}
+
+	
 }

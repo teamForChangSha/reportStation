@@ -1,6 +1,9 @@
 package com.jxxp.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -21,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
@@ -73,15 +74,6 @@ public class CaseController {
 		//获取session中保存的CompanyBranch对象
 		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
 		
-		//获取附件列表
-		List<CaseAttach> attachList = caseAttachService.getCaseAttachByTrackingNo(trackingNo);
-		if(attachList.size() > 0) {
-			String filePath = "";
-			
-			caseAttachService.updateTempCaseAttach(trackingNo, filePath);
-		}
-		
-		
 		//保存ReportCase对象
 		ReportCase reportCase = new ReportCase();
 		reportCase.setRtList(rtList);
@@ -110,6 +102,45 @@ public class CaseController {
 			questionService.addReportAnswer(reportAnswer);
 		}
     	
+		//获取附件列表
+		List<CaseAttach> attachList = caseAttachService.getCaseAttachByTrackingNo(trackingNo);
+		if(attachList.size() > 0) {
+			String tempPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator + trackingNo;
+			String filePath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "file" + File.separator + trackingNo;
+			//复制文件
+			File tempRoot = new File(tempPath);
+			File newRoot = null;
+			if(tempRoot.exists() && tempRoot.isDirectory()) {
+				File[] tempFiles = tempRoot.listFiles();
+				if(tempFiles.length == 0) {
+					//文件丢失
+					
+				}
+				newRoot = new File(filePath);
+				if(!newRoot.exists()) {
+					newRoot.mkdirs();
+				}
+				for (int i = 0; i < tempFiles.length; i++) {
+					try {
+						FileInputStream fis = new FileInputStream(tempFiles[i]);
+						FileOutputStream fos = new FileOutputStream(filePath + File.separator + tempFiles[i].getName());
+						byte[] b = new byte[1024];
+						while(fis.read(b) != -1) {
+							fos.write(b);
+						}
+						fos.flush();
+						fos.close();
+						fis.close();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			caseAttachService.updateTempCaseAttach(trackingNo, filePath);
+		}
     	
     	return null;
 	}
@@ -125,13 +156,31 @@ public class CaseController {
     public String fileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request, HttpServletResponse response) {  
         response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
+		boolean flag = false;
 		try {
 			out = response.getWriter();
 			if (!file.isEmpty()) {  
-				String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload/temp/";
+				String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator;
 		        String trackingNo = request.getParameter("trackingNo");
-				saveTempFile(rootPath,file,trackingNo );
-		        out.print(getTempFileNames(rootPath, trackingNo));
+		        //保存文件到服务器的临时文件夹
+		        saveTempFile(rootPath,file,trackingNo);
+		        
+		        //保存附件信息到数据库
+		        String fileName = file.getOriginalFilename();
+		        CaseAttach caseAttach = new CaseAttach();
+		        caseAttach.setAttachFileName(fileName);
+		        caseAttach.setAttachExt(fileName.substring(fileName.lastIndexOf('.') + 1));
+		        caseAttach.setAttachName(fileName.substring(0,fileName.lastIndexOf('.')));
+		        caseAttach.setAttachPath(rootPath);
+		        caseAttach.setAttachUrl(rootPath + File.separator + fileName);
+		        caseAttach.setState(0);
+		        caseAttach.setTrackingNo(trackingNo);
+		        caseAttach.setAttachSize(file.getSize());
+		        flag = caseAttachService.addCaseAttach(caseAttach);
+		        if(flag) {
+		        	out.print(getTempFileNames(rootPath, trackingNo));
+		        }
+		        
 	        }
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -167,12 +216,7 @@ public class CaseController {
     	}
     	return fileNames;
     }
-    
-    
-    public static void main(String[] args) {
-		String test = "question_11";
-		System.out.println(test.substring(test.indexOf('_') + 1));
-	}
+
 }
 
 class TempData {
