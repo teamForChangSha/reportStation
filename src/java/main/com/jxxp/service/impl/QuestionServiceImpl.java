@@ -2,12 +2,15 @@ package com.jxxp.service.impl;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.service.QuestionService;
 
+@Service("questionService")
 public class QuestionServiceImpl implements QuestionService {
 	@Resource
 	private QuestionInfoMapper questionInfoMapper;

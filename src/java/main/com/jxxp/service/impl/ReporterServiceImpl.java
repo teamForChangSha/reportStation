@@ -2,10 +2,12 @@ package com.jxxp.service.impl;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.jxxp.dao.ReporterMapper;
 import com.jxxp.pojo.Reporter;
 import com.jxxp.service.ReporterService;
-
+@Service("reporterService")
 public class ReporterServiceImpl implements ReporterService {
 	@Resource
 	private ReporterMapper reporterMapper;
