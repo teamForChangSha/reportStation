@@ -53,7 +53,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("流获取失败！",e);
 		}
 		return null;
 	}
@@ -77,7 +77,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("流获取失败！",e);
 		}
 		return null;
 	}
@@ -106,7 +106,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("流获取失败！",e);
 		}
 		return null;
 	}
@@ -135,7 +135,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("流获取失败！",e);
 		}
 		return null;
 	}
@@ -177,10 +177,11 @@ public class ReportStationController {
 		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
 		Map<String,QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch.getOwner());
 		String trackingNo = caseService.getNewTrackingNo(companyBranch.getOwner());
+		HttpSession session = request.getSession();
+		session.setAttribute("trackingNo", trackingNo);
 		
 		modelMap.put("questionMap", dataMap);
 		modelMap.put("rtList", rtList);
-		modelMap.put("trackingNo", trackingNo);
 		
 		return "/jsp/pages/reportCase";
 	}

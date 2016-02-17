@@ -72,7 +72,9 @@ public class CaseController {
     	Reporter reporter = JSON.parseObject(reporterJson, Reporter.class);
 		//判断Reporter对象是否存在
 		if(reporter.getReporterId() == 0) {
-			reporterService.addReporter(reporter);
+			if(reporterService.addReporter(reporter)) {
+				log.debug("Reporter添加成功！");
+			}
 		}
 		
 		//获取session中保存的CompanyBranch对象
@@ -89,11 +91,14 @@ public class CaseController {
 		reportCase.setCaseState(0);
 		reportCase.setCreateTime(new Date());
 		
-    	caseService.saveCaseInfo(reportCase);
+    	if(caseService.saveCaseInfo(reportCase)) {
+    		log.debug("ReportCase添加成功！");
+    	}
     	
     	//保存问题回答列表
     	List<TempData> list = JSON.parseArray(questionsJson, TempData.class);
-		for (TempData tempData : list) {
+    	for (int i = 0; i < list.size(); i++) {
+			TempData tempData = list.get(i);
 			String tempName = tempData.getName();
 			String tempValue = tempData.getValue();
 			long questionId = Long.parseLong(tempName.substring(tempName.indexOf('_') + 1));
@@ -103,7 +108,9 @@ public class CaseController {
 			reportAnswer.setQuestKey(questionInfo.getQuestKey());
 			reportAnswer.setQuestValue(tempValue);
 			reportAnswer.setRcId(reportCase.getRcId());
-			questionService.addReportAnswer(reportAnswer);
+			if(questionService.addReportAnswer(reportAnswer)) {
+				log.debug("第" + (i + 1) + "个ReporterAnswer添加成功！");
+			}
 		}
     	
 		//获取附件列表
@@ -117,8 +124,7 @@ public class CaseController {
 			if(tempRoot.exists() && tempRoot.isDirectory()) {
 				File[] tempFiles = tempRoot.listFiles();
 				if(tempFiles.length == 0) {
-					//文件丢失
-					
+					log.debug("文件丢失");
 				}
 				newRoot = new File(filePath);
 				if(!newRoot.exists()) {
@@ -136,16 +142,17 @@ public class CaseController {
 						fos.close();
 						fis.close();
 					} catch (FileNotFoundException e) {
-						e.printStackTrace();
+						log.error("文件未找到！",e);
 					} catch (IOException e) {
-						e.printStackTrace();
+						log.error("IO异常！",e);
 					}
 				}
 			}
 			
-			caseAttachService.updateTempCaseAttach(trackingNo, filePath);
+			if(caseAttachService.updateTempCaseAttach(trackingNo, filePath)) {
+				log.debug("附件批量修改成功！");
+			}
 		}
-    	
     	return null;
 	}
 	
@@ -166,6 +173,7 @@ public class CaseController {
 			if (!file.isEmpty()) {  
 				String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator;
 		        String trackingNo = request.getParameter("trackingNo");
+		        String desc = request.getParameter("desc");
 		        //保存文件到服务器的临时文件夹
 		        saveTempFile(rootPath,file,trackingNo);
 		        
@@ -180,6 +188,7 @@ public class CaseController {
 		        caseAttach.setState(0);
 		        caseAttach.setTrackingNo(trackingNo);
 		        caseAttach.setAttachSize(file.getSize());
+		        caseAttach.setDesc(desc);
 		        flag = caseAttachService.addCaseAttach(caseAttach);
 		        if(flag) {
 		        	out.print(getTempFileNames(rootPath, trackingNo));
@@ -187,7 +196,7 @@ public class CaseController {
 		        
 	        }
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("IO异常！",e);
 		}
         return null;  
     }  

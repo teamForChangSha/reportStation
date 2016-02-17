@@ -50,8 +50,14 @@ public class CaseAttach {
 	 * 附件大小，单位为字节
 	 */
 	private long attachSize;
-
+	/**
+	 * 附件状态，0为临时文件，1为正常文件
+	 */
 	private int state;
+	/**
+	 * 附件描述
+	 */
+	private String desc;
 	
 	public long getCaId() {
 		return caId;
@@ -131,6 +137,14 @@ public class CaseAttach {
 
 	public void setTrackingNo(String trackingNo) {
 		this.trackingNo = trackingNo;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	

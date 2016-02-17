@@ -22,7 +22,7 @@ public class CaseAttachServiceImpl implements CaseAttachService {
 	@Override
 	public boolean addCaseAttach(CaseAttach caseAttach) {
 		// TODO Auto-generated method stub
-		return caseAttachMapper.insert(caseAttach, caseAttach.getTrackingNo()) > 0;
+		return caseAttachMapper.insert(caseAttach) > 0;
 	}
 
 	@Override
