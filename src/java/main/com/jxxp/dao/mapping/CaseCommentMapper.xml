@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.CaseCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.CaseComment" >
+     <id column="cc_id" property="ccId" jdbcType="BIGINT" />
+    <result column="is_reporter" property="isReporter" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />    
+    <result column="post_time" property="postTime" jdbcType="TIMESTAMP" />
+    <association property="owner" column="user_id" javaType="com.jxxp.pojo.User"
+    select="com.jxxp.dao.UserMapper.getById">
+    </association>
+    <association property="ownerCompany" column="company_id" javaType="com.jxxp.pojo.Company"
+     select="com.jxxp.dao.CompanyMapper.getById">
+    </association>
+        
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cc_id, rc_id, is_reporter, user_id, post_time, company_id, content
+  </sql>
+  <select id="getAllByReportCaseId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from casecomment
+    where rc_id = #{rcId,jdbcType=BIGINT}
+  </select>
+</mapper>
