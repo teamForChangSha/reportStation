@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import com.jxxp.service.CompanyService;
 @Controller("companyController")
 @RequestMapping("/company")
 public class CompanyController {
+	private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
+
 	@Resource
 	private CompanyService companyService;
 
