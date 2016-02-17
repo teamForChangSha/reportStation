@@ -64,11 +64,4 @@ public class CaseServiceImpl implements CaseService {
 		generateKeyMapper.updateKey();
 		return trackingNo;
 	}
-
-	@Override
-	public boolean addCaseAttach(CaseAttach caseAttach) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
