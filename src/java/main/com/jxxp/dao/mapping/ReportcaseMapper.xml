@@ -28,6 +28,10 @@
     	select="com.jxxp.dao.ReportAnswerMapper.getAnswerByCaseId">
 	</collection>
 	
+	<collection property="changeList" column="rc_id"  ofType="com.jxxp.pojo.CaseChangeLog"
+    	select="com.jxxp.dao.CaseChangeLogMapper.getAllByCaseId">
+	</collection>
+	
   </resultMap>
    <sql id="Base_Column_List" >
     rc_id, create_time, company_id, branch_id, report_id, handler_company, rt_list, case_state, 
