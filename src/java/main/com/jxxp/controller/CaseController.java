@@ -60,10 +60,15 @@ public class CaseController {
 	public String addCase(HttpServletRequest request, HttpServletResponse response) {
     	//获取参数，包括跟踪号，查询密码，问题列表
     	String trackingNo = request.getParameter("trackingNo");
-    	String accessCode = request.getParameter("accessCode");
+//    	String accessCode = request.getParameter("accessCode");
+    	String accessCode = "123";
     	String rtList = request.getParameter("rtList");
     	String reporterJson = request.getParameter("reporter");
     	String questionsJson = request.getParameter("questions");
+
+    	log.debug("trackingNo:" + trackingNo + "\t" + "accessCode:" + accessCode + "\t" + "rtList:" + rtList);
+    	log.debug("reporter:" + reporterJson);
+    	log.debug("questions:" + questionsJson);
     	
     	Reporter reporter = JSON.parseObject(reporterJson, Reporter.class);
 		//判断Reporter对象是否存在
@@ -160,7 +165,7 @@ public class CaseController {
      * @return 
      */  
     @RequestMapping("/fileUpload.do")  
-    public String fileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request, HttpServletResponse response) {  
+    public String fileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
         response.setCharacterEncoding("UTF-8");
 		if (!file.isEmpty()) {  
 			String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator;
@@ -180,7 +185,7 @@ public class CaseController {
 	        caseAttach.setAttachExt(fileName.substring(fileName.lastIndexOf('.') + 1));
 	        caseAttach.setAttachName(fileName.substring(0,fileName.lastIndexOf('.')));
 	        caseAttach.setAttachPath(rootPath);
-	        caseAttach.setAttachUrl(rootPath + File.separator + fileName);
+	        caseAttach.setAttachUrl(rootPath + fileName);
 	        caseAttach.setState(0);
 	        caseAttach.setTrackingNo(trackingNo);
 	        caseAttach.setAttachSize(file.getSize());
@@ -188,9 +193,11 @@ public class CaseController {
 	        if(caseAttachService.addCaseAttach(caseAttach)) {
 	        	log.debug("附件保存成功！");
 	        }
+	        
+			String fileList = getTempFileNames(rootPath, trackingNo);
+			modelMap.put("fileList", fileList);
         }
-		
-        return "/case/showFileList.do";  
+        return "/jsp/pages/upLoadFile";  
     }  
     
 	/*** 

@@ -49,6 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveWholeCompany(CompanyWholeInfo wholeCompany) {
 		boolean flag1 = saveCompanyInfo(wholeCompany.getCompany());
 		boolean flag2 = companyOtherMapper.insert(wholeCompany.getCompanyOther()) > 0;
+		
 		return flag1 && flag2;
 	}
 
