@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.ReportAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.ReportAnswer" >
+    <id column="rd_Id" property="rdId" jdbcType="BIGINT" />
+    <result column="rc_id" property="rcId" jdbcType="BIGINT" />
+    <result column="quest_key" property="questKey" jdbcType="VARCHAR" />
+    <result column="quest_value" property="questValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rd_Id, rc_id, quest_key, quest_value
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reportanswer
+    where rd_Id = #{rdId,jdbcType=BIGINT}
+  </select>
+  
+   <select id="getAnswerByCaseId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from reportanswer
+    where rc_Id = #{rcId,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from reportanswer
+    where rd_Id = #{rdId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jxxp.pojo.ReportAnswer" >
+    insert into reportanswer (rd_Id, rc_id, quest_key, 
+      quest_value)
+    values (#{rdId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{questKey,jdbcType=VARCHAR}, 
+      #{questValue,jdbcType=VARCHAR})
+  </insert>  
+</mapper>
