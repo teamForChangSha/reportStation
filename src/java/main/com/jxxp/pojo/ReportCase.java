@@ -77,7 +77,7 @@ public class ReportCase {
 	 * 案件所属的用户输入内容映射表<br>
 	 * 以Map形式保存用户输入，map的key为ReportDetail中的key，值为对应的ReportDetail
 	 */
-	private Map<String, ReportAnswer> detail;
+	private List<ReportAnswer> answers;
 
 	/**
 	 * 本案件的状态改变列表
@@ -188,12 +188,12 @@ public class ReportCase {
 		this.commentList = commentList;
 	}
 
-	public Map<String, ReportAnswer> getDetail() {
-		return detail;
+	public List<ReportAnswer> getAnswers() {
+		return answers;
 	}
 
-	public void setDetail(Map<String, ReportAnswer> detail) {
-		this.detail = detail;
+	public void setAnswers(List<ReportAnswer> answers) {
+		this.answers = answers;
 	}
 
 	public List<CaseChangeLog> getChangeList() {

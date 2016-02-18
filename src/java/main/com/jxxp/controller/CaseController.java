@@ -6,13 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -188,7 +183,7 @@ public class CaseController {
 		        caseAttach.setState(0);
 		        caseAttach.setTrackingNo(trackingNo);
 		        caseAttach.setAttachSize(file.getSize());
-		        caseAttach.setDesc(desc);
+		        caseAttach.setDescription(desc);
 		        flag = caseAttachService.addCaseAttach(caseAttach);
 		        if(flag) {
 		        	out.print(getTempFileNames(rootPath, trackingNo));
@@ -198,8 +193,20 @@ public class CaseController {
 		} catch (IOException e) {
 			log.error("IO异常！",e);
 		}
-        return null;  
+        return "/jsp/upLoadFile.jsp";  
     }  
+    
+	/*** 
+     * 显示已上传文件列表 
+     * @author cj
+     * @param file 
+     * @return 
+     */  
+    @RequestMapping("/fileUpload.do")  
+    public String showFileList(HttpServletRequest request, HttpServletResponse response) {  
+    	
+    	return null;
+    }	
 
     //保存临时文件
     public void saveTempFile(String rootPath,MultipartFile file,String trackingNo) throws IllegalStateException, IOException {
