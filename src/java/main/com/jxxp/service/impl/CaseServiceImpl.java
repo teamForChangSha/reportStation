@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.jxxp.dao.CaseCommentMapper;
 import com.jxxp.dao.GenerateKeyMapper;
 import com.jxxp.dao.ReportCaseMapper;
-import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.ReportCase;
@@ -45,7 +44,7 @@ public class CaseServiceImpl implements CaseService {
 	@Override
 	public List<ReportCase> getCaseList(Reporter reporter) {
 		List<ReportCase> list = null;
-		list = reportCaseMapper.getCaseByReport(reporter);
+		list = reportCaseMapper.getCaseByReporter(reporter);
 		return list;
 	}
 
@@ -61,7 +60,9 @@ public class CaseServiceImpl implements CaseService {
 		trackingNo += company.getCompanyCode();
 		trackingNo += new SimpleDateFormat("yyyyMM").format(new Date());
 		trackingNo += generateKeyMapper.getKey();
-		generateKeyMapper.updateKey();
+		if(generateKeyMapper.updateKey() > 0) {
+			
+		}
 		return trackingNo;
 	}
 }

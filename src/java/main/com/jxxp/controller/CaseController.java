@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -161,53 +162,88 @@ public class CaseController {
     @RequestMapping("/fileUpload.do")  
     public String fileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request, HttpServletResponse response) {  
         response.setCharacterEncoding("UTF-8");
-		PrintWriter out;
-		boolean flag = false;
-		try {
-			out = response.getWriter();
-			if (!file.isEmpty()) {  
-				String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator;
-		        String trackingNo = request.getParameter("trackingNo");
-		        String desc = request.getParameter("desc");
-		        //保存文件到服务器的临时文件夹
-		        saveTempFile(rootPath,file,trackingNo);
-		        
-		        //保存附件信息到数据库
-		        String fileName = file.getOriginalFilename();
-		        CaseAttach caseAttach = new CaseAttach();
-		        caseAttach.setAttachFileName(fileName);
-		        caseAttach.setAttachExt(fileName.substring(fileName.lastIndexOf('.') + 1));
-		        caseAttach.setAttachName(fileName.substring(0,fileName.lastIndexOf('.')));
-		        caseAttach.setAttachPath(rootPath);
-		        caseAttach.setAttachUrl(rootPath + File.separator + fileName);
-		        caseAttach.setState(0);
-		        caseAttach.setTrackingNo(trackingNo);
-		        caseAttach.setAttachSize(file.getSize());
-		        caseAttach.setDescription(desc);
-		        flag = caseAttachService.addCaseAttach(caseAttach);
-		        if(flag) {
-		        	out.print(getTempFileNames(rootPath, trackingNo));
-		        }
-		        
+		if (!file.isEmpty()) {  
+			String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator;
+	        String trackingNo = request.getParameter("trackingNo");
+	        String desc = request.getParameter("desc");
+	        //保存文件到服务器的临时文件夹
+	        try {
+				saveTempFile(rootPath,file,trackingNo);
+			} catch (Exception e) {
+				log.error("文件保存失败！",e);
+			} 
+	        
+	        //保存附件信息到数据库
+	        String fileName = file.getOriginalFilename();
+	        CaseAttach caseAttach = new CaseAttach();
+	        caseAttach.setAttachFileName(fileName);
+	        caseAttach.setAttachExt(fileName.substring(fileName.lastIndexOf('.') + 1));
+	        caseAttach.setAttachName(fileName.substring(0,fileName.lastIndexOf('.')));
+	        caseAttach.setAttachPath(rootPath);
+	        caseAttach.setAttachUrl(rootPath + File.separator + fileName);
+	        caseAttach.setState(0);
+	        caseAttach.setTrackingNo(trackingNo);
+	        caseAttach.setAttachSize(file.getSize());
+	        caseAttach.setDescription(desc);
+	        if(caseAttachService.addCaseAttach(caseAttach)) {
+	        	log.debug("附件保存成功！");
 	        }
-		} catch (IOException e) {
-			log.error("IO异常！",e);
-		}
-        return "/jsp/upLoadFile.jsp";  
+        }
+		
+        return "/case/showFileList.do";  
     }  
     
 	/*** 
      * 显示已上传文件列表 
      * @author cj
-     * @param file 
+     * @param  
      * @return 
      */  
-    @RequestMapping("/fileUpload.do")  
-    public String showFileList(HttpServletRequest request, HttpServletResponse response) {  
-    	
-    	return null;
-    }	
+    @RequestMapping("/showFileList.do")  
+    public String showFileList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload" + File.separator + "temp" + File.separator;
+        String trackingNo = request.getParameter("trackingNo");
+        
+		String fileList = getTempFileNames(rootPath, trackingNo);
+		modelMap.put("fileList", fileList);
+    	return "/jsp/pages/upLoadFile";
+    }
 
+	/*** 
+     * 根据举报人显示以往举报列表 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/showCaseList.do")  
+    public String showCaseList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String mobile = request.getParameter("mobile");
+		Reporter reporter = reporterService.getByMobile(mobile);
+		if(reporter != null) {
+			List<ReportCase> caseList = caseService.getCaseList(reporter);
+			modelMap.put("caseList", caseList);
+		}
+    	return "/jsp/pages/?";
+    }
+    
+    /*** 
+     * 根据跟踪号以及密码显示以往举报列表 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/showCaseByTrankingNo.do")  
+    public String showCaseByTrackingNo(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String trackingNo = request.getParameter("trankingNo");
+		String accessCode = request.getParameter("accecCode");
+		ReportCase reportCase = caseService.getReportCase(trackingNo, accessCode);
+		if(reportCase != null) {
+			log.debug("reportCase获取成功！");
+		}
+		modelMap.put("reportCase", reportCase);
+    	return "/jsp/pages/?";
+    }
+    
     //保存临时文件
     public void saveTempFile(String rootPath,MultipartFile file,String trackingNo) throws IllegalStateException, IOException {
     	String fileDir = rootPath + File.separator + trackingNo;
