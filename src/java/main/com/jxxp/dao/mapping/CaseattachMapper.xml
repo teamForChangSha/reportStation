@@ -9,13 +9,15 @@
     <result column="attach_ext" property="attachExt" jdbcType="VARCHAR" />
     <result column="attach_file_name" property="attachFileName" jdbcType="VARCHAR" />
     <result column="attach_size" property="attachSize" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="INTEGER" /> 
+     <result column="description" property="description" jdbcType="VARCHAR" />   
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.jxxp.pojo.CaseAttach" extends="BaseResultMap" >
     <result column="thumb" property="thumb" jdbcType="LONGVARBINARY" />
   </resultMap>
   <sql id="Base_Column_List" >
     ca_id, tracking_no, attach_name, attach_url, attach_path, attach_ext, attach_file_name, 
-    attach_size
+    attach_size, state, description
   </sql>
   <sql id="Blob_Column_List" >
     thumb
@@ -43,24 +45,22 @@
   </delete>
   
   <insert id="insert" parameterType="com.jxxp.pojo.CaseAttach" >
-    insert into caseattach (tracking_no, attach_name, 
+    insert into caseattach (ca_id, tracking_no, attach_name, 
       attach_url, attach_path, attach_ext, 
-      attach_file_name, attach_size
-      )
-    values (
-      #{trackingNo,jdbcType=VARCHAR},
-      #{attachName,jdbcType=VARCHAR}, 
-      #{attachUrl,jdbcType=VARCHAR},
-      #{attachPath,jdbcType=VARCHAR}, 
-      #{attachExt,jdbcType=VARCHAR}, 
-      #{attachFileName,jdbcType=VARCHAR},
-      #{attachSize,jdbcType=BIGINT}
-      )
+      attach_file_name, attach_size, state, 
+      description)
+    values (#{caId,jdbcType=BIGINT}, #{trackingNo,jdbcType=VARCHAR}, #{attachName,jdbcType=VARCHAR}, 
+      #{attachUrl,jdbcType=VARCHAR}, #{attachPath,jdbcType=VARCHAR}, #{attachExt,jdbcType=VARCHAR}, 
+      #{attachFileName,jdbcType=VARCHAR}, #{attachSize,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
   </insert>
   
-  <update id="update" parameterType="com.jxxp.pojo.CaseAttach" >
+ <update id="update" parameterType="com.jxxp.pojo.CaseAttach" >
     update caseattach
-    <set >      
+    <set >
+      <if test="trackingNo != null" >
+        tracking_no = #{trackingNo,jdbcType=VARCHAR},
+      </if>
       <if test="attachName != null" >
         attach_name = #{attachName,jdbcType=VARCHAR},
       </if>
@@ -79,8 +79,14 @@
       <if test="attachSize != null" >
         attach_size = #{attachSize,jdbcType=BIGINT},
       </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
       <if test="thumb != null" >
-        thumb = #{thumb,jdbcType=LONGVARBINARY},
+        thumb = #{thumb,jdbcType=BINARY},
       </if>
     </set>
     where ca_id = #{caId,jdbcType=BIGINT}

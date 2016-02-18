@@ -57,8 +57,8 @@ public class CaseAttach {
 	/**
 	 * 附件描述
 	 */
-	private String desc;
-	
+	private String description;
+
 	public long getCaId() {
 		return caId;
 	}
@@ -139,13 +139,12 @@ public class CaseAttach {
 		this.trackingNo = trackingNo;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	
 }
