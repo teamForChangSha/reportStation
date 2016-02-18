@@ -28,7 +28,7 @@
     delete from reportanswer
     where rd_Id = #{rdId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jxxp.pojo.ReportAnswer" >
+  <insert id="insert" parameterType="com.jxxp.pojo.ReportAnswer" useGeneratedKeys="true" keyProperty="rdId">
     insert into reportanswer (rd_Id, rc_id, quest_key, 
       quest_value)
     values (#{rdId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{questKey,jdbcType=VARCHAR}, 

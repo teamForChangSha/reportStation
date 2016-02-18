@@ -50,6 +50,9 @@
     where report_id = #{reporterId,jdbcType=BIGINT}
   </select>
   
+  <select id="getAllCase" resultMap="BaseResultMap">
+  select * from reportcase
+  </select>
   
    <select id="findByNo" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from reportcase
