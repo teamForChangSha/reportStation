@@ -1,5 +1,7 @@
 package com.jxxp.dao;
 
+import java.util.List;
+
 import com.jxxp.pojo.ReportAnswer;
 
 /**
@@ -22,14 +24,13 @@ public interface ReportAnswerMapper {
 	 *            答复id
 	 * @return
 	 */
-	ReportAnswer findById(long raId);
+	ReportAnswer getById(long raId);
 
 	/**
-	 * @param questKey
-	 *            举报所填问题的关键索引，为维护问题的可读性，程序中应使用此索引值来表示问题
+	 * @param 案件id
 	 * @return
 	 */
-	ReportAnswer getAnswerByquestKey(String questKey);
+	List<ReportAnswer> getAnswerByCaseId(long rcId);
 
 	int deleteById(long raId);
 

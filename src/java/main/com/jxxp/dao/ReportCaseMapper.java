@@ -51,7 +51,7 @@ public interface ReportCaseMapper {
 	 *            举报人
 	 * @return
 	 */
-	List<ReportCase> getCaseByReport(Reporter report);
+	List<ReportCase> getCaseByReporter(Reporter reporter);
 
 	/**
 	 * 获得属于该企业用户下的所有举报案件

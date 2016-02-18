@@ -5,11 +5,13 @@
     <id column="reporter_id" property="reporterId" jdbcType="BIGINT" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="id_name" property="idName" jdbcType="VARCHAR" />
     <result column="id_no" property="idNo" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="best_contact" property="bestContact" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    reporter_id, mobile, name, id_no, email
+    reporter_id, mobile, name, id_name, id_no, email, best_contact
   </sql>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -17,27 +19,49 @@
     from reporter
     where reporter_id = #{reporterId,jdbcType=BIGINT}
   </select>
-  <select id="getByMobile" parameterType="String">
-  select * from reporter where mobile=#{mobile,jdbcType=VARCHAR}
+  <select id="getByMobile" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from reporter
+    where mobile = #{mobile,jdbcType=VARCHAR}
   </select>
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from reporter
     where reporter_id = #{reporterId,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" useGeneratedKeys="true" keyProperty="reporterId" parameterType="com.jxxp.pojo.Reporter" >
-    insert into reporter (reporter_id, mobile, name, 
-      id_no, email)
-    values (#{reporterId,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{idNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.jxxp.pojo.Reporter" useGeneratedKeys="true" keyProperty="reporterId" >
+    insert into reporter (mobile, name, 
+      id_name, id_no, email, 
+      best_contact)
+    values (#{mobile,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{idName,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{bestContact,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.jxxp.pojo.Reporter" >
     update reporter
-    set mobile = #{mobile,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      id_no = #{idNo,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR}
+    <set >
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idName != null" >
+        id_name = #{idName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        id_no = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="bestContact != null" >
+        best_contact = #{bestContact,jdbcType=VARCHAR},
+      </if>
+    </set>
     where reporter_id = #{reporterId,jdbcType=BIGINT}
   </update>
+ 
 </mapper>

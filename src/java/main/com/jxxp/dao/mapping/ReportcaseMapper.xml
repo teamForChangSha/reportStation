@@ -13,7 +13,7 @@
     </association>
     <association column="branch_id" property="branch" select="com.jxxp.dao.CompanyBranchMapper.getById">
     </association>
-    <association column="reporter_id" property="reporter" select="com.jxxp.dao.ReporterMapper.getById">
+    <association column="report_id" property="reporter" select="com.jxxp.dao.ReporterMapper.getById">
     </association>
     <association column="handler_company" property="currentHandler"  select="com.jxxp.dao.CompanyMapper.getById">
     </association> 
@@ -22,6 +22,10 @@
 	</collection>
 	<collection property="commentList" column="rc_id" ofType="com.jxxp.pojo.CaseComment"
     	select="com.jxxp.dao.CaseCommentMapper.getAllByReportCaseId">
+	</collection>
+	
+	<collection property="answers" column="rc_id"  ofType="com.jxxp.pojo.ReportAnswer"
+    	select="com.jxxp.dao.ReportAnswerMapper.getAnswerByCaseId">
 	</collection>
 	
   </resultMap>
@@ -39,6 +43,13 @@
     from reportcase
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
+  <select id="getCaseByReporter" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reportcase
+    where report_id = #{reporterId,jdbcType=BIGINT}
+  </select>
+  
   
    <select id="findByNo" resultMap="BaseResultMap" >
     select <include refid="Base_Column_List" /> from reportcase
