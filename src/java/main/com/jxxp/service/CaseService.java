@@ -60,6 +60,16 @@ public interface CaseService {
 	ReportCase getReportCase(String trackingNo, String accessCode);
 
 	/**
+	 * 根据rcID得到某个举报信息
+	 * 
+	 * @param rcId
+	 *            案件的编号
+	 *            
+	 * @return 返回匹配的举报信息，若未能匹配，则返回null
+	 */
+	ReportCase getReportCaseById(long rcId);
+	
+	/**
 	 * 获得一个跟踪号，跟踪号根据被举报对象的相关信息生成<br>
 	 * 跟踪号不能与系统已有的跟踪号重复
 	 * 

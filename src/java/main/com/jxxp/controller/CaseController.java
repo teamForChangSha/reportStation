@@ -223,8 +223,30 @@ public class CaseController {
 			List<ReportCase> caseList = caseService.getCaseList(reporter);
 			modelMap.put("caseList", caseList);
 		}
-    	return "/jsp/pages/?";
+    	return "/jsp/pages/report_list";
     }
+    
+    /*** 
+     * 根据举报人显示以往举报列表 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/showCaseList.do")  
+    public String showCaseById(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String strId = request.getParameter("rcId");
+		long rcId = 0;
+		if(strId != null) {
+			rcId = Long.parseLong(strId);
+		}
+		ReportCase reportCase = caseService.getReportCaseById(rcId);
+		if(reportCase == null) {
+			log.debug("案例获取失败！");
+		}
+		modelMap.put("reportCase", reportCase);
+    	return "/jsp/pages/report_list";
+    }
+    
     
     /*** 
      * 根据跟踪号以及密码显示以往举报列表 
@@ -237,11 +259,11 @@ public class CaseController {
 		String trackingNo = request.getParameter("trankingNo");
 		String accessCode = request.getParameter("accecCode");
 		ReportCase reportCase = caseService.getReportCase(trackingNo, accessCode);
-		if(reportCase != null) {
-			log.debug("reportCase获取成功！");
+		if(reportCase == null) {
+			log.debug("reportCase获取失败！");
 		}
 		modelMap.put("reportCase", reportCase);
-    	return "/jsp/pages/?";
+    	return "/jsp/pages/report_info";
     }
     
     //保存临时文件

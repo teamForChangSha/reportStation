@@ -65,4 +65,9 @@ public class CaseServiceImpl implements CaseService {
 		}
 		return trackingNo;
 	}
+
+	@Override
+	public ReportCase getReportCaseById(long rcId) {
+		return reportCaseMapper.getById(rcId);
+	}
 }
