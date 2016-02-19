@@ -7,6 +7,7 @@ import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
 
@@ -78,6 +79,20 @@ public interface CaseService {
 	 * @return 得到一个新的跟踪号，跟踪号不能与系统已有的跟踪号重复
 	 */
 	String getNewTrackingNo(Company company);
+
+	/**
+	 * 保存案例信息以及相关数据
+	 * 
+	 * @param reporter
+	 *            实名举报人信息
+	 * @param reportCase
+	 *            案例信息
+	 * @param answerList
+	 *            问题回复集合           
+	 * @return 返回保存结果，保存成功true，失败false
+	 */
+	boolean saveCase(Reporter reporter, ReportCase reportCase,
+			List<ReportAnswer> answerList);
 
 
 }

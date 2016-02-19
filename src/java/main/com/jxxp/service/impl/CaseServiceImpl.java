@@ -3,16 +3,28 @@ package com.jxxp.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.jxxp.controller.CaseController;
+import com.jxxp.dao.CaseAttachMapper;
 import com.jxxp.dao.CaseCommentMapper;
 import com.jxxp.dao.GenerateKeyMapper;
+import com.jxxp.dao.QuestionInfoMapper;
+import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
+import com.jxxp.dao.ReporterMapper;
+import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
+import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
 import com.jxxp.service.CaseService;
@@ -24,12 +36,22 @@ import com.jxxp.service.CaseService;
  */
 @Service("caseService")
 public class CaseServiceImpl implements CaseService {
+	private static final Logger log = LoggerFactory.getLogger(CaseServiceImpl.class);
+	
 	@Resource
 	private ReportCaseMapper reportCaseMapper;
 	@Resource
 	private CaseCommentMapper caseCommentMapper;
 	@Resource
 	private GenerateKeyMapper generateKeyMapper;
+	@Resource
+	private ReporterMapper reporterMapper;
+	@Resource
+	private QuestionInfoMapper questionInfoMapper;
+	@Resource
+	private ReportAnswerMapper reportAnswerMapper;
+	@Resource
+	private CaseAttachMapper caseAttachMapper;
 	
 	@Override
 	public boolean saveCaseInfo(ReportCase caseInfo) {
@@ -70,4 +92,61 @@ public class CaseServiceImpl implements CaseService {
 	public ReportCase getReportCaseById(long rcId) {
 		return reportCaseMapper.getById(rcId);
 	}
+
+	@Override
+	public boolean saveCase(Reporter reporter, ReportCase reportCase, List<ReportAnswer> answerList) {
+		boolean flag = false;
+		//判断Reporter对象是否存在
+		if(reporter != null) {
+			if(reporter.getReporterId() == 0) {
+				flag = reporterMapper.insert(reporter) > 0;
+				if(flag) {
+					log.debug(reporter + "添加成功！");
+				}
+			} else {
+				if(reporterMapper.update(reporter) > 0) {
+					log.debug(reporter + "更新成功！");
+				} else {
+					log.debug(reporter + "更新失败！");
+				}
+			}
+		}
+		//保存案例对象
+		if(reportCaseMapper.insert(reportCase) > 0) {
+    		log.debug(reportCase + "添加成功！");
+    	} else {
+    		log.debug(reportCase + "添加失败！");
+    		return flag;
+    	}
+		
+		//保存案件集合
+		for (ReportAnswer reportAnswer : answerList) {
+			reportAnswer.setRcId(reportCase.getRcId());
+			flag = reportAnswerMapper.insert(reportAnswer) > 0;
+			if(flag) {
+				log.debug(reportAnswer + "添加成功！");
+			} else {
+				log.debug(reportAnswer + "添加失败！");
+				return flag;
+			}
+		}
+		
+		//更新临时文件信息
+		List<CaseAttach> caseAttachList = caseAttachMapper.getAllByTrackingNo(reportCase.getTrackingNo());
+		for (CaseAttach caseAttach : caseAttachList) {
+			caseAttach.setAttachPath(caseAttach.getAttachPath().replaceFirst("/temp/", "/file/"));
+			caseAttach.setAttachUrl(caseAttach.getAttachUrl().replaceFirst("/temp/", "/file/"));
+			caseAttach.setState(1);
+			flag = caseAttachMapper.update(caseAttach) > 0;
+			if(flag) {
+				log.debug(caseAttach + "添加成功！");
+			} else {
+				log.debug(caseAttach + "添加失败！");
+				return flag;
+			}
+		}
+		
+		return flag;
+	}
+	
 }

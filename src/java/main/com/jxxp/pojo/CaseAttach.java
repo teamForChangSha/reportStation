@@ -147,4 +147,9 @@ public class CaseAttach {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + attachName + "]";
+	}
+
 }

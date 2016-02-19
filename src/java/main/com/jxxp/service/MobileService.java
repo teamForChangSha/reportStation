@@ -7,16 +7,16 @@ public interface MobileService {
 	 * 
 	 * @param mobile
 	 *            要发送验证码的手机
-	 * @return 发送成功返回true，否则返回false
+	 * @return 发送成功返回验证码，否则返回null
 	 */
-	boolean sendVerifySMS(String mobile);
+	String sendVerifySMS(String mobile);
 
 	/**
 	 * 发送临时登录密码，实名举报人登录时使用
 	 * 
 	 * @param mobile
 	 *            要发送临时密码的手机号码
-	 * @return 发送成功返回true，否则返回false
+	 * @return 发送成功返回临时密码，否则返回null
 	 */
-	boolean sendTempPwd(String mobile);
+	String sendTempPwd(String mobile);
 }
