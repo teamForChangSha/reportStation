@@ -38,22 +38,22 @@ $(function() {
 		agreed : $("input[name=agreed]"),
 		getCode : $("#getCode")
 	};
-	
-	var questPanle={
-			quest_1 : $("#quest_1"),
-			quest_2 : $("#quest_2"),
-			quest_3 : $("#quest_3"),
-			quest_4 : $("#quest_4"),
-			quest_5 : $("#quest_5"),
-			quest_6 : $("#quest_6"),
-			quest_7 : $("#quest_7"),
-			quest_8 : $("#quest_8"),
-			quest_9 : $("#quest_9"),
-			quest_10 : $("#quest_10"),
-			quest_11 : $("#quest_11"),
-			quest_12 : $("#quest_12"),
-			quest_13 : $("#quest_13"),
-			quest_14 : $("#quest_14")
+
+	var questPanle = {
+		quest_1 : $("#quest_1"),
+		quest_2 : $("#quest_2"),
+		quest_3 : $("#quest_3"),
+		quest_4 : $("#quest_4"),
+		quest_5 : $("#quest_5"),
+		quest_6 : $("#quest_6"),
+		quest_7 : $("#quest_7"),
+		quest_8 : $("#quest_8"),
+		quest_9 : $("#quest_9"),
+		quest_10 : $("#quest_10"),
+		quest_11 : $("#quest_11"),
+		quest_12 : $("#quest_12"),
+		quest_13 : $("#quest_13"),
+		quest_14 : $("#quest_14")
 	};
 
 	/**
@@ -119,39 +119,51 @@ $(function() {
 		idCard : /^\d{15}|(\d{17}(\d|x|X))$/
 	};
 
-	(function(){
-		questPanle.quest_1.addClass("hidden");
-		questPanle.quest_2.addClass("hidden");
-		questPanle.quest_2.next().addClass("hidden");
-		questPanle.quest_3.addClass("hidden");
-		questPanle.quest_3.next().addClass("hidden");
-		questPanle.quest_3.next().next().addClass("hidden");
-		questPanle.quest_3.next().next().next().addClass("hidden");
-		questPanle.quest_3.next().next().next().next().addClass("hidden");
-		questPanle.quest_4.addClass("hidden");
-		questPanle.quest_5.addClass("hidden");
-		questPanle.quest_6.addClass("hidden");
-		questPanle.quest_6.next().addClass("hidden");
-		questPanle.quest_7.addClass("hidden");
-		questPanle.quest_7.next().addClass("hidden");
-		questPanle.quest_8.addClass("hidden");
-		questPanle.quest_8.next().addClass("hidden");
-		questPanle.quest_9.addClass("hidden");
-		questPanle.quest_9.next().addClass("hidden");
-		questPanle.quest_10.addClass("hidden");
-		questPanle.quest_11.addClass("hidden");
-		questPanle.quest_11.next().addClass("hidden");
-		questPanle.quest_12.addClass("hidden");
-		questPanle.quest_12.next().addClass("hidden");
-		questPanle.quest_13.addClass("hidden");
-		questPanle.quest_13.next().addClass("hidden");
-		questPanle.quest_14.addClass("hidden");
-		questPanle.quest_14.next().addClass("hidden");
-		$.each(questPanle,function(n,value){
-			console.log(value.selector.substring(7,value.selector.length));
+	(function() {
+		$.each(questionList, function(i, question) {
+			var key = question.quest_key;
+			switch (key) {
+			case "quest_1":
+				if (question.is_needed == 1) {
+					$("#" + key).children("p:first");
+				}
+				$("#" + key).removeClass("hidden");
+				break;
+			case "quest_2":
+			case "quest_6":
+			case "quest_7":
+			case "quest_8":
+			case "quest_9":
+			case "quest_11":
+			case "quest_12":
+			case "quest_13":
+			case "quest_14":
+				$("#" + key).removeClass("hidden");
+				$("#" + key).next().removeClass("hidden");
+				break;
+			case "quest_3":
+				$("#" + key).removeClass("hidden");
+				$("#" + key).next().removeClass("hidden");
+				$("#" + key).next().next().removeClass("hidden");
+				$("#" + key).next().next().next().removeClass("hidden");
+				$("#" + key).next().next().next().next().removeClass("hidden");
+				break;
+			}
 		});
-	});
-	
+	})();
+
+	function notSend() {
+		var list = [];
+		$.each(questionList, function(i, question) {
+			var data = {};
+			data["questKey"] = question.quest_key;
+			data["questValue"] = $("input[name=" + key + "]").val();
+			list.unshift(data);
+		});
+		return JSON.stringify(list);
+	}
+	;
+
 	$("#submitReport").click(function(e) {
 		setSendForm();
 		sendForm();
@@ -239,8 +251,7 @@ $(function() {
 				+ userAndOther.name.val());
 		var reporter = "reporter="
 				+ JSON.stringify($("#userInfo").serializeJson());
-		var questions = "questions="
-				+ JSON.stringify($("#questForm").serializeArray());
+		var questions = "questions=" + notSend();
 		var trackingNo = "trackingNo=" + quest.trackingNo.val();
 		var accessCode = "accessCode=" + md5(quest.pass.val());
 		var rtList = "rtList=" + quest.rtList.val();
@@ -318,9 +329,9 @@ $(function() {
 
 	quest.isAnonymous.change(function() {
 		if ($(this).val() == "true") {
-			$("#userInfo").css("display", "none");
+			$("#userInfo").addClass("hidden");
 		} else {
-			$("#userInfo").css("display", "block");
+			$("#userInfo").removeClass("hidden");
 		}
 	});
 
@@ -335,6 +346,7 @@ $(function() {
 
 /**
  * 判断是否为空
+ * 
  * @param str
  * @returns {Boolean}
  */
@@ -345,10 +357,11 @@ function isEmty(str) {
 	return false;
 }
 
-
 /**
  * MD5加密
- * @param {Object} string
+ * 
+ * @param {Object}
+ *            string
  */
 function md5(string) {
 	function md5_RotateLeft(lValue, iShiftBits) {
@@ -393,24 +406,32 @@ function md5(string) {
 	}
 
 	function md5_FF(a, b, c, d, x, s, ac) {
-		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_F(b, c, d), x), ac));
+		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_F(b, c, d),
+				x), ac));
 		return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-	};
+	}
+	;
 
 	function md5_GG(a, b, c, d, x, s, ac) {
-		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_G(b, c, d), x), ac));
+		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_G(b, c, d),
+				x), ac));
 		return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-	};
+	}
+	;
 
 	function md5_HH(a, b, c, d, x, s, ac) {
-		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_H(b, c, d), x), ac));
+		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_H(b, c, d),
+				x), ac));
 		return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-	};
+	}
+	;
 
 	function md5_II(a, b, c, d, x, s, ac) {
-		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_I(b, c, d), x), ac));
+		a = md5_AddUnsigned(a, md5_AddUnsigned(md5_AddUnsigned(md5_I(b, c, d),
+				x), ac));
 		return md5_AddUnsigned(md5_RotateLeft(a, s), b);
-	};
+	}
+	;
 
 	function md5_ConvertToWordArray(string) {
 		var lWordCount;
@@ -424,33 +445,37 @@ function md5(string) {
 		while (lByteCount < lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 			lBytePosition = (lByteCount % 4) * 8;
-			lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount) << lBytePosition));
+			lWordArray[lWordCount] = (lWordArray[lWordCount] | (string
+					.charCodeAt(lByteCount) << lBytePosition));
 			lByteCount++;
 		}
 		lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 		lBytePosition = (lByteCount % 4) * 8;
-		lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
+		lWordArray[lWordCount] = lWordArray[lWordCount]
+				| (0x80 << lBytePosition);
 		lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
 		lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
 		return lWordArray;
-	};
+	}
+	;
 
 	function md5_WordToHex(lValue) {
-		var WordToHexValue = "",
-			WordToHexValue_temp = "",
-			lByte, lCount;
+		var WordToHexValue = "", WordToHexValue_temp = "", lByte, lCount;
 		for (lCount = 0; lCount <= 3; lCount++) {
 			lByte = (lValue >>> (lCount * 8)) & 255;
 			WordToHexValue_temp = "0" + lByte.toString(16);
-			WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length - 2, 2);
+			WordToHexValue = WordToHexValue
+					+ WordToHexValue_temp.substr(
+							WordToHexValue_temp.length - 2, 2);
 		}
 		return WordToHexValue;
-	};
+	}
+	;
 
 	function md5_Utf8Encode(string) {
 		string = string.replace(/\r\n/g, "\n");
 		var utftext = "";
-		for (var n = 0; n < string.length; n++) {
+		for ( var n = 0; n < string.length; n++) {
 			var c = string.charCodeAt(n);
 			if (c < 128) {
 				utftext += String.fromCharCode(c);
@@ -464,25 +489,14 @@ function md5(string) {
 			}
 		}
 		return utftext;
-	};
+	}
+	;
 	var x = Array();
 	var k, AA, BB, CC, DD, a, b, c, d;
-	var S11 = 7,
-		S12 = 12,
-		S13 = 17,
-		S14 = 22;
-	var S21 = 5,
-		S22 = 9,
-		S23 = 14,
-		S24 = 20;
-	var S31 = 4,
-		S32 = 11,
-		S33 = 16,
-		S34 = 23;
-	var S41 = 6,
-		S42 = 10,
-		S43 = 15,
-		S44 = 21;
+	var S11 = 7, S12 = 12, S13 = 17, S14 = 22;
+	var S21 = 5, S22 = 9, S23 = 14, S24 = 20;
+	var S31 = 4, S32 = 11, S33 = 16, S34 = 23;
+	var S41 = 6, S42 = 10, S43 = 15, S44 = 21;
 	string = md5_Utf8Encode(string);
 	x = md5_ConvertToWordArray(string);
 	a = 0x67452301;
@@ -563,5 +577,6 @@ function md5(string) {
 		c = md5_AddUnsigned(c, CC);
 		d = md5_AddUnsigned(d, DD);
 	}
-	return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
+	return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d))
+			.toLowerCase();
 }
