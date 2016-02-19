@@ -52,8 +52,7 @@ $(function() {
 		quest_10 : $("#quest_10"),
 		quest_11 : $("#quest_11"),
 		quest_12 : $("#quest_12"),
-		quest_13 : $("#quest_13"),
-		quest_14 : $("#quest_14")
+		quest_13 : $("#quest_13")
 	};
 
 	/**
@@ -108,8 +107,7 @@ $(function() {
 		quest_10 : $("input[name=quest_10]"),
 		quest_11 : $("input[name=quest_11]"),
 		quest_12 : $("input[name=quest_12]"),
-		quest_13 : $("input[name=quest_13]"),
-		quest_14 : $("input[name=quest_14]")
+		quest_13 : $("input[name=quest_13]")
 	};
 
 	var regStr = {
@@ -124,12 +122,13 @@ $(function() {
 			var key = question.quest_key;
 			switch (key) {
 			case "quest_1":
+				// TODO
 				if (question.is_needed == 1) {
 					$("#" + key).children("p:first");
 				}
 				$("#" + key).removeClass("hidden");
 				break;
-			case "quest_2":
+			case "quest_3":
 			case "quest_6":
 			case "quest_7":
 			case "quest_8":
@@ -137,11 +136,10 @@ $(function() {
 			case "quest_11":
 			case "quest_12":
 			case "quest_13":
-			case "quest_14":
 				$("#" + key).removeClass("hidden");
 				$("#" + key).next().removeClass("hidden");
 				break;
-			case "quest_3":
+			case "quest_2":
 				$("#" + key).removeClass("hidden");
 				$("#" + key).next().removeClass("hidden");
 				$("#" + key).next().next().removeClass("hidden");
@@ -157,7 +155,8 @@ $(function() {
 		$.each(questionList, function(i, question) {
 			var data = {};
 			data["questKey"] = question.quest_key;
-			data["questValue"] = $("input[name=" + key + "]").val();
+			data["questValue"] = $("input[name=" + question.quest_key + "]")
+					.val();
 			list.unshift(data);
 		});
 		return JSON.stringify(list);
@@ -167,6 +166,7 @@ $(function() {
 	$("#submitReport").click(function(e) {
 		setSendForm();
 		sendForm();
+		// TODO
 		// isAgreed(true);
 		// changeClass(formEle.name, true);
 		// changeClass(formEle.surnames, true);
@@ -182,7 +182,6 @@ $(function() {
 	 */
 	function setSendForm() {
 		send.quest_1.val(quest.isEmployees.val());
-		send.quest_2.val(quest.isAnonymous.val());
 		var aboutUser = "";
 		if (!isEmty(quest.personName1.val())) {
 			aboutUser += quest.personName1.val() + ","
@@ -211,34 +210,34 @@ $(function() {
 						+ quest.personPosition3.val();
 			}
 		}
-		send.quest_3.val(aboutUser);
+		send.quest_2.val(aboutUser);
 		if (isEmty(quest.regulators1.val())) {
-			send.quest_4.val(quest.regulators.val());
+			send.quest_3.val(quest.regulators.val());
 		} else {
-			send.quest_4.val(quest.regulators.val() + ","
+			send.quest_3.val(quest.regulators.val() + ","
 					+ quest.regulators1.val());
 		}
-		send.quest_5.val(quest.admin.val());
-		send.quest_6.val(quest.characteristics.val());
-		send.quest_7.val(quest.valuation1.find("option:selected").text() + ","
+		send.quest_4.val(quest.admin.val());
+		send.quest_5.val(quest.characteristics.val());
+		send.quest_6.val(quest.valuation1.find("option:selected").text() + ","
 				+ quest.valuation2.find("option:selected").text());
-		send.quest_8.val(quest.address.val());
-		send.quest_9.val(quest.date.val());
-		send.quest_10.val(quest.duration.find("option:selected").text());
+		send.quest_7.val(quest.address.val());
+		send.quest_8.val(quest.date.val());
+		send.quest_9.val(quest.duration.find("option:selected").text());
 		if (isEmty(quest.way1.val())) {
-			send.quest_11.val(quest.way.find("option:selected").text());
+			send.quest_10.val(quest.way.find("option:selected").text());
 		} else {
-			send.quest_11.val(quest.way.find("option:selected").text() + ","
+			send.quest_10.val(quest.way.find("option:selected").text() + ","
 					+ quest.way1.val());
 		}
 		if (isEmty(quest.isReport2.val())) {
-			send.quest_12.val(quest.isReport.val());
+			send.quest_11.val(quest.isReport.val());
 		} else {
-			send.quest_12.val(quest.isReport.val() + ","
+			send.quest_11.val(quest.isReport.val() + ","
 					+ quest.isReport2.val());
 		}
-		send.quest_13.val(quest.hidden.val());
-		send.quest_14.val(quest.details.val());
+		send.quest_12.val(quest.hidden.val());
+		send.quest_13.val(quest.details.val());
 	}
 	;
 
@@ -251,12 +250,13 @@ $(function() {
 				+ userAndOther.name.val());
 		var reporter = "reporter="
 				+ JSON.stringify($("#userInfo").serializeJson());
-		var questions = "questions=" + notSend();
+		var anonymous = "isAnonymous=" + quest.isAnonymous.val();
+		var questions = "answers=" + notSend();
 		var trackingNo = "trackingNo=" + quest.trackingNo.val();
 		var accessCode = "accessCode=" + md5(quest.pass.val());
 		var rtList = "rtList=" + quest.rtList.val();
-		var data = reporter + "&" + questions + "&" + trackingNo + "&"
-				+ accessCode + "&" + rtList;
+		var data = reporter + "&" + anonymous + "&" + questions + "&"
+				+ trackingNo + "&" + accessCode + "&" + rtList;
 
 		$.post(url, data, function(data, status, xhr) {
 
@@ -264,6 +264,7 @@ $(function() {
 		console.log(data);
 	}
 
+	// TODO
 	/*
 	 * isAgreed(false); changeClass(formEle.name, false);
 	 * changeClass(formEle.surnames, false); changeClass(formEle.certificateNum,

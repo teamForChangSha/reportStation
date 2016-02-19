@@ -185,7 +185,7 @@
 								<input type="radio" checked="true" name="quest_1_value" value="false" /> 否
 							</label>
 						</div>
-						<div id="quest_2" class="form-group text-center hidden">
+						<div class="form-group text-center">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>对于这项报告，您是否希望保持匿名身份？</strong>
 							</span>
@@ -197,7 +197,7 @@
 								<input type="radio" checked="true" name="quest_2_value" value="false" /> 否
 							</label>
 						</div>
-						<form id="userInfo" action="" method="post" class="hidden">
+						<form id="userInfo" action="" method="post">
 							<div class="form-group text-center">
 								<span><strong>如果您希望 Hyatt 知道您的身份，请完成以下内容：</strong></span>
 							</div>
@@ -261,7 +261,7 @@
 							<strong>${rtList} </strong>
 						</h4>
 						</div>
-						<div id="quest_3" class="form-group text-center hidden">
+						<div id="quest_2" class="form-group text-center hidden">
 							<span><span class="xinghao">*</span><strong>请说明与此行为相关的人的身份</strong></span>
 							<br /> <span> 例如：无名氏，内部审计主管，未知，晚间监督员</span>
 						</div>
@@ -313,7 +313,7 @@
 								<input type="text" name="quest_3_value_position3" class="form-control" />
 							</div>
 						</div>
-						<div id="quest_4" class="form-group text-center hidden">
+						<div id="quest_3" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong>您是否怀疑或知道监督或管理人员与此有关？</strong></span>
 							<br />
@@ -332,7 +332,7 @@
 								<textarea type="text" name="quest_4_value1" rows="6" class="form-control" placeholder="例如：无名氏，内部审计主管"></textarea>
 							</div>
 						</div>
-						<div id="quest_5" class="form-group text-center hidden">
+						<div id="quest_4" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong>管理人员注意到此问题了吗？</strong></span>
 							<br />
@@ -346,7 +346,7 @@
 								<input type="radio" value="not" name="quest_5_value" /> 不知道 / 不愿意透露
 							</label>
 						</div>
-						<div id="quest_6" class="form-group text-center hidden">
+						<div id="quest_5" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong>此事件的总体特征是什么？</strong></span>
 							<br />
@@ -358,7 +358,7 @@
 								<p>这仅为一般说明，稍后我们将询问详细情况。</p>
 							</div>
 						</div>
-						<div id="quest_7" class="form-group text-center hidden">
+						<div id="quest_6" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong>您估计这一行为的货币价值是多少？</strong></span>
 							<br />
@@ -389,7 +389,7 @@
 								</select>
 							</div>
 						</div>
-						<div id="quest_8" class="form-group text-center hidden">
+						<div id="quest_7" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong>该事件或违规行为在哪里发生的？</strong></span>
 							<br />
@@ -401,7 +401,7 @@
 								<p>我们了解到该事件可能没有确切的发生地点，但如果事件有某些文档或业务交易的记录，请相应指明。</p>
 							</div>
 						</div>
-						<div id="quest_9" class="form-group text-center hidden">
+						<div id="quest_8" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong>请指出该事件发生的确切或大致时间：</strong></span>
 							<br />
@@ -413,7 +413,7 @@
 								<p>例如：2002 年 5 月 3 日，星期二；两周前；大约一个月以前</p>
 							</div>
 						</div>
-						<div id="quest_10" class="form-group text-center hidden">
+						<div id="quest_9" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您认为此问题持续了多少时间？</strong>
 							</span>
@@ -432,7 +432,7 @@
 								</select>
 							</div>
 						</div>
-						<div id="quest_11" class="form-group text-center hidden">
+						<div id="quest_10" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您是如何发现此违规行为的？</strong>
 							</span>
@@ -460,7 +460,7 @@
 								<textarea type="text" name="quest_11_value2" rows="6" class="form-control"></textarea>
 							</div>
 						</div>
-						<div id="quest_12" class="form-group text-center hidden">
+						<div id="quest_11" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您先前是否报告过这一问题？</strong>
 							</span>
@@ -479,7 +479,7 @@
 								<textarea type="text" name="quest_12_value1" rows="6" class="form-control"></textarea>
 							</div>
 						</div>
-						<div id="quest_13" class="form-group text-center hidden">
+						<div id="quest_12" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>请指出试图隐藏此问题的人以及他们隐藏采取的步骤：</strong>
 							</span>
@@ -491,7 +491,7 @@
 								<p>请指出其姓名和职位。</p>
 							</div>
 						</div>
-						<div id="quest_14" class="form-group text-center hidden">
+						<div id="quest_13" class="form-group text-center hidden">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>请提供关于所谓违规行为的所有细节，包括目击者的位置以及任何对于此情形的评估和最终解决有价值的其它信息。
 							</strong>
@@ -563,7 +563,6 @@
 				<input type="text" name="quest_11" hidden="true" />
 				<input type="text" name="quest_12" hidden="true" />
 				<input type="text" name="quest_13" hidden="true" />
-				<input type="text" name="quest_14" hidden="true" />
 			</form>
 			<input type="text" name="trackingNo" value="${trackingNo }" hidden="true" />
 			<input type="text" name="rtList" value="${rtList }" hidden="true" />
