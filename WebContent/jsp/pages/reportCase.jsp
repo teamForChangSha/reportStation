@@ -19,9 +19,10 @@
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
-			body{
-				padding-bottom:0;
+			body {
+				padding-bottom: 0;
 			}
+			
 			.navbar-text {
 				float: inherit;
 			}
@@ -169,11 +170,11 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label">邮编：</label>
 							<div class="col-sm-8">
-								<span class="form-info">待定</span>
+								<span class="form-info">${companyBranch.postCode }</span>
 							</div>
 						</div>
-						<div class="page-header"></div>
 						<div id="quest_1" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您是 ${companyBranch.owner.companyName } 的员工吗？</strong>
 							</span>
 							<br />
@@ -184,8 +185,8 @@
 								<input type="radio" checked="true" name="quest_1_value" value="false" /> 否
 							</label>
 						</div>
-						<div class="page-header"></div>
 						<div id="quest_2" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>对于这项报告，您是否希望保持匿名身份？</strong>
 							</span>
 							<br />
@@ -312,8 +313,8 @@
 								<input type="text" name="quest_3_value_position3" class="form-control" />
 							</div>
 						</div>
-						<div class="page-header"></div>
 						<div id="quest_4" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong>您是否怀疑或知道监督或管理人员与此有关？</strong></span>
 							<br />
 							<label class="radio-inline">
@@ -331,8 +332,8 @@
 								<textarea type="text" name="quest_4_value1" rows="6" class="form-control" placeholder="例如：无名氏，内部审计主管"></textarea>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_5" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong>管理人员注意到此问题了吗？</strong></span>
 							<br />
 							<label class="radio-inline">
@@ -345,8 +346,8 @@
 								<input type="radio" value="not" name="quest_5_value" /> 不知道 / 不愿意透露
 							</label>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_6" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong>此事件的总体特征是什么？</strong></span>
 							<br />
 						</div>
@@ -357,8 +358,8 @@
 								<p>这仅为一般说明，稍后我们将询问详细情况。</p>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_7" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong>您估计这一行为的货币价值是多少？</strong></span>
 							<br />
 						</div>
@@ -388,8 +389,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_8" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong>该事件或违规行为在哪里发生的？</strong></span>
 							<br />
 						</div>
@@ -400,8 +401,8 @@
 								<p>我们了解到该事件可能没有确切的发生地点，但如果事件有某些文档或业务交易的记录，请相应指明。</p>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_9" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong>请指出该事件发生的确切或大致时间：</strong></span>
 							<br />
 						</div>
@@ -412,8 +413,8 @@
 								<p>例如：2002 年 5 月 3 日，星期二；两周前；大约一个月以前</p>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_10" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您认为此问题持续了多少时间？</strong>
 							</span>
 							<br />
@@ -431,8 +432,8 @@
 								</select>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_11" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您是如何发现此违规行为的？</strong>
 							</span>
 							<br />
@@ -459,8 +460,8 @@
 								<textarea type="text" name="quest_11_value2" rows="6" class="form-control"></textarea>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_12" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>您先前是否报告过这一问题？</strong>
 							</span>
 							<br />
@@ -478,8 +479,8 @@
 								<textarea type="text" name="quest_12_value1" rows="6" class="form-control"></textarea>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_13" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>请指出试图隐藏此问题的人以及他们隐藏采取的步骤：</strong>
 							</span>
 						</div>
@@ -490,8 +491,8 @@
 								<p>请指出其姓名和职位。</p>
 							</div>
 						</div>
-						<div class="page-header"></div>
-						<div class="form-group text-center">
+						<div id="quest_14" class="form-group text-center">
+							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>请提供关于所谓违规行为的所有细节，包括目击者的位置以及任何对于此情形的评估和最终解决有价值的其它信息。
 							</strong>
 							</span>
@@ -538,6 +539,7 @@
 								<input type="password" name="quest_16_value" class="form-control" />
 							</div>
 						</div>
+						<div class="page-header"></div>
 						<div class="form-group">
 							<div class="col-sm-4"></div>
 							<div class="col-sm-4">
@@ -547,7 +549,7 @@
 					</div>
 				</div>
 			</div>
-			<form id="questForm" action="" method="post">
+			<form id="questForm">
 				<input type="text" name="quest_1" hidden="true" />
 				<input type="text" name="quest_2" hidden="true" />
 				<input type="text" name="quest_3" hidden="true" />
@@ -596,7 +598,7 @@
 						<h5 class="modal-title" id="exampleModalLabel">上传文件</h5>
 					</div>
 					<div class="modal-body">
-						<iframe src="jsp/pages/upLoadFile.jsp" frameborder="0" width="100%" height="400px"></iframe>
+						<iframe src="case/showFileList.do?${trackingNo }" frameborder="0" width="100%" height="400px"></iframe>
 					</div>
 				</div>
 			</div>
@@ -604,15 +606,17 @@
 	</body>
 	<script src="jsp/js/reportCase.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-	var questionList = {};
-	<c:forEach items ="${questionMap}" var ="question" >
+		var questionList = []; 
+		<c:forEach items = "${questionMap}" var = "question" varStatus = "i" >
+			/* <c:if test="${p.userName!='name1'}">
+			</c:if> */
+			console.log("${i.index}");
 		console.log("${question.value.questId}");
-		questionList["${question.key}"]="${question.value.isNeeded}";
-	</c:forEach>
-	
-	var quest = JSON.stringify(questionList);
-	quest = JSON.parse(quest);
-	console.log(quest.key);
+		questionList["${i.index}"] = "${question.value.questId}";
+		</c:forEach>
+		var quest = JSON.stringify(questionList);
+		quest = JSON.parse(quest);
+		console.log(questionList);
 	</script>
 
 </html>

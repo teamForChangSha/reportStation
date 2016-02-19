@@ -9,6 +9,7 @@
 			var a = $("<a/>").attr("data-id", company.companyId).text(
 					company.companyName);
 			a.click(function() {
+				hiddenEle();
 				keyword.val(this.innerHTML);
 				companyId.val($(this).attr("data-id"));
 				changeClass(keyword, keywordIcon, false);
@@ -17,7 +18,7 @@
 			etpList.append(li);
 		});
 	});
-
+	
 	var addSelOption = function(jq) {
 		var opt = $("<option/>").text("请选择").attr("value", "-1");
 		jq.append(opt);
@@ -174,12 +175,14 @@
 		}
 	}
 
-	keyword.keyup(function() {
+	keyword.get(0).onkeyup = hiddenEle;
+	
+	function hiddenEle() {
 		province.parent().addClass("hidden");
 		city.parent().addClass("hidden");
 		institutions.parent().addClass("hidden");
 		next.parent().addClass("hidden");
-	});
+	};
 
 	/**
 	 * 根据单号匿名查询

@@ -4,7 +4,7 @@
 <html>
 
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/bootstrap-theme.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/common_top.css" />
@@ -54,9 +54,9 @@
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="../jsp/index.jsp">é¦é¡µ</a></li>
-						<li><a href="userPages/privacy.html" target="_blank">åä¸è¡ä¸ºåéå¾·åå</a></li>
-						<li><a href="#">å¸¸è§é®é¢</a></li>
+						<li><a href="../index.html">首页</a></li>
+						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
+						<li><a href="#">常见问题</a></li>
 					</ul>
 				</div>
 			</div>
@@ -68,175 +68,175 @@
 				</div>
 				<div class="col-sm-8 form-horizontal" id="content">
 					<div class="form-group text-center">
-						<h3><span class="label label-danger" id="caseId">æ¡ä»¶ç¼å·ï¼AB09C80567</span></h3>
+						<h3><span class="label label-danger" id="caseId">案件编号：AB09C80567</span></h3>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">ç»ç»/æºæï¼</label>
+						<label class="col-sm-4 control-label">组织/机构：</label>
 						<div class="col-sm-8">
 							<span class="form-info" id="organization"><strong>Oracle Corporation</strong></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">åçäºæçå°åï¼</label>
+						<label class="col-sm-4 control-label">发生事故的地址：</label>
 						<div class="col-sm-8">
 							<span class="form-info" id="caseAddr">Other / Do Not Wish to Disclose </span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">çä»½ï¼</label>
+						<label class="col-sm-4 control-label">省份：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="caseProvince">æ¹åç</span>
+							<span class="form-info" id="caseProvince">湖南省</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">åå¸ï¼</label>
+						<label class="col-sm-4 control-label">城市：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="caseCity">é¿æ²å¸</span>
+							<span class="form-info" id="caseCity">长沙市</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">é®ç¼ï¼</label>
+						<label class="col-sm-4 control-label">邮编：</label>
 						<div class="col-sm-8">
 							<span class="form-info">421000</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ¯å¦ä¸ºXXXçåå·¥ï¼</label>
+						<label class="col-sm-4 control-label">是否为XXX的员工：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="isEmployees">æ¯</span>
+							<span class="form-info" id="isEmployees">是</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">å§åï¼</label>
+						<label class="col-sm-4 control-label">姓名：</label>
 						<div class="col-sm-8">
-							<span class="form-info">å¼ ä¸</span>
+							<span class="form-info">张三</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">è¯ä»¶å·ï¼</label>
+						<label class="col-sm-4 control-label">证件号：</label>
 						<div class="col-sm-8">
 							<span class="form-info">430421000000000000</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">ææºå·ï¼</label>
+						<label class="col-sm-4 control-label">手机号：</label>
 						<div class="col-sm-8">
 							<span class="form-info">18600000000</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æä½³èç³»æ¹å¼ï¼</label>
+						<label class="col-sm-4 control-label">最佳联系方式：</label>
 						<div class="col-sm-8">
-							<span class="form-info">æ©ä¸09ï¼00å°11ï¼00æè18ï¼00å°21ï¼00</span>
+							<span class="form-info">早上09：00到11：00或者18：00到21：00</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">äºä»¶ç¸å³äººåï¼</label>
+						<label class="col-sm-4 control-label">事件相关人员：</label>
 						<div class="col-sm-8">
-							<span class="form-info">å¼ ä¸ï¼æ»ç»çï¼ï¼æåï¼è´¢å¡ç»çï¼ï¼çäºï¼å¸åºç»çï¼</span>
+							<span class="form-info">张三（总经理），李四（财务经理），王五（市场经理）</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">ç¸å³çç®¡äººå/ç®¡çäººåï¼</label>
+						<label class="col-sm-4 control-label">相关监管人员/管理人员：</label>
 						<div class="col-sm-8">
-							<span class="form-info">æ </span>
+							<span class="form-info">无</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">ç®¡çäººåæ¯å¦æ³¨æå°æ­¤äºï¼</label>
+						<label class="col-sm-4 control-label">管理人员是否注意到此事：</label>
 						<div class="col-sm-8">
-							<span class="form-info">æ¯</span>
+							<span class="form-info">是</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ­¤äºä»¶æ»ä½ç¹å¾ï¼</label>
+						<label class="col-sm-4 control-label">此事件总体特征：</label>
 						<div class="col-sm-8">
-							<span class="form-info">æ¶é´æ»ä½ç¹å¾æè¿°</span>
+							<span class="form-info">时间总体特征描述</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ­¤äºä»¶é¢è®¡ä»·å¼ï¼</label>
+						<label class="col-sm-4 control-label">此事件预计价值：</label>
 						<div class="col-sm-8">
 							<span class="form-info">USD999-USD9999</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">è¯¥äºä»¶åççæ¶é´ï¼</label>
+						<label class="col-sm-4 control-label">该事件发生的时间：</label>
 						<div class="col-sm-8">
 							<span class="form-info">2015-12-01</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">è¯¥äºä»¶æç»­çæ¶é´ï¼</label>
+						<label class="col-sm-4 control-label">该事件持续的时间：</label>
 						<div class="col-sm-8">
-							<span class="form-info">1è³3ä¸ªæ</span>
+							<span class="form-info">1至3个月</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ­¤äºä»¶çè·åéå¾ï¼</label>
+						<label class="col-sm-4 control-label">此事件的获取途径：</label>
 						<div class="col-sm-8">
-							<span class="form-info">æè§å¯å¾ç¥</span>
+							<span class="form-info">我观察得知</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">ä¹åæ¯å¦æ¥åè¿æ­¤äºä»¶ï¼</label>
+						<label class="col-sm-4 control-label">之前是否报告过此事件：</label>
 						<div class="col-sm-8">
-							<span class="form-info">åç®¡çäººååé¦è¿æ­¤äºä»¶</span>
+							<span class="form-info">向管理人员反馈过此事件</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">è¯å¾éèæ­¤é®é¢çäººä»¥åä»ä»¬éèéåçæ­¥éª¤ï¼</label>
+						<label class="col-sm-4 control-label">试图隐藏此问题的人以及他们隐藏采取的步骤：</label>
 						<div class="col-sm-8">
-							<span class="form-info">å¼ ä¸ä¸æ¿åè¯æåæåä¸æ¿åè¯çäº</span>
+							<span class="form-info">张三不愿告诉李四李四不愿告诉王五</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ­¤äºä»¶çå·ä½æè¿°ç»èï¼</label>
+						<label class="col-sm-4 control-label">此事件的具体描述细节：</label>
 						<div class="col-sm-8">
-							<span class="form-info">å¼ ä¸ä¸æ¿åè¯æåæåä¸æ¿åè¯çäº</span>
-						</div>
-					</div>
-					<div class="page-header"></div>
-					<div class="form-group">
-						<label class="col-sm-4 control-label">å¶ä»ææï¼</label>
-						<div class="col-sm-8">
-							<p><a href="#">äºä»¶å¾ç1.jpg</a></p>
-							<p><a href="#">äºä»¶å¾ç1.jpg</a></p>
-							<p><a href="#">äºä»¶å¾ç1.jpg</a></p>
-							<p><a href="#">äºä»¶å¾ç1.jpg</a></p>
+							<span class="form-info">张三不愿告诉李四李四不愿告诉王五</span>
 						</div>
 					</div>
 					<div class="page-header"></div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ¡ä»¶ç¶æï¼</label>
+						<label class="col-sm-4 control-label">其他材料：</label>
 						<div class="col-sm-8">
-							<span class="form-info">è¢«ä¸¾æ¥æ¹å¤çä¸­</span>
+							<p><a href="#">事件图片1.jpg</a></p>
+							<p><a href="#">事件图片1.jpg</a></p>
+							<p><a href="#">事件图片1.jpg</a></p>
+							<p><a href="#">事件图片1.jpg</a></p>
+						</div>
+					</div>
+					<div class="page-header"></div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">案件状态：</label>
+						<div class="col-sm-8">
+							<span class="form-info">被举报方处理中</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">æ¡ä»¶å¤çæµç¨ï¼</label>
+						<label class="col-sm-4 control-label">案件处理流程：</label>
 						<div class="col-sm-8">
-							<span class="form-info">ç®¡çåå·²å¤ç<time class="pull-right">2015-12-01</time></span>
-							<span class="form-info">è¢«ä¸¾æ¥äººå·²å¤ç<time class="pull-right">2015-12-01</time></span>
-							<span class="form-info">ä¸¾æ¥äººå¤ç<time class="pull-right">2015-12-01</time></span>
+							<span class="form-info">管理员已处理<time class="pull-right">2015-12-01</time></span>
+							<span class="form-info">被举报人已处理<time class="pull-right">2015-12-01</time></span>
+							<span class="form-info">举报人处理<time class="pull-right">2015-12-01</time></span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">ç®¡çåï¼</label>
+						<label class="col-sm-4 control-label">管理员：</label>
 						<div class="col-sm-8">
-							<textarea rows="3" readonly class="form-control">ç®¡çåå·²å¤ç</textarea>
+							<textarea rows="3" readonly class="form-control">管理员已处理</textarea>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-4 control-label">è¢«ä¸¾æ¥æ¹ï¼</label>
+						<label class="col-sm-4 control-label">被举报方：</label>
 						<div class="col-sm-8">
-							<textarea rows="3" disabled class="form-control">è¢«ä¸¾æ¥æ¹æ­£å¨æ ¸å®</textarea>
+							<textarea rows="3" disabled class="form-control">被举报方正在核实</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-4"></div>
 						<div class="col-sm-8 text-right">
-							<input id="addNote" type="button" class="btn btn-primary" value="å¢å " />
+							<input id="addNote" type="button" class="btn btn-primary" value="增加" />
 						</div>
 					</div>
 				</div>
@@ -244,7 +244,7 @@
 		</div>
 		<nav class="navbar navbar-default navbar-fixed-bottom">
 			<div class="container text-center">
-				<p class="navbar-text">Copyright Â© 2016-2018 ç¨æ·ä¸¾æ¥ç³»ç»</p>
+				<p class="navbar-text">Copyright © 2016-2018 用户举报系统</p>
 			</div>
 		</nav>
 	</body>

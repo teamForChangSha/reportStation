@@ -38,6 +38,23 @@ $(function() {
 		agreed : $("input[name=agreed]"),
 		getCode : $("#getCode")
 	};
+	
+	var questPanle={
+			quest_1 : $("#quest_1"),
+			quest_2 : $("#quest_2"),
+			quest_3 : $("#quest_3"),
+			quest_4 : $("#quest_4"),
+			quest_5 : $("#quest_5"),
+			quest_6 : $("#quest_6"),
+			quest_7 : $("#quest_7"),
+			quest_8 : $("#quest_8"),
+			quest_9 : $("#quest_9"),
+			quest_10 : $("#quest_10"),
+			quest_11 : $("#quest_11"),
+			quest_12 : $("#quest_12"),
+			quest_13 : $("#quest_13"),
+			quest_14 : $("#quest_14")
+	};
 
 	/**
 	 * 问题表单控件
@@ -92,7 +109,7 @@ $(function() {
 		quest_11 : $("input[name=quest_11]"),
 		quest_12 : $("input[name=quest_12]"),
 		quest_13 : $("input[name=quest_13]"),
-		quest_14 : $("input[name=quest_14]"),
+		quest_14 : $("input[name=quest_14]")
 	};
 
 	var regStr = {
@@ -102,6 +119,39 @@ $(function() {
 		idCard : /^\d{15}|(\d{17}(\d|x|X))$/
 	};
 
+	(function(){
+		questPanle.quest_1.addClass("hidden");
+		questPanle.quest_2.addClass("hidden");
+		questPanle.quest_2.next().addClass("hidden");
+		questPanle.quest_3.addClass("hidden");
+		questPanle.quest_3.next().addClass("hidden");
+		questPanle.quest_3.next().next().addClass("hidden");
+		questPanle.quest_3.next().next().next().addClass("hidden");
+		questPanle.quest_3.next().next().next().next().addClass("hidden");
+		questPanle.quest_4.addClass("hidden");
+		questPanle.quest_5.addClass("hidden");
+		questPanle.quest_6.addClass("hidden");
+		questPanle.quest_6.next().addClass("hidden");
+		questPanle.quest_7.addClass("hidden");
+		questPanle.quest_7.next().addClass("hidden");
+		questPanle.quest_8.addClass("hidden");
+		questPanle.quest_8.next().addClass("hidden");
+		questPanle.quest_9.addClass("hidden");
+		questPanle.quest_9.next().addClass("hidden");
+		questPanle.quest_10.addClass("hidden");
+		questPanle.quest_11.addClass("hidden");
+		questPanle.quest_11.next().addClass("hidden");
+		questPanle.quest_12.addClass("hidden");
+		questPanle.quest_12.next().addClass("hidden");
+		questPanle.quest_13.addClass("hidden");
+		questPanle.quest_13.next().addClass("hidden");
+		questPanle.quest_14.addClass("hidden");
+		questPanle.quest_14.next().addClass("hidden");
+		$.each(questPanle,function(n,value){
+			console.log(value.selector.substring(7,value.selector.length));
+		});
+	});
+	
 	$("#submitReport").click(function(e) {
 		setSendForm();
 		sendForm();
