@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
@@ -50,6 +52,50 @@ public class CaseController {
 	@Resource
 	private QuestionService questionService;
 	
+	@RequestMapping("/getCheckCode.do")
+	public String getCheckCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+		String checkCode = "";
+		request.getSession().setAttribute("checkCode", checkCode);	
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(checkCode);
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
+	
+	/*** 
+     * 验证所输手机验证码，如果成功，则根据手机号码判断该实名用户是否存在，存在则输出该对象的JSON字符串 
+     * @author cj
+     * @param 
+     * @return 
+     */  
+	@RequestMapping("/getReporterByCheck.do")
+	public String getReporterByCheck(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+		String checkCode = request.getParameter("checkCode");
+		String trueCode = (String) request.getSession().getAttribute("checkCode");
+		if(checkCode.trim() != null) {
+			if(trueCode.equals(checkCode)) {
+				response.setCharacterEncoding("UTF-8");
+				PrintWriter out;
+				try {
+					out = response.getWriter();
+					String mobile = request.getParameter("");
+					Reporter reporter = reporterService.getByMobile(mobile);
+					String reporterJson = JSON.toJSONString(reporter);
+					out.print(reporterJson);
+				} catch (IOException e) {
+					log.error("流获取失败！",e);
+				}
+			}
+		}
+		return null;
+	}
+	
 	/*** 
      * 添加案件 
      * @author cj
@@ -60,8 +106,7 @@ public class CaseController {
 	public String addCase(HttpServletRequest request, HttpServletResponse response) {
     	//获取参数，包括跟踪号，查询密码，问题列表
     	String trackingNo = request.getParameter("trackingNo");
-//    	String accessCode = request.getParameter("accessCode");
-    	String accessCode = "123";
+    	String accessCode = request.getParameter("accessCode");
     	String rtList = request.getParameter("rtList");
     	String reporterJson = request.getParameter("reporter");
     	String questionsJson = request.getParameter("questions");
@@ -98,6 +143,7 @@ public class CaseController {
     	
     	//保存问题回答列表
     	List<TempData> list = JSON.parseArray(questionsJson, TempData.class);
+    	List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
     	for (int i = 0; i < list.size(); i++) {
 			TempData tempData = list.get(i);
 			String tempName = tempData.getName();
@@ -109,6 +155,8 @@ public class CaseController {
 			reportAnswer.setQuestKey(questionInfo.getQuestKey());
 			reportAnswer.setQuestValue(tempValue);
 			reportAnswer.setRcId(reportCase.getRcId());
+			
+			answerList.add(reportAnswer);
 			if(questionService.addReportAnswer(reportAnswer)) {
 				log.debug("第" + (i + 1) + "个ReporterAnswer添加成功！");
 			}
