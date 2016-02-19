@@ -107,11 +107,11 @@
 							<span class="form-info">${reportCase.branch.postCode }</span>
 						</div>
 					</div>
-					<c:forEach items = "${reportCase.answers}" var = "quest" varStatus = "i" >
-					<div class="form-group">
-						<label class="col-sm-4 control-label"></label>
+					<c:forEach items = "${questionAnswerList}" var = "quest" varStatus = "i" >
+						<div class="form-group">
+						<label class="col-sm-4 control-label">${quest.question }：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="isEmployees">${quest.questValue}</span>
+							<span class="form-info" id="isEmployees">${quest.questValue }</span>
 						</div>
 					</div>
 					</c:forEach>
@@ -265,15 +265,6 @@
 	</body>
 	<script type="text/javascript">
 		$(function() {
-			<c:forEach items = "${reportCase.answers}" var = "answer" varStatus = "i" >
-				console.log("${answer.questKey}");
-				console.log("${answer.questValue}");
-			</c:forEach>
-			<c:forEach items = "${reportCase.company.questList}" var = "quest" varStatus = "i" >
-			console.log("${quest.questKey}");
-			console.log("${quest.quest}");
-			console.log("${quest.questDesc}");
-			</c:forEach>
 			var ele = {
 				addNote: $("#addNote")
 			}

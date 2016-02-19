@@ -194,7 +194,7 @@
 								<input type="radio" name="quest_2_value" value="true" /> 是
 							</label>
 							<label class="radio-inline">
-								<input type="radio" checked="true" name="quest_2_value" value="false" /> 否
+								<input type="radio" checked name="quest_2_value" value="false" /> 否
 							</label>
 						</div>
 						<form id="userInfo" action="" method="post">

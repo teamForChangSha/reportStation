@@ -190,8 +190,8 @@
 	numBtn.click(function() {
 		if (changeClass(num, numIcon, true)) {
 			$("#reportPanel").modal('hide');
-			// $("#selectByNum").submit();
-			location.href = "userPages/report_info.html";
+			 $("#selectByNum").submit();
+//			location.href = "userPages/report_info.html";
 		}
 	});
 	/**
@@ -228,8 +228,7 @@
 			phoneBtn.html("获取临时密码");
 			i = 60;
 			$("#reportPanel").modal('hide');
-			// $("#selectByPhone").submit();
-			location.href = "userPages/report_list.html";
+			 $("#selectByPhone").submit();
 		}
 	});
 	/**

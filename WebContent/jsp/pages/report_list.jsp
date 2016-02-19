@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html>
 <html>
 
 	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/bootstrap-theme.min.css" />
-		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/common_top.css" />
-		<script src="../bootstrap3/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../bootstrap3/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<base href="<%=basePath%>" />
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
+		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 		<style type="text/css">
 			th {
@@ -48,7 +55,7 @@
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="../index.html">首页</a></li>
+						<li><a href="<%=basePath%>">首页</a></li>
 						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
 						<li><a href="#">常见问题</a></li>
 					</ul>
@@ -88,10 +95,11 @@
 	</body>
 	<script type="text/javascript">
 	$(function() {
-		for (var i = 0; i < 10; i++) {
+		<c:forEach items = "${caseList}" var = "case" varStatus = "i">
+		console.log("${csae.rcId}");
 			var tr = $("<tr/>");
-			var td1 = $("<td/>").addClass("hidden").text(i);
-			var td2 = $("<td/>").text("苹果中国"+i);
+			var td1 = $("<td/>").addClass("hidden").text("${csae.rcId}");
+			var td2 = $("<td/>").text("${csae.company.companyName}");
 			var td3 = $("<td/>").text("供应商行贿");
 			var td4 = $("<td/>").text("被举报人已回复");
 			var td5 = $("<td/>").text("2016-02-12");
@@ -101,7 +109,7 @@
 				location.href = "report_info.html";
 			});
 			$("tbody").append(tr);
-		}
+		</c:forEach>
 	});
 	</script>
 

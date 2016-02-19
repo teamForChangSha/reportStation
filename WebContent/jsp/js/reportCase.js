@@ -60,7 +60,7 @@ $(function() {
 	 */
 	var quest = {
 		isEmployees : $("input[name=quest_1_value]"),
-		isAnonymous : $("input[name='quest_2_value']"),
+		isAnonymous : $("input[name='quest_2_value']:checked"),
 		personName1 : $("input[name=quest_3_value_name1]"),
 		personSurname1 : $("input[name='quest_3_value_surname1']"),
 		personPosition1 : $("input[name=quest_3_value_position1]"),
