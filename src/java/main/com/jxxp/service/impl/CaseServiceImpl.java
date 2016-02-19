@@ -47,8 +47,6 @@ public class CaseServiceImpl implements CaseService {
 	@Resource
 	private ReporterMapper reporterMapper;
 	@Resource
-	private QuestionInfoMapper questionInfoMapper;
-	@Resource
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private CaseAttachMapper caseAttachMapper;
@@ -102,12 +100,16 @@ public class CaseServiceImpl implements CaseService {
 				flag = reporterMapper.insert(reporter) > 0;
 				if(flag) {
 					log.debug(reporter + "添加成功！");
+				} else {
+					log.debug(reporter + "添加成功！");
+					return flag;
 				}
 			} else {
 				if(reporterMapper.update(reporter) > 0) {
 					log.debug(reporter + "更新成功！");
 				} else {
 					log.debug(reporter + "更新失败！");
+					return flag;
 				}
 			}
 		}
@@ -139,9 +141,9 @@ public class CaseServiceImpl implements CaseService {
 			caseAttach.setState(1);
 			flag = caseAttachMapper.update(caseAttach) > 0;
 			if(flag) {
-				log.debug(caseAttach + "添加成功！");
+				log.debug(caseAttach + "修改成功！");
 			} else {
-				log.debug(caseAttach + "添加失败！");
+				log.debug(caseAttach + "修改失败！");
 				return flag;
 			}
 		}

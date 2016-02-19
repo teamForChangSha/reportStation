@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
@@ -257,6 +258,8 @@ public class CaseController {
 		if(reportCase == null) {
 			log.debug("案例获取失败！");
 		}
+		
+		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
 		modelMap.put("reportCase", reportCase);
     	return "/jsp/pages/report_list";
     }
@@ -276,8 +279,30 @@ public class CaseController {
 		if(reportCase == null) {
 			log.debug("reportCase获取失败！");
 		}
+		
 		modelMap.put("reportCase", reportCase);
+		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
     	return "/jsp/pages/report_info";
+    }
+    
+    //获取问题及答案的集合，方便前台展示
+    public List<Map<String,String>> getQuestionAnswerList(ReportCase reportCase) {
+    	List<Map<String,String>> questAnswerList = new ArrayList<Map<String,String>>();
+		List<ReportAnswer> answerList = reportCase.getAnswers();
+		for (int i = 0; i < answerList.size(); i++) {
+			ReportAnswer answer = answerList.get(i);
+			List<QuestionInfo> questList = reportCase.getCompany().getQuestList();
+			for (int j = 0; j < questList.size(); j++) {
+				QuestionInfo question = questList.get(j);
+				if(answer.getQuestKey().equals(question.getQuestKey())) {
+					Map<String,String> map = new HashMap<String, String>();
+					map.put("question", question.getQuest());
+					map.put("questValue", answer.getQuestValue());
+					questAnswerList.add(map);
+				}
+			}
+		}
+		return questAnswerList;
     }
     
     //保存临时文件
