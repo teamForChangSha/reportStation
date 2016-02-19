@@ -105,8 +105,8 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav pull-right">
-					<li><a href="jsp/index.jsp">首页</a></li>
-					<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
+					<li><a href="<%=basePath%>">首页</a></li>
+					<li><a href="#" target="_blank">商业行为和道德准则</a></li>
 					<li><a href="#">常见问题</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#loginPanel">企业用户登录</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#reportPanel">举报查询</a></li>
@@ -248,11 +248,13 @@
 				<div class="modal-body">
 					<div class="row" id="row-right">
 						<div class="col-sm-12">
-							<form id="selectByNum" action="" method="post"
+							<form id="selectByNum" action="case/showCaseByTrankingNo.do" method="post"
 								class="form-horizontal" style="margin-bottom: 15px;">
+								<div class="form-group">
+									<input type="text" name="trankingNo" class="form-control" placeholder="请输入跟踪单号"/>
+								</div>
 								<div class="input-group form-group">
-									<input id="num" type="text" class="form-control"
-										placeholder="请输入跟踪单号"> <span id="numIcon"
+									<input id="num" name="accecCode" type="password" class="form-control" placeholder="请输入密码"/> <span id="numIcon"
 										class="glyphicon form-control-feedback" aria-hidden="true"></span>
 									<span class="input-group-btn">
 										<button id="numBtn" class="btn btn-default" type="button">查询</button>
@@ -264,7 +266,7 @@
 
 					<div class="row" id="row-right">
 						<div class="col-sm-12">
-							<form id="selectByPhone" action="" method="post"
+							<form id="selectByPhone" action="case/showCaseList.do" method="post"
 								class="form-horizontal">
 								<div class="input-group form-group">
 									<input id="phone" type="text" maxlength="11"
