@@ -135,6 +135,7 @@
         #{trackingNo,jdbcType=VARCHAR},
       </if>
     </trim>
+    
   </insert>
  
 </mapper>
