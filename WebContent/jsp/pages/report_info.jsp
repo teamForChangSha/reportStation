@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html>
 <html>
 
 	<head>
+	<base href="<%=basePath%>" />
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/bootstrap-theme.min.css" />
-		<link rel="stylesheet" type="text/css" href="../bootstrap3/css/common_top.css" />
-		<script src="../bootstrap3/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../bootstrap3/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
+		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 		<style type="text/css">
 			.navbar-text {
@@ -54,8 +61,8 @@
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="../index.html">首页</a></li>
-						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
+						<li><a href="<%=basePath%>">首页</a></li>
+						<li><a href="#" target="_blank">商业行为和道德准则</a></li>
 						<li><a href="#">常见问题</a></li>
 					</ul>
 				</div>
@@ -68,40 +75,48 @@
 				</div>
 				<div class="col-sm-8 form-horizontal" id="content">
 					<div class="form-group text-center">
-						<h3><span class="label label-danger" id="caseId">案件编号：AB09C80567</span></h3>
+						<h3><span class="label label-danger" id="caseId">案件编号：${reportCase.trackingNo }</span></h3>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">组织/机构：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="organization"><strong>Oracle Corporation</strong></span>
+							<span class="form-info" id="organization"><strong>${reportCase.branch.owner.companyName }/ ${reportCase.branch.branchName }</strong></span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">发生事故的地址：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="caseAddr">Other / Do Not Wish to Disclose </span>
+							<span class="form-info" id="caseAddr">${reportCase.branch.address }</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">省份：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="caseProvince">湖南省</span>
+							<span class="form-info" id="caseProvince">${reportCase.branch.province.name }</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">城市：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="caseCity">长沙市</span>
+							<span class="form-info" id="caseCity">${reportCase.branch.city.name }</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">邮编：</label>
 						<div class="col-sm-8">
-							<span class="form-info">421000</span>
+							<span class="form-info">${reportCase.branch.postCode }</span>
 						</div>
 					</div>
+					<c:forEach items = "${reportCase.answers}" var = "quest" varStatus = "i" >
 					<div class="form-group">
-						<label class="col-sm-4 control-label">是否为XXX的员工：</label>
+						<label class="col-sm-4 control-label"></label>
+						<div class="col-sm-8">
+							<span class="form-info" id="isEmployees">${quest.questValue}</span>
+						</div>
+					</div>
+					</c:forEach>
+					<div class="form-group">
+						<label class="col-sm-4 control-label">是否为${reportCase.branch.owner.companyName }的员工：</label>
 						<div class="col-sm-8">
 							<span class="form-info" id="isEmployees">是</span>
 						</div>
@@ -250,6 +265,15 @@
 	</body>
 	<script type="text/javascript">
 		$(function() {
+			<c:forEach items = "${reportCase.answers}" var = "answer" varStatus = "i" >
+				console.log("${answer.questKey}");
+				console.log("${answer.questValue}");
+			</c:forEach>
+			<c:forEach items = "${reportCase.company.questList}" var = "quest" varStatus = "i" >
+			console.log("${quest.questKey}");
+			console.log("${quest.quest}");
+			console.log("${quest.questDesc}");
+			</c:forEach>
 			var ele = {
 				addNote: $("#addNote")
 			}
