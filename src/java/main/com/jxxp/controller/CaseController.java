@@ -302,6 +302,7 @@ public class CaseController {
 				}
 			}
 		}
+		log.debug("questAnswerList:" + questAnswerList);
 		return questAnswerList;
     }
     
