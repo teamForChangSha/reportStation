@@ -14,7 +14,7 @@ public class ReporterServiceImpl implements ReporterService {
 	
 	@Override
 	public Reporter getByMobile(String mobile) {
-		return null;
+		return reporterMapper.getByMobile(mobile);
 	}
 
 	@Override
