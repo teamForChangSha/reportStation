@@ -100,7 +100,7 @@
 		initInstitutions();
 	});
 
-	var num = $("#num"), phone = $("#phone"), pwd = $("#pwd"), keyword = $("#keyword");
+	var num = $("#num"), phone = $("#mobile"), pwd = $("#tempPwd"), keyword = $("#keyword");
 	var numIcon = $("#numIcon"), phoneIcon = $("#phoneIcon"), pwdIcon = $("#pwdIcon"), keywordIcon = $("#keywordIcon");
 	var numBtn = $("#numBtn"), phoneBtn = $("#phoneBtn"), pwdBtn = $("#pwdBtn"), getArea = $("#getArea"), next = $("#next");
 	var regStr = /(1[3-9]\d{9}$)/;

@@ -269,7 +269,7 @@
 							<form id="selectByPhone" action="case/showCaseList.do" method="post"
 								class="form-horizontal">
 								<div class="input-group form-group">
-									<input id="phone" type="text" maxlength="11"
+									<input id="mobile" type="text" maxlength="11"
 										class="form-control" placeholder="请输入实名手机号"> <span
 										id="phoneIcon" class="glyphicon form-control-feedback"
 										aria-hidden="true"></span> <span class="input-group-btn">
@@ -277,7 +277,7 @@
 									</span>
 								</div>
 								<div class="input-group form-group">
-									<input id="pwd" type="password" maxlength="6"
+									<input id="tempPwd" type="password" maxlength="6"
 										class="form-control" placeholder="请输入临时密码"> <span
 										id="pwdIcon" class="glyphicon form-control-feedback"
 										aria-hidden="true"></span> <span class="input-group-btn">
