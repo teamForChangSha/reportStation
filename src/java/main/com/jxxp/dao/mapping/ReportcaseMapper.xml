@@ -72,7 +72,7 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="company.companyId != null" >
+      <if test="company!= null" >
         company_id,
       </if>
       <if test="branch!= null" >
@@ -107,13 +107,13 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="company.companyId != null" >
+      <if test="company!= null" >
          #{company.companyId,jdbcType=BIGINT},
       </if>
-      <if test="branch.branchId != null" >      
+      <if test="branch!= null" >      
         #{branch.branchId,jdbcType=BIGINT},
       </if>
-       <if test="reporter.reporterId != null" >
+       <if test="reporter!= null" >
         #{reporter.reporterId,jdbcType=BIGINT},
       </if>
        <if test="currentHandler != null" >
