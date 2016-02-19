@@ -10,6 +10,8 @@
   <sql id="Base_Column_List" >
     rd_Id, rc_id, quest_key, quest_value
   </sql>
+  
+  
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -29,9 +31,17 @@
     where rd_Id = #{rdId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.jxxp.pojo.ReportAnswer" useGeneratedKeys="true" keyProperty="rdId">
-    insert into reportanswer (rd_Id, rc_id, quest_key, 
+    insert into reportanswer (rc_id, quest_key, 
       quest_value)
-    values (#{rdId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{questKey,jdbcType=VARCHAR}, 
+    values (#{rcId,jdbcType=BIGINT}, #{questKey,jdbcType=VARCHAR}, 
       #{questValue,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertByQuestionId" useGeneratedKeys="true" keyProperty="answer.rdId">
+   insert into reportanswer (rc_id, quest_key, 
+   quest_value)
+   values (#{answer.rcId,jdbcType=BIGINT}, (select quest_key from questioninfo where quest_id=#{questId,jdbcType=BIGINT}), 
+      #{answer.questValue,jdbcType=VARCHAR})
+  
   </insert>  
 </mapper>

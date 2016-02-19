@@ -2,6 +2,8 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jxxp.pojo.ReportAnswer;
 
 /**
@@ -18,6 +20,8 @@ public interface ReportAnswerMapper {
 	 * @return
 	 */
 	int insert(ReportAnswer answer);
+
+	int insertByQuestionId(@Param("answer") ReportAnswer answer, @Param("questId") long questId);
 
 	/**
 	 * @param raId
