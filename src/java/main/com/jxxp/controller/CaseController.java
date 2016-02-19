@@ -125,9 +125,10 @@ public class CaseController {
     	log.debug("trackingNo:" + trackingNo + "\t" + "accessCode:" + accessCode + "\t" + "rtList:" + rtList);
     	log.debug("reporter:" + reporterJson);
     	log.debug("answers:" + answersJson);
+    	log.debug("isAnonymous:" + isAnonymous);
     	
     	Reporter reporter = null;
-    	if("false".equals(isAnonymous)) {
+    	if("false".equalsIgnoreCase(isAnonymous)) {
     		reporter = JSON.parseObject(reporterJson, Reporter.class);
     	}
     	
@@ -233,6 +234,7 @@ public class CaseController {
     @RequestMapping("/showCaseList.do")  
     public String showCaseList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
 		String mobile = request.getParameter("mobile");
+		//还需要加手机验证码判断
 		Reporter reporter = reporterService.getByMobile(mobile);
 		if(reporter != null) {
 			List<ReportCase> caseList = caseService.getCaseList(reporter);
@@ -266,7 +268,7 @@ public class CaseController {
     
     
     /*** 
-     * 根据跟踪号以及密码显示以往举报列表 
+     * 根据跟踪号以及密码显示举报列表 
      * @author cj
      * @param  
      * @return 

@@ -113,6 +113,7 @@ public class CaseServiceImpl implements CaseService {
 				}
 			}
 		}
+		
 		//保存案例对象
 		if(reportCaseMapper.insert(reportCase) > 0) {
     		log.debug(reportCase + "添加成功！");
