@@ -35,12 +35,12 @@ public class Company {
 	/**
 	 * 公司类型，字典类型company.type
 	 */
-	private DictionaryBean companyType;
+	private int companyType;
 
 	/**
 	 * 公司当前状态，字典类型company.state
 	 */
-	private DictionaryBean companyState;
+	private int companyState;
 
 	/**
 	 * 公司状态最后一次更改时间
@@ -97,22 +97,6 @@ public class Company {
 		this.phone = phone;
 	}
 
-	public DictionaryBean getCompanyType() {
-		return companyType;
-	}
-
-	public void setCompanyType(DictionaryBean companyType) {
-		this.companyType = companyType;
-	}
-
-	public DictionaryBean getCompanyState() {
-		return companyState;
-	}
-
-	public void setCompanyState(DictionaryBean companyState) {
-		this.companyState = companyState;
-	}
-
 	public Date getStateChanged() {
 		return stateChanged;
 	}
@@ -135,5 +119,21 @@ public class Company {
 
 	public void setQuestList(List<QuestionInfo> questList) {
 		this.questList = questList;
+	}
+
+	public int getCompanyType() {
+		return companyType;
+	}
+
+	public void setCompanyType(int companyType) {
+		this.companyType = companyType;
+	}
+
+	public int getCompanyState() {
+		return companyState;
+	}
+
+	public void setCompanyState(int companyState) {
+		this.companyState = companyState;
 	}
 }

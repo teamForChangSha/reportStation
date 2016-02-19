@@ -8,13 +8,11 @@
     <result column="company_code" property="companyCode" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
 	<result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />	
-	<association property="companyType" column="{dictValue=company_type}" javaType="com.jxxp.pojo.DictionaryBean"
-			select="com.jxxp.dao.DictionaryBeanMapper.getDictionary">
-	</association>
-	
-    <association property="companyState" column="{dictValue=company_state}" javaType="com.jxxp.pojo.DictionaryBean"
-			select="com.jxxp.dao.DictionaryBeanMapper.getDictionary">
-	</association>
+	<result column="company_type" property="companyType" jdbcType="INTEGER" />
+    <result column="company_state" property="companyState" jdbcType="INTEGER" />
+    <collection property="questList" column="company_id" ofType="com.jxxp.pojo.QuestionInfo"
+    select="com.jxxp.dao.QuestionInfoMapper.getAllByCompany">
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     company_id, company_name, description, company_code, phone, company_type, company_state, 
@@ -83,10 +81,10 @@
         #{phone,jdbcType=VARCHAR},
       </if>
       <if test="companyType != null" >
-        #{companyType.dictValue,jdbcType=VARCHAR},
+        #{companyType,jdbcType=INTEGER},
       </if>
       <if test="companyState != null" >
-        #{companyState.dictValue,jdbcType=VARCHAR},
+        #{companyState,jdbcType=INTEGER},
       </if>
       <if test="stateChanged != null" >
         #{stateChanged,jdbcType=TIMESTAMP},
