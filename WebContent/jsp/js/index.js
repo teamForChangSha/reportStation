@@ -229,6 +229,7 @@
 			i = 60;
 			$("#reportPanel").modal('hide');
 			 $("#selectByPhone").submit();
+			 
 		}
 	});
 	/**
