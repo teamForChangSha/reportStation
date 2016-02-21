@@ -94,5 +94,12 @@ public interface CaseService {
 	boolean saveCase(Reporter reporter, ReportCase reportCase,
 			List<ReportAnswer> answerList);
 
-
+	/**
+	 * 查询某个公司的举报信息，
+	 * 
+	 * @param Company
+	 *            公司对象           
+	 * @return 返回ReportCase列表，失败返回的列表长度为0
+	 */
+	List<ReportCase> getCaseByCompany(Company company);
 }

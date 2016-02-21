@@ -133,4 +133,16 @@ public class CompanyServiceImpl implements CompanyService {
 		return branch;
 	}
 
+	@Override
+	public boolean addCompanyOther(CompanyOther companyOther) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

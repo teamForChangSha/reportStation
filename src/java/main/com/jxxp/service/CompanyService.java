@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyOther;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
@@ -147,4 +148,22 @@ public interface CompanyService {
 	 */
 	CompanyBranch getCompanyBranchById(long branchId);
 
+	/**
+	 * 给公司增加一个举报类型<br>
+	 * 不删除原有举报类型数据
+	 * 
+	 * @param CompanyOther
+	 *            需要增加的公司附加信息
+	 * @return 增加成功则返回true，否则返回false
+	 */
+	boolean addCompanyOther(CompanyOther companyOther);
+	
+	/**
+	 * 修改公司的所有信息
+	 * 
+	 * @param CompanyWholeInfo
+	 *            需要修改的公司全部信息
+	 * @return 修改成功则返回true，否则返回false
+	 */
+	boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo);
 }

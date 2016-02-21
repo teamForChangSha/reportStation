@@ -151,5 +151,11 @@ public class CaseServiceImpl implements CaseService {
 		
 		return flag;
 	}
+
+	@Override
+	public List<ReportCase> getCaseByCompany(Company company) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
