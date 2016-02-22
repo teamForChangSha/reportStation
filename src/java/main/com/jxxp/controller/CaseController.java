@@ -164,7 +164,7 @@ public class CaseController {
 		try {
 			out = response.getWriter();
 			if(caseService.saveCase(reporter,reportCase,answerList)){
-				log.debug("案件提交成功！");
+				log.debug(reportCase.getTrackingNo() + "案件提交成功！");
 				out.print(reportCase.getTrackingNo());
 			} else {
 				out.print("");
@@ -250,6 +250,9 @@ public class CaseController {
 		if(reporter != null) {
 			List<ReportCase> caseList = caseService.getCaseList(reporter);
 			modelMap.put("caseList", caseList);
+		} else {
+			modelMap.put("errorMsg", "未找到匹配数据！");
+			return "/jsp/pages/error";
 		}
     	return "/jsp/pages/report_list";
     }
@@ -270,6 +273,8 @@ public class CaseController {
 		ReportCase reportCase = caseService.getReportCaseById(rcId);
 		if(reportCase == null) {
 			log.debug("案例获取失败！");
+			modelMap.put("errorMsg", "未找到匹配数据！");
+			return "/jsp/pages/error";
 		}
 		
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
@@ -288,9 +293,13 @@ public class CaseController {
     public String showCaseByTrackingNo(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
 		String trackingNo = request.getParameter("trankingNo");
 		String accessCode = request.getParameter("accecCode");
+		log.debug("trackingNo:" + trackingNo);
+		log.debug("accessCode:" + accessCode);
 		ReportCase reportCase = caseService.getReportCase(trackingNo, accessCode);
 		if(reportCase == null) {
 			log.debug("reportCase获取失败！");
+			modelMap.put("errorMsg", "未找到匹配数据！");
+			return "/jsp/pages/error";
 		}
 		
 		modelMap.put("reportCase", reportCase);

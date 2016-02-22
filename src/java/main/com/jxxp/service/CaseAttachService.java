@@ -29,14 +29,4 @@ public interface CaseAttachService {
 	 */
 	boolean addCaseAttach(CaseAttach caseAttach);
 	
-	/**
-	 * 批量更新临时文件为永久文件
-	 * 
-	 * @param trackingNo
-	 *            案件的跟踪号
-	 *            
-	 * @return 返回更新结果，成功true，否则返回false
-	 */
-	boolean updateTempCaseAttach(String trackingNo,String filePath);
-	
 }

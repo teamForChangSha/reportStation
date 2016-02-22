@@ -1,5 +1,6 @@
 package com.jxxp.controller;
 
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.service.CompanyService;
 
 @Controller("companyController")
@@ -34,7 +37,7 @@ public class CompanyController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/save.do")
+	@RequestMapping("/saveCompany.do")
 	public String saveCompany(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		companyService.saveCompanyInfo(company);
@@ -66,4 +69,18 @@ public class CompanyController {
 
 	}
 
+	/**
+	 * 保存公司信息
+	 * 
+	 * @author cj
+	 * @param companyWhole
+	 * @return
+	 */
+	@RequestMapping("/saveCompanyWhole.do")
+	public String saveCompanyWhole(Company company, CompanyOther companyOther, HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		companyService.saveWholeCompany(new CompanyWholeInfo(company, companyOther));
+		
+		return "/jsp/areaAll";
+	}
 }

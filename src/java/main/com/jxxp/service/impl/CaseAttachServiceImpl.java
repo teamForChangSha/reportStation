@@ -25,10 +25,4 @@ public class CaseAttachServiceImpl implements CaseAttachService {
 		return caseAttachMapper.insert(caseAttach) > 0;
 	}
 
-	@Override
-	public boolean updateTempCaseAttach(String trackingNo, String filePath) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
