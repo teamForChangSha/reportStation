@@ -159,8 +159,18 @@ public class CaseController {
 			tempToFile(tempPath, filePath);
 		}
 		
-		if(caseService.saveCase(reporter,reportCase,answerList)){
-			
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseService.saveCase(reporter,reportCase,answerList)){
+				log.debug("案件提交成功！");
+				out.print(reportCase.getTrackingNo());
+			} else {
+				out.print("");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
 		}
     	return null;
 	}
@@ -264,7 +274,7 @@ public class CaseController {
 		
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
 		modelMap.put("reportCase", reportCase);
-    	return "/jsp/pages/report_list";
+    	return "/jsp/pages/report_info";
     }
     
     
