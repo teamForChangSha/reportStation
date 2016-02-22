@@ -31,10 +31,10 @@
   </delete>
   
   <insert id="insert" parameterType="com.jxxp.pojo.Reporter" useGeneratedKeys="true" keyProperty="reporterId" >
-    insert into reporter (mobile, name, 
+    insert into reporter (reporter_id,mobile, name, 
       id_name, id_no, email, 
       best_contact)
-    values (#{mobile,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{reporterId,jdbcType=BIGINT},#{mobile,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{idName,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{bestContact,jdbcType=VARCHAR})
   </insert>

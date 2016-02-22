@@ -48,6 +48,16 @@
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
   
+  <select id="searchByKeys" resultMap="BaseResultMap">
+  select  
+  <include refid="Base_Column_List" />
+  from reportcase
+  <!--
+  <where>
+  
+  </where> -->
+  </select>
+  
   <select id="getCaseByReporter" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

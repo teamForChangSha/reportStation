@@ -209,7 +209,7 @@ public class CaseServiceTest {
 		caseService.saveCaseInfo(caseInfo);
 		ReportCase caseInfo2 = reportCaseMapper.getById(caseInfo.getRcId());
 		reportCaseMapper.deleteById(caseInfo.getRcId());
-		assertTrue(caseInfo2.getCaseState() == 1);
+		assertTrue(caseInfo2.getCaseState() == 0);
 
 	}
 

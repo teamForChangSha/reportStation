@@ -3,6 +3,7 @@
     <wb-module deploy-name="reportStation">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/java/main"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/java/test"/>
         <property name="context-root" value="reportStation"/>
         <property name="java-output-path" value="/reportStation/build/classes"/>
     </wb-module>

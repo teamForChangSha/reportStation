@@ -77,4 +77,11 @@ public interface ReportCaseMapper {
 	 */
 	int deleteById(long rcId);
 
+	/**
+	 * 用于测试模糊查询
+	 * 
+	 * @return
+	 */
+	List<ReportCase> searchByKeys();
+
 }

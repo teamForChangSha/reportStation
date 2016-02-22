@@ -14,7 +14,7 @@ public class ReportType {
 	 * 用于表示该举报类型是网站标准举报类型还是用户自定义类型<br>
 	 * true为网站标准举报类型
 	 */
-	private boolean isStandard;
+	private int isStandard;
 
 	/**
 	 * 当isStandard为true时，此字段值可忽略<br>
@@ -40,14 +40,6 @@ public class ReportType {
 		this.rtId = rtId;
 	}
 
-	public boolean isStandard() {
-		return isStandard;
-	}
-
-	public void setStandard(boolean isStandard) {
-		this.isStandard = isStandard;
-	}
-
 	public Company getOwner() {
 		return owner;
 	}
@@ -70,6 +62,14 @@ public class ReportType {
 
 	public void setRtDesc(String rtDesc) {
 		this.rtDesc = rtDesc;
+	}
+
+	public int getIsStandard() {
+		return isStandard;
+	}
+
+	public void setIsStandard(int isStandard) {
+		this.isStandard = isStandard;
 	}
 
 }
