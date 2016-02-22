@@ -31,11 +31,42 @@
     where quest_id = #{questId,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.jxxp.pojo.QuestionInfo" >
-    insert into questioninfo (quest_id, quest_key, quest, 
-      quest_desc, is_needed)
-    values (#{questId,jdbcType=BIGINT}, #{questKey,jdbcType=VARCHAR}, #{quest,jdbcType=VARCHAR}, 
-      #{questDesc,jdbcType=VARCHAR}, #{isNeeded,jdbcType=INTEGER})
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="questId" parameterType="com.jxxp.pojo.QuestionInfo">
+    insert into questioninfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="questId != null" >
+        quest_id,
+      </if>
+      <if test="questKey != null" >
+        quest_key,
+      </if>
+      <if test="quest != null" >
+        quest,
+      </if>
+      <if test="questDesc != null" >
+        quest_desc,
+      </if>
+      <if test="isNeeded != null" >
+        is_needed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="questId != null" >
+        #{questId,jdbcType=BIGINT},
+      </if>
+      <if test="questKey != null" >
+        #{questKey,jdbcType=VARCHAR},
+      </if>
+      <if test="quest != null" >
+        #{quest,jdbcType=VARCHAR},
+      </if>
+      <if test="questDesc != null" >
+        #{questDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isNeeded != null" >
+        #{isNeeded,jdbcType=INTEGER},
+      </if>
+    </trim>
   </insert> 
   
   <update id="update" parameterType="com.jxxp.pojo.QuestionInfo" >

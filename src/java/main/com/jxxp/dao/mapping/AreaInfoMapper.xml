@@ -24,6 +24,12 @@
    
   </select>
   
+   <select id="getAllByLevel" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from areainfo where level = #{level,jdbcType=BIGINT}   
+  </select>
+  
   <select id="getProvinceByCompanyId" resultMap="BaseResultMap" parameterType="com.jxxp.pojo.AreaInfo">
   select * from areainfo where area_id in 
    (select province from companybranch where company_id=#{companyId})

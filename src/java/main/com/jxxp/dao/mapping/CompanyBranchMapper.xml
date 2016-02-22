@@ -38,6 +38,10 @@
     and city = #{areaId,jdbcType=BIGINT}
    
   </select>
+  <select id="getAllByCompany" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from companybranch  where 1=1    
+    and company_id = #{companyId,jdbcType=BIGINT}  
+  </select>
   
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from companybranch

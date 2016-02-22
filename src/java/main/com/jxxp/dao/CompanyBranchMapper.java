@@ -31,6 +31,8 @@ public interface CompanyBranchMapper {
 	 */
 	int update(CompanyBranch branch);
 
+	List<CompanyBranch> getAllByCompany(long companyId);
+
 	/**
 	 * 获取某地的公司分支机构信息，若地区为空则获取某个公司下的所有分支机构<br>
 	 * 公司的总部也算作一个分支机构
