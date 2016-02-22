@@ -1,5 +1,7 @@
 package com.jxxp.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +64,16 @@ public class CompanyController {
 		List<Company> companyList = new ArrayList<Company>();
 		companyList = companyService.getCompanyByName(companyName);
 		model.put("companyList", companyList);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(companyList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		log.debug("获取公司集合成功" + companyList.size());
-		return "jsp/success";
+		return null;
 
 	}
 
