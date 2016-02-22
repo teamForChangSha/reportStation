@@ -60,7 +60,7 @@ public class CompanyController {
 	@RequestMapping("/getByName.do")
 	public String getByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		log.debug("get companyName===" + companyName);
+		log.debug("get companyName==" + companyName);
 		List<Company> companyList = new ArrayList<Company>();
 		companyList = companyService.getCompanyByName(companyName);
 		model.put("companyList", companyList);
@@ -72,7 +72,7 @@ public class CompanyController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		log.debug("获取公司集合成功" + companyList.size());
+		log.debug("获取公司集合成功size=" + companyList.size());
 		return null;
 
 	}

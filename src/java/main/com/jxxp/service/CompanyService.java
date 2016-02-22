@@ -44,7 +44,7 @@ public interface CompanyService {
 	 *            公司名称，后期若支持相似名字合并，则可以是合并后的任意一个公司名称
 	 * @return 返回查询到的公司基本信息
 	 */
-	List<Company> getCompanyByName(String name);
+	List<Company> getCompanyByName(String companyName);
 
 	/**
 	 * 获得公司的基本信息

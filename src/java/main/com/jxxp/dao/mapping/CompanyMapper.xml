@@ -27,13 +27,12 @@
     select <include refid="Base_Column_List" /> from company    
   </select>
   
-  <!-- 此方法可删除暂时保留TODO -->
   <select id="findByName" resultMap="BaseResultMap" parameterType="String" >
     select * from company
     where company_name = #{companyName,jdbcType=VARCHAR}
   </select>
   
-   <select id="getByName" resultMap="BaseResultMap" parameterType="String" >
+   <select id="getAllByName" resultMap="BaseResultMap" parameterType="String" >
     select * from company
     where company_name like concat(concat(#{companyName,jdbcType=VARCHAR},'%'))
   </select>

@@ -54,8 +54,8 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<Company> getCompanyByName(String name) {
-		return companyMapper.getByName(name);
+	public List<Company> getCompanyByName(String companyName) {
+		return companyMapper.getAllByName(companyName);
 	}
 
 	@Override

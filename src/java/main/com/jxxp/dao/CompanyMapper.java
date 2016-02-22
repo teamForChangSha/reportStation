@@ -34,7 +34,7 @@ public interface CompanyMapper {
 	 * @param companyName
 	 * @return 匹配名字的公司集合
 	 */
-	List<Company> getByName(String companyName);
+	List<Company> getAllByName(String companyName);
 
 	Company getById(long companyId);
 
