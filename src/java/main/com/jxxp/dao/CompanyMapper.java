@@ -26,14 +26,15 @@ public interface CompanyMapper {
 	 */
 	int update(Company Company);
 
+	Company findByName(String companyName);
+
 	/**
-	 * 通过公司名字获取公司信息
+	 * 通过公司的名字进行模糊查询
 	 * 
 	 * @param companyName
-	 *            公司名字
-	 * @return
+	 * @return 匹配名字的公司集合
 	 */
-	Company findByName(String companyName);
+	List<Company> getByName(String companyName);
 
 	Company getById(long companyId);
 
