@@ -54,8 +54,8 @@
 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav pull-right">
-						<li><a href="../jsp/index.jsp">首页</a></li>
-						<li><a href="userPages/privacy.html" target="_blank">商业行为和道德准则</a></li>
+						<li><a href="<%=basePath%>">首页</a></li>
+						<li><a href="#" target="_blank">商业行为和道德准则</a></li>
 						<li><a href="#">常见问题</a></li>
 					</ul>
 				</div>

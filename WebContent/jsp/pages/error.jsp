@@ -48,12 +48,9 @@
 
 				</div>
 				<div class="col-sm-4 text-center">
-					<h2>举报成功</h2>
-					<h3><span class="label label-danger">案件编号为：${trackingNo }</span></h3>
+					<h2> </h2>
+					<h3><span class="label label-danger">${errorMsg }</span></h3>
 					<br />
-					<div class="alert alert-warning text-left">
-						记录您的<strong>“案件编号”</strong>和<strong>“密码”</strong>并将其保存在安全的地方。 5-6 个工作日后，请使用您的案件编号或密码检查报告的反馈或问题。
-					</div>
 					<a href="" class="btn btn-link">&lt;返回首页</a>
 				</div>
 			</div>

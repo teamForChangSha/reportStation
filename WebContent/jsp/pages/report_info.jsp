@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
@@ -107,15 +108,19 @@
 							<span class="form-info">${reportCase.branch.postCode }</span>
 						</div>
 					</div>
+					<div class="page-header"></div>
 					<c:forEach items = "${questionAnswerList}" var = "quest" varStatus = "i" >
 						<div class="form-group">
 						<label class="col-sm-4 control-label">${quest.question }：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="isEmployees">${quest.questValue }</span>
+							<span class="form-info">
+								<c:if test="${quest.questValue=='true'}">是</c:if>
+								<c:if test="${quest.questValue=='false'}">不是</c:if>
+							</span>
 						</div>
 					</div>
 					</c:forEach>
-					<div class="form-group">
+					<%-- <div class="form-group">
 						<label class="col-sm-4 control-label">是否为${reportCase.branch.owner.companyName }的员工：</label>
 						<div class="col-sm-8">
 							<span class="form-info" id="isEmployees">是</span>
@@ -210,44 +215,41 @@
 						<div class="col-sm-8">
 							<span class="form-info">张三不愿告诉李四李四不愿告诉王五</span>
 						</div>
-					</div>
+					</div> --%>
 					<div class="page-header"></div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">其他材料：</label>
 						<div class="col-sm-8">
-							<p><a href="#">事件图片1.jpg</a></p>
-							<p><a href="#">事件图片1.jpg</a></p>
-							<p><a href="#">事件图片1.jpg</a></p>
-							<p><a href="#">事件图片1.jpg</a></p>
+							<c:forEach items = "${reportCase.attachList}" var = "attach" varStatus = "i" >
+								<p><a href="${attach.attachUrl }">${attach.attachFileName }</a></p>
+							</c:forEach>
 						</div>
 					</div>
 					<div class="page-header"></div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">案件状态：</label>
 						<div class="col-sm-8">
-							<span class="form-info">被举报方处理中</span>
+							<span class="form-info" id="caseState">${reportCase.caseState }</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">案件处理流程：</label>
 						<div class="col-sm-8">
-							<span class="form-info">管理员已处理<time class="pull-right">2015-12-01</time></span>
-							<span class="form-info">被举报人已处理<time class="pull-right">2015-12-01</time></span>
-							<span class="form-info">举报人处理<time class="pull-right">2015-12-01</time></span>
+							<c:forEach items = "${reportCase.changeList}" var = "change" varStatus = "i" >
+								<span class="form-info">${change.operator }
+									<time class="pull-right"><fmt:formatDate value="${change.changeTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/></time>
+								</span>
+							</c:forEach>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-4 control-label">管理员：</label>
-						<div class="col-sm-8">
-							<textarea rows="3" readonly class="form-control">管理员已处理</textarea>
-						</div>
+					<c:forEach items = "${reportCase.commentList}" var = "comment" varStatus = "i" >
+						<div class="form-group">
+							<label class="col-sm-4 control-label">${comment.owner }：</label>
+							<div class="col-sm-8">
+								<textarea rows="3" readonly class="form-control">${comment.content }</textarea>
+							</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-4 control-label">被举报方：</label>
-						<div class="col-sm-8">
-							<textarea rows="3" disabled class="form-control">被举报方正在核实</textarea>
-						</div>
-					</div>
+					</c:forEach>
 					<div class="form-group">
 						<div class="col-sm-4"></div>
 						<div class="col-sm-8 text-right">
@@ -270,13 +272,17 @@
 			}
 			ele.addNote.click(function() {
 				var rootDiv = $("<div/>").attr("class", "form-group");
-				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("ä¸¾æ¥äºº");
+				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("追加人：");
 				var div = $("<div/>").attr("class", "col-sm-8");
 				var textarea = $("<textarea/>").attr("class", "form-control").attr("rows", 3);
 				rootDiv.append(lable);
 				div.append(textarea);
 				rootDiv.append(div);
 				$(this).parent().parent().before(rootDiv);
+			});
+			var url = "dict/getDictName.do?dictType=case.state&dictValue=${reportCase.caseState }";
+			$.get(url,function(res){
+				$("#caseState").text(res);
 			});
 		});
 	</script>

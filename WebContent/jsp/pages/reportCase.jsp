@@ -247,7 +247,7 @@
 						</h4>
 						</div>
 						<div id="quest_1" class="form-group text-center hidden">
-							<span><strong><span class="xinghao">*</span>您是 ${companyBranch.owner.companyName } 的员工吗？</strong>
+							<span><strong>您是 ${companyBranch.owner.companyName } 的员工吗？</strong>
 							</span>
 							<br />
 							<label class="radio-inline">
@@ -258,8 +258,8 @@
 							</label>
 						</div>
 						<div id="quest_2" class="form-group text-center hidden">
-						<div class="page-header"></div>
-							<span><span class="xinghao">*</span><strong>请说明与此行为相关的人的身份</strong></span>
+							<div class="page-header"></div>
+							<span><strong>请说明与此行为相关的人的身份</strong></span>
 							<br /> <span> 例如：无名氏，内部审计主管，未知，晚间监督员</span>
 						</div>
 						<div class="form-group hidden">
@@ -492,19 +492,19 @@
 							</div>
 						</div>
 						<div class="form-group text-center">
-							<p class="bg-danger">
-								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 EthicsPoint 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您可以查阅任何"后续问题"或提交关于此事件的更多信息。
-							</p>
-						</div>
-						<div class="form-group text-center">
 							<div class="page-header"></div>
 							<span><strong> 此外，在可能的情况下，请附上任何支持您在本次报告中所提供信息的文档。</strong></span>
 							<br /> <a href="#" class="btn-link" data-toggle="modal" data-target="#upLoadPanel">单击此处上传文件</a>
 							<br />
 							<p>（可上传大多数常见的文件类型。）</p>
 						</div>
+						<div class="page-header"></div>
 						<div class="form-group text-center">
-							<div class="page-header"></div>
+							<p class="bg-danger">
+								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 EthicsPoint 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您可以查阅任何"后续问题"或提交关于此事件的更多信息。
+							</p>
+						</div>
+						<div class="form-group text-center">
 							<h3>
 							<span class="label label-danger">当前案件编号为：${trackingNo }</span>
 						</h3>

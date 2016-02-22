@@ -38,6 +38,9 @@ $(function() {
 		getCode : $("#getCode")
 	};
 
+	/**
+	 * 所有问题面板
+	 */
 	var questPanle = {
 		quest_1 : $("#quest_1"),
 		quest_2 : $("#quest_2"),
@@ -113,28 +116,19 @@ $(function() {
 		idCard : /^\d{15}|(\d{17}(\d|x|X))$/
 	};
 
+	/**
+	 * 控制页面需要显示的问题
+	 */
 	(function() {
 		$.each(questionList, function(i, question) {
 			var key = question.quest_key;
-			console.log(key);
+			var span = $("<span/>").attr("class","xinghao").text("*");
+			if (question.is_needed == 1) {
+				$("#" + key).find("strong").prepend(span);
+			}
 			switch (key) {
 			case "quest_1":
-				// TODO
-//				if (question.is_needed == 1) {
-//					$("#" + key).children("p:first");
-//				}
 				$("#" + key).removeClass("hidden");
-				break;
-			case "quest_3":
-			case "quest_6":
-			case "quest_7":
-			case "quest_8":
-			case "quest_9":
-			case "quest_11":
-			case "quest_12":
-			case "quest_13":
-				$("#" + key).removeClass("hidden");
-				$("#" + key).next().removeClass("hidden");
 				break;
 			case "quest_2":
 				$("#" + key).removeClass("hidden");
@@ -143,11 +137,29 @@ $(function() {
 				$("#" + key).next().next().next().removeClass("hidden");
 				$("#" + key).next().next().next().next().removeClass("hidden");
 				break;
+			case "quest_3":
+			case "quest_4":
+			case "quest_9":
+				$("#" + key).removeClass("hidden");
+				break;
+			case "quest_5":
+			case "quest_6":
+			case "quest_7":
+			case "quest_8":
+			case "quest_11":
+			case "quest_12":
+			case "quest_13":
+				$("#" + key).removeClass("hidden");
+				$("#" + key).next().removeClass("hidden");
+				break;
 			}
 		});
 	})();
 
-	function notSend() {
+	/**
+	 * 设置需要发送的问题
+	 */
+	function setAnswers() {
 		var list = [];
 		$.each(questionList, function(i, question) {
 			var data = {};
@@ -240,28 +252,21 @@ $(function() {
 		var url = "case/addCase.do";
 		var reporter = "reporter="
 				+ JSON.stringify($("#userInfo").serializeJson());
-		var anonymous = "isAnonymous=" + quest.isAnonymous.filter(':checked').val();
-		var questions = "answers=" + notSend();
+		var anonymous = "isAnonymous="
+				+ quest.isAnonymous.filter(':checked').val();
+		var questions = "answers=" + setAnswers();
 		var trackingNo = "trackingNo=" + quest.trackingNo.val();
-		var accessCode = "accessCode=" + md5(quest.pass.val());
+		var accessCode = "accessCode=" + quest.pass.val();
 		var rtList = "rtList=" + quest.rtList.val();
 		var data = reporter + "&" + anonymous + "&" + questions + "&"
 				+ trackingNo + "&" + accessCode + "&" + rtList;
 
-		$.post(url, data, function(data, status, xhr) {
-
-		}, "json");
-		console.log(data);
+		$.post(url, data, function(res, status) {
+			if (status == "success" && res != "") {
+				location.href = "jsp/pages/reportSuccess.jsp";
+			}
+		});
 	}
-
-	// TODO
-	/*
-	 * isAgreed(false); changeClass(formEle.name, false);
-	 * changeClass(formEle.surnames, false); changeClass(formEle.certificateNum,
-	 * false); changeClass(formEle.phone, false); changeClass(formEle.code,
-	 * false); changeClass(formEle.email, false);
-	 * changeSelectClass(formEle.certificate, false);
-	 */
 
 	function isAgreed(bool) {
 		if (bool) {
@@ -319,7 +324,7 @@ $(function() {
 	}
 
 	quest.isAnonymous.change(function() {
-		if ($(this).val() == "true") {
+		if ($(this).filter(':checked').val() == "true") {
 			$("#userInfo").addClass("hidden");
 		} else {
 			$("#userInfo").removeClass("hidden");
