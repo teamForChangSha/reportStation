@@ -69,7 +69,7 @@
 				</div>
 				<div class="col-sm-8 text-center">
 					<div class="page-header">
-						<p><strong>您好：XXX</strong></p>
+						<p><strong></strong></p>
 						<p>以下是您之间提交的所有举报信息</p>
 					</div>
 					<table class="table table-bordered table-hover">
@@ -95,21 +95,30 @@
 	</body>
 	<script type="text/javascript">
 	$(function() {
-		<c:forEach items = "${caseList}" var = "case" varStatus = "i">
-		console.log("${csae.rcId}");
+		<c:forEach items="${caseList}" var="caseInfo" varStatus = "i">
+			$("strong").text("您好：${caseInfo.reporter.name}");
 			var tr = $("<tr/>");
-			var td1 = $("<td/>").addClass("hidden").text("${csae.rcId}");
-			var td2 = $("<td/>").text("${csae.company.companyName}");
-			var td3 = $("<td/>").text("供应商行贿");
-			var td4 = $("<td/>").text("被举报人已回复");
-			var td5 = $("<td/>").text("2016-02-12");
+			var td1 = $("<td/>").addClass("hidden").text("${caseInfo.rcId}");
+			var td2 = $("<td/>").text("${caseInfo.company.companyName}");
+			var td3 = $("<td/>").text("${caseInfo.rtList}");
+			var td4 = $("<td/>").text("${caseInfo.caseState}");
+			var td5 = $("<td/>").text(getDate("${caseInfo.createTime}"));
 			tr.append(td1).append(td2).append(td3).append(td4).append(td5);
 			tr.click(function() {
-				//				alert($(this).find("td:first").text());
-				location.href = "report_info.html";
+				location.href = "case/showCaseById.do?rcId="+$(this).find("td:first").text();
 			});
 			$("tbody").append(tr);
 		</c:forEach>
+		
+		function getDate(strDate) {
+			 
+            var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
+ 
+             function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) + ')');
+ 
+            return date;
+ 
+        }
 	});
 	</script>
 

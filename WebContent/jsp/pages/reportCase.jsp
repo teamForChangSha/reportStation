@@ -173,18 +173,6 @@
 								<span class="form-info">${companyBranch.postCode }</span>
 							</div>
 						</div>
-						<div id="quest_1" class="form-group text-center hidden">
-							<div class="page-header"></div>
-							<span><strong><span class="xinghao">*</span>您是 ${companyBranch.owner.companyName } 的员工吗？</strong>
-							</span>
-							<br />
-							<label class="radio-inline">
-								<input type="radio" name="quest_1_value" value="true" /> 是
-							</label>
-							<label class="radio-inline">
-								<input type="radio" checked="true" name="quest_1_value" value="false" /> 否
-							</label>
-						</div>
 						<div class="form-group text-center">
 							<div class="page-header"></div>
 							<span><strong><span class="xinghao">*</span>对于这项报告，您是否希望保持匿名身份？</strong>
@@ -202,12 +190,23 @@
 								<span><strong>如果您希望 Hyatt 知道您的身份，请完成以下内容：</strong></span>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label">手机号：</label>
+								<div class="input-group col-sm-5" id="phone-input-group">
+									<input name="mobile" type="tel" maxlength="11" class="form-control" placeholder="实名手机号"> <span class="input-group-btn">
+									<button id="getCode" class="btn btn-default" type="button">获取验证码</button>
+								</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">验证码：</label>
+								<div class="col-sm-3">
+									<input name="code" type="text" maxlength="6" class="form-control" placeholder="手机验证码"></input>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label">您的姓名：</label>
 								<div class="col-sm-3">
-									<input name="name" type="text" class="form-control" placeholder="名字"></input>
-								</div>
-								<div class="col-sm-3">
-									<input id="surnames" type="text" class="form-control" placeholder="姓氏"></input>
+									<input name="name" type="text" class="form-control" placeholder="姓名"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -224,23 +223,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">手机号：</label>
-								<div class="input-group col-sm-5" id="phone-input-group">
-									<input name="mobile" type="text" maxlength="11" class="form-control"> <span class="input-group-btn">
-									<button id="getCode" class="btn btn-default" type="button">获取验证码</button>
-								</span>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label">验证码：</label>
-								<div class="col-sm-3">
-									<input name="code" type="text" maxlength="6" class="form-control"></input>
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="col-sm-4 control-label">邮箱：</label>
 								<div class="col-sm-4">
-									<input name="email" type="text" class="form-control"></input>
+									<input name="email" type="email" class="form-control" placeholder="邮箱地址"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -261,17 +246,26 @@
 							<strong>${rtList} </strong>
 						</h4>
 						</div>
+						<div id="quest_1" class="form-group text-center hidden">
+							<span><strong><span class="xinghao">*</span>您是 ${companyBranch.owner.companyName } 的员工吗？</strong>
+							</span>
+							<br />
+							<label class="radio-inline">
+								<input type="radio" name="quest_1_value" value="true" /> 是
+							</label>
+							<label class="radio-inline">
+								<input type="radio" checked="true" name="quest_1_value" value="false" /> 否
+							</label>
+						</div>
 						<div id="quest_2" class="form-group text-center hidden">
+						<div class="page-header"></div>
 							<span><span class="xinghao">*</span><strong>请说明与此行为相关的人的身份</strong></span>
 							<br /> <span> 例如：无名氏，内部审计主管，未知，晚间监督员</span>
 						</div>
 						<div class="form-group hidden">
 							<div class="col-sm-3"></div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
 								<span class="form-info">名字</span>
-							</div>
-							<div class="col-sm-2">
-								<span class="form-info">姓氏</span>
 							</div>
 							<div class="col-sm-3">
 								<span class="form-info">职衔 </span>
@@ -279,11 +273,8 @@
 						</div>
 						<div class="form-group hidden">
 							<div class="col-sm-3 control-label">#1</div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
 								<input type="text" name="quest_3_value_name1" class="form-control" />
-							</div>
-							<div class="col-sm-2">
-								<input type="text" name="quest_3_value_surname1" class="form-control" />
 							</div>
 							<div class="col-sm-3">
 								<input type="text" name="quest_3_value_position1" class="form-control" />
@@ -291,11 +282,8 @@
 						</div>
 						<div class="form-group hidden">
 							<div class="col-sm-3 control-label">#2</div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
 								<input type="text" name="quest_3_value_name2" class="form-control" />
-							</div>
-							<div class="col-sm-2">
-								<input type="text" name="quest_3_value_surname2" class="form-control" />
 							</div>
 							<div class="col-sm-3">
 								<input type="text" name="quest_3_value_position2" class="form-control" />
@@ -303,11 +291,8 @@
 						</div>
 						<div class="form-group hidden">
 							<div class="col-sm-3 control-label">#3</div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
 								<input type="text" name="quest_3_value_name3" class="form-control" />
-							</div>
-							<div class="col-sm-2">
-								<input type="text" name="quest_3_value_surname3" class="form-control" />
 							</div>
 							<div class="col-sm-3">
 								<input type="text" name="quest_3_value_position3" class="form-control" />
@@ -508,7 +493,7 @@
 						</div>
 						<div class="form-group text-center">
 							<p class="bg-danger">
-								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 EthicsPoint 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您将有机会查阅任何"后续问题"或提交关于此事件的更多信息。
+								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 EthicsPoint 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您可以查阅任何"后续问题"或提交关于此事件的更多信息。
 							</p>
 						</div>
 						<div class="form-group text-center">

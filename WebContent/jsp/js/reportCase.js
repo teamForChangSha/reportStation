@@ -27,7 +27,6 @@ $(function() {
 	 */
 	var userAndOther = {
 		name : $("input[name=name]"),
-		surnames : $("#surnames"),
 		idName : $("select[name=idName]"),
 		idNo : $("input[name=idNo]"),
 		mobile : $("input[name=mobile]"),
@@ -60,15 +59,12 @@ $(function() {
 	 */
 	var quest = {
 		isEmployees : $("input[name=quest_1_value]"),
-		isAnonymous : $("input[name='quest_2_value']:checked"),
+		isAnonymous : $("input[name='quest_2_value']"),
 		personName1 : $("input[name=quest_3_value_name1]"),
-		personSurname1 : $("input[name='quest_3_value_surname1']"),
 		personPosition1 : $("input[name=quest_3_value_position1]"),
 		personName2 : $("input[name=quest_3_value_name2]"),
-		personSurname2 : $("input[name='quest_3_value_surname2']"),
 		personPosition2 : $("input[name=quest_3_value_position2]"),
 		personName3 : $("input[name=quest_3_value_name3]"),
-		personSurname3 : $("input[name='quest_3_value_surname3']"),
 		personPosition3 : $("input[name=quest_3_value_position3]"),
 		regulators : $("input[name='quest_4_value']"),
 		regulators1 : $("textarea[name=quest_4_value1]"),
@@ -120,12 +116,13 @@ $(function() {
 	(function() {
 		$.each(questionList, function(i, question) {
 			var key = question.quest_key;
+			console.log(key);
 			switch (key) {
 			case "quest_1":
 				// TODO
-				if (question.is_needed == 1) {
-					$("#" + key).children("p:first");
-				}
+//				if (question.is_needed == 1) {
+//					$("#" + key).children("p:first");
+//				}
 				$("#" + key).removeClass("hidden");
 				break;
 			case "quest_3":
@@ -185,28 +182,23 @@ $(function() {
 		var aboutUser = "";
 		if (!isEmty(quest.personName1.val())) {
 			aboutUser += quest.personName1.val() + ","
-					+ quest.personSurname1.val() + ","
 					+ quest.personPosition1.val();
 		}
 		if (!isEmty(quest.personName2.val())) {
 			if (isEmty(aboutUser)) {
 				aboutUser += quest.personName2.val() + ","
-						+ quest.personSurname2.val() + ","
 						+ quest.personPosition2.val();
 			} else {
 				aboutUser += "," + quest.personName2.val() + ","
-						+ quest.personSurname2.val() + ","
 						+ quest.personPosition2.val();
 			}
 		}
 		if (!isEmty(quest.personName3.val())) {
 			if (isEmty(aboutUser)) {
 				aboutUser += quest.personName3.val() + ","
-						+ quest.personSurname3.val() + ","
 						+ quest.personPosition3.val();
 			} else {
 				aboutUser += "," + quest.personName3.val() + ","
-						+ quest.personSurname3.val() + ","
 						+ quest.personPosition3.val();
 			}
 		}
@@ -246,11 +238,9 @@ $(function() {
 	 */
 	function sendForm() {
 		var url = "case/addCase.do";
-		userAndOther.name.val(userAndOther.surnames.val()
-				+ userAndOther.name.val());
 		var reporter = "reporter="
 				+ JSON.stringify($("#userInfo").serializeJson());
-		var anonymous = "isAnonymous=" + quest.isAnonymous.val();
+		var anonymous = "isAnonymous=" + quest.isAnonymous.filter(':checked').val();
 		var questions = "answers=" + notSend();
 		var trackingNo = "trackingNo=" + quest.trackingNo.val();
 		var accessCode = "accessCode=" + md5(quest.pass.val());
