@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.CompanyQuestionMapper" >  
+  <insert id="insert">
+    insert into company_question (company_id, quest_id)
+    values (#{companyId,jdbcType=BIGINT}, #{questId,jdbcType=BIGINT})
+  </insert>  
+  
+  <delete id="deleteByDoubleId">
+    delete from company_question
+    where company_id=#{companyId,jdbcType=BIGINT}
+    and quest_id=#{questId,jdbcType=BIGINT}
+  </delete>  
+</mapper>
