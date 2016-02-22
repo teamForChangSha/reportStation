@@ -52,10 +52,10 @@
   select  
   <include refid="Base_Column_List" />
   from reportcase
-  <!--
+  
   <where>
   
-  </where> -->
+  </where> 
   </select>
   
   <select id="getCaseByReporter" resultMap="BaseResultMap">

@@ -44,7 +44,7 @@ public interface CompanyService {
 	 *            公司名称，后期若支持相似名字合并，则可以是合并后的任意一个公司名称
 	 * @return 返回查询到的公司基本信息
 	 */
-	Company getCompany(String name);
+	List<Company> getCompanyByName(String name);
 
 	/**
 	 * 获得公司的基本信息
@@ -54,7 +54,7 @@ public interface CompanyService {
 	 * @return 返回查询到的公司基本信息
 	 */
 	Company getCompanyById(long companyId);
-	
+
 	/**
 	 * 获得公司的所有信息，包括基本信息、其余信息，以及未来可能添加的更多信息
 	 * 
@@ -138,7 +138,7 @@ public interface CompanyService {
 	 * @return 返回查询到的公司信息列表
 	 */
 	List<Company> getAllCompanyList();
-	
+
 	/**
 	 * 根据ID获取公司分支机构信息<br>
 	 * 
@@ -157,7 +157,7 @@ public interface CompanyService {
 	 * @return 增加成功则返回true，否则返回false
 	 */
 	boolean addCompanyOther(CompanyOther companyOther);
-	
+
 	/**
 	 * 修改公司的所有信息
 	 * 

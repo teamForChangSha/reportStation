@@ -49,13 +49,13 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveWholeCompany(CompanyWholeInfo wholeCompany) {
 		boolean flag1 = saveCompanyInfo(wholeCompany.getCompany());
 		boolean flag2 = companyOtherMapper.insert(wholeCompany.getCompanyOther()) > 0;
-		
+
 		return flag1 && flag2;
 	}
 
 	@Override
-	public Company getCompany(String name) {
-		return companyMapper.findByName(name);
+	public List<Company> getCompanyByName(String name) {
+		return companyMapper.getByName(name);
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
 		boolean flag = false;
 		for (int i = 0; i < questList.size(); i++) {
-//			flag = questionInfoMapper
-//					.add(company.getCompanyId(), questList.get(i).getQuestKey());
+			// flag = questionInfoMapper
+			// .add(company.getCompanyId(), questList.get(i).getQuestKey());
 			if (!flag)
 				break;
 		}
