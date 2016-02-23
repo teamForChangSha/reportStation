@@ -67,7 +67,7 @@ public class CompanyController {
 
 	/**
 	 * @author gcx
-	 * @param name
+	 * @param companyName
 	 *            公司名字
 	 * @return 公司
 	 */
@@ -83,8 +83,7 @@ public class CompanyController {
 			out = response.getWriter();
 			out.print(companyList);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("add company failed", e);
 		}
 		log.debug("获取公司集合成功size=" + companyList.size());
 		return null;
