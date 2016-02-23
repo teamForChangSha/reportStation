@@ -153,8 +153,8 @@ public class CaseController {
 		//获取附件列表
 		List<CaseAttach> attachList = caseAttachService.getCaseAttachByTrackingNo(trackingNo);
 		if(attachList.size() > 0) {
-			String tempPath = request.getSession().getServletContext().getContextPath() + "/fileupload/temp/" + trackingNo;
-			String filePath = request.getSession().getServletContext().getContextPath() + "/fileupload/file/" + trackingNo;
+			String tempPath = request.getSession().getServletContext().getRealPath("/") + "fileupload/temp/" + trackingNo;
+			String filePath = request.getSession().getServletContext().getRealPath("/") + "fileupload/file/" + trackingNo;
 			
 			tempToFile(tempPath, filePath);
 		}
@@ -185,7 +185,8 @@ public class CaseController {
     public String fileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
         response.setCharacterEncoding("UTF-8");
 		if (!file.isEmpty()) {  
-			String rootPath = request.getSession().getServletContext().getContextPath() + "/fileupload/temp/";
+			String rootPath = request.getSession().getServletContext().getRealPath("/") + "fileupload/temp/";
+			String webPath = request.getSession().getServletContext().getContextPath() + "/fileupload/temp/";
 	        String trackingNo = request.getParameter("trackingNo");
 	        String desc = request.getParameter("desc");
 	        //保存文件到服务器的临时文件夹
@@ -201,8 +202,8 @@ public class CaseController {
 	        caseAttach.setAttachFileName(fileName);
 	        caseAttach.setAttachExt(fileName.substring(fileName.lastIndexOf('.') + 1));
 	        caseAttach.setAttachName(fileName.substring(0,fileName.lastIndexOf('.')));
-	        caseAttach.setAttachPath(rootPath + trackingNo + "/");
-	        caseAttach.setAttachUrl(rootPath + trackingNo + "/" + fileName);
+	        caseAttach.setAttachPath(webPath + trackingNo + "/");
+	        caseAttach.setAttachUrl(webPath + trackingNo + "/" + fileName);
 	        caseAttach.setState(0);
 	        caseAttach.setTrackingNo(trackingNo);
 	        caseAttach.setAttachSize(file.getSize());
