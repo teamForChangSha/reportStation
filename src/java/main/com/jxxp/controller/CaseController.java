@@ -65,17 +65,19 @@ public class CaseController {
      * @param 
      * @return 
      */ 
-	@RequestMapping("/getCheckCode.do")
-	public String getCheckCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+	@RequestMapping("/getVerifyCode.do")
+	public String getVerifyCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
 		String mobile = request.getParameter("mobile");
-		String checkCode = mobileService.sendVerifySMS(mobile);
-		request.getSession().setAttribute("checkCode", checkCode);	
+		String verifyCode = mobileService.sendVerifySMS(mobile);
+		request.getSession().setAttribute("verifyCode", verifyCode);	
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			if(checkCode != null) {
-				out.print(checkCode);
+			if(verifyCode != null) {
+				out.print("success");
+			} else {
+				out.print("error");
 			}
 		} catch (IOException e) {
 			log.error("流获取失败！",e);
@@ -84,28 +86,37 @@ public class CaseController {
 	}
 	
 	/*** 
-     * 验证所输手机验证码，如果成功，则根据手机号码判断该实名用户是否存在，存在则输出该对象的JSON字符串 
+     * 验证所输手机验证码，如果验证成功，则根据手机号码判断该实名用户是否存在，存在则输出该对象的JSON字符串 ,不存在则返回success,如若所填验证码不符则返回error
      * @author cj
      * @param 
      * @return 
      */  
-	@RequestMapping("/getReporterByCheck.do")
-	public String getReporterByCheck(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
-		String checkCode = request.getParameter("checkCode");
-		String trueCode = (String) request.getSession().getAttribute("checkCode");
+	@RequestMapping("/checkVerifyCode.do")
+	public String checkVerifyCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+		String checkCode = request.getParameter("verifyCode");
+		String trueCode = (String) request.getSession().getAttribute("verifyCode");
 		if(checkCode.trim() != null) {
-			if(trueCode.equals(checkCode)) {
-				response.setCharacterEncoding("UTF-8");
-				PrintWriter out;
-				try {
-					out = response.getWriter();
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				if(trueCode.equals(checkCode)) {
 					String mobile = request.getParameter("mobile");
 					Reporter reporter = reporterService.getByMobile(mobile);
-					String reporterJson = JSON.toJSONString(reporter);
-					out.print(reporterJson);
-				} catch (IOException e) {
-					log.error("流获取失败！",e);
+					if(reporter != null) {
+						String reporterJson = JSON.toJSONString(reporter);
+						log.debug("验证成功！并有该实名对象！");
+						out.print(reporterJson);
+					} else {
+						log.debug("验证成功！");
+						out.print("success");
+					}
+				} else {
+					log.debug("验证失败！");
+					out.print("error");
 				}
+			} catch (IOException e) {
+				log.error("流获取失败！",e);
 			}
 		}
 		return null;
