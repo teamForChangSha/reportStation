@@ -2,6 +2,8 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jxxp.pojo.CaseChangeLog;
 
 /**
@@ -17,7 +19,7 @@ public interface CaseChangeLogMapper {
 	 * @param caseLog
 	 * @return
 	 */
-	int insert(CaseChangeLog caseLog);
+	int insert(@Param("caseLog") CaseChangeLog caseLog, @Param("rcId") Long rcId);
 
 	/**
 	 * 更改用户的信息，比如更改用户的状态、更改密码等操作
@@ -32,4 +34,6 @@ public interface CaseChangeLogMapper {
 	 * @return 某个案件的所有操作记录
 	 */
 	List<CaseChangeLog> getAllByCaseId(Long rcId);
+
+	int deleteById(long ccId);
 }

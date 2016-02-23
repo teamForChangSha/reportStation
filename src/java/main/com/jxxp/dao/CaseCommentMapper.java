@@ -23,7 +23,7 @@ public interface CaseCommentMapper {
 	 *            案件id号
 	 * @return
 	 */
-	int insert(@Param("comment") CaseComment comment, @Param("caseId") Long caseId);
+	int insert(@Param("caseComment") CaseComment caseComment, @Param("rcId") Long rcId);
 
 	/**
 	 * 追加信息的id

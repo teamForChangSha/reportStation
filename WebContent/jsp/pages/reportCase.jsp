@@ -251,10 +251,10 @@
 							</span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" name="quest_1_value" value="true" /> 是
+								<input type="radio" name="quest_1_value" value="是" /> 是
 							</label>
 							<label class="radio-inline">
-								<input type="radio" checked="true" name="quest_1_value" value="false" /> 否
+								<input type="radio" checked="true" name="quest_1_value" value="否" /> 否
 							</label>
 						</div>
 						<div id="quest_2" class="form-group text-center hidden">
@@ -303,13 +303,13 @@
 							<span><strong>您是否怀疑或知道监督或管理人员与此有关？</strong></span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" value="true" name="quest_4_value" /> 是
+								<input type="radio" value="是" name="quest_4_value" /> 是
 							</label>
 							<label class="radio-inline">
-								<input type="radio" value="false" name="quest_4_value" /> 否
+								<input type="radio" value="否" name="quest_4_value" /> 否
 							</label>
 							<label class="radio-inline">
-								<input type="radio" name="quest_4_value" value="not" /> 不知道 / 不愿意透露
+								<input type="radio" name="quest_4_value" value="不知道 /不愿意透露" /> 不知道 / 不愿意透露
 							</label>
 							<p>如果选择是，请指出是谁？</p>
 							<div class="col-sm-3"></div>
@@ -322,13 +322,13 @@
 							<span><strong>管理人员注意到此问题了吗？</strong></span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" value="true" name="quest_5_value" /> 是
+								<input type="radio" value="是" name="quest_5_value" /> 是
 							</label>
 							<label class="radio-inline">
-								<input type="radio" value="false" name="quest_5_value" /> 否
+								<input type="radio" value="否" name="quest_5_value" /> 否
 							</label>
 							<label class="radio-inline">
-								<input type="radio" value="not" name="quest_5_value" /> 不知道 / 不愿意透露
+								<input type="radio" value="不知道 /不愿意透露" name="quest_5_value" /> 不知道 / 不愿意透露
 							</label>
 						</div>
 						<div id="quest_5" class="form-group text-center hidden">
@@ -451,10 +451,10 @@
 							</span>
 							<br />
 							<label class="radio-inline">
-								<input type="radio" value="true" name="quest_12_value" /> 是
+								<input type="radio" value="是" name="quest_12_value" /> 是
 							</label>
 							<label class="radio-inline">
-								<input type="radio" value="false" name="quest_12_value" /> 否
+								<input type="radio" value="否" name="quest_12_value" /> 否
 							</label>
 						</div>
 						<div class="form-group hidden">

@@ -21,7 +21,10 @@
   <sql id="Base_Column_List" >
     cc_id, rc_id, change_time, state_before, state_after, user_id, handler_before, handler_after
   </sql>
-  
+   <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from casechangelog
+    where cc_id = #{ccId,jdbcType=BIGINT}
+  </delete>
   <select id="getAllByCaseId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -29,13 +32,13 @@
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
   
-  <insert id="insert" parameterType="com.jxxp.pojo.CaseChangeLog" >
+  <insert id="insert" parameterType="com.jxxp.pojo.CaseChangeLog" useGeneratedKeys="true" keyProperty="caseLog.cclId">
     insert into casechangelog (cc_id, rc_id, change_time, 
       state_before, state_after, user_id, 
       handler_before, handler_after)
-    values (#{ccId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{changeTime,jdbcType=TIMESTAMP}, 
-      #{stateBefore,jdbcType=INTEGER}, #{stateAfter,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, 
-      #{handlerBefore,jdbcType=INTEGER}, #{handlerAfter,jdbcType=INTEGER})
+    values (#{caseLog.cclId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{caseLog.changeTime,jdbcType=TIMESTAMP}, 
+      #{caseLog.stateBefore,jdbcType=INTEGER}, #{caseLog.stateAfter,jdbcType=INTEGER}, #{caseLog.operator.userId,jdbcType=BIGINT}, 
+      #{caseLog.handlerBefore.companyId,jdbcType=INTEGER}, #{caseLog.handlerAfter.companyId,jdbcType=INTEGER})
   </insert>
   
   <update id="update" parameterType="com.jxxp.pojo.CaseChangeLog" >
@@ -63,7 +66,7 @@
         handler_after = #{handlerAfter,jdbcType=INTEGER},
       </if>
     </set>
-    where cc_id = #{ccId,jdbcType=BIGINT}
+    where cc_id = #{cclId,jdbcType=BIGINT}
   </update>
   
 </mapper>

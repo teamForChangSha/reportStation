@@ -59,6 +59,9 @@
 			input[name=mobile]+span {
 				right: 110px;
 			}
+			input[name=companyName]+span {
+				right: 44px;
+			}
 			
 			.glyphicon-ok {
 				color: #419641;
@@ -84,6 +87,7 @@
 			#row-right {
 				padding: 0 15px;
 			}
+			
 		</style>
 	</head>
 
@@ -123,11 +127,11 @@
 									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										选择企业 <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
 									</button>
-									<ul class="dropdown-menu" id="companys">
-									</ul>
+									<ul class="dropdown-menu" id="companys"></ul>
 								</span>
 								<input type="text" name="companyName" class="form-control" placeholder="请输入被举报的企业" /> 
 								<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
+								<ul class="dropdown-menu" style="left:92px;"></ul>
 								<span class="input-group-btn">
 									<button id="getArea" class="btn btn-default" type="button">GO!</button>
 								</span>
