@@ -262,7 +262,7 @@ public class CaseController {
      * @author cj
      * @param  
      * @return 
-     */  
+     */
     @RequestMapping("/showCaseById.do")  
     public String showCaseById(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
 		String strId = request.getParameter("rcId");
@@ -319,6 +319,7 @@ public class CaseController {
 				if(answer.getQuestKey().equals(question.getQuestKey())) {
 					Map<String,String> map = new HashMap<String, String>();
 					map.put("question", question.getQuest());
+					map.put("questKey", answer.getQuestKey());
 					map.put("questValue", answer.getQuestValue());
 					questAnswerList.add(map);
 				}
@@ -330,14 +331,21 @@ public class CaseController {
     
     //保存临时文件
     public void saveTempFile(String rootPath,MultipartFile file,String trackingNo) throws IllegalStateException, IOException {
-    	String fileDir = rootPath + "/" + trackingNo;
+    	String fileDir = rootPath +  trackingNo;
     	File dir = new File(fileDir);
+    	log.debug("路径：" + System.getProperty("user.dir"));
     	if(!dir.exists()) {
-    		dir.mkdirs();
+    		if(dir.mkdirs()) {
+    			log.debug("文件夹创建成功！");
+    		} else {
+    			log.debug("文件夹创建失败！");
+    		}
     	}
     	String fileName = fileDir + "/" + file.getOriginalFilename();
+    	log.debug("FileName:" + fileName);
         // 转存文件   
         file.transferTo(new File(fileName));
+        log.debug("文件保存成功！");
     }
     
     //获取临时文件列表
@@ -391,22 +399,7 @@ public class CaseController {
 		}
     }
 
-}
-
-class TempData {
-	private String name;
-	private String value;
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
+    public static void main(String[] args) {
+		
 	}
 }
