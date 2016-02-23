@@ -1,6 +1,8 @@
 package com.jxxp.controller;
 
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,12 +15,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jxxp.dao.CompanyQuestionMapper;
+import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
-import com.jxxp.pojo.CompanyOther;
-import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.service.CompanyService;
+import com.jxxp.service.QuestionService;
 
+/**
+ * @author gcx 公司信息管理，客户的增删该查
+ * 
+ */
 @Controller("companyController")
 @RequestMapping("/company")
 public class CompanyController {
@@ -26,9 +33,15 @@ public class CompanyController {
 
 	@Resource
 	private CompanyService companyService;
+	@Resource
+	private CompanyQuestionMapper cqMapper;
+	@Resource
+	private QuestionInfoMapper questionInfoMapper;
+	@Resource
+	private QuestionService questionService;
 
 	/**
-	 * 保存公司信息
+	 * 保存公司信息,其中包括公司的基本信息和公司所选的问题
 	 * 
 	 * @author gcx
 	 * @param company
@@ -37,9 +50,17 @@ public class CompanyController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/saveCompany.do")
-	public String saveCompany(Company company, HttpServletRequest request,
+	@RequestMapping("/addCompany.do")
+	public String saveCompany(Company company, long[] questIds, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
+		log.debug("get questions ids" + questIds);
+		// questIds为空则该公司使用默认的问题列表
+		if (questIds != null) {
+			cqMapper.insertAll(questIds, company.getCompanyId());
+		} else {
+			// 获取默认的问题列别表questionInfoMapper.getAllByCompany(companyId)
+			cqMapper.insertAll(questIds, company.getCompanyId());
+		}
 		companyService.saveCompanyInfo(company);
 		return "/jsp/areaAll";
 	}
@@ -50,12 +71,23 @@ public class CompanyController {
 	 *            公司名字
 	 * @return 公司
 	 */
-	@RequestMapping("/getByName.do")
-	public String getByName(String name, HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) {
-		Company company = companyService.getCompany(name);
-		model.put("company", company);
-		return "jsp/success";
+	@RequestMapping("/getAllByName.do")
+	public String getByName(String companyName, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) {
+		log.debug("get companyName==" + companyName);
+		List<Company> companyList = new ArrayList<Company>();
+		companyList = companyService.getCompanyByName(companyName);
+		model.put("companyList", companyList);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(companyList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.debug("获取公司集合成功size=" + companyList.size());
+		return null;
 
 	}
 
@@ -69,18 +101,4 @@ public class CompanyController {
 
 	}
 
-	/**
-	 * 保存公司信息
-	 * 
-	 * @author cj
-	 * @param companyWhole
-	 * @return
-	 */
-	@RequestMapping("/saveCompanyWhole.do")
-	public String saveCompanyWhole(Company company, CompanyOther companyOther, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
-		companyService.saveWholeCompany(new CompanyWholeInfo(company, companyOther));
-		
-		return "/jsp/areaAll";
-	}
 }
