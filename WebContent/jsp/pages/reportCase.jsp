@@ -368,9 +368,9 @@
 							</div>
 							<div class="col-sm-3">
 								<select name="quest_7_value2" class="form-control">
-									<option>USD&lt;99</option>
-									<option>USD100-USD999</option>
-									<option>CAD100-CAD999</option>
+									<option>&lt;99</option>
+									<option>100-999</option>
+									<option>100-999</option>
 								</select>
 							</div>
 						</div>
@@ -400,7 +400,7 @@
 						</div>
 						<div id="quest_9" class="form-group text-center hidden">
 							<div class="page-header"></div>
-							<span><strong><span class="xinghao">*</span>您认为此问题持续了多少时间？</strong>
+							<span><strong>您认为此问题持续了多少时间？</strong>
 							</span>
 							<br />
 							<br />
@@ -419,7 +419,7 @@
 						</div>
 						<div id="quest_10" class="form-group text-center hidden">
 							<div class="page-header"></div>
-							<span><strong><span class="xinghao">*</span>您是如何发现此违规行为的？</strong>
+							<span><strong>您是如何发现此违规行为的？</strong>
 							</span>
 							<br />
 							<br />
@@ -447,7 +447,7 @@
 						</div>
 						<div id="quest_11" class="form-group text-center hidden">
 							<div class="page-header"></div>
-							<span><strong><span class="xinghao">*</span>您先前是否报告过这一问题？</strong>
+							<span><strong>您先前是否报告过这一问题？</strong>
 							</span>
 							<br />
 							<label class="radio-inline">
@@ -466,7 +466,7 @@
 						</div>
 						<div id="quest_12" class="form-group text-center hidden">
 							<div class="page-header"></div>
-							<span><strong><span class="xinghao">*</span>请指出试图隐藏此问题的人以及他们隐藏采取的步骤：</strong>
+							<span><strong>请指出试图隐藏此问题的人以及他们隐藏采取的步骤：</strong>
 							</span>
 						</div>
 						<div class="form-group hidden">
@@ -478,7 +478,7 @@
 						</div>
 						<div id="quest_13" class="form-group text-center hidden">
 							<div class="page-header"></div>
-							<span><strong><span class="xinghao">*</span>请提供关于所谓违规行为的所有细节，包括目击者的位置以及任何对于此情形的评估和最终解决有价值的其它信息。
+							<span><strong>请提供关于所谓违规行为的所有细节，包括目击者的位置以及任何对于此情形的评估和最终解决有价值的其它信息。
 							</strong>
 							</span>
 						</div>
