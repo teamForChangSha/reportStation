@@ -4,7 +4,14 @@
   <insert id="insert">
     insert into company_question (company_id, quest_id)
     values (#{companyId,jdbcType=BIGINT}, #{questId,jdbcType=BIGINT})
-  </insert>  
+  </insert> 
+  <insert id="insertAll">
+    insert into company_question (company_id, quest_id)
+    values 
+    <foreach collection="questIds" index="index" item="item" separator=",">
+    (#{companyId,jdbcType=BIGINT}, #{item,jdbcType=BIGINT})
+    </foreach>
+  </insert>   
   
   <delete id="deleteByDoubleId">
     delete from company_question
