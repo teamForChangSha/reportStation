@@ -23,4 +23,17 @@
     from casecomment
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
+  
+   <insert id="insert" parameterType="com.jxxp.pojo.CaseComment" useGeneratedKeys="true" keyProperty="caseComment.ccId">
+    insert into casecomment (cc_id, rc_id, is_reporter, 
+      user_id, post_time, company_id, 
+      content)
+    values (#{caseComment.ccId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{caseComment.isReporter,jdbcType=INTEGER}, 
+      #{caseComment.owner.userId,jdbcType=BIGINT}, #{caseComment.postTime,jdbcType=TIMESTAMP}, #{caseComment.ownerCompany.companyId,jdbcType=BIGINT}, 
+      #{caseComment.content,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteById" parameterType="java.lang.Long" >
+    delete from casecomment
+    where cc_id = #{ccId,jdbcType=BIGINT}
+  </delete>
 </mapper>
