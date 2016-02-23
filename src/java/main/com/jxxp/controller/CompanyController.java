@@ -1,8 +1,6 @@
 package com.jxxp.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
-import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.service.CompanyService;
 
-/**
- * @author gcx 公司信息管理，客户的增删该查
- * 
- */
 @Controller("companyController")
 @RequestMapping("/company")
 public class CompanyController {
@@ -33,7 +28,7 @@ public class CompanyController {
 	private CompanyService companyService;
 
 	/**
-	 * 保存公司信息,其中包括公司的基本信息和公司所选的问题
+	 * 保存公司信息
 	 * 
 	 * @author gcx
 	 * @param company
@@ -42,11 +37,9 @@ public class CompanyController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/addCompany.do")
-	public String saveCompany(Company company, List<QuestionInfo> questions,
-			HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
-		log.debug("get company questions 1" + questions.get(0).getQuest());
-		log.debug("get company questions 2" + questions.get(1).getQuest());
+	@RequestMapping("/saveCompany.do")
+	public String saveCompany(Company company, HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
 		companyService.saveCompanyInfo(company);
 		return "/jsp/areaAll";
 	}
@@ -58,22 +51,11 @@ public class CompanyController {
 	 * @return 公司
 	 */
 	@RequestMapping("/getByName.do")
-	public String getByName(String companyName, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
-		log.debug("get companyName==" + companyName);
-		List<Company> companyList = new ArrayList<Company>();
-		companyList = companyService.getCompanyByName(companyName);
-		model.put("companyList", companyList);
-		PrintWriter out;
-		try {
-			out = response.getWriter();
-			out.print(companyList);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		log.debug("获取公司集合成功size=" + companyList.size());
-		return null;
+	public String getByName(String name, HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
+		Company company = companyService.getCompany(name);
+		model.put("company", company);
+		return "jsp/success";
 
 	}
 
@@ -87,4 +69,18 @@ public class CompanyController {
 
 	}
 
+	/**
+	 * 保存公司信息
+	 * 
+	 * @author cj
+	 * @param companyWhole
+	 * @return
+	 */
+	@RequestMapping("/saveCompanyWhole.do")
+	public String saveCompanyWhole(Company company, CompanyOther companyOther, HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		companyService.saveWholeCompany(new CompanyWholeInfo(company, companyOther));
+		
+		return "/jsp/areaAll";
+	}
 }

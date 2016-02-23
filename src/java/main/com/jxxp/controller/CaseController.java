@@ -153,14 +153,24 @@ public class CaseController {
 		//获取附件列表
 		List<CaseAttach> attachList = caseAttachService.getCaseAttachByTrackingNo(trackingNo);
 		if(attachList.size() > 0) {
-			String tempPath = request.getSession().getServletContext().getContextPath() + "fileupload/temp/" + trackingNo;
-			String filePath = request.getSession().getServletContext().getContextPath() + "fileupload/file/" + trackingNo;
+			String tempPath = request.getSession().getServletContext().getContextPath() + "/fileupload/temp/" + trackingNo;
+			String filePath = request.getSession().getServletContext().getContextPath() + "/fileupload/file/" + trackingNo;
 			
 			tempToFile(tempPath, filePath);
 		}
 		
-		if(caseService.saveCase(reporter,reportCase,answerList)){
-			
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseService.saveCase(reporter,reportCase,answerList)){
+				log.debug(reportCase.getTrackingNo() + "案件提交成功！");
+				out.print(reportCase.getTrackingNo());
+			} else {
+				out.print("");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
 		}
     	return null;
 	}
@@ -240,6 +250,9 @@ public class CaseController {
 		if(reporter != null) {
 			List<ReportCase> caseList = caseService.getCaseList(reporter);
 			modelMap.put("caseList", caseList);
+		} else {
+			modelMap.put("errorMsg", "未找到匹配数据！");
+			return "/jsp/pages/error";
 		}
     	return "/jsp/pages/report_list";
     }
@@ -260,11 +273,13 @@ public class CaseController {
 		ReportCase reportCase = caseService.getReportCaseById(rcId);
 		if(reportCase == null) {
 			log.debug("案例获取失败！");
+			modelMap.put("errorMsg", "未找到匹配数据！");
+			return "/jsp/pages/error";
 		}
 		
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
 		modelMap.put("reportCase", reportCase);
-    	return "/jsp/pages/report_list";
+    	return "/jsp/pages/report_info";
     }
     
     
@@ -278,9 +293,13 @@ public class CaseController {
     public String showCaseByTrackingNo(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
 		String trackingNo = request.getParameter("trankingNo");
 		String accessCode = request.getParameter("accecCode");
+		log.debug("trackingNo:" + trackingNo);
+		log.debug("accessCode:" + accessCode);
 		ReportCase reportCase = caseService.getReportCase(trackingNo, accessCode);
 		if(reportCase == null) {
 			log.debug("reportCase获取失败！");
+			modelMap.put("errorMsg", "未找到匹配数据！");
+			return "/jsp/pages/error";
 		}
 		
 		modelMap.put("reportCase", reportCase);
