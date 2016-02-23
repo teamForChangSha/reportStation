@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import javax.annotation.Resource;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,18 +30,22 @@ public class CompanyTest {
 
 	@Resource
 	private CompanyMapper companyMapper;
+	private Company company1;
+
+	@Before
+	public void init() {
+		company1 = getCompany();
+	}
 
 	@Test
 	public void saveCompany() {
-		Company company = getCompany();
-		int isSuccess = companyMapper.insert(company);
+		int isSuccess = companyMapper.insert(company1);
 		assertTrue(isSuccess > 0);
-		companyMapper.deleteById(company.getCompanyId());
+		companyMapper.deleteById(company1.getCompanyId());
 	}
 
 	@Test
 	public void testGetCompany() {
-		Company company1 = getCompany();
 		companyMapper.insert(company1);
 		Company company2 = companyMapper.getById(company1.getCompanyId());
 		assertNotNull(company2);
@@ -49,7 +55,6 @@ public class CompanyTest {
 
 	@Test
 	public void testGetCompanyByName() {
-		Company company1 = getCompany();
 		companyMapper.insert(company1);
 		Company company2 = companyMapper.findByName(company1.getCompanyName());
 		assertNotNull(company2);
@@ -57,9 +62,13 @@ public class CompanyTest {
 		companyMapper.deleteById(company1.getCompanyId());
 	}
 
+	@After
+	public void clear() {
+		companyMapper.deleteById(company1.getCompanyId());
+	}
+
 	public static Company getCompany() {
 		Company company = new Company();
-		// company.setCompanyId(100000);
 		company.setCompanyCode("ZTX");
 		company.setCompanyName("company name");
 		company.setDescription("规模大");
