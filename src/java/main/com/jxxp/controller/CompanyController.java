@@ -2,6 +2,7 @@ package com.jxxp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.pojo.Company;
@@ -71,17 +73,26 @@ public class CompanyController {
 	 *            公司名字
 	 * @return 公司
 	 */
+
 	@RequestMapping("/getAllByName.do")
 	public String getByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		log.debug("get companyName==" + companyName);
+		if (companyName != null) {
+			try {
+				companyName = new String(companyName.getBytes("ISO-8859-1"), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		log.debug("get companyName====" + companyName);
 		List<Company> companyList = new ArrayList<Company>();
 		companyList = companyService.getCompanyByName(companyName);
-		model.put("companyList", companyList);
+		String companyJson = JSON.toJSONString(companyList);
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			out.print(companyList);
+			out.print(companyJson);
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
