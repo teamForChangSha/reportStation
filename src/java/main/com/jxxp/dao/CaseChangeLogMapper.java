@@ -14,9 +14,11 @@ import com.jxxp.pojo.CaseChangeLog;
 public interface CaseChangeLogMapper {
 
 	/**
-	 * 添加一个用户（客户方的用户/管理方的用户）
 	 * 
 	 * @param caseLog
+	 *            案件日志对象
+	 * @param rcId
+	 *            案件id
 	 * @return
 	 */
 	int insert(@Param("caseLog") CaseChangeLog caseLog, @Param("rcId") Long rcId);

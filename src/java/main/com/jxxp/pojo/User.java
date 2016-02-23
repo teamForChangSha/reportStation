@@ -14,7 +14,7 @@ public class User {
 	/**
 	 * 用户类型，字典类型user.type
 	 */
-	private DictionaryBean userType;
+	private int userType;
 
 	/**
 	 * 登录名称，仅限英文和数字
@@ -55,7 +55,7 @@ public class User {
 	/**
 	 * 用户当前状态，字典类型user.state
 	 */
-	private DictionaryBean userState;
+	private int userState;
 
 	/**
 	 * 用户状态最后一次改变时间
@@ -68,14 +68,6 @@ public class User {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
-	}
-
-	public DictionaryBean getUserType() {
-		return userType;
-	}
-
-	public void setUserType(DictionaryBean userType) {
-		this.userType = userType;
 	}
 
 	public String getLoginName() {
@@ -134,19 +126,27 @@ public class User {
 		this.remark = remark;
 	}
 
-	public DictionaryBean getUserState() {
-		return userState;
-	}
-
-	public void setUserState(DictionaryBean userState) {
-		this.userState = userState;
-	}
-
 	public Date getStateChanged() {
 		return stateChanged;
 	}
 
 	public void setStateChanged(Date stateChanged) {
 		this.stateChanged = stateChanged;
+	}
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+
+	public int getUserState() {
+		return userState;
+	}
+
+	public void setUserState(int userState) {
+		this.userState = userState;
 	}
 }
