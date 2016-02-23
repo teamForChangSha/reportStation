@@ -27,12 +27,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.CaseAttach;
+import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
 import com.jxxp.service.CaseAttachService;
+import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.MobileService;
 import com.jxxp.service.QuestionService;
@@ -54,6 +56,8 @@ public class CaseController {
 	private CaseAttachService caseAttachService;
 	@Resource
 	private MobileService mobileService;
+	@Resource
+	private CaseCommentService caseCommentService;
 	
 	/*** 
      * 根据所输入的手机号，获取验证码 
@@ -306,6 +310,41 @@ public class CaseController {
 		modelMap.put("reportCase", reportCase);
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
     	return "/jsp/pages/report_info";
+    }
+    
+    /*** 
+     * 添加案件追加信息 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/addCaseComment.do")  
+    public String addCaseComment(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String content = request.getParameter("content");
+		String strId = request.getParameter("rcId");
+		
+		long rcId = Long.parseLong(strId);
+		CaseComment caseComment = new CaseComment();
+		caseComment.setContent(content);
+		caseComment.setReporter(1);
+		caseComment.setPostTime(new Date());
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseCommentService.addCaseComment(caseComment, rcId)){
+				log.debug("案件追加信息添加成功！");
+				out.print("success");
+			} else {
+				log.debug("案件追加信息添加失败！");
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		
+    	return null;
     }
     
     //获取问题及答案的集合，方便前台展示

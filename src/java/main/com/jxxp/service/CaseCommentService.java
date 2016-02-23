@@ -10,5 +10,5 @@ public interface CaseCommentService {
 	 *            追加信息对象
 	 * @return 添加成功返回true，否则返回false
 	 */
-	boolean addCaseComment(CaseComment caseComment);
+	boolean addCaseComment(CaseComment caseComment,long rcId);
 }

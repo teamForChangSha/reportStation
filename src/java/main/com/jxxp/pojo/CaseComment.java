@@ -20,7 +20,7 @@ public class CaseComment {
 	/**
 	 * 是否是举报人自己的追加，若为true，则owner和ownerCompany字段忽略
 	 */
-	private boolean isReporter;
+	private int isReporter;
 
 	/**
 	 * 发表追加的用户个人信息
@@ -53,11 +53,11 @@ public class CaseComment {
 		this.content = content;
 	}
 
-	public boolean isReporter() {
+	public int isReporter() {
 		return isReporter;
 	}
 
-	public void setReporter(boolean isReporter) {
+	public void setReporter(int isReporter) {
 		this.isReporter = isReporter;
 	}
 
