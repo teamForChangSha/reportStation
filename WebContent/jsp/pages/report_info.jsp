@@ -254,8 +254,8 @@
 					</c:forEach>
 					<div class="form-group">
 						<div class="col-sm-4"></div>
-						<div class="col-sm-8 text-right">
-							<input id="addNote" type="button" class="btn btn-primary" value="增加" />
+						<div class="col-sm-4 text-right">
+							<input id="addNote" type="button" class="btn btn-primary form-control" value="增加" />
 						</div>
 					</div>
 				</div>
@@ -275,12 +275,20 @@
 			ele.addNote.click(function() {
 				var rootDiv = $("<div/>").attr("class", "form-group");
 				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("${reportCase.reporter.name}：");
-				var div = $("<div/>").attr("class", "col-sm-8");
-				var textarea = $("<textarea/>").attr("class", "form-control").attr("rows", 3);
-				rootDiv.append(lable);
+				var div = $("<div/>").attr("class", "col-sm-7");
+				var textarea = $("<textarea/>").attr("class", "form-control").attr("name","content").attr("rows", 5);
 				div.append(textarea);
-				rootDiv.append(div);
+				rootDiv.append(lable).append(div);
+				
+				var btnPanle = $("<div/>").attr("class", "form-group");
+				var divLeft = $("<div/>").attr("class", "col-sm-4");
+				var divRight = $("<div/>").attr("class", "col-sm-7 text-right");
+				var button = $("<button/>").attr("class","btn btn-default").text("提交");
+				divRight.append(button);
+				btnPanle.append(divLeft).append(divRight);
+				
 				$(this).parent().parent().before(rootDiv);
+				$(this).parent().parent().before(btnPanle);
 			});
 			var url = "dict/getDictName.do?dictType=case.state&dictValue=${reportCase.caseState }";
 			$.get(url,function(res){
