@@ -10,5 +10,5 @@ public interface CaseChangeLogService {
 	 *            案例改变记录对象
 	 * @return 添加成功返回true，否则返回false
 	 */
-	boolean addCaseChangeLog(CaseChangeLog caseChangeLog);
+	boolean addCaseChangeLog(CaseChangeLog caseChangeLog, long rcId);
 }

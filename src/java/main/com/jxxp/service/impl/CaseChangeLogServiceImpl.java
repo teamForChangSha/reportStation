@@ -14,8 +14,8 @@ public class CaseChangeLogServiceImpl implements CaseChangeLogService {
 	private CaseChangeLogMapper caseChangeLogMapper;
 	
 	@Override
-	public boolean addCaseChangeLog(CaseChangeLog caseChangeLog) {
-		return caseChangeLogMapper.insert(caseChangeLog) > 0;
+	public boolean addCaseChangeLog(CaseChangeLog caseChangeLog, long rcId) {
+		return caseChangeLogMapper.insert(caseChangeLog, rcId) > 0;
 	}
 
 }
