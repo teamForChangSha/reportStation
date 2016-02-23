@@ -111,12 +111,14 @@
 					<div class="page-header"></div>
 					<c:forEach items = "${questionAnswerList}" var = "quest" varStatus = "i" >
 						<div class="form-group">
-						<label class="col-sm-4 control-label">${quest.question }：</label>
+						<c:if test="${quest.questKey=='quest_1'}">
+							<label class="col-sm-4 control-label">您是${reportCase.branch.owner.companyName }员工吗：</label>
+						</c:if>
+						<c:if test="${quest.questKey!='quest_1'}">
+							<label class="col-sm-4 control-label">${quest.question }：</label>
+						</c:if>
 						<div class="col-sm-8">
-							<span class="form-info">
-								<c:if test="${quest.questValue=='true'}">是</c:if>
-								<c:if test="${quest.questValue=='false'}">不是</c:if>
-							</span>
+							<span class="form-info">${quest.questValue}</span>
 						</div>
 					</div>
 					</c:forEach>
@@ -221,7 +223,7 @@
 						<label class="col-sm-4 control-label">其他材料：</label>
 						<div class="col-sm-8">
 							<c:forEach items = "${reportCase.attachList}" var = "attach" varStatus = "i" >
-								<p><a href="${attach.attachUrl }">${attach.attachFileName }</a></p>
+								<p><a href="${attach.attachUrl }" target="_black">${attach.attachFileName }</a></p>
 							</c:forEach>
 						</div>
 					</div>
@@ -229,7 +231,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">案件状态：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="caseState">${reportCase.caseState }</span>
+							<span class="form-info" id="caseState"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -272,7 +274,7 @@
 			}
 			ele.addNote.click(function() {
 				var rootDiv = $("<div/>").attr("class", "form-group");
-				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("追加人：");
+				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("${reportCase.reporter.name}：");
 				var div = $("<div/>").attr("class", "col-sm-8");
 				var textarea = $("<textarea/>").attr("class", "form-control").attr("rows", 3);
 				rootDiv.append(lable);
