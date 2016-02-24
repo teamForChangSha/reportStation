@@ -27,10 +27,10 @@
     where rt_id = #{rtId,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.jxxp.pojo.ReportType" >
+  <insert id="insert" parameterType="com.jxxp.pojo.ReportType" useGeneratedKeys="true" keyProperty="rtId">
     insert into reporttype (rt_id, is_standard, company_id, 
       rt_title, rt_desc)
-    values (#{rtId,jdbcType=BIGINT}, #{isStandard,jdbcType=INTEGER}, #{companyId,jdbcType=BIGINT}, 
+    values (#{rtId,jdbcType=BIGINT}, #{isStandard,jdbcType=INTEGER}, #{owner.companyId,jdbcType=BIGINT}, 
       #{rtTitle,jdbcType=VARCHAR}, #{rtDesc,jdbcType=VARCHAR})
   </insert>
   

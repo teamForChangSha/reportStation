@@ -1,5 +1,7 @@
 package com.jxxp.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jxxp.pojo.User;
 
 /**
@@ -9,6 +11,15 @@ import com.jxxp.pojo.User;
  * 
  */
 public interface UserMapper {
+
+	/**
+	 * 登入
+	 * 
+	 * @param userName
+	 * @param userPwd
+	 * @return
+	 */
+	User login(@Param("loginName") String loginName, @Param("userPwd") String userPwd);
 
 	/**
 	 * 添加一个用户（客户方的用户/管理方的用户）

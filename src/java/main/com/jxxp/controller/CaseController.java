@@ -27,12 +27,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.CaseAttach;
+import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
 import com.jxxp.service.CaseAttachService;
+import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.MobileService;
 import com.jxxp.service.QuestionService;
@@ -54,6 +56,8 @@ public class CaseController {
 	private CaseAttachService caseAttachService;
 	@Resource
 	private MobileService mobileService;
+	@Resource
+	private CaseCommentService caseCommentService;
 	
 	/*** 
      * 根据所输入的手机号，获取验证码 
@@ -61,17 +65,19 @@ public class CaseController {
      * @param 
      * @return 
      */ 
-	@RequestMapping("/getCheckCode.do")
-	public String getCheckCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+	@RequestMapping("/getVerifyCode.do")
+	public String getVerifyCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
 		String mobile = request.getParameter("mobile");
-		String checkCode = mobileService.sendVerifySMS(mobile);
-		request.getSession().setAttribute("checkCode", checkCode);	
+		String verifyCode = mobileService.sendVerifySMS(mobile);
+		request.getSession().setAttribute("verifyCode", verifyCode);	
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			if(checkCode != null) {
-				out.print(checkCode);
+			if(verifyCode != null) {
+				out.print("success");
+			} else {
+				out.print("error");
 			}
 		} catch (IOException e) {
 			log.error("流获取失败！",e);
@@ -80,28 +86,37 @@ public class CaseController {
 	}
 	
 	/*** 
-     * 验证所输手机验证码，如果成功，则根据手机号码判断该实名用户是否存在，存在则输出该对象的JSON字符串 
+     * 验证所输手机验证码，如果验证成功，则根据手机号码判断该实名用户是否存在，存在则输出该对象的JSON字符串 ,不存在则返回success,如若所填验证码不符则返回error
      * @author cj
      * @param 
      * @return 
      */  
-	@RequestMapping("/getReporterByCheck.do")
-	public String getReporterByCheck(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
-		String checkCode = request.getParameter("checkCode");
-		String trueCode = (String) request.getSession().getAttribute("checkCode");
+	@RequestMapping("/checkVerifyCode.do")
+	public String checkVerifyCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+		String checkCode = request.getParameter("verifyCode");
+		String trueCode = (String) request.getSession().getAttribute("verifyCode");
 		if(checkCode.trim() != null) {
-			if(trueCode.equals(checkCode)) {
-				response.setCharacterEncoding("UTF-8");
-				PrintWriter out;
-				try {
-					out = response.getWriter();
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				if(trueCode.equals(checkCode)) {
 					String mobile = request.getParameter("mobile");
 					Reporter reporter = reporterService.getByMobile(mobile);
-					String reporterJson = JSON.toJSONString(reporter);
-					out.print(reporterJson);
-				} catch (IOException e) {
-					log.error("流获取失败！",e);
+					if(reporter != null) {
+						String reporterJson = JSON.toJSONString(reporter);
+						log.debug("验证成功！并有该实名对象！");
+						out.print(reporterJson);
+					} else {
+						log.debug("验证成功！");
+						out.print("success");
+					}
+				} else {
+					log.debug("验证失败！");
+					out.print("error");
 				}
+			} catch (IOException e) {
+				log.error("流获取失败！",e);
 			}
 		}
 		return null;
@@ -238,6 +253,33 @@ public class CaseController {
     }
 
 	/*** 
+     * 根据所输入的手机号，获取临时密码 
+     * @author cj
+     * @param 
+     * @return 
+     */ 
+	@RequestMapping("/getTempPwd.do")
+	public String getTempPwd(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+		String mobile = request.getParameter("mobile");
+		String tempPwd = mobileService.sendTempPwd(mobile);
+		request.getSession().setAttribute("mobile", mobile);
+		request.getSession().setAttribute("tempPwd", tempPwd);	
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(tempPwd != null) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
+    
+	/*** 
      * 根据举报人显示以往举报列表 
      * @author cj
      * @param  
@@ -245,17 +287,25 @@ public class CaseController {
      */  
     @RequestMapping(value="/showCaseList.do",method=RequestMethod.POST)  
     public String showCaseList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
-		String mobile = request.getParameter("mobile");
+		String reqMobile = request.getParameter("mobile");
+		String reqPwd = request.getParameter("tempPwd");
 		//还需要加手机验证码判断
-		Reporter reporter = reporterService.getByMobile(mobile);
-		if(reporter != null) {
-			List<ReportCase> caseList = caseService.getCaseList(reporter);
-			modelMap.put("caseList", caseList);
-		} else {
-			modelMap.put("errorMsg", "未找到匹配数据！");
-			return "/jsp/pages/error";
-		}
-    	return "/jsp/pages/report_list";
+		String mobile = (String) request.getSession().getAttribute("mobile");
+		String tempPwd = (String) request.getSession().getAttribute("tempPwd");
+		
+		if(reqPwd.equals(tempPwd) && reqMobile.equals(mobile)) {
+			Reporter reporter = reporterService.getByMobile(mobile);
+			if(reporter != null) {
+				List<ReportCase> caseList = caseService.getCaseList(reporter);
+				modelMap.put("caseList", caseList);
+		    	return "/jsp/pages/report_list";
+			} else {
+				modelMap.put("errorMsg", "未找到匹配用户数据！");
+				return "/jsp/pages/error";
+			}
+		} 
+		modelMap.put("errorMsg", "手机号或者临时密码有误，请重新输入！");
+		return "/jsp/pages/error";
     }
     
     /*** 
@@ -306,6 +356,41 @@ public class CaseController {
 		modelMap.put("reportCase", reportCase);
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
     	return "/jsp/pages/report_info";
+    }
+    
+    /*** 
+     * 添加案件追加信息 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/addCaseComment.do")  
+    public String addCaseComment(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String content = request.getParameter("content");
+		String strId = request.getParameter("rcId");
+		
+		long rcId = Long.parseLong(strId);
+		CaseComment caseComment = new CaseComment();
+		caseComment.setContent(content);
+		caseComment.setReporter(1);
+		caseComment.setPostTime(new Date());
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseCommentService.addCaseComment(caseComment, rcId)){
+				log.debug("案件追加信息添加成功！");
+				out.print("success");
+			} else {
+				log.debug("案件追加信息添加失败！");
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		
+    	return null;
     }
     
     //获取问题及答案的集合，方便前台展示

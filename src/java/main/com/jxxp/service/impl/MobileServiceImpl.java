@@ -2,6 +2,7 @@ package com.jxxp.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.jxxp.comms.util.SmsUtil;
 import com.jxxp.service.MobileService;
 
 @Service("mobileService")
@@ -9,14 +10,16 @@ public class MobileServiceImpl implements MobileService {
 
 	@Override
 	public String sendVerifySMS(String mobile) {
-		// TODO Auto-generated method stub
-		return "123";
+		String verifyCode = SmsUtil.getRandomCode();
+		SmsUtil.sendSms("本次短信验证码为：" + verifyCode, mobile);
+		return verifyCode;
 	}
 
 	@Override
 	public String sendTempPwd(String mobile) {
-		// TODO Auto-generated method stub
-		return "123";
+		String tempPwd = SmsUtil.getRandomCode();
+		SmsUtil.sendSms("本次登录的临时密码为：" + tempPwd, mobile);
+		return tempPwd;
 	}
 
 }

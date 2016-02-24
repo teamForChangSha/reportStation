@@ -9,21 +9,28 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="work_no" property="workNo" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="user_state" property="userState" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />    
     <result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />
     <association property="userCompany" column="company_id" javaType="com.jxxp.pojo.Company"
     select="com.jxxp.dao.CompanyMapper.getById">
-    </association>    
-    <association property="userState" column="{dictValue=user_state}" javaType="com.jxxp.pojo.DictionaryBean"
+    </association>
+        
+   <!--  <association property="userState" column="{dictValue=user_state}" javaType="com.jxxp.pojo.DictionaryBean"
 			select="com.jxxp.dao.DictionaryBeanMapper.getDictionary">
 	</association>
 		 <association property="userType" column="{dictValue=user_type}" javaType="com.jxxp.pojo.DictionaryBean"
 			select="com.jxxp.dao.DictionaryBeanMapper.getDictionary">
-	</association>
+	</association> -->
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, user_type, login_name, user_pwd, user_name, company_id, mobile, work_no, 
     remark, state_changed, user_state
   </sql>
+  <select id="login" resultMap="BaseResultMap">
+  select * from user where login_name=#{loginName,jdbcType=VARCHAR} and user_pwd=#{userPwd,jdbcType=VARCHAR}
+  </select>
+  
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -34,22 +41,22 @@
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jxxp.pojo.User" >
+  <insert id="insert" parameterType="com.jxxp.pojo.User" useGeneratedKeys="true" keyProperty="userId" >
     insert into user (user_type, login_name, 
       user_pwd, user_name, company_id, 
       mobile, work_no, remark, 
       state_changed, user_state)
-      values (#{userType.dictValue,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      values (#{userType,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{userPwd,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userCompany.companyId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{workNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{stateChanged,jdbcType=TIMESTAMP}, #{userState.dictValue,jdbcType=VARCHAR})
+      #{stateChanged,jdbcType=TIMESTAMP}, #{userState,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.jxxp.pojo.User" >
     update user
     <set >
       <if test="userType != null" >
-        user_type = #{userType.dictValue,jdbcType=VARCHAR},
+        user_type = #{userType,jdbcType=VARCHAR},
       </if>
       <if test="loginName != null" >
         login_name = #{loginName,jdbcType=VARCHAR},
@@ -76,7 +83,7 @@
         state_changed = #{stateChanged,jdbcType=TIMESTAMP},
       </if>
       <if test="userState != null" >
-        user_state = #{userState.dictValue,jdbcType=VARCHAR},
+        user_state = #{userState,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}

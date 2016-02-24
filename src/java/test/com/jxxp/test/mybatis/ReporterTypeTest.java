@@ -36,22 +36,28 @@ public class ReporterTypeTest {
 		ReportType type1 = getReportType();
 		reportTypeMapper.insert(type1);
 		ReportType type2 = reportTypeMapper.getById(type1.getRtId());
+		reportTypeMapper.deleteById(type2.getRtId());
+		System.out.println("===" + type2.getRtDesc());
 		assertTrue(TestUtil.isEqual(type1, type2));
+		companyMapper.deleteById(type1.getOwner().getCompanyId());
+
 	}
 
 	@Test
 	public void getAllTypeByCompany() {
 		ReportType type = getReportType();
-		companyMapper.insert(type.getOwner());
 		Company company = type.getOwner();
 		reportTypeMapper.insert(type);
 		List<ReportType> list = reportTypeMapper.getAllByCompanyId(company.getCompanyId());
 		assertTrue(list.size() > 0);
+		companyMapper.deleteById(company.getCompanyId());
+		reportTypeMapper.deleteById(type.getRtId());
 	}
 
-	public static ReportType getReportType() {
+	public ReportType getReportType() {
 		ReportType type = new ReportType();
 		Company owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
 		type.setOwner(owner);
 		type.setRtDesc("举报工作态度");
 		type.setRtTitle("title");
