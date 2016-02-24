@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyOtherMapper;
+import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
@@ -39,6 +40,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private ReportTypeMapper reportTypeMapper;
 	@Resource
 	private CompanyBranchMapper companyBranchMapper;
+	@Resource
+	private CompanyQuestionMapper companyQuestionMapper;
 
 	@Override
 	public boolean saveCompanyInfo(Company company) {
@@ -68,12 +71,14 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
 		boolean flag = false;
-		for (int i = 0; i < questList.size(); i++) {
-			// flag = questionInfoMapper
-			// .add(company.getCompanyId(), questList.get(i).getQuestKey());
-			if (!flag)
-				break;
+		long companyId = company.getCompanyId();
+		List<QuestionInfo> oldQuestList = questionInfoMapper.getAllByCompany(companyId);
+		// 则先删除原来的问题列表
+		if (oldQuestList != null) {
+			companyQuestionMapper.deleteQuestionList(oldQuestList, companyId);
 		}
+		int count = companyQuestionMapper.insertQuestionList(questList, companyId);
+		flag = count > 0 ? true : false;
 		return flag;
 	}
 
@@ -142,7 +147,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo) {
 		boolean flag = false;
 		flag = companyMapper.update(companyWholeInfo.getCompany()) > 0;
-		if(companyOtherMapper.findByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
+		if (companyOtherMapper.findByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
 			flag = companyOtherMapper.update(companyWholeInfo.getCompanyOther()) > 0;
 		} else {
 			flag = companyOtherMapper.insert(companyWholeInfo.getCompanyOther()) > 0;

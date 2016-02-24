@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.dao.CompanyQuestionMapper;
-import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.pojo.Company;
-import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
 import com.jxxp.service.QuestionService;
 
@@ -38,33 +38,27 @@ public class CompanyController {
 	@Resource
 	private CompanyQuestionMapper cqMapper;
 	@Resource
-	private QuestionInfoMapper questionInfoMapper;
-	@Resource
 	private QuestionService questionService;
 
 	/**
 	 * 保存公司信息,其中包括公司的基本信息和公司所选的问题
 	 * 
-	 * @author gcx
 	 * @param company
+	 * @param questIds
 	 * @param request
 	 * @param response
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/addCompany.do")
-	public String saveCompany(Company company, long[] questIds, HttpServletRequest request,
+	@RequestMapping("/addCompanyQuestions.do")
+	public String addCompanyQuestions(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
-		log.debug("get questions ids" + questIds);
-		// questIds为空则该公司使用默认的问题列表
-		if (questIds != null) {
-			cqMapper.insertAll(questIds, company.getCompanyId());
-		} else {
-			// 获取默认的问题列别表questionInfoMapper.getAllByCompany(companyId)
-			cqMapper.insertAll(questIds, company.getCompanyId());
-		}
-		companyService.saveCompanyInfo(company);
-		return "/jsp/areaAll";
+		String questionsJson = request.getParameter("questions");
+		log.debug("questionsJson==" + questionsJson);
+		List<QuestionInfo> questionList = JSON.parseArray(questionsJson, QuestionInfo.class);
+		companyService.saveCompanyQuestions(company, questionList);
+		// TODO 返回界面待定
+		return null;
 	}
 
 	/**
@@ -75,7 +69,7 @@ public class CompanyController {
 	 */
 
 	@RequestMapping("/getAllByName.do")
-	public String getByName(String companyName, HttpServletRequest request,
+	public String getAllByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
 		if (companyName != null) {
 			try {
@@ -101,14 +95,25 @@ public class CompanyController {
 
 	}
 
-	@RequestMapping("/getBranches.do")
-	public String getBranches(Company company, HttpServletRequest request,
+	/**
+	 * 添加公司所选择的问题类型
+	 * 
+	 * @param company
+	 * @param reportType
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/addCompanyType.do")
+	public String addCompanyType(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		List<CompanyBranch> branchList = companyService.getCompanyBranchByArea(0,
-				company.getCompanyId());
-		model.put("branchList", branchList);
-		return "jsp/success";
+		String typeJson = request.getParameter("reportType");
+		log.debug("typeJson====" + typeJson);
+		List<ReportType> rtList = JSON.parseArray(typeJson, ReportType.class);
+		log.debug("rtList title====" + rtList.get(0).getRtTitle());
+		companyService.saveCompanyReportType(company, rtList);
+		return "jsp/test.jsp";
 
 	}
-
 }
