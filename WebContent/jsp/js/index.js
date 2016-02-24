@@ -1,7 +1,4 @@
 ﻿$(function() {
-
-	$("input").attr("autocomplete", "off");
-
 	var leftEle = {
 		companys : $("#companys"),
 		province : $("select[name=province]"),
@@ -165,6 +162,7 @@
 	});
 
 	leftEle.companyName.keyup(function() {
+		leftEle.companyName.removeAttr("data-id");
 		hiddenEle();
 		AutoComplete();
 	});
@@ -200,11 +198,14 @@
 	/**
 	 * 给文档添加click时间，如果不是companyName输入框或者自动完成列表设置自动完成列表不显示
 	 */
-	$(document).bind('click', function(e) {
-		if ($(e.target) == leftEle.companyName.next().next()||$(e.target).get(0).name == "companyName")
-			return;
-		leftEle.companyName.next().next().css("display", "none");
-	});
+	$(document).bind(
+			'click',
+			function(e) {
+				if ($(e.target) == leftEle.companyName.next().next()
+						|| $(e.target).get(0).name == "companyName")
+					return;
+				leftEle.companyName.next().next().css("display", "none");
+			});
 
 	hiddenErrorIcon(leftEle.companyName);
 	hiddenErrorIcon(rightEle.trankingNo);
@@ -272,6 +273,10 @@
 				rightEle.getTempPwd.html("(" + i + ")秒后重试");
 			}
 		}, 1000);
+		$.get("case/getTempPwd.do?mobile=" + rightEle.mobile.val(), function(
+				res, status) {
+			console.log("data:" + res + "status:" + status);
+		});
 	});
 
 	/**

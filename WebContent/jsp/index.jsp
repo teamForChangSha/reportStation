@@ -129,7 +129,7 @@
 									</button>
 									<ul class="dropdown-menu" id="companys"></ul>
 								</span>
-								<input type="text" name="companyName" class="form-control" placeholder="请输入被举报的企业" /> 
+								<input type="text" name="companyName" autocomplete="off" class="form-control" placeholder="请输入被举报的企业" /> 
 								<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
 								<ul class="dropdown-menu" style="left:92px;"></ul>
 								<span class="input-group-btn">
