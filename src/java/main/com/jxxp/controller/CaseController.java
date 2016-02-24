@@ -70,6 +70,7 @@ public class CaseController {
 		String mobile = request.getParameter("mobile");
 		String verifyCode = mobileService.sendVerifySMS(mobile);
 		request.getSession().setAttribute("verifyCode", verifyCode);	
+		request.getSession().setAttribute("mobile", mobile);	
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -93,15 +94,16 @@ public class CaseController {
      */  
 	@RequestMapping("/checkVerifyCode.do")
 	public String checkVerifyCode(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
-		String checkCode = request.getParameter("verifyCode");
+		String mobile = request.getParameter("mobile");
+		String verifyCode = request.getParameter("verifyCode");
+		String trueMobile = (String) request.getSession().getAttribute("mobile"); 
 		String trueCode = (String) request.getSession().getAttribute("verifyCode");
-		if(checkCode.trim() != null) {
+		if(verifyCode.trim() != null) {
 			response.setCharacterEncoding("UTF-8");
 			PrintWriter out;
 			try {
 				out = response.getWriter();
-				if(trueCode.equals(checkCode)) {
-					String mobile = request.getParameter("mobile");
+				if(trueCode.equals(verifyCode) && trueMobile.equals(mobile)) {
 					Reporter reporter = reporterService.getByMobile(mobile);
 					if(reporter != null) {
 						String reporterJson = JSON.toJSONString(reporter);
@@ -137,16 +139,24 @@ public class CaseController {
     	String reporterJson = request.getParameter("reporter");
     	String answersJson = request.getParameter("answers");
     	String isAnonymous = request.getParameter("isAnonymous");
+    	String verifyCode = request.getParameter("verifyCode");
+    	String trueMobile = (String) request.getSession().getAttribute("mobile"); 
+		String trueCode = (String) request.getSession().getAttribute("verifyCode");
 
     	log.debug("trackingNo:" + trackingNo + "\t" + "accessCode:" + accessCode + "\t" + "rtList:" + rtList);
     	log.debug("reporter:" + reporterJson);
     	log.debug("answers:" + answersJson);
     	log.debug("isAnonymous:" + isAnonymous);
+    	log.debug("verifyCode:" + verifyCode);
+    	
+    	boolean flag = true;
     	
     	Reporter reporter = null;
     	if("false".equalsIgnoreCase(isAnonymous)) {
     		reporter = JSON.parseObject(reporterJson, Reporter.class);
+    		flag = trueMobile.equals(reporter.getMobile()) && trueCode.equals(verifyCode);
     	}
+    	
     	
 		//获取session中保存的CompanyBranch对象
 		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
@@ -178,11 +188,15 @@ public class CaseController {
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			if(caseService.saveCase(reporter,reportCase,answerList)){
-				log.debug(reportCase.getTrackingNo() + "案件提交成功！");
-				out.print(reportCase.getTrackingNo());
+			if(flag) {
+				if(caseService.saveCase(reporter,reportCase,answerList)){
+					log.debug(reportCase.getTrackingNo() + "案件提交成功！");
+					out.print(reportCase.getTrackingNo());
+				} else {
+					out.print("saveError");
+				}
 			} else {
-				out.print("");
+				out.print("checkError");
 			}
 		} catch (IOException e) {
 			log.error("流获取失败！",e);
