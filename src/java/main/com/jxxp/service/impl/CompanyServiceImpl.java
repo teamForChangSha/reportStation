@@ -135,14 +135,19 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public boolean addCompanyOther(CompanyOther companyOther) {
-		// TODO Auto-generated method stub
-		return false;
+		return companyOtherMapper.insert(companyOther) > 0;
 	}
 
 	@Override
 	public boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = false;
+		flag = companyMapper.update(companyWholeInfo.getCompany()) > 0;
+		if(companyOtherMapper.findByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
+			flag = companyOtherMapper.update(companyWholeInfo.getCompanyOther()) > 0;
+		} else {
+			flag = companyOtherMapper.insert(companyWholeInfo.getCompanyOther()) > 0;
+		}
+		return flag;
 	}
 
 }
