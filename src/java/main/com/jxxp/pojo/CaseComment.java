@@ -18,7 +18,7 @@ public class CaseComment {
 	private String content;
 
 	/**
-	 * 是否是举报人自己的追加，若为true，则owner和ownerCompany字段忽略
+	 * 是否是举报人自己的追加，若为1，则owner和ownerCompany字段忽略
 	 */
 	private int isReporter;
 
@@ -53,7 +53,7 @@ public class CaseComment {
 		this.content = content;
 	}
 
-	public int isReporter() {
+	public int getIsReporter() {
 		return isReporter;
 	}
 
