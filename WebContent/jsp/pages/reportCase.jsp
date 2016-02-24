@@ -48,14 +48,6 @@
 				margin-bottom: 10px;
 			}
 			
-			.glyphicon-remove-circle {
-				position: absolute;
-				right: 16px;
-				top: 2px;
-				cursor: pointer;
-				color: #C12E2A;
-			}
-			
 			.xinghao {
 				color: #C12E2A;
 				font-weight: bold;
@@ -101,6 +93,15 @@
 			
 			.has-error {
 				color: red;
+			}
+			.glyphicon-ok {
+				color: #419641;
+			}
+			.glyphicon-remove {
+				color: #C12E2A;
+			}
+			.glyphicon{
+				right:9px;
 			}
 		</style>
 	</head>
@@ -182,7 +183,7 @@
 								<input type="radio" name="quest_2_value" value="true" /> 是
 							</label>
 							<label class="radio-inline">
-								<input type="radio" checked name="quest_2_value" value="false" /> 否
+								<input type="radio" name="quest_2_value" value="false" /> 否
 							</label>
 						</div>
 						<form id="userInfo" action="" method="post">
@@ -190,9 +191,10 @@
 								<span><strong>如果您希望 Hyatt 知道您的身份，请完成以下内容：</strong></span>
 							</div>
 							<div class="form-group">
+								<input name="reporterId" type="text" hidden/>
 								<label class="col-sm-4 control-label">手机号：</label>
 								<div class="input-group col-sm-5" id="phone-input-group">
-									<input name="mobile" type="tel" maxlength="11" class="form-control" placeholder="实名手机号"> <span class="input-group-btn">
+									<input name="mobile" type="text" class="form-control" placeholder="实名手机号"> <span class="input-group-btn">
 									<button id="getCode" class="btn btn-default" type="button">获取验证码</button>
 								</span>
 								</div>
@@ -200,7 +202,8 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">验证码：</label>
 								<div class="col-sm-3">
-									<input name="code" type="text" maxlength="6" class="form-control" placeholder="手机验证码"></input>
+									<input name="verifyCode" type="text" class="form-control" placeholder="请输入手机验证码"></input>
+									<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
 								</div>
 							</div>
 							<div class="form-group">
@@ -213,9 +216,9 @@
 								<label class="col-sm-4 control-label">您的证件号：</label>
 								<div class="col-sm-3">
 									<select name="idName" class="form-control">
-										<option>-请选择证件类型-</option>
-										<option>身份证</option>
-										<option>护照</option>
+										<option value="-1">-请选择证件类型-</option>
+										<option value="身份证">身份证</option>
+										<option value="护照">护照</option>
 									</select>
 								</div>
 								<div class="col-sm-4">
@@ -225,13 +228,13 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">邮箱：</label>
 								<div class="col-sm-4">
-									<input name="email" type="email" class="form-control" placeholder="邮箱地址"></input>
+									<input name="email" type="text" class="form-control" placeholder="邮箱地址"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label">与您联系的最佳时间和方式：</label>
 								<div class="col-sm-7">
-									<textarea name="bestContact" type="text" rows="6" class="form-control"></textarea>
+									<textarea name="bestContact" rows="6" class="form-control"></textarea>
 								</div>
 							</div>
 						</form>
@@ -352,22 +355,24 @@
 							<div class="col-sm-3"></div>
 							<div class="col-sm-2">
 								<select name="quest_7_value1" class="form-control">
-									<option value="currency0">USD</option>
-									<option value="currency1">CAD</option>
-									<option value="currency2">MXN</option>
-									<option value="currency3">BRL</option>
-									<option value="currency4">CNY</option>
-									<option value="currency5">EUR</option>
-									<option value="currency6">GBP</option>
-									<option value="currency7">IDR</option>
-									<option value="currency8">INR</option>
-									<option value="currency9">JPY</option>
-									<option value="currency10">NGN</option>
-									<option value="currency11">RUB</option>
+									<option value="-1">请选择</option>
+									<option>USD</option>
+									<option>CAD</option>
+									<option>MXN</option>
+									<option>BRL</option>
+									<option>CNY</option>
+									<option>EUR</option>
+									<option>GBP</option>
+									<option>IDR</option>
+									<option>INR</option>
+									<option>JPY</option>
+									<option>NGN</option>
+									<option>RUB</option>
 								</select>
 							</div>
 							<div class="col-sm-3">
 								<select name="quest_7_value2" class="form-control">
+								<option value="-1">-- 请选择 --</option>
 									<option>&lt;99</option>
 									<option>100-999</option>
 									<option>100-999</option>
@@ -407,7 +412,7 @@
 							<div class="col-sm-4"></div>
 							<div class="col-sm-4">
 								<select name="quest_10_value" class="form-control">
-									<option>-请选择一项-</option>
+									<option value="-1">-请选择一项-</option>
 									<option>一次</option>
 									<option>一周</option>
 									<option>1至3个月</option>
@@ -426,7 +431,7 @@
 							<div class="col-sm-4"></div>
 							<div class="col-sm-4">
 								<select name="quest_11_value1" class="form-control">
-									<option>-请选择一项-</option>
+									<option value="-1">-请选择一项-</option>
 									<option>这是发生在我身上</option>
 									<option>我观察得知</option>
 									<option>我听到的</option>
@@ -510,7 +515,7 @@
 						</h3>
 							<br /> <span><strong><span class="xinghao">*</span>请输入举报密码：</strong>
 							</span>
-							<p>您的密码必须相匹配而且长度不得少于四个字符。</p>
+							<p>您的密码必须相匹配而且长度不得少于六个字符。</p>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label">密码<span class="xinghao">*</span></label>
@@ -521,7 +526,7 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label">再次输入密码<span class="xinghao">*</span></label>
 							<div class="col-sm-4">
-								<input type="password" name="quest_16_value" class="form-control" />
+								<input type="password" name="quest_16_value" class="form-control" /><span class="hidden">两次密码不一致</span>
 							</div>
 						</div>
 						<div class="page-header"></div>
@@ -549,8 +554,6 @@
 				<input type="text" name="quest_12" hidden="true" />
 				<input type="text" name="quest_13" hidden="true" />
 			</form>
-			<input type="text" name="trackingNo" value="${trackingNo }" hidden="true" />
-			<input type="text" name="rtList" value="${rtList }" hidden="true" />
 		</div>
 		<div class="page-header"></div>
 		<p class="navbar-text text-center">Copyright © 2016-2018 用户举报系统</p>
@@ -589,6 +592,8 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+	var trackingNo = "trackingNo=${trackingNo }";
+	var rtList = "rtList=${rtList }";
 		var questionList = []; 
 		<c:forEach items = "${questionMap}" var = "question" varStatus = "i" >
 			var questionJson = {};
