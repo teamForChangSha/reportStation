@@ -253,6 +253,33 @@ public class CaseController {
     }
 
 	/*** 
+     * 根据所输入的手机号，获取临时密码 
+     * @author cj
+     * @param 
+     * @return 
+     */ 
+	@RequestMapping("/getTempPwd.do")
+	public String getTempPwd(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+		String mobile = request.getParameter("mobile");
+		String tempPwd = mobileService.sendTempPwd(mobile);
+		request.getSession().setAttribute("mobile", mobile);
+		request.getSession().setAttribute("tempPwd", tempPwd);	
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(tempPwd != null) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
+    
+	/*** 
      * 根据举报人显示以往举报列表 
      * @author cj
      * @param  
@@ -260,17 +287,25 @@ public class CaseController {
      */  
     @RequestMapping(value="/showCaseList.do",method=RequestMethod.POST)  
     public String showCaseList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
-		String mobile = request.getParameter("mobile");
+		String reqMobile = request.getParameter("mobile");
+		String reqPwd = request.getParameter("tempPwd");
 		//还需要加手机验证码判断
-		Reporter reporter = reporterService.getByMobile(mobile);
-		if(reporter != null) {
-			List<ReportCase> caseList = caseService.getCaseList(reporter);
-			modelMap.put("caseList", caseList);
-		} else {
-			modelMap.put("errorMsg", "未找到匹配数据！");
-			return "/jsp/pages/error";
-		}
-    	return "/jsp/pages/report_list";
+		String mobile = (String) request.getSession().getAttribute("mobile");
+		String tempPwd = (String) request.getSession().getAttribute("tempPwd");
+		
+		if(reqPwd.equals(tempPwd) && reqMobile.equals(mobile)) {
+			Reporter reporter = reporterService.getByMobile(mobile);
+			if(reporter != null) {
+				List<ReportCase> caseList = caseService.getCaseList(reporter);
+				modelMap.put("caseList", caseList);
+		    	return "/jsp/pages/report_list";
+			} else {
+				modelMap.put("errorMsg", "未找到匹配用户数据！");
+				return "/jsp/pages/error";
+			}
+		} 
+		modelMap.put("errorMsg", "手机号或者临时密码有误，请重新输入！");
+		return "/jsp/pages/error";
     }
     
     /*** 
