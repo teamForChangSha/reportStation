@@ -1,5 +1,6 @@
 package com.jxxp.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -15,14 +16,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
-import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.pojo.Company;
+import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
-import com.jxxp.service.QuestionService;
 
 /**
  * @author gcx 公司信息管理，客户的增删该查
@@ -35,10 +38,6 @@ public class CompanyController {
 
 	@Resource
 	private CompanyService companyService;
-	@Resource
-	private CompanyQuestionMapper cqMapper;
-	@Resource
-	private QuestionService questionService;
 
 	/**
 	 * @author gcx 保存公司信息,其中包括公司的基本信息和公司所选的问题
@@ -116,9 +115,52 @@ public class CompanyController {
 
 	}
 
-	public String deleteQuestionType(Company company, ReportType reportType,
-			HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+	@RequestMapping("/updateCompanyWholeInfo.do")
+	public String uploadLogo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) throws IllegalStateException, IOException {
 
+		// 获取文件
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile file = multipartRequest.getFile("testFile");
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String createPath = "/fileupload/companylogo";
+		String dirPath = rootPath + createPath;
+		if (file != null) {
+			// 保存文件
+			saveLogo(file, dirPath);
+			// 完善公司其他信息 CompanyOther
+			String webPath = request.getSession().getServletContext().getContextPath();
+			String accessPath = webPath + createPath;
+			CompanyOther other = wholeCompany.getCompanyOther();
+			other.setLogoUrl(accessPath);
+			other.setLogoPath(accessPath);
+			other.setServiceProtocol("8080");
+		}
+		// 调用service,存储公司所有信息
+		boolean flag = companyService.saveWholeCompany(wholeCompany);
+		PrintWriter out = response.getWriter();
+		if (flag) {
+			out.print("success");
+		} else {
+			out.print("fail");
+		}
 		return null;
+	}
+
+	private void saveLogo(MultipartFile file, String dirPath) throws IllegalStateException,
+			IOException {
+		// 建立存放文件的文件夹
+		File fileDir = new File(dirPath);
+		if (!fileDir.exists()) {
+			if (fileDir.mkdirs()) {
+				log.debug("文件夹创建成功！");
+			} else {
+				log.debug("文件夹创建失败！");
+			}
+		}
+		String filePath = dirPath + "/" + file.getOriginalFilename();
+		// 存储文件
+		file.transferTo(new File(filePath));
+
 	}
 }

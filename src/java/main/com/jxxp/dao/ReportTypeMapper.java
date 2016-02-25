@@ -2,8 +2,6 @@ package com.jxxp.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.jxxp.pojo.ReportType;
 
 /**
@@ -15,24 +13,12 @@ import com.jxxp.pojo.ReportType;
 public interface ReportTypeMapper {
 
 	/**
-	 * 增加一个举报类型，定制默认举报类型
+	 * 增加一个举报类型
 	 * 
 	 * @param reportType
 	 * @return
 	 */
 	int insert(ReportType reportType);
-
-	/**
-	 * 增加一个举报类型，公司定制一个举报类型
-	 * 
-	 * @param reportType
-	 *            举报类型
-	 * @param companyId
-	 *            公司id
-	 * @return
-	 */
-	int insertByCompany(@Param("reportType") ReportType reportType,
-			@Param("companyId") Long companyId);
 
 	/**
 	 * 更改某个举报类型
@@ -51,6 +37,12 @@ public interface ReportTypeMapper {
 
 	int deleteById(long rtId);
 
+	/**
+	 * 删除公司所有问题类型
+	 * 
+	 * @param companyId
+	 * @return
+	 */
 	int deleteByCompanyId(long companyId);
 
 	/**

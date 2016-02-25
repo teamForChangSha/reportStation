@@ -64,7 +64,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public CompanyWholeInfo getCompanyWhole(String name) {
 		Company company = companyMapper.findByName(name);
-		CompanyOther companyOther = companyOtherMapper.findByCompanyId(company.getCompanyId());
+		CompanyOther companyOther = companyOtherMapper.getByCompanyId(company.getCompanyId());
 		return new CompanyWholeInfo(company, companyOther);
 	}
 
@@ -96,7 +96,8 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
 		boolean flag = false;
 		for (ReportType reportType : rtList) {
-			flag = reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
+			reportType.setOwner(company);
+			flag = reportTypeMapper.insert(reportType) > 0;
 			if (!flag) {
 				break;
 			}
@@ -106,7 +107,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public boolean addCompanyReportType(Company company, ReportType reportType) {
-		return reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
+		reportType.setOwner(company);
+		return reportTypeMapper.insert(reportType) > 0;
 	}
 
 	@Override
@@ -145,7 +147,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo) {
 		boolean flag = false;
 		flag = companyMapper.update(companyWholeInfo.getCompany()) > 0;
-		if (companyOtherMapper.findByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
+		if (companyOtherMapper.getByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
 			flag = companyOtherMapper.update(companyWholeInfo.getCompanyOther()) > 0;
 		} else {
 			flag = companyOtherMapper.insert(companyWholeInfo.getCompanyOther()) > 0;
