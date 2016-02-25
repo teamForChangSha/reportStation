@@ -95,12 +95,10 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
 		boolean flag = false;
-		if (reportTypeMapper.deleteByCompanyId(company.getCompanyId()) >= 0) {
-			for (ReportType reportType : rtList) {
-				flag = reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
-				if (!flag) {
-					break;
-				}
+		for (ReportType reportType : rtList) {
+			flag = reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
+			if (!flag) {
+				break;
 			}
 		}
 		return flag;

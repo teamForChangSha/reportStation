@@ -41,8 +41,7 @@ public class CompanyController {
 	private QuestionService questionService;
 
 	/**
-	 * 保存公司信息,其中包括公司的基本信息和公司所选的问题
-	 * 
+	 * @author gcx 保存公司信息,其中包括公司的基本信息和公司所选的问题
 	 * @param company
 	 * @param questIds
 	 * @param request
@@ -96,7 +95,7 @@ public class CompanyController {
 	}
 
 	/**
-	 * 添加公司所选择的问题类型
+	 * @author gcx 添加公司所选择的问题类型
 	 * 
 	 * @param company
 	 * @param reportType
@@ -105,8 +104,8 @@ public class CompanyController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/addCompanyType.do")
-	public String addCompanyType(Company company, HttpServletRequest request,
+	@RequestMapping("/addQuestionTypes.do")
+	public String addQuestionTypes(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
 		String typeJson = request.getParameter("reportType");
 		log.debug("typeJson====" + typeJson);
@@ -115,5 +114,11 @@ public class CompanyController {
 		companyService.saveCompanyReportType(company, rtList);
 		return "jsp/test.jsp";
 
+	}
+
+	public String deleteQuestionType(Company company, ReportType reportType,
+			HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+
+		return null;
 	}
 }
