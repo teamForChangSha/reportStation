@@ -112,12 +112,12 @@
 					<c:forEach items = "${questionAnswerList}" var = "quest" varStatus = "i" >
 						<div class="form-group">
 						<c:if test="${quest.questKey=='quest_1'}">
-							<label class="col-sm-4 control-label">您是${reportCase.branch.owner.companyName }员工吗：</label>
+							<label class="col-sm-6 control-label">您是${reportCase.branch.owner.companyName }员工吗：</label>
 						</c:if>
 						<c:if test="${quest.questKey!='quest_1'}">
-							<label class="col-sm-4 control-label">${quest.question }：</label>
+							<label class="col-sm-6 control-label">${quest.question }</label>
 						</c:if>
-						<div class="col-sm-8">
+						<div class="col-sm-6">
 							<span class="form-info">${quest.questValue}</span>
 						</div>
 					</div>
@@ -246,11 +246,16 @@
 					</div>
 					<c:forEach items = "${reportCase.commentList}" var = "comment" varStatus = "i" >
 						<div class="form-group">
-							<label class="col-sm-4 control-label">${comment.owner }：</label>
-							<div class="col-sm-8">
+							<c:if test="${comment.isReporter=='1'}">
+								<label class="col-sm-4 control-label">${reportCase.reporter.name }：</label>
+							</c:if>
+							<c:if test="${comment.isReporter!='1'}">
+								<label class="col-sm-4 control-label">${comment.owner }：</label>
+							</c:if>
+							<div class="col-sm-7">
 								<textarea rows="3" readonly class="form-control">${comment.content }</textarea>
 							</div>
-					</div>
+						</div>
 					</c:forEach>
 					<div class="form-group">
 						<div class="col-sm-4"></div>
@@ -273,18 +278,38 @@
 				addNote: $("#addNote")
 			}
 			ele.addNote.click(function() {
+				$(this).addClass("hidden");
 				var rootDiv = $("<div/>").attr("class", "form-group");
 				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("${reportCase.reporter.name}：");
 				var div = $("<div/>").attr("class", "col-sm-7");
-				var textarea = $("<textarea/>").attr("class", "form-control").attr("name","content").attr("rows", 5);
+				var textarea = $("<textarea/>").attr("class", "form-control").attr("rows", 5);
 				div.append(textarea);
 				rootDiv.append(lable).append(div);
 				
 				var btnPanle = $("<div/>").attr("class", "form-group");
 				var divLeft = $("<div/>").attr("class", "col-sm-4");
 				var divRight = $("<div/>").attr("class", "col-sm-7 text-right");
-				var button = $("<button/>").attr("class","btn btn-default").text("提交");
-				divRight.append(button);
+				var button1 = $("<button/>").attr("class","btn btn-default").text("取消").css("margin-right","30px");
+				var button2 = $("<button/>").attr("class","btn btn-default").text("提交");
+				button2.click(function(){
+					var str = $.trim(textarea.val());
+					console.log(str);
+					if (str == null || str.length <= 0 || str == "") {
+						return;
+					}
+					var data = "rcId=${reportCase.rcId}&content="+str;
+					$.post("case/addCaseComment.do",data,function(res,status){
+						if(status=="success"&&res=="success"){
+							location.href = "case/showCaseById.do?rcId=${reportCase.rcId}";
+						}
+					});
+				});
+				button1.click(function(){
+					ele.addNote.removeClass("hidden");
+					rootDiv.remove();
+					btnPanle.remove();
+				});
+				divRight.append(button1).append(button2);
 				btnPanle.append(divLeft).append(divRight);
 				
 				$(this).parent().parent().before(rootDiv);
