@@ -90,7 +90,7 @@
 	<script type="text/javascript">
 		$(function() {
 			$('[data-toggle="tooltip"]').tooltip(); 
-			< c: forEach items = "${questList}" var = "quest" varStatus = "i" >
+			<c:forEach items = "${questList}" var = "quest" varStatus = "i" >
 				var tr = $("<tr/>");
 				var td1 = $("<td/>").text("${quest.questId}");
 				var txt = "${quest.quest}";
@@ -104,7 +104,7 @@
 				var td3 = $("<td/>").append(checkbox);
 				tr.append(td1).append(td2).append(td3);
 				$("tbody").append(tr); 
-			< /c:forEach>
+			</c:forEach>
 		});
 	</script>
 
