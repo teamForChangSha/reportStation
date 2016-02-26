@@ -136,7 +136,7 @@ public class CompanyController {
 		model.put("delfRtList", delfRtList);
 		model.put("rtList", rtList);
 		// TODO 返回界面待定
-		return null;
+		return "/jsp/admin/pages/settingType";
 	}
 
 	/**
