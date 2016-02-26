@@ -278,6 +278,30 @@
 			$("#selectByPhone").submit();
 		}
 	});
+	
+	/**
+	 * 登陆
+	 */
+	user.btn.click(function() {
+		if (!showError(user.name)) {
+			console.log("user");
+			return;
+		}
+		if (!showError(user.pwd)) {
+			console.log("pwd");
+			return;
+		}
+		var data = "loginName="+user.name.val()+"&userPwd="+user.pwd.val();
+		$.post("admin/user/login.do",data,function(res,status){
+			if (status=="success") {
+				if(res=="success"){
+					location.href = "jsp/admin/admin.jsp";
+				}else{
+					alert(res);
+				}
+			}
+		});
+	});
 
 	/**
 	 * 验证手机号
