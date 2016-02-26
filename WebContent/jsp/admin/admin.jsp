@@ -63,7 +63,7 @@
 						<a id="date"></a>
 					</li>
 					<li class="dropdown mtop5">
-						<a class="userName">您好：admin</a>
+						<a class="userName">您好：${user.userName}</a>
 					</li>
 					<li class="dropdown mtop5">
 						<a href="loginOut.do"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>退出</a>
@@ -76,10 +76,15 @@
 				<div style="height: auto;" id="sidebar" class="nav-collapse in collapse">
 					<ul class="sidebar-menu">
 						<li class="sub-menu">
-							<a class="" href="pages/kongzhitai.html" target="MainIframe">
+							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-								<span>控制台</span>
+								<span>公司设置</span>
+								<span class="arrow"></span>
 							</a>
+							<ul class="sub">
+								<li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">公司基本信息</a></li>
+								<li><a class="" href="company/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
+							</ul>
 						</li>
 						<li class="sub-menu">
 							<a href="jsp/admin/pages/users.jsp" class="" target="MainIframe">
