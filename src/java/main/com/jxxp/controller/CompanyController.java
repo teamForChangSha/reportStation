@@ -46,26 +46,6 @@ public class CompanyController {
 	private QuestionService questionService;
 
 	/**
-	 * @author gcx 保存公司信息,其中包括公司的基本信息和公司所选的问题
-	 * @param company
-	 * @param questIds
-	 * @param request
-	 * @param response
-	 * @param modelMap
-	 * @return
-	 */
-	@RequestMapping("/addCompanyQuestions.do")
-	public String addCompanyQuestions(Company company, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
-		String questionsJson = request.getParameter("questions");
-		log.debug("questionsJson==" + questionsJson);
-		List<QuestionInfo> questionList = JSON.parseArray(questionsJson, QuestionInfo.class);
-		companyService.saveCompanyQuestions(company, questionList);
-		// TODO 返回界面待定
-		return null;
-	}
-
-	/**
 	 * @author gcx
 	 * @param companyName
 	 *            公司名字
@@ -110,8 +90,41 @@ public class CompanyController {
 	@RequestMapping("/getDefQuestTemlate.do")
 	public String getDefQuestTemlate(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) {
-		List<QuestionInfo> questList = questionService.getAllQuestions();
-		model.put("questList", questList);
+		List<QuestionInfo> questTemplate = questionService.getAllQuestions();
+		model.put("questTemplate", questTemplate);
+		// TODO 返回界面待定
+		return null;
+	}
+
+	/**
+	 * @author gcx 保存公司信息,其中包括公司的基本信息和公司所选的问题
+	 * @param company
+	 * @param questIds
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping("/addCompanyQuestions.do")
+	public String addCompanyQuestions(Company company, HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String questionsJson = request.getParameter("questions");
+		log.debug("questionsJson==" + questionsJson);
+		List<QuestionInfo> questionList = JSON.parseArray(questionsJson, QuestionInfo.class);
+		boolean flag = companyService.saveCompanyQuestions(company, questionList);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("fail");
+			}
+
+		} catch (IOException e) {
+			log.error("添加问题列表失败！", e);
+		}
+
 		return null;
 	}
 
@@ -122,6 +135,7 @@ public class CompanyController {
 		List<ReportType> rtList = companyService.getCompanyReportType(company);
 		model.put("delfRtList", delfRtList);
 		model.put("rtList", rtList);
+		// TODO 返回界面待定
 		return null;
 	}
 
@@ -142,8 +156,19 @@ public class CompanyController {
 		log.debug("typeJson====" + typeJson);
 		List<ReportType> rtList = JSON.parseArray(typeJson, ReportType.class);
 		log.debug("rtList title====" + rtList.get(0).getRtTitle());
-		companyService.saveCompanyReportType(company, rtList);
-		return "jsp/test.jsp";
+		boolean flag = companyService.saveCompanyReportType(company, rtList);
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("fail");
+			}
+
+		} catch (IOException e) {
+			log.error("添加问题类型失败！", e);
+		}
+		return null;
 
 	}
 
