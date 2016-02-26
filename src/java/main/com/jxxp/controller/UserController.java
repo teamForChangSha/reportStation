@@ -42,20 +42,22 @@ public class UserController {
 		user.setLoginName(loginName);
 		user.setUserPwd(userPwd);
 		user = userService.longin(user);
+		log.debug("User:" + user);
 		
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-		
 			if(user != null) {
 				if(user.getUserState() != 1) {
 					out.print("该账号无法使用！");
+				} else {
+					request.getSession().setAttribute("user", user);
+					out.print("success");
 				}
-				request.getSession().setAttribute("user", user);
-				return "/jsp/admin/admin";
+			} else {
+				out.print("登录失败，用户名或者密码错误！");
 			}
-			out.print("登录失败，用户名或者密码错误！");
 		} catch (IOException e) {
 			log.error("流获取失败！",e);
 		}

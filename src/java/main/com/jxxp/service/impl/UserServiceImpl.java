@@ -10,6 +10,7 @@ import com.jxxp.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
 	@Resource
 	private UserMapper userMapper;
 	
