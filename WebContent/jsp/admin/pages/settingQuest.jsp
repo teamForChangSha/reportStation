@@ -64,7 +64,6 @@
 			<div class="row">
 				请选择需要展示的问题
 			</div>
-			<form action="company/addCompanyQuestions.do" method="post">
 				<div class="row">
 					<div class="col-sm-8">
 						<table class="table table-bordered table-hover">
@@ -81,10 +80,9 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-8 text-right">
-						<input type="submit" class="btn btn-default" value="提交" />
+						<input type="button" class="btn btn-default" value="提交" />
 					</div>
 				</div>
-			</form>
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -105,6 +103,15 @@
 				tr.append(td1).append(td2).append(td3);
 				$("tbody").append(tr); 
 			</c:forEach>
+			$("input[type=button]").click(function(){
+				var data = $("input[name=questId]").val();
+				$.post("company/addCompanyQuestions.do",JSON.stringify(data),function(res,status){
+					if (status=="success") {
+						location.reload();
+					}
+				});
+				console.log(JSON.stringify(data));
+			});
 		});
 	</script>
 
