@@ -367,6 +367,12 @@ $(function() {
 				});
 	});
 
+	userAndOther.mobile.keyup(function(){
+		if(t==null){
+			userAndOther.getCode.removeAttr("disabled");
+		}
+	});
+	
 	/**
 	 * 验证验证码
 	 */
@@ -382,6 +388,11 @@ $(function() {
 					if (res == "error") {
 						userAndOther.code.next().addClass("glyphicon-remove");
 					} else {
+						userAndOther.getCode.attr("disabled","");
+						clearInterval(t);
+						t = null;
+						userAndOther.getCode.html("获取临时密码");
+						i = 60;
 						userAndOther.code.next().addClass("glyphicon-ok");
 						if (res != "success") {
 							res = JSON.parse(res);
