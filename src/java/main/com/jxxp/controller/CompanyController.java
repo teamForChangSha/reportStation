@@ -90,7 +90,7 @@ public class CompanyController {
 	 * @return
 	 */
 	@RequestMapping("/getQuestTemlate.do")
-	public String getDefQuestTemlate(HttpServletRequest request, HttpServletResponse response,
+	public String getQuestTemlate(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
