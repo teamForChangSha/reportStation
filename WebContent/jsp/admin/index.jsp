@@ -76,7 +76,7 @@
 
 				</div>
 				<div class="col-sm-4 text-center">
-					<form action="" method="post">
+					<form>
 						<div class="form-group">
 							<input type="text" name="loginName" class="form-control" placeholder="手机/用户名">
 							<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
@@ -114,7 +114,12 @@
 					console.log("pwd");
 					return;
 				}
-				//$("form").submit();
+				var data = "loginName="+user.name.val()+"&userPwd="+user.pwd.val();
+				$.post("user/login.do",data,function(res,status){
+					if (status=="success") {
+						alert(res);
+					}
+				});
 			});
 
 			function showError(ele) {
