@@ -34,7 +34,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public List<QuestionInfo> getAllQuestions() {
 		// TODO Auto-generated method stub
-		return null;
+		return questionInfoMapper.getQuestionTemlate();
 	}
 
 }

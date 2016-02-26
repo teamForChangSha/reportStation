@@ -43,19 +43,23 @@ public class UserController {
 		user.setUserPwd(userPwd);
 		user = userService.longin(user);
 		
-		if(user != null) {
-			log.debug("登录成功！");
-			if(user.getUserState() != 1) {
-				log.debug("该账号无法使用！");
-				modelMap.put("error", "该账号无法使用！");
-				return "/jsp/pages/error";
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+		
+			if(user != null) {
+				if(user.getUserState() != 1) {
+					out.print("该账号无法使用！");
+				}
+				request.getSession().setAttribute("user", user);
+				return "/jsp/admin/admin";
 			}
-			request.getSession().setAttribute("user", user);
-			return "/jsp/pages/?";
+			out.print("登录失败，用户名或者密码错误！");
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
 		}
-		log.debug("登录失败，用户名或者密码错误！");
-		modelMap.put("error", "登录失败，用户名或者密码错误！");
-		return "/jsp/pages/error";
+		return null;
 	}
 
 	/*
