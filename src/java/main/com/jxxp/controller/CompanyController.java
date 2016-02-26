@@ -172,7 +172,7 @@ public class CompanyController {
 			if (flag) {
 				out.print("success");
 			} else {
-				out.print("fail");
+				out.print("error");
 			}
 
 		} catch (IOException e) {
