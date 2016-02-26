@@ -4,7 +4,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -14,10 +16,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jxxp.dao.CaseAttachMapper;
+import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.dao.ReporterMapper;
 import com.jxxp.pojo.CaseAttach;
+import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
@@ -41,6 +45,8 @@ public class CaseTest {
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private ReporterMapper reporterMapper;
+	@Resource
+	private CompanyMapper companyMapper;
 
 	/**
 	 * 案件追踪号
@@ -76,19 +82,77 @@ public class CaseTest {
 	}
 
 	/**
+	 * 所有关键字都为空
+	 */
+	@Test
+	public void testSearchByNull() {
+		ReportCase caseInfo = getReportCase();
+		reportCaseMapper.insert(caseInfo);
+		assertNotNull(reportCaseMapper.searchByKeys(0, null, null, null));
+		assertTrue(reportCaseMapper.searchByKeys(0, null, null, null).size() == 0);
+		reportCaseMapper.deleteById(caseInfo.getRcId());
+
+	}
+
+	/**
+	 * 除了公司id，没有其他关键字 TODO
+	 */
+	@Test
+	public void testSearchByCompnayId() {
+		ReportCase caseInfo = getReportCase();
+		Company company = caseInfo.getCompany();
+		// companyMapper.insert(company);
+		// reportCaseMapper.insert(caseInfo);
+		assertTrue(reportCaseMapper.searchByKeys(new Long(27), null, null, null).size() > 0);
+		// reportCaseMapper.deleteById(caseInfo.getRcId());
+		// companyMapper.deleteById(company.getCompanyId());
+	}
+
+	/**
+	 * 按照时间搜索，时间存在
+	 */
+	@Test
+	public void testSearchByKeys() {
+		ReportCase caseInfo = getReportCase();
+		Company company = caseInfo.getCompany();
+		companyMapper.insert(company);
+		reportCaseMapper.insert(caseInfo);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+		String dateStr = format.format(caseInfo.getCreateTime());
+		assertTrue(reportCaseMapper.searchByKeys(company.getCompanyId(), dateStr, null, null)
+				.size() == 1);
+
+		reportCaseMapper.deleteById(caseInfo.getRcId());
+		companyMapper.deleteById(company.getCompanyId());
+	}
+
+	@Test
+	public void getAllByCompanyId() {
+		ReportCase case1 = getReportCase();
+		Company company = case1.getCompany();
+		companyMapper.insert(company);
+		reportCaseMapper.insert(case1);
+		List<ReportCase> list = reportCaseMapper.getAllByCompanyId(company.getCompanyId());
+		assertTrue(list.size() > 0);
+		companyMapper.deleteById(company.getCompanyId());
+		reportCaseMapper.deleteById(case1.getRcId());
+	}
+
+	/**
 	 * 获取案件，包括该案件包含的附件list、追加信息list、日志list、答案list
 	 */
 	@Test
-	public void testGetCase() {
+	public void testGetCaseById() {
 		ReportCase case1 = getReportCase();
 		reportCaseMapper.insert(case1);
-		ReportCase caseInfo = reportCaseMapper.getById(new Long(1));
+		ReportCase caseInfo = reportCaseMapper.getById(case1.getRcId());
 		reportCaseMapper.deleteById(case1.getRcId());
 		assertNotNull(caseInfo.getAnswers());
 		assertNotNull(caseInfo.getAttachList());
 		assertNotNull(caseInfo.getChangeList());
 		assertNotNull(caseInfo.getCommentList());
-		assertNotNull(caseInfo.getCompany());
+
 	}
 
 	/**
@@ -127,7 +191,7 @@ public class CaseTest {
 	 */
 	@Test
 	public void testInsertAnswer() {
-		reportCaseMapper.getAllCase().get(0).getRcId();
+		// reportCaseMapper.getAllCase().get(0).getRcId();
 		ReportAnswer answer1 = getAnswer();
 		reportAnswerMapper.insert(answer1);
 		ReportAnswer answer2 = reportAnswerMapper.getById(answer1.getRdId());
@@ -140,9 +204,9 @@ public class CaseTest {
 	 */
 	@Test
 	public void insertAnswerByQuestKey() {
-		reportCaseMapper.getAllCase().get(0).getRcId();
+		// reportCaseMapper.getAllCase().get(0).getRcId();
 		ReportAnswer answer1 = getAnswer();
-		reportAnswerMapper.insertByQuestionId(answer1, new Long(2));
+		reportAnswerMapper.insertByQuestionId(answer1, new Long(1));
 		ReportAnswer answer2 = reportAnswerMapper.getById(answer1.getRdId());
 		reportAnswerMapper.deleteById(answer1.getRdId());
 		assertNotNull(answer2);
