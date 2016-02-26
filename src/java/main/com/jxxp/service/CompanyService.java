@@ -101,18 +101,6 @@ public interface CompanyService {
 	boolean saveCompanyReportType(Company company, List<ReportType> rtList);
 
 	/**
-	 * 给公司增加一个举报类型<br>
-	 * 不删除原有举报类型数据
-	 * 
-	 * @param company
-	 *            需要增加举报类型的公司
-	 * @param reportType
-	 *            需要增加的举报类型
-	 * @return 增加成功则返回true，否则返回false
-	 */
-	boolean addCompanyReportType(Company company, ReportType reportType);
-
-	/**
 	 * 获取公司设置的举报类型
 	 * 
 	 * @param company

@@ -424,32 +424,38 @@ public class CaseController {
 			caseComment.setOwnerCompany(user.getUserCompany());
 		}
 		
-		if(caseCommentService.addCaseComment(caseComment, rcId)){
-			log.debug("案件追加信息添加成功！");
-			//如果不是举报人追加信息，需要记录变更信息
-			if(caseComment.getIsReporter() == 0) {
-				CaseChangeLog caseChangeLog = new CaseChangeLog();
-				caseChangeLog.setChangeTime(new Date());
-				caseChangeLog.setOperator(user);
-				caseChangeLog.setStateAfter(reportCase.getCaseState());
-				caseChangeLog.setStateBefore(reportCase.getCaseState());
-				caseChangeLog.setHandlerAfter(user.getUserCompany());
-				caseChangeLog.setHandlerBefore(user.getUserCompany());
-				
-				if(caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
-					log.debug("日志信息添加成功！");
-				} else {
-					log.debug("日志信息添加失败！");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseCommentService.addCaseComment(caseComment, rcId)){
+				log.debug("案件追加信息添加成功！");
+				//如果不是举报人追加信息，需要记录变更信息
+				if(caseComment.getIsReporter() == 0) {
+					CaseChangeLog caseChangeLog = new CaseChangeLog();
+					caseChangeLog.setChangeTime(new Date());
+					caseChangeLog.setOperator(user);
+					caseChangeLog.setStateAfter(reportCase.getCaseState());
+					caseChangeLog.setStateBefore(reportCase.getCaseState());
+					caseChangeLog.setHandlerAfter(user.getUserCompany());
+					caseChangeLog.setHandlerBefore(user.getUserCompany());
+					
+					if(caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
+						log.debug("日志信息添加成功！");
+					} else {
+						log.debug("日志信息添加失败！");
+					}
 				}
+				out.print("success");
+			} else {
+				log.debug("案件追加信息添加失败！");
+				out.print("error");
 			}
-		} else {
-			log.debug("案件追加信息添加失败！");
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
 		}
 		
-		modelMap.put("reportCase", reportCase);
-		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
-		
-    	return "redirect:/case/showCaseById.do?rcId=" + rcId;
+    	return null;
     }
     
     /*** 

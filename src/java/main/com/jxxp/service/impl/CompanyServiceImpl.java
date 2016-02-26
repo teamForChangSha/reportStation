@@ -95,6 +95,10 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
 		boolean flag = false;
+		int count = reportTypeMapper.getAllByCompanyId(company.getCompanyId()).size();
+		if(count > 0) {
+			flag = reportTypeMapper.deleteByCompanyId(company.getCompanyId()) > 0;
+		}
 		for (ReportType reportType : rtList) {
 			reportType.setOwner(company);
 			flag = reportTypeMapper.insert(reportType) > 0;
@@ -103,12 +107,6 @@ public class CompanyServiceImpl implements CompanyService {
 			}
 		}
 		return flag;
-	}
-
-	@Override
-	public boolean addCompanyReportType(Company company, ReportType reportType) {
-		reportType.setOwner(company);
-		return reportTypeMapper.insert(reportType) > 0;
 	}
 
 	@Override

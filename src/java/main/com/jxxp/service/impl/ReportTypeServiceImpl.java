@@ -1,5 +1,7 @@
 package com.jxxp.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -18,6 +20,12 @@ public class ReportTypeServiceImpl implements ReportTypeService {
 		int count = reportTypeMapper.update(reportType);
 		boolean flag = count > 0 ? true : false;
 		return flag;
+	}
+
+	@Override
+	public List<ReportType> getDefaultList() {
+		// TODO Auto-generated method stub
+		return reportTypeMapper.getAllByCompanyId(0);
 	}
 
 }

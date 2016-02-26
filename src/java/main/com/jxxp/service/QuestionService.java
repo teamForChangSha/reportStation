@@ -1,7 +1,10 @@
 package com.jxxp.service;
 
+import java.util.List;
+
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
+import com.jxxp.pojo.ReportType;
 
 /**
  * 
@@ -28,4 +31,11 @@ public interface QuestionService {
 	 * @return 返回保存结果，成功为true，否则返回false
 	 */
 	boolean addReportAnswer(ReportAnswer reportAnswer);
+	
+	/**
+	 * 返回所有问题列表
+	 * 
+	 * @return 所有问题集合，没有则返回空列表
+	 */
+	public List<QuestionInfo> getAllQuestions();
 }

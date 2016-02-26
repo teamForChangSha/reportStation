@@ -1,5 +1,7 @@
 package com.jxxp.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -27,6 +29,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public boolean addReportAnswer(ReportAnswer reportAnswer) {
 		// TODO Auto-generated method stub
 		return reportAnswerMapper.insert(reportAnswer) > 0;
+	}
+
+	@Override
+	public List<QuestionInfo> getAllQuestions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
