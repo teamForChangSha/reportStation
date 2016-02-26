@@ -26,6 +26,8 @@ import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
+import com.jxxp.service.QuestionService;
+import com.jxxp.service.ReportTypeService;
 
 /**
  * @author gcx 公司信息管理，客户的增删该查
@@ -38,6 +40,10 @@ public class CompanyController {
 
 	@Resource
 	private CompanyService companyService;
+	@Resource
+	private ReportTypeService reportTypeService;
+	@Resource
+	private QuestionService questionService;
 
 	/**
 	 * @author gcx 保存公司信息,其中包括公司的基本信息和公司所选的问题
@@ -94,6 +100,32 @@ public class CompanyController {
 	}
 
 	/**
+	 * 获取问题模版
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/getDefQuestTemlate.do")
+	public String getDefQuestTemlate(HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
+		List<QuestionInfo> questList = questionService.getAllQuestions();
+		model.put("questList", questList);
+		return null;
+	}
+
+	@RequestMapping("/getAllReportTypes.do")
+	public String getAllReportTypes(Company company, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) {
+		List<ReportType> delfRtList = reportTypeService.getDefaultList();
+		List<ReportType> rtList = companyService.getCompanyReportType(company);
+		model.put("delfRtList", delfRtList);
+		model.put("rtList", rtList);
+		return null;
+	}
+
+	/**
 	 * @author gcx 添加公司所选择的问题类型
 	 * 
 	 * @param company
@@ -137,7 +169,7 @@ public class CompanyController {
 			other.setServiceProtocol("8080");
 		}
 		// 调用service,存储公司所有信息
-		boolean flag = companyService.saveWholeCompany(wholeCompany);
+		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
 		PrintWriter out = response.getWriter();
 		if (flag) {
 			out.print("success");

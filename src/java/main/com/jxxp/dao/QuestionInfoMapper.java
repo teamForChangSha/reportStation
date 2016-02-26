@@ -46,6 +46,13 @@ public interface QuestionInfoMapper {
 	 */
 	List<QuestionInfo> getAllByCompany(long companyId);
 
+	/**
+	 * 获取默认问题列表
+	 * 
+	 * @return
+	 */
+	List<QuestionInfo> getQuestionTemlate();
+
 	int deleteById(long id);
 
 }

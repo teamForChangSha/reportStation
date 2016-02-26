@@ -15,7 +15,9 @@
     select * from questioninfo
     where quest_id = #{questId,jdbcType=BIGINT}
   </select>
-  
+  <select id="getQuestionTemlate">
+    select * from questioninfo
+   </select>
   <select id="getByKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select * from questioninfo
     where quest_key = #{questKey,jdbcType=VARCHAR}
