@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
@@ -123,17 +124,17 @@
 	<script type="text/javascript">
 		$(function() {
 			<c:forEach items="${caseList}" var="caseInfo" varStatus = "i">
-			$("strong").text("您好：${caseInfo.reporter.name}");
+			console.log("您好：${caseInfo.reporter.name}");
 			var url = "dict/getDictName.do?dictType=case.state&dictValue=${caseInfo.caseState}";
 			$.get(url,function(res){
 				var tr = $("<tr/>");
 				var td1 = $("<td/>").addClass("hidden").text("${caseInfo.rcId}");
-				var td2 = $("<td/>").text("${caseInfo.company.companyName}");
-				var td3 = $("<td/>").text("<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>");
+				var td2 = $("<td/>").text("${caseInfo.reporter.name}");
+				var td3 = $("<td/>").text('<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
 				var	td4 = $("<td/>").text(res);
-				var td5 = $("<td/>").text("苹果中国");
+				var td5 = $("<td/>").text("${caseInfo.company.companyName}");
 				var td6 = $("<td/>").text("${caseInfo.rtList}");
-				tr.append(td2).append(td3).append(td4).append(td5).append(td6);
+				tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
 				tr.click(function() {
 					location.href = "case/showCaseById.do?rcId="+$(this).find("td:first").text();
 				});
