@@ -111,10 +111,7 @@ public class CompanyController {
 	@RequestMapping("/addCompanyQuestions.do")
 	public String addCompanyQuestions(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-		// String questionsJson = request.getParameter("questions");
-		// log.debug("questionsJson==" + questionsJson);
-		// List<QuestionInfo> questionList = JSON.parseArray(questionsJson,
-		// QuestionInfo.class);
+
 		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
 		// 获取前台复选框question的ids
 		String[] questIdStr = request.getParameterValues("questId");

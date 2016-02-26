@@ -18,7 +18,7 @@ public interface CompanyQuestionMapper {
 	 *            公司id
 	 * @return
 	 */
-	int insertAll(@Param("questIds") long[] questIds, @Param("companyId") long companyId);
+	int insertQuestionIds(@Param("questIds") long[] questIds, @Param("companyId") long companyId);
 
 	int deleteByDoubleId(@Param("questId") long questId, @Param("companyId") long companyId);
 

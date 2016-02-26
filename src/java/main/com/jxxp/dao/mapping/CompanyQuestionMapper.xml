@@ -5,20 +5,22 @@
     insert into company_question (company_id, quest_id)
     values (#{companyId,jdbcType=BIGINT}, #{questId,jdbcType=BIGINT})
   </insert> 
-  <insert id="insertAll">
+  <insert id="insertQuestionIds">
     insert into company_question (company_id, quest_id)
     values 
     <foreach collection="questIds" index="index" item="item" separator=",">
     (#{companyId,jdbcType=BIGINT}, #{item,jdbcType=BIGINT})
     </foreach>
   </insert>
-  <insert id="insertQuestionList" parameterType="java.util.List">
+  
+   
+<insert id="insertQuestionList" parameterType="java.util.List">
     insert into company_question (company_id, quest_id)
     values 
     <foreach collection="questList" index="index" item="item" separator="," >
     (#{companyId,jdbcType=BIGINT}, #{item.questId,jdbcType=BIGINT})
     </foreach>
-  </insert>   
+  </insert>
   
   <delete id="deleteByDoubleId">
     delete from company_question
@@ -33,5 +35,6 @@
       <foreach collection="questList" index="index" item="item" separator="," open="(" close=")">
       #{item.questId}
       </foreach>  
-  </delete>  
+  </delete>
+  
 </mapper>
