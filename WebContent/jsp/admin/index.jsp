@@ -117,7 +117,11 @@
 				var data = "loginName="+user.name.val()+"&userPwd="+user.pwd.val();
 				$.post("user/login.do",data,function(res,status){
 					if (status=="success") {
-						alert(res);
+						if(res=="success"){
+							location.href = "jsp/admin/admin.jsp";
+						}else{
+							alert(res);
+						}
 					}
 				});
 			});
@@ -125,7 +129,6 @@
 			function showError(ele) {
 				console.log(ele.val());
 				if (isEmty(ele.val())) {
-					ele.next().addClass("glyphicon-remove");
 					return false;
 				}
 				return true;
