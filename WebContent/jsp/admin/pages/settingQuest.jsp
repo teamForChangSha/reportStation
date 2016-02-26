@@ -50,6 +50,12 @@
 				padding-left: 0;
 			}
 			
+			.overflow-text {
+				word-break: keep-all;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		</style>
 	</head>
 
@@ -65,7 +71,7 @@
 							<thead>
 								<tr class="table-info">
 									<th>编号</th>
-									<th class="">问题描述</th>
+									<th>问题描述</th>
 									<th>是否展示</th>
 								</tr>
 							</thead>
@@ -73,12 +79,12 @@
 								<c:forEach items = "${questList}" var = "quest" varStatus = "i" >
 									<tr>
 										<td>${quest.questId}</td>
-										<td>${quest.quest}</td>
+										<td class="overflow-text">${quest.quest}</td>
 										<td>
-											<c:if test="${quest.mark}=='1'">
+											<c:if test="${quest.mark=='1'}">
 												<input type="checkbox" name="questId" checked value="${quest.questId}"/>
 											</c:if>
-											<c:if test="${quest.mark}!='1'">
+											<c:if test="${quest.mark!='1'}">
 												<input type="checkbox" name="questId" value="${quest.questId}"/>
 											</c:if>
 										</td>
