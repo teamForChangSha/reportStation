@@ -278,25 +278,31 @@
 			$("#selectByPhone").submit();
 		}
 	});
-	
+
 	/**
 	 * 登陆
 	 */
+	var user = {
+		name : $("#username"),
+		pwd : $("#password"),
+		btn : $("#loginBtn")
+	}
 	user.btn.click(function() {
-		if (!showError(user.name)) {
+		if (isEmty(user.name.val())) {
 			console.log("user");
 			return;
 		}
-		if (!showError(user.pwd)) {
+		if (isEmty(user.pwd.val())) {
 			console.log("pwd");
 			return;
 		}
-		var data = "loginName="+user.name.val()+"&userPwd="+user.pwd.val();
-		$.post("admin/user/login.do",data,function(res,status){
-			if (status=="success") {
-				if(res=="success"){
+		var data = "loginName=" + user.name.val() + "&userPwd="
+				+ user.pwd.val();
+		$.post("admin/user/login.do", data, function(res, status) {
+			if (status == "success") {
+				if (res == "success") {
 					location.href = "jsp/admin/admin.jsp";
-				}else{
+				} else {
 					alert(res);
 				}
 			}

@@ -24,7 +24,7 @@
 			}
 			
 			#username {
-				background-image: url(css/img/input_icons.png);
+				background-image: url(jsp/css/img/input_icons.png);
 				background-repeat: no-repeat;
 				background-position: 0 -64px;
 				padding: 6px 12px 6px 32px;
@@ -35,7 +35,7 @@
 			}
 			
 			#password {
-				background-image: url(css/img/input_icons.png);
+				background-image: url(jsp/css/img/input_icons.png);
 				background-repeat: no-repeat;
 				background-position: 0 -144px;
 				padding: 6px 12px 6px 32px;
@@ -189,15 +189,15 @@
 						<h5 class="modal-title" id="exampleModalLabel">企业用户登录</h5>
 					</div>
 					<div class="modal-body">
-						<form action="" method="post">
+						<form>
 							<div class="form-group">
 								<input type="text" id="username" class="form-control" placeholder="手机/用户名">
 							</div>
 							<div class="form-group">
-								<input type="text" id="password" class="form-control" placeholder="密码">
+								<input type="password" id="password" class="form-control" placeholder="密码">
 							</div>
 							<div class="form-group">
-								<input type="submit" value="登陆" class="btn btn-primary form-control" />
+								<input type="button" id="loginBtn" value="登陆" class="btn btn-primary form-control" />
 							</div>
 						</form>
 					</div>
