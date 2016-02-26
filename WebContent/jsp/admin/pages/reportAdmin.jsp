@@ -79,9 +79,9 @@
 						<label class="control-label">审批状态</label>
 						<select class="form-control">
 							<option value="-1">-请选择-</option>
-							<option value="身份证">管理员</option>
-							<option value="护照">企业用户</option>
-							<option value="护照">普通用户</option>
+							<option value="身份证">发起</option>
+							<option value="护照">处理中</option>
+							<option value="护照">注销</option>
 						</select>
 					</div>
 				</div>
@@ -136,7 +136,7 @@
 				var td6 = $("<td/>").text("${caseInfo.rtList}");
 				tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
 				tr.click(function() {
-					location.href = "case/showCaseById.do?rcId="+$(this).find("td:first").text();
+					location.href = "admin/caseBack/showCaseById.do?rcId="+$(this).find("td:first").text();
 				});
 				$("tbody").append(tr);
 			});
