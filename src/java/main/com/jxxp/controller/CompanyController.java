@@ -25,6 +25,7 @@ import com.jxxp.pojo.CompanyOther;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
+import com.jxxp.pojo.User;
 import com.jxxp.service.CompanyService;
 import com.jxxp.service.QuestionService;
 import com.jxxp.service.ReportTypeService;
@@ -129,13 +130,18 @@ public class CompanyController {
 	}
 
 	@RequestMapping("/getAllReportTypes.do")
-	public String getAllReportTypes(Company company, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
+	public String getAllReportTypes(HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
 		List<ReportType> delfRtList = reportTypeService.getDefaultList();
-		List<ReportType> rtList = companyService.getCompanyReportType(company);
-		model.put("delfRtList", delfRtList);
+		List<ReportType> rtList = new ArrayList<ReportType>();
+		User user = (User) request.getSession().getAttribute("user");
+		if (user != null) {
+			Company company = user.getUserCompany();
+			rtList = companyService.getCompanyReportType(company);
+			log.debug("user id=" + user.getUserCompany().getCompanyId());
+		}
 		model.put("rtList", rtList);
-		// TODO 返回界面待定
+		model.put("delfRtList", delfRtList);
 		return "/jsp/admin/pages/settingType";
 	}
 
