@@ -112,6 +112,8 @@ public class CompanyController {
 		String questionsJson = request.getParameter("questions");
 		log.debug("questionsJson==" + questionsJson);
 		List<QuestionInfo> questionList = JSON.parseArray(questionsJson, QuestionInfo.class);
+
+		String[] questIdStr = request.getParameterValues("questId");
 		boolean flag = companyService.saveCompanyQuestions(company, questionList);
 		PrintWriter out;
 		try {
@@ -156,12 +158,14 @@ public class CompanyController {
 	 * @return
 	 */
 	@RequestMapping("/addQuestionTypes.do")
-	public String addQuestionTypes(Company company, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
+	public String addQuestionTypes(HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
 		String typeJson = request.getParameter("reportType");
 		log.debug("typeJson====" + typeJson);
 		List<ReportType> rtList = JSON.parseArray(typeJson, ReportType.class);
 		log.debug("rtList title====" + rtList.get(0).getRtTitle());
+		User user = (User) request.getSession().getAttribute("user");
+		Company company = user.getUserCompany();
 		boolean flag = companyService.saveCompanyReportType(company, rtList);
 		try {
 			PrintWriter out = response.getWriter();
