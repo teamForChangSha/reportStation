@@ -68,11 +68,11 @@
 				<div class="form-inline">
 					<div class="form-group">
 						<label class="control-label">选择时间段：</label>
-						<input type="datetime-local" id="time" class="form-control">
+						<input type="datetime-local" id="time" class="form-control"/>
 					</div>
 					<div class="form-group">
 						<label class="control-label">到</label>
-						<input type="datetime-local" id="time" class="form-control">
+						<input type="datetime-local" id="time" class="form-control"/>
 					</div>
 					<div class="form-group" style="margin-left: 10px;">
 						<label class="control-label">用户类型</label>
