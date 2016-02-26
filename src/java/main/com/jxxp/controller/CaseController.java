@@ -42,7 +42,6 @@ import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
 import com.jxxp.service.MobileService;
-import com.jxxp.service.QuestionService;
 import com.jxxp.service.ReporterService;
 
 /*
@@ -382,18 +381,25 @@ public class CaseController {
     }
     
     /*** 
-     * 根据跟踪号以及密码显示举报列表 
+     * 根据公司
      * @author cj
      * @param  
      * @return 
      */
     @RequestMapping("/showCaseByCompany.do")  
     public String showCaseByCompany(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
-    	User user = (User) request.getSession().getAttribute("user");
+		String rtList = request.getParameter("rtList");
+		String createTime = request.getParameter("createTime");
+		String keyWord = request.getParameter("keyWord");
     	Map<String,String> map = new HashMap<String, String>();
+		map.put("rtList", rtList);
+		map.put("createTime", createTime);
+		map.put("keyWord", keyWord);
+
+    	User user = (User) request.getSession().getAttribute("user");
     	List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
     	modelMap.put("caseList", caseList);
-    	return "jsp/pages/?";
+    	return "jsp/admin/pages/reportAdmin";
     }
     
     /*** 
