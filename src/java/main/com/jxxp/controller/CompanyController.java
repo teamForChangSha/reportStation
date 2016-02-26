@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -88,13 +89,14 @@ public class CompanyController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/getDefQuestTemlate.do")
+	@RequestMapping("/getQuestTemlate.do")
 	public String getDefQuestTemlate(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) {
-		List<QuestionInfo> questTemplate = questionService.getAllQuestions();
-		model.put("questTemplate", questTemplate);
-		// TODO 返回界面待定
-		return null;
+		User user = (User) request.getSession().getAttribute("user");
+		Company company = user.getUserCompany();
+		List<Map<String, String>> questList = questionService.getMarkQuestions(company);
+		model.put("questList", questList);
+		return "/jsp/admin/pages/settingQuest";
 	}
 
 	/**
@@ -107,13 +109,22 @@ public class CompanyController {
 	 * @return
 	 */
 	@RequestMapping("/addCompanyQuestions.do")
-	public String addCompanyQuestions(Company company, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
-		String questionsJson = request.getParameter("questions");
-		log.debug("questionsJson==" + questionsJson);
-		List<QuestionInfo> questionList = JSON.parseArray(questionsJson, QuestionInfo.class);
-
+	public String addCompanyQuestions(HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		// String questionsJson = request.getParameter("questions");
+		// log.debug("questionsJson==" + questionsJson);
+		// List<QuestionInfo> questionList = JSON.parseArray(questionsJson,
+		// QuestionInfo.class);
+		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
+		// 获取前台复选框question的ids
 		String[] questIdStr = request.getParameterValues("questId");
+		for (int i = 0; i < questIdStr.length; i++) {
+			QuestionInfo question = new QuestionInfo();
+			question.setQuestId(Long.parseLong(questIdStr[i]));
+		}
+		// 获取该客户所属的公司
+		User user = (User) request.getSession().getAttribute("user");
+		Company company = user.getUserCompany();
 		boolean flag = companyService.saveCompanyQuestions(company, questionList);
 		PrintWriter out;
 		try {
@@ -121,7 +132,7 @@ public class CompanyController {
 			if (flag) {
 				out.print("success");
 			} else {
-				out.print("fail");
+				out.print("error");
 			}
 
 		} catch (IOException e) {
