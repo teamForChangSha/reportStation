@@ -449,7 +449,7 @@ public class CaseController {
 		modelMap.put("reportCase", reportCase);
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
 		
-    	return "/jsp/pages/report_info";
+    	return "redirect:/case/showCaseById.do?rcId=" + rcId;
     }
     
     /*** 
