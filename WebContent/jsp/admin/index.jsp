@@ -115,7 +115,7 @@
 					return;
 				}
 				var data = "loginName="+user.name.val()+"&userPwd="+user.pwd.val();
-				$.post("user/login.do",data,function(res,status){
+				$.post("admin/user/login.do",data,function(res,status){
 					if (status=="success") {
 						if(res=="success"){
 							location.href = "jsp/admin/admin.jsp";
