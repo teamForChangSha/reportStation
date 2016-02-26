@@ -18,8 +18,6 @@
 		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jsp/js/localdata.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jsp/js/AreaData_min.js" type="text/javascript"></script>
 		<style type="text/css">
 			#loginPanel {
 				top: 20%;
@@ -221,6 +219,12 @@
 						<h5 class="modal-title" id="exampleModalLabel">举报查询</h5>
 					</div>
 					<div class="modal-body">
+						<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">单号查询</a></li>
+					<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">实名查询</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="home">
 						<div class="row" id="row-right">
 							<div class="col-sm-12">
 								<form id="selectByNum" action="case/showCaseByTrankingNo.do" method="post" class="form-horizontal" style="margin-bottom: 15px;">
@@ -237,7 +241,8 @@
 								</form>
 							</div>
 						</div>
-
+					</div>
+					<div role="tabpanel" class="tab-pane" id="profile">
 						<div class="row" id="row-right">
 							<div class="col-sm-12">
 								<form id="selectByPhone" action="case/showCaseList.do" method="post" class="form-horizontal">
@@ -254,6 +259,8 @@
 								</form>
 							</div>
 						</div>
+					</div>
+				</div>
 					</div>
 				</div>
 			</div>
