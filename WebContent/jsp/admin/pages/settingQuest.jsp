@@ -50,12 +50,6 @@
 				padding-left: 0;
 			}
 			
-			.overflow-text {
-				word-break: keep-all;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
 		</style>
 	</head>
 
@@ -64,6 +58,7 @@
 			<div class="row">
 				请选择需要展示的问题
 			</div>
+			<form action="company/addCompanyQuestions.do" method="post">
 				<div class="row">
 					<div class="col-sm-8">
 						<table class="table table-bordered table-hover">
@@ -74,45 +69,31 @@
 									<th>是否展示</th>
 								</tr>
 							</thead>
-							<tbody></tbody>
+							<tbody>
+								<c:forEach items = "${questList}" var = "quest" varStatus = "i" >
+									<tr>
+										<td>${quest.questId}</td>
+										<td>${quest.quest}</td>
+										<td>
+											<c:if test="${quest.mark}=='1'">
+												<input type="checkbox" name="questId" checked value="${quest.questId}"/>
+											</c:if>
+											<c:if test="${quest.mark}!='1'">
+												<input type="checkbox" name="questId" value="${quest.questId}"/>
+											</c:if>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
 						</table>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-8 text-right">
-						<input type="button" class="btn btn-default" value="提交" />
+						<input type="submit" class="btn btn-default" value="提交" />
 					</div>
 				</div>
+			</form>
 		</div>
 	</body>
-	<script type="text/javascript">
-		$(function() {
-			$('[data-toggle="tooltip"]').tooltip(); 
-			<c:forEach items = "${questList}" var = "quest" varStatus = "i" >
-				var tr = $("<tr/>");
-				var td1 = $("<td/>").text("${quest.questId}");
-				var txt = "${quest.quest}";
-				var td2 = $("<td/>").addClass("overflow-text")
-					.attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", txt)
-					.text(txt);
-				var checkbox = $("<input/>").attr("name","questId ").attr("type", "checkbox").val("${quest.questId}");
-				if("${quest.mark}"=="1"){
-					checkbox.attr("checked",true);
-				}
-				var td3 = $("<td/>").append(checkbox);
-				tr.append(td1).append(td2).append(td3);
-				$("tbody").append(tr); 
-			</c:forEach>
-			$("input[type=button]").click(function(){
-				var data = $("input[name=questId]").val();
-				$.post("company/addCompanyQuestions.do",JSON.stringify(data),function(res,status){
-					if (status=="success") {
-						location.reload();
-					}
-				});
-				console.log(JSON.stringify(data));
-			});
-		});
-	</script>
-
 </html>
