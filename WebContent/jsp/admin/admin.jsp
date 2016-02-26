@@ -94,7 +94,7 @@
 							</a>
 						</li>
 						<li class="sub-menu">
-							<a href="case/showCaseByCompany.do" class="" target="MainIframe">
+							<a href="admin/caseBack/showCaseByCompany.do" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
 								<span>举报管理<span class="badge">4</span></span>
 							</a>
