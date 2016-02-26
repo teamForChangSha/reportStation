@@ -118,6 +118,7 @@ public class CompanyController {
 		for (int i = 0; i < questIdStr.length; i++) {
 			QuestionInfo question = new QuestionInfo();
 			question.setQuestId(Long.parseLong(questIdStr[i]));
+			questionList.add(question);
 		}
 		// 获取该客户所属的公司
 		User user = (User) request.getSession().getAttribute("user");
