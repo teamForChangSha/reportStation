@@ -84,6 +84,7 @@
 							<ul class="sub">
 								<li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">公司基本信息</a></li>
 								<li><a class="" href="company/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
+								<li><a class="" href="company/getQuestTemlate.do" target="MainIframe">问题设置</a></li>
 							</ul>
 						</li>
 						<li class="sub-menu">
@@ -93,7 +94,7 @@
 							</a>
 						</li>
 						<li class="sub-menu">
-							<a href="jsp/admin/pages/reportAdmin.jsp" class="" target="MainIframe">
+							<a href="case/showCaseByCompany.do" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
 								<span>举报管理<span class="badge">4</span></span>
 							</a>
