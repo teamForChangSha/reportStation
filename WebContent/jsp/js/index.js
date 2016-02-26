@@ -225,21 +225,6 @@
 	}
 	;
 
-	rightEle.trankingNo.focus(function() {
-		rightEle.accecCode.removeAttr("disabled");
-		rightEle.getCaseInfoByNo.removeAttr("disabled");
-		rightEle.getTempPwd.attr("disabled", "");
-		rightEle.tempPwd.attr("disabled", "");
-		rightEle.getCaseInfoByPhone.attr("disabled", "");
-	});
-	rightEle.mobile.focus(function() {
-		rightEle.accecCode.attr("disabled", "");
-		rightEle.getCaseInfoByNo.attr("disabled", "");
-		rightEle.getTempPwd.removeAttr("disabled");
-		rightEle.tempPwd.removeAttr("disabled");
-		rightEle.getCaseInfoByPhone.removeAttr("disabled");
-	});
-
 	/**
 	 * 通过案件编号查询
 	 */
