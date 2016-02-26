@@ -65,7 +65,11 @@
 				<div class="col-sm-6">
 					<label class="control-label">已上传文件</label>
 					<br/>
-					<textarea name="fileList" rows="4" disabled class="form-control">${fileList}</textarea>
+					<div style="height:115px; overflow:auto;" class="form-control">
+						<c:forEach items = "${fileList}" var = "file" varStatus = "i">
+							<c:out value="${file.attachFileName }"></c:out><span class="pull-right">${file.description }</span><br/><br/>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
 			<div class="page-header"></div>
@@ -77,7 +81,10 @@
 	<script type="text/javascript">
 		$(function() {
 			$("input[type=submit]").click(function() {
-				$("form").submit();
+				var file = $("input[name=file]").val();
+				if(file!=null&&file!=""&&file.length>0){
+					$("form").submit();
+				}
 			});
 		});
 	</script>
