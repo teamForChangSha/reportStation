@@ -1,4 +1,4 @@
-package com.jxxp.controller;
+package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,9 +20,9 @@ import com.jxxp.service.UserService;
  * @author cj
  */
 @Controller("userController")
-@RequestMapping("/user")
+@RequestMapping("/admin/user")
 public class UserController {	
-	private static final Logger log = LoggerFactory.getLogger(CaseController.class);
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@Resource
 	private UserService userService;

@@ -380,27 +380,7 @@ public class CaseController {
     	return "/jsp/pages/report_info";
     }
     
-    /*** 
-     * 根据公司
-     * @author cj
-     * @param  
-     * @return 
-     */
-    @RequestMapping("/showCaseByCompany.do")  
-    public String showCaseByCompany(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
-		String rtList = request.getParameter("rtList");
-		String createTime = request.getParameter("createTime");
-		String keyWord = request.getParameter("keyWord");
-    	Map<String,String> map = new HashMap<String, String>();
-		map.put("rtList", rtList);
-		map.put("createTime", createTime);
-		map.put("keyWord", keyWord);
 
-    	User user = (User) request.getSession().getAttribute("user");
-    	List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
-    	modelMap.put("caseList", caseList);
-    	return "jsp/admin/pages/reportAdmin";
-    }
     
     /*** 
      * 添加案件追加信息 
@@ -516,7 +496,7 @@ public class CaseController {
     
     
     //获取问题及答案的集合，方便前台展示
-    public List<Map<String,String>> getQuestionAnswerList(ReportCase reportCase) {
+    public static List<Map<String,String>> getQuestionAnswerList(ReportCase reportCase) {
     	List<Map<String,String>> questAnswerList = new ArrayList<Map<String,String>>();
 		List<ReportAnswer> answerList = reportCase.getAnswers();
 		for (int i = 0; i < answerList.size(); i++) {
