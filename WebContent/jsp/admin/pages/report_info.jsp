@@ -275,7 +275,7 @@
 					var data = "rcId=${reportCase.rcId}&content="+str;
 					$.post("case/addCaseComment.do",data,function(res,status){
 						if(status=="success"&&res=="success"){
-							location.href = "case/showCaseById.do?rcId=${reportCase.rcId}";
+							location.href = "admin/caseBack/showCaseById.do?rcId=${reportCase.rcId}";
 						}
 					});
 				});
