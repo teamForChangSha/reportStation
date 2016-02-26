@@ -27,15 +27,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.CaseAttach;
+import com.jxxp.pojo.CaseChangeLog;
 import com.jxxp.pojo.CaseComment;
+import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
+import com.jxxp.pojo.User;
 import com.jxxp.service.CaseAttachService;
+import com.jxxp.service.CaseChangeLogService;
 import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
+import com.jxxp.service.CompanyService;
 import com.jxxp.service.MobileService;
 import com.jxxp.service.QuestionService;
 import com.jxxp.service.ReporterService;
@@ -58,6 +63,10 @@ public class CaseController {
 	private MobileService mobileService;
 	@Resource
 	private CaseCommentService caseCommentService;
+	@Resource
+	private CaseChangeLogService caseChangeLogService;
+	@Resource
+	private CompanyService comapnyService;
 	
 	/*** 
      * 根据所输入的手机号，获取验证码 
@@ -373,6 +382,21 @@ public class CaseController {
     }
     
     /*** 
+     * 根据跟踪号以及密码显示举报列表 
+     * @author cj
+     * @param  
+     * @return 
+     */
+    @RequestMapping("/showCaseByCompany.do")  
+    public String showCaseByCompany(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
+    	User user = (User) request.getSession().getAttribute("user");
+    	Map<String,String> map = new HashMap<String, String>();
+    	List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+    	modelMap.put("caseList", caseList);
+    	return "jsp/pages/?";
+    }
+    
+    /*** 
      * 添加案件追加信息 
      * @author cj
      * @param  
@@ -382,12 +406,23 @@ public class CaseController {
     public String addCaseComment(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
 		String content = request.getParameter("content");
 		String strId = request.getParameter("rcId");
+		User user = (User) request.getSession().getAttribute("user");
 		
 		long rcId = Long.parseLong(strId);
+		
+		ReportCase reportCase = caseService.getReportCaseById(rcId);
+		
 		CaseComment caseComment = new CaseComment();
 		caseComment.setContent(content);
-		caseComment.setReporter(1);
 		caseComment.setPostTime(new Date());
+		
+		if(user == null) {
+			caseComment.setIsReporter(1);
+		} else {
+			caseComment.setIsReporter(0);
+			caseComment.setOwner(user);
+			caseComment.setOwnerCompany(user.getUserCompany());
+		}
 		
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
@@ -395,6 +430,22 @@ public class CaseController {
 			out = response.getWriter();
 			if(caseCommentService.addCaseComment(caseComment, rcId)){
 				log.debug("案件追加信息添加成功！");
+				//如果不是举报人追加信息，需要记录变更信息
+				if(caseComment.getIsReporter() == 0) {
+					CaseChangeLog caseChangeLog = new CaseChangeLog();
+					caseChangeLog.setChangeTime(new Date());
+					caseChangeLog.setOperator(user);
+					caseChangeLog.setStateAfter(reportCase.getCaseState());
+					caseChangeLog.setStateBefore(reportCase.getCaseState());
+					caseChangeLog.setHandlerAfter(user.getUserCompany());
+					caseChangeLog.setHandlerBefore(user.getUserCompany());
+					
+					if(caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
+						log.debug("日志信息添加成功！");
+					} else {
+						log.debug("日志信息添加失败！");
+					}
+				}
 				out.print("success");
 			} else {
 				log.debug("案件追加信息添加失败！");
@@ -406,6 +457,57 @@ public class CaseController {
 		
     	return null;
     }
+    
+    /*** 
+     * 修改案件状态 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/updateCaseState.do")  
+    public String updateCaseState(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
+    	String strId = request.getParameter("rcId");
+    	String strState = request.getParameter("state");
+    	String strCompanyId = request.getParameter("companyId");
+    	
+    	long rcId = Long.parseLong(strId);
+    	int afterState = Integer.parseInt(strState);
+    	long afterCompanyId = Long.parseLong(strCompanyId);
+    	Company currentHandler = comapnyService.getCompanyById(afterCompanyId);
+    	
+    	ReportCase reportCase = caseService.getReportCaseById(rcId);
+    	User user = (User) request.getSession().getAttribute("user");
+    	
+    	int beforeState = reportCase.getCaseState();
+    	Company beforeCompany = reportCase.getCurrentHandler();
+    	
+    	reportCase.setCaseState(afterState);
+    	reportCase.setCurrentHandler(currentHandler);
+    	
+    	CaseChangeLog caseChangeLog = new CaseChangeLog();
+		caseChangeLog.setChangeTime(new Date());
+		caseChangeLog.setOperator(user);
+		caseChangeLog.setStateBefore(beforeState);
+		caseChangeLog.setStateAfter(reportCase.getCaseState());
+		caseChangeLog.setHandlerBefore(beforeCompany);
+		caseChangeLog.setHandlerAfter(reportCase.getCurrentHandler());
+    	
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseService.updateCaseInfo(reportCase) && caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
+				log.debug("修改案例并且添加日志记录成功！");
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+    	return null;
+    }
+    
     
     //获取问题及答案的集合，方便前台展示
     public List<Map<String,String>> getQuestionAnswerList(ReportCase reportCase) {
@@ -499,6 +601,8 @@ public class CaseController {
 		}
     }
 
+    
+    
     public static void main(String[] args) {
 		
 	}

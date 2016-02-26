@@ -47,15 +47,26 @@
     from reportcase
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
-  
+  <select id="getAllByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select * from reportcase where company_id=#{companyId,jdbcType=BIGINT}
+  </select>
   <select id="searchByKeys" resultMap="BaseResultMap">
-  select  
-  <include refid="Base_Column_List" />
-  from reportcase
-  
-  <where>
-  
-  </where> 
+   select * from reportcase rc 
+   where rc.company_id=#{companyId,jdbcType=BIGINT}
+   <if test="createTime!=null">
+   and rc.create_time like concat(concat('%',#{createTime},'%')) 
+   </if> 
+    <if test="rtList!=null">
+   and rc.rt_list like concat(concat('%',#{rtList,jdbcType=VARCHAR},'%'))  
+    </if>  
+   and rc.rc_id in
+    (select d.rc_id from reportanswer b,reportcase d 
+     where b.rc_id = d.rc_id 
+     and d.company_id = #{companyId,jdbcType=BIGINT}
+     <if test="keyWord!=null">
+     and b.quest_value like concat(concat('%',#{keyWord,jdbcType=VARCHAR},'%')) 
+    </if>
+     )
   </select>
   
   <select id="getCaseByReporter" resultMap="BaseResultMap">

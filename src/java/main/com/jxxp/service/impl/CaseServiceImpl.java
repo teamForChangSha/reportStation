@@ -1,6 +1,7 @@
 package com.jxxp.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -153,9 +154,23 @@ public class CaseServiceImpl implements CaseService {
 	}
 
 	@Override
-	public List<ReportCase> getCaseByCompany(Company company) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReportCase> getCaseByCompany(Company company, Map<String,String> map) {
+		List<ReportCase> caseList = new ArrayList<ReportCase>();
+		if(company == null) {
+			return caseList;
+		}
+		
+		String rtList = map.get("rtList");
+		String createTime = map.get("createTime");
+		String keyWord = map.get("keyWord");
+		
+		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), createTime, keyWord, rtList);
+		return caseList;
+	}
+
+	@Override
+	public boolean updateCaseInfo(ReportCase caseInfo) {
+		return reportCaseMapper.update(caseInfo) > 0;
 	}
 	
 }

@@ -11,11 +11,27 @@
     <foreach collection="questIds" index="index" item="item" separator=",">
     (#{companyId,jdbcType=BIGINT}, #{item,jdbcType=BIGINT})
     </foreach>
+  </insert>
+  <insert id="insertQuestionList" parameterType="java.util.List">
+    insert into company_question (company_id, quest_id)
+    values 
+    <foreach collection="questList" index="index" item="item" separator="," >
+    (#{companyId,jdbcType=BIGINT}, #{item.questId,jdbcType=BIGINT})
+    </foreach>
   </insert>   
   
   <delete id="deleteByDoubleId">
     delete from company_question
     where company_id=#{companyId,jdbcType=BIGINT}
     and quest_id=#{questId,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteQuestionList" parameterType="java.util.List">
+      delete from company_question where  
+      company_id=#{companyId,jdbcType=BIGINT}
+      and quest_id in
+      <foreach collection="questList" index="index" item="item" separator="," open="(" close=")">
+      #{item.questId}
+      </foreach>  
   </delete>  
 </mapper>

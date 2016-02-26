@@ -3,6 +3,7 @@ package com.jxxp.test.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
+import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
+import com.jxxp.test.mybatis.CompanyTest;
 
 /**
  * @author gcx
@@ -38,6 +42,8 @@ public class CompanyServiceTest {
 	private CompanyMapper companyMapper;
 	@Resource
 	private CompanyBranchMapper companyBranchMapper;
+	@Resource
+	private ReportTypeMapper reportTypeMapper;
 
 	@Test
 	public void saveCompany() {
@@ -69,6 +75,32 @@ public class CompanyServiceTest {
 		Company company = companyService.getAllCompanyList().get(0);
 		Map<String, QuestionInfo> qMap = companyService.getCompanyQuestions(company);
 		assertNotNull(qMap);
+	}
+
+	/**
+	 * 公司添加问题类型，一次性提交多个问题类型List
+	 */
+	@Test
+	public void testAddCompanyTypes() {
+		List<ReportType> rtList = getRtList();
+		Company company = CompanyTest.getCompany();
+		companyMapper.insert(company);
+		assertTrue(companyService.saveCompanyReportType(company, rtList));
+		companyMapper.deleteById(company.getCompanyId());
+		reportTypeMapper.deleteByCompanyId(company.getCompanyId());
+	}
+
+	private List<ReportType> getRtList() {
+		ReportType type1 = new ReportType();
+		type1.setRtDesc("test desc1");
+		type1.setRtTitle("test title1");
+		List<ReportType> rtList = new ArrayList<ReportType>();
+		rtList.add(type1);
+		ReportType type2 = new ReportType();
+		type2.setRtDesc("test desc2");
+		type2.setRtTitle("test title2");
+		rtList.add(type2);
+		return rtList;
 	}
 
 	public static Company getCompany() {

@@ -57,7 +57,7 @@ public class CaseComment {
 		return isReporter;
 	}
 
-	public void setReporter(int isReporter) {
+	public void setIsReporter(int isReporter) {
 		this.isReporter = isReporter;
 	}
 

@@ -101,5 +101,14 @@ public interface CaseService {
 	 *            公司对象           
 	 * @return 返回ReportCase列表，失败返回的列表长度为0
 	 */
-	List<ReportCase> getCaseByCompany(Company company);
+	List<ReportCase> getCaseByCompany(Company company,Map<String,String> map);
+	
+	/**
+	 * 修改一个举报信息<br>
+	 * 
+	 * @param caseInfo
+	 *            需要修改的举报信息的全部信息
+	 * @return 保存正常返回true，否则返回false
+	 */
+	boolean updateCaseInfo(ReportCase caseInfo);
 }

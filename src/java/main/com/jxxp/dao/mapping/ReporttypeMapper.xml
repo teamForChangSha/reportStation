@@ -22,6 +22,17 @@
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
   
+  <delete id="deleteOneCompanyType">
+  delete from reporttype where 
+  company_id = #{companyId,jdbcType=BIGINT}
+  and rt_id=#{rtId,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteByCompanyId">
+  delete from reporttype where 
+  company_id = #{companyId,jdbcType=BIGINT}
+  </delete>
+  
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from reporttype
     where rt_id = #{rtId,jdbcType=BIGINT}

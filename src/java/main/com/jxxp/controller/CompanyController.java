@@ -1,5 +1,6 @@
 package com.jxxp.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -15,14 +16,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
-import com.jxxp.dao.CompanyQuestionMapper;
-import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.pojo.Company;
-import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyWholeInfo;
+import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
-import com.jxxp.service.QuestionService;
 
 /**
  * @author gcx 公司信息管理，客户的增删该查
@@ -35,36 +38,25 @@ public class CompanyController {
 
 	@Resource
 	private CompanyService companyService;
-	@Resource
-	private CompanyQuestionMapper cqMapper;
-	@Resource
-	private QuestionInfoMapper questionInfoMapper;
-	@Resource
-	private QuestionService questionService;
 
 	/**
-	 * 保存公司信息,其中包括公司的基本信息和公司所选的问题
-	 * 
-	 * @author gcx
+	 * @author gcx 保存公司信息,其中包括公司的基本信息和公司所选的问题
 	 * @param company
+	 * @param questIds
 	 * @param request
 	 * @param response
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/addCompany.do")
-	public String saveCompany(Company company, long[] questIds, HttpServletRequest request,
+	@RequestMapping("/addCompanyQuestions.do")
+	public String addCompanyQuestions(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
-		log.debug("get questions ids" + questIds);
-		// questIds为空则该公司使用默认的问题列表
-		if (questIds != null) {
-			cqMapper.insertAll(questIds, company.getCompanyId());
-		} else {
-			// 获取默认的问题列别表questionInfoMapper.getAllByCompany(companyId)
-			cqMapper.insertAll(questIds, company.getCompanyId());
-		}
-		companyService.saveCompanyInfo(company);
-		return "/jsp/areaAll";
+		String questionsJson = request.getParameter("questions");
+		log.debug("questionsJson==" + questionsJson);
+		List<QuestionInfo> questionList = JSON.parseArray(questionsJson, QuestionInfo.class);
+		companyService.saveCompanyQuestions(company, questionList);
+		// TODO 返回界面待定
+		return null;
 	}
 
 	/**
@@ -75,7 +67,7 @@ public class CompanyController {
 	 */
 
 	@RequestMapping("/getAllByName.do")
-	public String getByName(String companyName, HttpServletRequest request,
+	public String getAllByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
 		if (companyName != null) {
 			try {
@@ -101,14 +93,74 @@ public class CompanyController {
 
 	}
 
-	@RequestMapping("/getBranches.do")
-	public String getBranches(Company company, HttpServletRequest request,
+	/**
+	 * @author gcx 添加公司所选择的问题类型
+	 * 
+	 * @param company
+	 * @param reportType
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/addQuestionTypes.do")
+	public String addQuestionTypes(Company company, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		List<CompanyBranch> branchList = companyService.getCompanyBranchByArea(0,
-				company.getCompanyId());
-		model.put("branchList", branchList);
-		return "jsp/success";
+		String typeJson = request.getParameter("reportType");
+		log.debug("typeJson====" + typeJson);
+		List<ReportType> rtList = JSON.parseArray(typeJson, ReportType.class);
+		log.debug("rtList title====" + rtList.get(0).getRtTitle());
+		companyService.saveCompanyReportType(company, rtList);
+		return "jsp/test.jsp";
 
 	}
 
+	@RequestMapping("/updateCompanyWholeInfo.do")
+	public String uploadLogo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) throws IllegalStateException, IOException {
+
+		// 获取文件
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile file = multipartRequest.getFile("testFile");
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String createPath = "/fileupload/companylogo";
+		String dirPath = rootPath + createPath;
+		if (file != null) {
+			// 保存文件
+			saveLogo(file, dirPath);
+			// 完善公司其他信息 CompanyOther
+			String webPath = request.getSession().getServletContext().getContextPath();
+			String accessPath = webPath + createPath;
+			CompanyOther other = wholeCompany.getCompanyOther();
+			other.setLogoUrl(accessPath);
+			other.setLogoPath(accessPath);
+			other.setServiceProtocol("8080");
+		}
+		// 调用service,存储公司所有信息
+		boolean flag = companyService.saveWholeCompany(wholeCompany);
+		PrintWriter out = response.getWriter();
+		if (flag) {
+			out.print("success");
+		} else {
+			out.print("fail");
+		}
+		return null;
+	}
+
+	private void saveLogo(MultipartFile file, String dirPath) throws IllegalStateException,
+			IOException {
+		// 建立存放文件的文件夹
+		File fileDir = new File(dirPath);
+		if (!fileDir.exists()) {
+			if (fileDir.mkdirs()) {
+				log.debug("文件夹创建成功！");
+			} else {
+				log.debug("文件夹创建失败！");
+			}
+		}
+		String filePath = dirPath + "/" + file.getOriginalFilename();
+		// 存储文件
+		file.transferTo(new File(filePath));
+
+	}
 }

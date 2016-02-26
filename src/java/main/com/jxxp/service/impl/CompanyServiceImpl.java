@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyOtherMapper;
+import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
@@ -39,6 +40,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private ReportTypeMapper reportTypeMapper;
 	@Resource
 	private CompanyBranchMapper companyBranchMapper;
+	@Resource
+	private CompanyQuestionMapper companyQuestionMapper;
 
 	@Override
 	public boolean saveCompanyInfo(Company company) {
@@ -61,19 +64,21 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public CompanyWholeInfo getCompanyWhole(String name) {
 		Company company = companyMapper.findByName(name);
-		CompanyOther companyOther = companyOtherMapper.findByCompanyId(company.getCompanyId());
+		CompanyOther companyOther = companyOtherMapper.getByCompanyId(company.getCompanyId());
 		return new CompanyWholeInfo(company, companyOther);
 	}
 
 	@Transactional
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
 		boolean flag = false;
-		for (int i = 0; i < questList.size(); i++) {
-			// flag = questionInfoMapper
-			// .add(company.getCompanyId(), questList.get(i).getQuestKey());
-			if (!flag)
-				break;
+		long companyId = company.getCompanyId();
+		List<QuestionInfo> oldQuestList = questionInfoMapper.getAllByCompany(companyId);
+		// 则先删除原来的问题列表
+		if (oldQuestList != null) {
+			companyQuestionMapper.deleteQuestionList(oldQuestList, companyId);
 		}
+		int count = companyQuestionMapper.insertQuestionList(questList, companyId);
+		flag = count > 0 ? true : false;
 		return flag;
 	}
 
@@ -90,12 +95,11 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
 		boolean flag = false;
-		if (reportTypeMapper.deleteByCompanyId(company.getCompanyId()) >= 0) {
-			for (ReportType reportType : rtList) {
-				flag = reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
-				if (!flag) {
-					break;
-				}
+		for (ReportType reportType : rtList) {
+			reportType.setOwner(company);
+			flag = reportTypeMapper.insert(reportType) > 0;
+			if (!flag) {
+				break;
 			}
 		}
 		return flag;
@@ -103,7 +107,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public boolean addCompanyReportType(Company company, ReportType reportType) {
-		return reportTypeMapper.insertByCompany(reportType, company.getCompanyId()) > 0;
+		reportType.setOwner(company);
+		return reportTypeMapper.insert(reportType) > 0;
 	}
 
 	@Override
@@ -142,7 +147,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo) {
 		boolean flag = false;
 		flag = companyMapper.update(companyWholeInfo.getCompany()) > 0;
-		if(companyOtherMapper.findByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
+		if (companyOtherMapper.getByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
 			flag = companyOtherMapper.update(companyWholeInfo.getCompanyOther()) > 0;
 		} else {
 			flag = companyOtherMapper.insert(companyWholeInfo.getCompanyOther()) > 0;

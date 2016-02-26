@@ -36,7 +36,7 @@ public interface CompanyOtherMapper {
 	 *            所属的公司id号
 	 * @return 公司的其他信息
 	 */
-	CompanyOther findByCompanyId(long companyId);
+	CompanyOther getByCompanyId(long companyId);
 
 	List<CompanyOther> getAllOthers();
 
