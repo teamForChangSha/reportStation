@@ -183,21 +183,21 @@ $(function() {
 
 	$("#submitReport").click(function(e) {
 		if (!isAgreed(true)) {
-			return;
+			return alert("同意条款才能继续!");;
 		}
 		if (!showRadioError(quest.isAnonymous)) {
-			return;
+			return alert("请选择是否实名提交!");;
 		}
 		if (quest.isAnonymous.filter(':checked').val() == "false") {
 			if (!validationUser()) {
-				return;
+				return alert("您的实名信息填写有误!");;
 			}
 		}
 		if (!validationQuest()) {
-			return;
+			return alert("您有必填项还未填写!");
 		}
 		if (!validationPass()) {
-			return;
+			return alert("您的密码填写有误!");
 		}
 		setSendForm();
 		sendForm();
