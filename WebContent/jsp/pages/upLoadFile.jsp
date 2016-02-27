@@ -33,15 +33,9 @@
 	<body>
 		<div class="container">
 			<div class="form-group">
-				<span>上传文件</span>
-			</div>
-			<div class="form-group">
-				<span>在这里你可以上传文件和文件为公司审核相关报告。<br />
-
-				文件可能有您的属性信息。之前上传一个文件,通过以下步骤查看属性。<br />
-				1。右键单击该文件并选择Properties选项卡>总结。<br /> 2。删除任何你不想分享的信息。<br />
-				3所示。保存文件。<br /> 重要:删除属性信息不能删除所有个人信息的文件。<br /> 文件上传:0<br /> 你有100
-				MB的磁盘空间用于上传。
+				<span>在这里你可以上传文件或者公司审核相关报告。
+				<br /><br />
+				你有50MB的磁盘空间用于上传。
 			</span>
 			</div>
 			<div class="row">
