@@ -158,5 +158,40 @@
     </trim>
     
   </insert>
- 
+  <update id="update" parameterType="com.jxxp.pojo.ReportCase" >
+    update reportcase
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="company != null" >
+        company_id =#{company.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="branch != null" >
+         branch_id= #{branch.branchId,jdbcType=BIGINT},
+      </if>
+      <if test="reporter != null" >
+        report_id =#{reporter.reporterId,jdbcType=BIGINT},
+      </if>
+      <if test="currentHandler != null" >
+        handler_company = #{currentHandler.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="rtList != null" >
+        rt_list = #{rtList,jdbcType=VARCHAR},
+      </if>
+      <if test="caseState != null" >
+        case_state = #{caseState,jdbcType=INTEGER},
+      </if>
+      <if test="stateChanged != null" >
+        state_changed = #{stateChanged,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessCode != null" >
+        access_code = #{accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="trackingNo != null" >
+        tracking_no = #{trackingNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where rc_id = #{rcId,jdbcType=BIGINT}
+  </update>
 </mapper>
