@@ -61,6 +61,8 @@
 
 	<body>
 		<div class="container">
+			<h1><small>举报类型设置</small></h1>
+			<div class="page-header"></div>
 			<div class="row">
 				以下为系统默认举报类型供选择
 			</div>

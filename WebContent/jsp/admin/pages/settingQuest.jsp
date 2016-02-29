@@ -61,6 +61,8 @@
 
 	<body>
 		<div class="container">
+			<h1><small>公司问题设置</small></h1>
+			<div class="page-header"></div>
 			<div class="row">
 				请选择需要展示的问题
 			</div>

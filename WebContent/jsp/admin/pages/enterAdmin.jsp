@@ -64,6 +64,8 @@
 
 	<body>
 		<div class="container">
+			<h1><small>公司信息设置</small></h1>
+			<div class="page-header"></div>
 			<div class="row">
 				<div class="form-inline">
 					<div class="form-group">

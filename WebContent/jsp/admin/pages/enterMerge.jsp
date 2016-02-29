@@ -35,6 +35,8 @@
 
 	<body>
 		<div class="container">
+			<h1><small>企业名称维护</small></h1>
+			<div class="page-header"></div>
 			<div class="row text-center">
 				<div class="col-sm-4">
 					<div class="form-inline">
