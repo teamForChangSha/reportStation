@@ -36,13 +36,15 @@ public class CompanyBackController {
     @RequestMapping("/showCaseByCompany.do")  
     public String showCaseByCompany(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
 		String rtList = request.getParameter("rtList");
-		String createTime = request.getParameter("createTime");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
 		String keyWord = request.getParameter("keyWord");
     	Map<String,String> map = new HashMap<String, String>();
 		map.put("rtList", rtList);
-		map.put("createTime", createTime);
+		map.put("startTime", startTime);
+		map.put("endTime", endTime);
 		map.put("keyWord", keyWord);
-
+		log.debug("Map:" + map);
     	User user = (User) request.getSession().getAttribute("user");
     	List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
     	log.debug("caseList:" + caseList);
