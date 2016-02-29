@@ -54,6 +54,10 @@ public class ReporterTypeTest {
 		reportTypeMapper.deleteById(type.getRtId());
 	}
 
+	@Test
+	public void getOne() {
+	}
+
 	public ReportType getReportType() {
 		ReportType type = new ReportType();
 		Company owner = CompanyTest.getCompany();

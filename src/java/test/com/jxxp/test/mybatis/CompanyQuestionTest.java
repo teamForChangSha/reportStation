@@ -44,13 +44,11 @@ public class CompanyQuestionTest {
 	}
 
 	/**
-	 * 测试批量插入公司所选择的问题列表
+	 * 测试批量插入公司所选择的问题列表 TODO
 	 */
 	@Test
 	public void saveCompanyQuestions() {
 		assertTrue(companyQuestionMapper.insertQuestionList(list, new Long(1)) > 0);
-		assertTrue(companyQuestionMapper.deleteQuestionList(list, new Long(1)) > 0);
-
 	}
 
 }
