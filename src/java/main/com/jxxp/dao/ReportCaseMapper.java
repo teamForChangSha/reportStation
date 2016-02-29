@@ -83,8 +83,8 @@ public interface ReportCaseMapper {
 	 * @return
 	 */
 	List<ReportCase> searchByKeys(@Param("companyId") long companyId,
-			@Param("createTime") String createTime, @Param("keyWord") String keyWord,
-			@Param("rtList") String rtList);
+			@Param("startTime") String startTime, @Param("endTime") String endTime,
+			@Param("keyWord") String keyWord, @Param("rtList") String rtList);
 
 	/**
 	 * @param companyId
