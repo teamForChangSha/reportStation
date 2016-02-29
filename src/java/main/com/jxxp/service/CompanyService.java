@@ -49,8 +49,8 @@ public interface CompanyService {
 	/**
 	 * 获得公司的基本信息
 	 * 
-	 * @param name
-	 *            公司名称，后期若支持相似名字合并，则可以是合并后的任意一个公司名称
+	 * @param companyId
+	 *            公司ID
 	 * @return 返回查询到的公司基本信息
 	 */
 	Company getCompanyById(long companyId);
@@ -154,4 +154,12 @@ public interface CompanyService {
 	 * @return 修改成功则返回true，否则返回false
 	 */
 	boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo);
+	
+	/**
+	 * 获得平台公司的基本信息
+	 * 
+	 * @param 
+	 * @return 返回查询到的公司基本信息
+	 */
+	Company getPlatformCompany();
 }

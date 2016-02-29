@@ -1,14 +1,18 @@
 package com.jxxp.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -216,20 +220,30 @@ public class CompanyController {
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("logo");
-		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String createPath = "/fileupload/companylogo";
-		String dirPath = rootPath + createPath;
+		String dirPath = request.getSession().getServletContext().getRealPath("/")
+				+ "fileupload/companylogo";
 		log.debug("is image=");
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			// 保存文件
 			saveLogo(file, dirPath);
+
 			// 完善公司其他信息 CompanyOther
-			String webPath = request.getSession().getServletContext().getContextPath();
-			String accessPath = webPath + createPath;
 			CompanyOther other = wholeCompany.getCompanyOther();
-			other.setLogoUrl(accessPath);
-			other.setLogoPath(accessPath);
-			other.setServiceProtocol("8080");
+			if (other != null) {
+				// 获取文件的高度和宽度
+				String webPath = request.getSession().getServletContext().getContextPath();
+				String accessPath = webPath + "/fileupload/companylogo";
+				FileInputStream fis = new FileInputStream(new File(dirPath + "/"
+						+ file.getOriginalFilename()));
+				BufferedImage image = ImageIO.read(fis);
+				int width = image.getWidth();
+				int height = image.getHeight();
+				log.debug("width=======" + width + "path==" + UUID.randomUUID().toString());
+				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
+				other.setLogoPath(accessPath);
+				other.setLogoWidth(width);
+				other.setLogoHeight(height);
+			}
 		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
@@ -255,11 +269,14 @@ public class CompanyController {
 	@RequestMapping(value = "/addCompanyBranches.do", method = RequestMethod.POST)
 	public String addCompanyBranches(CompanyBranch branch, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
+		User user = (User) request.getSession().getAttribute("user");
+		Company owner = user.getUserCompany();
+		branch.setOwner(owner);
 		boolean flag = companyBranchService.addCompanyBranch(branch);
 		log.debug("provinceId=" + branch.getProvince().getAreaId());
 		log.debug("branch name=" + branch.getBranchName());
 		if (flag) {
-			return "";
+			return "/jsp/pages/error";
 		}
 		return "/jsp/pages/error";
 	}
@@ -276,6 +293,7 @@ public class CompanyController {
 			}
 		}
 		String filePath = dirPath + "/" + file.getOriginalFilename();
+		log.debug("fileName===========" + filePath);
 		// 存储文件
 		file.transferTo(new File(filePath));
 

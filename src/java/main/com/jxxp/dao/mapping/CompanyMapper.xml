@@ -22,6 +22,10 @@
     select * from company
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
+  <select id="getPlatformCompany" resultMap="BaseResultMap" >
+    select * from company
+    where company_type =0 limit 0,1
+  </select>
   
    <select id="getAllCompany" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from company    

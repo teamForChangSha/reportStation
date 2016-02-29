@@ -104,12 +104,21 @@ public class CompanyBackController {
     	String strId = request.getParameter("rcId");
     	String strState = request.getParameter("state");
     	String strCompanyId = request.getParameter("companyId");
+    	String strSendToPlatform = request.getParameter("sendToPlatform");
     	
     	long rcId = Long.parseLong(strId);
     	int afterState = Integer.parseInt(strState);
+    	int sendToPlatform = Integer.parseInt(strSendToPlatform);
     	long afterCompanyId = Long.parseLong(strCompanyId);
-    	Company currentHandler = companyService.getCompanyById(afterCompanyId);
-    	
+    	Company afterHandler = null;
+
+    	//判断是否交由平台方处理
+    	if(sendToPlatform == 1) {
+    		afterHandler = companyService.getPlatformCompany();
+    		afterCompanyId = afterHandler.getCompanyId();
+    	} else {
+    		afterHandler = companyService.getCompanyById(afterCompanyId);
+    	}
     	ReportCase reportCase = caseService.getReportCaseById(rcId);
     	User user = (User) request.getSession().getAttribute("user");
     	
@@ -117,7 +126,7 @@ public class CompanyBackController {
     	Company beforeCompany = reportCase.getCurrentHandler();
     	
     	reportCase.setCaseState(afterState);
-    	reportCase.setCurrentHandler(currentHandler);
+    	reportCase.setCurrentHandler(afterHandler);
     	
     	CaseChangeLog caseChangeLog = new CaseChangeLog();
 		caseChangeLog.setChangeTime(new Date());

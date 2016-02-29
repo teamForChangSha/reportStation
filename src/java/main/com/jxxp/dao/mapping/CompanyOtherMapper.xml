@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxxp.dao.CompanyOtherMapper" >
+  <resultMap id="BaseResultMap" type="com.jxxp.pojo.CompanyOther" >
+    <id column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="logo_url" property="logoUrl" jdbcType="VARCHAR" />
+    <result column="logo_path" property="logoPath" jdbcType="VARCHAR" />
+    <result column="logo_height" property="logoHeight" jdbcType="INTEGER" />
+    <result column="logo_width" property="logoWidth" jdbcType="INTEGER" /> 
+    <result column="service_protocol" property="serviceProtocol" jdbcType="LONGVARCHAR" />
+    <result column="sp_html" property="spHtml" jdbcType="LONGVARCHAR" />
+    </resultMap>
+  <sql id="Base_Column_List" >
+    company_id, logo_url, logo_path, logo_height, logo_width, service_protocol, sp_html
+  </sql>
+  <select id="getByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select * from companyother where company_id=#{companyId}
+  </select>
+  <insert id="insert" parameterType="com.jxxp.pojo.CompanyOther" >
+    insert into companyother (company_id, logo_url, logo_path, 
+      logo_height, logo_width, service_protocol, 
+      sp_html)
+    values (#{companyId,jdbcType=BIGINT}, #{logoUrl,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
+      #{logoHeight,jdbcType=INTEGER}, #{logoWidth,jdbcType=INTEGER}, #{serviceProtocol,jdbcType=LONGVARCHAR}, 
+      #{spHtml,jdbcType=LONGVARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.jxxp.pojo.CompanyOther" >
+    update companyother
+    <set >
+      <if test="logoUrl != null" >
+        logo_url = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="logoPath != null" >
+        logo_path = #{logoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="logoHeight != null" >
+        logo_height = #{logoHeight,jdbcType=INTEGER},
+      </if>
+      <if test="logoWidth != null" >
+        logo_width = #{logoWidth,jdbcType=INTEGER},
+      </if>
+      <if test="serviceProtocol != null" >
+        service_protocol = #{serviceProtocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="spHtml != null" >
+        sp_html = #{spHtml,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- <update id="updateByPrimaryKey" parameterType="com.jxxp.pojo.CompanyOther" >
+    update companyother
+    set logo_url = #{logoUrl,jdbcType=VARCHAR},
+      logo_path = #{logoPath,jdbcType=VARCHAR},
+      logo_height = #{logoHeight,jdbcType=INTEGER},
+      logo_width = #{logoWidth,jdbcType=INTEGER}
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </update> -->
+</mapper>
