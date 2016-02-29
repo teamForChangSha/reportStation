@@ -17,16 +17,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.Company;
+import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.pojo.User;
+import com.jxxp.service.CompanyBranchService;
 import com.jxxp.service.CompanyService;
 import com.jxxp.service.QuestionService;
 import com.jxxp.service.ReportTypeService;
@@ -46,6 +49,8 @@ public class CompanyController {
 	private ReportTypeService reportTypeService;
 	@Resource
 	private QuestionService questionService;
+	@Resource
+	private CompanyBranchService companyBranchService;
 
 	/**
 	 * @author gcx
@@ -187,16 +192,34 @@ public class CompanyController {
 
 	}
 
+	/**
+	 * 更新客户基本信息，和其他信息
+	 * 
+	 * @param wholeCompany
+	 *            包含Company和CompanyOther
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@RequestMapping("/updateCompanyWholeInfo.do")
-	public String uploadLogo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
+	public String updateCompanyWholeInfo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws IllegalStateException, IOException {
+		// 测试工公司基本信息是否有
+		log.debug("baseInfo companyName=" + wholeCompany.getCompany().getCompanyName());
+		// 其他信息
+		log.debug("otherInfo serviceProtocol ="
+				+ wholeCompany.getCompanyOther().getServiceProtocol());
 
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile file = multipartRequest.getFile("testFile");
+		MultipartFile file = multipartRequest.getFile("logo");
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
 		String createPath = "/fileupload/companylogo";
 		String dirPath = rootPath + createPath;
+		log.debug("is image=");
 		if (file != null) {
 			// 保存文件
 			saveLogo(file, dirPath);
@@ -217,6 +240,28 @@ public class CompanyController {
 			out.print("fail");
 		}
 		return null;
+	}
+
+	/**
+	 * 添加分支机构
+	 * 
+	 * @param branch
+	 *            分支机构
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/addCompanyBranches.do", method = RequestMethod.POST)
+	public String addCompanyBranches(CompanyBranch branch, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) {
+		boolean flag = companyBranchService.addCompanyBranch(branch);
+		log.debug("provinceId=" + branch.getProvince().getAreaId());
+		log.debug("branch name=" + branch.getBranchName());
+		if (flag) {
+			return "";
+		}
+		return "/jsp/pages/error";
 	}
 
 	private void saveLogo(MultipartFile file, String dirPath) throws IllegalStateException,

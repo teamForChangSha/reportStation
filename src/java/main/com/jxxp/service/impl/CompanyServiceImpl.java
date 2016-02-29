@@ -141,11 +141,15 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo) {
 		boolean flag = false;
+		Company company = companyWholeInfo.getCompany();
 		flag = companyMapper.update(companyWholeInfo.getCompany()) > 0;
-		if (companyOtherMapper.getByCompanyId(companyWholeInfo.getCompany().getCompanyId()) != null) {
+		System.out.println("----" + companyOtherMapper.getByCompanyId(company.getCompanyId()));
+		if (companyOtherMapper.getByCompanyId(company.getCompanyId()) != null) {
 			flag = companyOtherMapper.update(companyWholeInfo.getCompanyOther()) > 0;
 		} else {
-			flag = companyOtherMapper.insert(companyWholeInfo.getCompanyOther()) > 0;
+			CompanyOther companyOther = companyWholeInfo.getCompanyOther();
+			companyOther.setCompanyId(company.getCompanyId());
+			flag = companyOtherMapper.insert(companyOther) > 0;
 		}
 		return flag;
 	}

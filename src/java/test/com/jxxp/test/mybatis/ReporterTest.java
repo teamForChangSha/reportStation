@@ -41,7 +41,7 @@ public class ReporterTest {
 		reporter.setMobile("13142056499");
 		reporter.setName("lisi");
 		reporter.setIdNo("432024199405046467X");
-		reporter.setReporterId(555);
+		//reporter.setReporterId(555);
 		return reporter;
 	}
 }
