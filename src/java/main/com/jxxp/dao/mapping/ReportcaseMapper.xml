@@ -53,17 +53,17 @@
   <select id="searchByKeys" resultMap="BaseResultMap">
    select * from reportcase rc 
    where rc.company_id=#{companyId,jdbcType=BIGINT}
-   <if test="startTime!=null and endTime!=null">
+   <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
    and rc.create_time &gt; #{startTime} and rc.create_time &lt;#{endTime} 
    </if> 
-    <if test="rtList!=null">
+    <if test="rtList!=null and rtList!=''">
    and rc.rt_list like concat(concat('%',#{rtList,jdbcType=VARCHAR},'%'))  
     </if>  
    and rc.rc_id in
     (select d.rc_id from reportanswer b,reportcase d 
      where b.rc_id = d.rc_id 
      and d.company_id = #{companyId,jdbcType=BIGINT}
-     <if test="keyWord!=null">
+     <if test="keyWord!=null and keyWord!=''">
      and b.quest_value like concat(concat('%',#{keyWord,jdbcType=VARCHAR},'%')) 
     </if>
      )
