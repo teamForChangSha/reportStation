@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -219,11 +220,10 @@ public class CompanyController {
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("logo");
-		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String createPath = "/fileupload/companylogo";
-		String dirPath = rootPath + createPath;
+		String dirPath = request.getSession().getServletContext().getRealPath("/")
+				+ "fileupload/companylogo";
 		log.debug("is image=");
-		if (file != null) {
+		if (file != null && !file.isEmpty()) {
 			// 保存文件
 			saveLogo(file, dirPath);
 
@@ -232,13 +232,13 @@ public class CompanyController {
 			if (other != null) {
 				// 获取文件的高度和宽度
 				String webPath = request.getSession().getServletContext().getContextPath();
-				String accessPath = webPath + createPath;
-				FileInputStream fis = new FileInputStream(new File(rootPath + createPath + "/"
+				String accessPath = webPath + "/fileupload/companylogo";
+				FileInputStream fis = new FileInputStream(new File(dirPath + "/"
 						+ file.getOriginalFilename()));
 				BufferedImage image = ImageIO.read(fis);
 				int width = image.getWidth();
 				int height = image.getHeight();
-				log.debug("width=======" + width);
+				log.debug("width=======" + width + "path==" + UUID.randomUUID().toString());
 				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
 				other.setLogoPath(accessPath);
 				other.setLogoWidth(width);
@@ -269,11 +269,14 @@ public class CompanyController {
 	@RequestMapping(value = "/addCompanyBranches.do", method = RequestMethod.POST)
 	public String addCompanyBranches(CompanyBranch branch, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
+		User user = (User) request.getSession().getAttribute("user");
+		Company owner = user.getUserCompany();
+		branch.setOwner(owner);
 		boolean flag = companyBranchService.addCompanyBranch(branch);
 		log.debug("provinceId=" + branch.getProvince().getAreaId());
 		log.debug("branch name=" + branch.getBranchName());
 		if (flag) {
-			return "";
+			return "/jsp/pages/error";
 		}
 		return "/jsp/pages/error";
 	}
@@ -290,6 +293,7 @@ public class CompanyController {
 			}
 		}
 		String filePath = dirPath + "/" + file.getOriginalFilename();
+		log.debug("fileName===========" + filePath);
 		// 存储文件
 		file.transferTo(new File(filePath));
 
