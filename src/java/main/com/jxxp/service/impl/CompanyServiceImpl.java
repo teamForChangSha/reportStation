@@ -144,6 +144,7 @@ public class CompanyServiceImpl implements CompanyService {
 		Company company = companyWholeInfo.getCompany();
 		flag = companyMapper.update(companyWholeInfo.getCompany()) > 0;
 		CompanyOther companyOther = companyWholeInfo.getCompanyOther();
+		// 判断是否有公司其他信息
 		if (companyOther != null) {
 			companyOther.setCompanyId(company.getCompanyId());
 			if (companyOtherMapper.getByCompanyId(company.getCompanyId()) != null) {

@@ -238,7 +238,7 @@ public class CompanyController {
 				BufferedImage image = ImageIO.read(fis);
 				int width = image.getWidth();
 				int height = image.getHeight();
-				log.debug("width========" + width);
+				log.debug("width=======" + width);
 				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
 				other.setLogoPath(accessPath);
 				other.setLogoWidth(width);
