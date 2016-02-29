@@ -61,4 +61,11 @@ public class QuestionInfo {
 	public void setIsNeeded(int isNeeded) {
 		this.isNeeded = isNeeded;
 	}
+
+	@Override
+	public String toString() {
+		return "QuestionInfo [questId=" + questId + ", questKey=" + questKey + ", quest=" + quest
+				+ "]";
+	}
+
 }

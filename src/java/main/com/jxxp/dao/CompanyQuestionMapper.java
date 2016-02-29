@@ -31,8 +31,7 @@ public interface CompanyQuestionMapper {
 	 *            公司id
 	 * @return
 	 */
-	int deleteQuestionList(@Param("questList") List<QuestionInfo> questList,
-			@Param("companyId") long companyId);
+	int deleteByCompanyId(long companyId);
 
 	/**
 	 * 批量插入某个公司的问题列表

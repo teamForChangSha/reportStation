@@ -95,6 +95,7 @@ public class CompanyController {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		List<Map<String, String>> questList = questionService.getMarkQuestions(company);
+		log.debug("questList:" + questList);
 		model.put("questList", questList);
 		return "/jsp/admin/pages/settingQuest";
 	}
@@ -115,8 +116,11 @@ public class CompanyController {
 		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
 		// 获取前台复选框question的ids
 		String[] questIdStr = request.getParameterValues("questId");
+		log.debug("-----------" + request.getParameterValues("questId"));
+
 		for (int i = 0; i < questIdStr.length; i++) {
 			QuestionInfo question = new QuestionInfo();
+			log.debug("--------" + questIdStr[i]);
 			question.setQuestId(Long.parseLong(questIdStr[i]));
 			questionList.add(question);
 		}
@@ -124,20 +128,12 @@ public class CompanyController {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		boolean flag = companyService.saveCompanyQuestions(company, questionList);
-		PrintWriter out;
-		try {
-			out = response.getWriter();
-			if (flag) {
-				out.print("success");
-			} else {
-				out.print("error");
-			}
-
-		} catch (IOException e) {
-			log.error("添加问题列表失败！", e);
+		if (flag) {
+			return "redirect:getQuestTemlate.do";
+		} else {
+			return "redirect:getQuestTemlate.do";
 		}
 
-		return null;
 	}
 
 	@RequestMapping("/getAllReportTypes.do")
