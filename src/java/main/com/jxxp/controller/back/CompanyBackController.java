@@ -1,5 +1,8 @@
 package com.jxxp.controller.back;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +18,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jxxp.controller.CaseController;
+import com.jxxp.pojo.CaseChangeLog;
+import com.jxxp.pojo.Company;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.User;
+import com.jxxp.service.CaseChangeLogService;
 import com.jxxp.service.CaseService;
+import com.jxxp.service.CompanyService;
 
 @Controller("caseBackController")
 @RequestMapping("/admin/caseBack")
@@ -26,9 +33,13 @@ public class CompanyBackController {
 	
 	@Resource
 	private CaseService caseService;
+	@Resource
+	private CaseChangeLogService caseChangeLogService;
+	@Resource
+	private CompanyService companyService;
 
 	/*** 
-     * 根据公司
+     * 根据公司以及其他条件获取案件信息列表
      * @author cj
      * @param  
      * @return 
@@ -77,6 +88,54 @@ public class CompanyBackController {
     	return "/jsp/admin/pages/report_info";
     }
     
-    
+    /*** 
+     * 修改案件状态 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/updateCaseState.do")  
+    public String updateCaseState(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
+    	String strId = request.getParameter("rcId");
+    	String strState = request.getParameter("state");
+    	String strCompanyId = request.getParameter("companyId");
+    	
+    	long rcId = Long.parseLong(strId);
+    	int afterState = Integer.parseInt(strState);
+    	long afterCompanyId = Long.parseLong(strCompanyId);
+    	Company currentHandler = companyService.getCompanyById(afterCompanyId);
+    	
+    	ReportCase reportCase = caseService.getReportCaseById(rcId);
+    	User user = (User) request.getSession().getAttribute("user");
+    	
+    	int beforeState = reportCase.getCaseState();
+    	Company beforeCompany = reportCase.getCurrentHandler();
+    	
+    	reportCase.setCaseState(afterState);
+    	reportCase.setCurrentHandler(currentHandler);
+    	
+    	CaseChangeLog caseChangeLog = new CaseChangeLog();
+		caseChangeLog.setChangeTime(new Date());
+		caseChangeLog.setOperator(user);
+		caseChangeLog.setStateBefore(beforeState);
+		caseChangeLog.setStateAfter(reportCase.getCaseState());
+		caseChangeLog.setHandlerBefore(beforeCompany);
+		caseChangeLog.setHandlerAfter(reportCase.getCurrentHandler());
+    	
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseService.updateCaseInfo(reportCase) && caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
+				log.debug("修改案例并且添加日志记录成功！");
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+    	return null;
+    }
     
 }
