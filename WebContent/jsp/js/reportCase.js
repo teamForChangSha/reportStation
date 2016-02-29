@@ -397,16 +397,7 @@ $(function() {
 						if (res != "success") {
 							res = JSON.parse(res);
 							userAndOther.name.val(res.name);
-							if (res.idName == "身份证") {
-								console.log("身份证");
-								userAndOther.idName.find("option[value='身份证']")
-										.attr("selected", true);
-							}
-							if (res.idName == "护照") {
-								console.log("护照");
-								userAndOther.idName.find("option[value='护照']")
-										.attr("selected", true);
-							}
+							userAndOther.idName.get(0).value = res.idName;
 							userAndOther.idNo.val(res.idNo);
 							userAndOther.email.val(res.email);
 							userAndOther.bestContact.val(res.bestContact);
