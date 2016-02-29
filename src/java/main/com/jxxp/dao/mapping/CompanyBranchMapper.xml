@@ -52,8 +52,8 @@
     insert into companybranch (branch_id, company_id, province, 
       city, branch_name, address, 
       phone, contactor,post_code)
-    values (#{branchId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{province,jdbcType=BIGINT}, 
-      #{city,jdbcType=BIGINT}, #{branchName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+    values (#{branchId,jdbcType=BIGINT}, #{owner.companyId,jdbcType=BIGINT}, #{province.areaId,jdbcType=BIGINT}, 
+      #{city.areaId,jdbcType=BIGINT}, #{branchName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{contactor,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR})
   </insert>
   
