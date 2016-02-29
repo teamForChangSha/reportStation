@@ -192,6 +192,7 @@
         tracking_no = #{trackingNo,jdbcType=VARCHAR},
       </if>
     </set>
+    
     where rc_id = #{rcId,jdbcType=BIGINT}
   </update>
 </mapper>
