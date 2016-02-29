@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jxxp.controller.CaseController;
 import com.jxxp.pojo.CaseChangeLog;
+import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.User;
 import com.jxxp.service.CaseChangeLogService;
+import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
 
@@ -37,6 +39,9 @@ public class CompanyBackController {
 	private CaseChangeLogService caseChangeLogService;
 	@Resource
 	private CompanyService companyService;
+	@Resource
+	private CaseCommentService caseCommentService;
+	 
 
 	/*** 
      * 根据公司以及其他条件获取案件信息列表
@@ -130,6 +135,7 @@ public class CompanyBackController {
 				log.debug("修改案例并且添加日志记录成功！");
 				out.print("success");
 			} else {
+				log.debug("修改案例并且添加日志记录失败！");
 				out.print("error");
 			}
 		} catch (IOException e) {
@@ -137,5 +143,68 @@ public class CompanyBackController {
 		}
     	return null;
     }
+    
+    /*** 
+     * 添加案件追加信息 
+     * @author cj
+     * @param  
+     * @return 
+     */  
+    @RequestMapping("/addCaseComment.do")  
+    public String addCaseComment(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {  
+		String content = request.getParameter("content");
+		String strId = request.getParameter("rcId");
+		User user = (User) request.getSession().getAttribute("user");
+		
+		long rcId = Long.parseLong(strId);
+		
+		ReportCase reportCase = caseService.getReportCaseById(rcId);
+		
+		CaseComment caseComment = new CaseComment();
+		caseComment.setContent(content);
+		caseComment.setPostTime(new Date());
+		
+		if(user == null) {
+			caseComment.setIsReporter(1);
+		} else {
+			caseComment.setIsReporter(0);
+			caseComment.setOwner(user);
+			caseComment.setOwnerCompany(user.getUserCompany());
+		}
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(caseCommentService.addCaseComment(caseComment, rcId)){
+				log.debug("案件追加信息添加成功！");
+				//如果不是举报人追加信息，需要记录变更信息
+				if(caseComment.getIsReporter() == 0) {
+					CaseChangeLog caseChangeLog = new CaseChangeLog();
+					caseChangeLog.setChangeTime(new Date());
+					caseChangeLog.setOperator(user);
+					caseChangeLog.setStateAfter(reportCase.getCaseState());
+					caseChangeLog.setStateBefore(reportCase.getCaseState());
+					caseChangeLog.setHandlerAfter(user.getUserCompany());
+					caseChangeLog.setHandlerBefore(user.getUserCompany());
+					
+					if(caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
+						log.debug("日志信息添加成功！");
+					} else {
+						log.debug("日志信息添加失败！");
+					}
+				}
+				out.print("success");
+			} else {
+				log.debug("案件追加信息添加失败！");
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		
+    	return null;
+    }
+    
     
 }
