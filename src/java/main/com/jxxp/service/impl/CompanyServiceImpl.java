@@ -157,4 +157,10 @@ public class CompanyServiceImpl implements CompanyService {
 		return flag;
 	}
 
+	@Override
+	public Company getPlatformCompany() {
+		// TODO Auto-generated method stub
+		return companyMapper.getPlatformCompany();
+	}
+
 }
