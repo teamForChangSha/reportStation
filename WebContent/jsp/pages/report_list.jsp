@@ -101,14 +101,13 @@
 			var url = "dict/getDictName.do?dictType=case.state&dictValue=${caseInfo.caseState}";
 			$.get(url,function(res){
 				var tr = $("<tr/>");
-				var td1 = $("<td/>").addClass("hidden").text("${caseInfo.rcId}");
-				var td2 = $("<td/>").text("${caseInfo.company.companyName}");
-				var td3 = $("<td/>").text("${caseInfo.rtList}");
-				var	td4 = $("<td/>").text(res);
-				var td5 = $("<td/>").text("<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>");
-				tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+				var td1 = $("<td/>").text("${caseInfo.company.companyName}");
+				var td2 = $("<td/>").text("${caseInfo.rtList}");
+				var	td3 = $("<td/>").text(res);
+				var td4 = $("<td/>").text("<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>");
+				tr.append(td1).append(td2).append(td3).append(td4);
 				tr.click(function() {
-					location.href = "case/showCaseById.do?rcId="+$(this).find("td:first").text();
+					location.href = "case/showCaseById.do?rcId=${caseInfo.rcId}";
 				});
 				$("tbody").append(tr);
 			});
