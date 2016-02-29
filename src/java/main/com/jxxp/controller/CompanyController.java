@@ -1,6 +1,8 @@
 package com.jxxp.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -223,13 +226,24 @@ public class CompanyController {
 		if (file != null) {
 			// 保存文件
 			saveLogo(file, dirPath);
+
 			// 完善公司其他信息 CompanyOther
-			String webPath = request.getSession().getServletContext().getContextPath();
-			String accessPath = webPath + createPath;
 			CompanyOther other = wholeCompany.getCompanyOther();
-			other.setLogoUrl(accessPath);
-			other.setLogoPath(accessPath);
-			other.setServiceProtocol("8080");
+			if (other != null) {
+				// 获取文件的高度和宽度
+				String webPath = request.getSession().getServletContext().getContextPath();
+				String accessPath = webPath + createPath;
+				FileInputStream fis = new FileInputStream(new File(rootPath + createPath + "/"
+						+ file.getOriginalFilename()));
+				BufferedImage image = ImageIO.read(fis);
+				int width = image.getWidth();
+				int height = image.getHeight();
+				log.debug("width========" + width);
+				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
+				other.setLogoPath(accessPath);
+				other.setLogoWidth(width);
+				other.setLogoHeight(height);
+			}
 		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
