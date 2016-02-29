@@ -64,8 +64,6 @@ public class CaseController {
 	private CaseCommentService caseCommentService;
 	@Resource
 	private CaseChangeLogService caseChangeLogService;
-	@Resource
-	private CompanyService comapnyService;
 	
 	/*** 
      * 根据所输入的手机号，获取验证码 
@@ -444,55 +442,7 @@ public class CaseController {
     	return null;
     }
     
-    /*** 
-     * 修改案件状态 
-     * @author cj
-     * @param  
-     * @return 
-     */  
-    @RequestMapping("/updateCaseState.do")  
-    public String updateCaseState(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap) {
-    	String strId = request.getParameter("rcId");
-    	String strState = request.getParameter("state");
-    	String strCompanyId = request.getParameter("companyId");
-    	
-    	long rcId = Long.parseLong(strId);
-    	int afterState = Integer.parseInt(strState);
-    	long afterCompanyId = Long.parseLong(strCompanyId);
-    	Company currentHandler = comapnyService.getCompanyById(afterCompanyId);
-    	
-    	ReportCase reportCase = caseService.getReportCaseById(rcId);
-    	User user = (User) request.getSession().getAttribute("user");
-    	
-    	int beforeState = reportCase.getCaseState();
-    	Company beforeCompany = reportCase.getCurrentHandler();
-    	
-    	reportCase.setCaseState(afterState);
-    	reportCase.setCurrentHandler(currentHandler);
-    	
-    	CaseChangeLog caseChangeLog = new CaseChangeLog();
-		caseChangeLog.setChangeTime(new Date());
-		caseChangeLog.setOperator(user);
-		caseChangeLog.setStateBefore(beforeState);
-		caseChangeLog.setStateAfter(reportCase.getCaseState());
-		caseChangeLog.setHandlerBefore(beforeCompany);
-		caseChangeLog.setHandlerAfter(reportCase.getCurrentHandler());
-    	
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out;
-		try {
-			out = response.getWriter();
-			if(caseService.updateCaseInfo(reportCase) && caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
-				log.debug("修改案例并且添加日志记录成功！");
-				out.print("success");
-			} else {
-				out.print("error");
-			}
-		} catch (IOException e) {
-			log.error("流获取失败！",e);
-		}
-    	return null;
-    }
+
     
     
     //获取问题及答案的集合，方便前台展示
