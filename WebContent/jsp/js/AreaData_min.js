@@ -1,6 +1,6 @@
 ﻿var area_array=[];
 var sub_array=[];
-//area_array[0] = "请选择";
+area_array[0] = "请选择";
 area_array[11]="北京市";
 sub_array[11]=[];
 sub_array[11][0]="请选择";
