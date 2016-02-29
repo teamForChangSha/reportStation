@@ -161,10 +161,11 @@ public class CaseServiceImpl implements CaseService {
 		}
 		
 		String rtList = map.get("rtList");
-		String createTime = map.get("createTime");
+		String startTime = map.get("startTime");
+		String endTime = map.get("endTime");
 		String keyWord = map.get("keyWord");
 		
-		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), createTime, keyWord, rtList);
+		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), startTime, endTime, keyWord, rtList);
 		return caseList;
 	}
 

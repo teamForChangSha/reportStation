@@ -72,11 +72,8 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
 		boolean flag = false;
 		long companyId = company.getCompanyId();
-		List<QuestionInfo> oldQuestList = questionInfoMapper.getAllByCompany(companyId);
 		// 则先删除原来的问题列表
-		if (oldQuestList != null) {
-			companyQuestionMapper.deleteQuestionList(oldQuestList, companyId);
-		}
+		companyQuestionMapper.deleteByCompanyId(company.getCompanyId());
 		int count = companyQuestionMapper.insertQuestionList(questList, companyId);
 		flag = count > 0 ? true : false;
 		return flag;
@@ -96,7 +93,7 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveCompanyReportType(Company company, List<ReportType> rtList) {
 		boolean flag = false;
 		int count = reportTypeMapper.getAllByCompanyId(company.getCompanyId()).size();
-		if(count > 0) {
+		if (count > 0) {
 			flag = reportTypeMapper.deleteByCompanyId(company.getCompanyId()) > 0;
 		}
 		for (ReportType reportType : rtList) {

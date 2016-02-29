@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.jxxp.dao.CompanyQuestionMapper;
@@ -19,6 +21,8 @@ import com.jxxp.service.QuestionService;
 
 @Service("questionService")
 public class QuestionServiceImpl implements QuestionService {
+	private static final Logger log = LoggerFactory.getLogger(QuestionServiceImpl.class);
+
 	@Resource
 	private QuestionInfoMapper questionInfoMapper;
 	@Resource
@@ -49,6 +53,7 @@ public class QuestionServiceImpl implements QuestionService {
 		List<Map<String, String>> questList = new ArrayList<Map<String, String>>();
 		// 问题模版
 		List<QuestionInfo> defQuestList = questionInfoMapper.getQuestionTemlate();
+		log.debug("defQuestList:" + defQuestList);
 		// 该公司下的问题
 		List<QuestionInfo> comQuestList = questionInfoMapper
 				.getAllByCompany(company.getCompanyId());
@@ -56,16 +61,17 @@ public class QuestionServiceImpl implements QuestionService {
 		for (int i = 0; i < defQuestList.size(); i++) {
 			QuestionInfo defQuest = defQuestList.get(i);
 			Map<String, String> questMap = new HashMap<String, String>();
+			questMap.put("questId", String.valueOf(defQuest.getQuestId()));
+			questMap.put("quest", defQuest.getQuest());
+			int mark = 0;
 			for (int j = 0; j < comQuestList.size(); j++) {
 				QuestionInfo comQuest = comQuestList.get(j);
-				questMap.put("questId", String.valueOf(defQuest.getQuestId()));
-				questMap.put("quest", defQuest.getQuest());
 				if (defQuest.getQuestId() == comQuest.getQuestId()) {
-					questMap.put("mark", "1");
-				} else {
-					questMap.put("mark", "0");
+					mark = 1;
+					break;
 				}
 			}
+			questMap.put("mark", mark + "");
 			questList.add(questMap);
 		}
 		return questList;

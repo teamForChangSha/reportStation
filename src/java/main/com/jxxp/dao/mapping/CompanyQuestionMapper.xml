@@ -28,13 +28,9 @@
     and quest_id=#{questId,jdbcType=BIGINT}
   </delete>
   
-  <delete id="deleteQuestionList" parameterType="java.util.List">
+  <delete id="deleteByCompanyId" parameterType="java.lang.Long">
       delete from company_question where  
-      company_id=#{companyId,jdbcType=BIGINT}
-      and quest_id in
-      <foreach collection="questList" index="index" item="item" separator="," open="(" close=")">
-      #{item.questId}
-      </foreach>  
+      company_id=#{companyId,jdbcType=BIGINT}      
   </delete>
   
 </mapper>
