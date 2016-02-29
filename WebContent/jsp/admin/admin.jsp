@@ -82,13 +82,13 @@
 								<span class="arrow"></span>
 							</a>
 							<ul class="sub">
-								<li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">公司基本信息</a></li>
+								<li><a class="" href="jsp/admin/pages/enterEditor.jsp" target="MainIframe">公司信息设置</a></li>
 								<li><a class="" href="company/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
 								<li><a class="" href="company/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
 							</ul>
 						</li>
 						<li class="sub-menu">
-							<a href="jsp/admin/pages/users.jsp" class="" target="MainIframe">
+							<a href="jsp/admin/pages/usersAdmin.jsp" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 								<span>用户管理</span>
 							</a>
