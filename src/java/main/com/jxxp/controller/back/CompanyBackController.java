@@ -300,7 +300,7 @@ public class CompanyBackController {
 			}
 
 		} catch (IOException e) {
-			log.error("添加问题类型失败！", e);
+			log.error("添加问题失败！", e);
 		}
 		return null;
 
@@ -510,7 +510,6 @@ public class CompanyBackController {
 	public String updateCompanyBranch(CompanyBranch branch, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
 		User user = (User) request.getSession().getAttribute("user");
-		log.debug("---update branchName" + branch);
 		Company owner = user.getUserCompany();
 		branch.setOwner(owner);
 		boolean flag = companyBranchService.updateBranch(branch);

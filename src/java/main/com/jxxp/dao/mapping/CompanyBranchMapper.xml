@@ -48,11 +48,11 @@
     where branch_id = #{branchId,jdbcType=BIGINT}
   </delete>
   
-  <insert id="insert" parameterType="com.jxxp.pojo.CompanyBranch" >
-    insert into companybranch (branch_id, company_id, province, 
+  <insert id="insert" parameterType="com.jxxp.pojo.CompanyBranch" useGeneratedKeys="true" keyProperty="branchId">
+    insert into companybranch (company_id, province, 
       city, branch_name, address, 
       phone, contactor,post_code)
-    values (#{branchId,jdbcType=BIGINT}, #{owner.companyId,jdbcType=BIGINT}, #{province.areaId,jdbcType=BIGINT}, 
+    values (#{owner.companyId,jdbcType=BIGINT}, #{province.areaId,jdbcType=BIGINT}, 
       #{city.areaId,jdbcType=BIGINT}, #{branchName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{contactor,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR})
   </insert>
