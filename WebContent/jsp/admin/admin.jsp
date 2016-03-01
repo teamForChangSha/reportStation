@@ -82,9 +82,10 @@
 								<span class="arrow"></span>
 							</a>
 							<ul class="sub">
-								<li><a class="" href="jsp/admin/pages/enterEditor.jsp" target="MainIframe">公司信息设置</a></li>
-								<li><a class="" href="company/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
-								<li><a class="" href="company/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
+								<li><a class="" href="admin/caseBack/getOwnerCompanyInfo.do" target="MainIframe">公司信息设置</a></li>
+								<li><a class="" href="admin/caseBack/getCompanyBranches.do" target="MainIframe">分支机构管理</a></li>
+								<li><a class="" href="admin/caseBack/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
+								<li><a class="" href="admin/caseBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
 							</ul>
 						</li>
 						<li class="sub-menu">
