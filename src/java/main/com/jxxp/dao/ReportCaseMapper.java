@@ -78,8 +78,21 @@ public interface ReportCaseMapper {
 	int deleteById(long rcId);
 
 	/**
-	 * 用于测试模糊查询
+	 * 用于模糊查询
 	 * 
+	 * @return
+	 */
+	/**
+	 * @param companyId
+	 *            公司id
+	 * @param startTime
+	 *            开始时间
+	 * @param endTime
+	 *            结束时间
+	 * @param keyWord
+	 *            关键字，答案中含有的关键字
+	 * @param rtList
+	 *            问题类型
 	 * @return
 	 */
 	List<ReportCase> searchByKeys(@Param("companyId") long companyId,

@@ -36,6 +36,11 @@ public interface CompanyMapper {
 	 */
 	List<Company> getAllByName(String companyName);
 
+	/**
+	 * 管理员作为一个平台公司，该公司特殊处理，companyType=0的为平台公司
+	 * 
+	 * @return
+	 */
 	Company getPlatformCompany();
 
 	Company getById(long companyId);

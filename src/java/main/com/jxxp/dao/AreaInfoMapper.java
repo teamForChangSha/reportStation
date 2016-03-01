@@ -74,11 +74,13 @@ public interface AreaInfoMapper {
 	List<AreaInfo> getProvinceByCompanyId(long companyId);
 
 	/**
-	 * 获取某一个市的信息
+	 * 获取某个公司某个省下的市。
 	 * 
 	 * @param companyId
-	 *            要查询的公司id
-	 * @return 返回查询到的省份信息，若未查询到，则返回null
+	 *            公司id
+	 * @param parentId
+	 *            上一级（省）id
+	 * @return
 	 */
 	List<AreaInfo> getCityByCompanyId(@Param("companyId") long companyId,
 			@Param("parentId") long parentId);

@@ -37,25 +37,14 @@ public interface CompanyBranchMapper {
 	 * 获取某地的公司分支机构信息，若地区为空则获取某个公司下的所有分支机构<br>
 	 * 公司的总部也算作一个分支机构
 	 * 
-	 * @param area
-	 *            地区
-	 * @param company
-	 *            公司
+	 * @param areaId
+	 *            行政区域id
+	 * @param companyId
+	 *            公司 id
 	 * @return
 	 */
 	List<CompanyBranch> getAllByArea(@Param("areaId") long areaId,
 			@Param("companyId") long companyId);
-
-	/**
-	 * 获取某地的公司分支机构信息，若地区为空则获取某个公司下的所有分支机构<br>
-	 * 公司的总部也算作一个分支机构
-	 * 
-	 * @param area
-	 *            地区
-	 * @param company
-	 *            公司
-	 * @return
-	 */
 
 	CompanyBranch getById(long branchId);
 

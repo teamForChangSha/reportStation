@@ -21,6 +21,13 @@ public interface ReportAnswerMapper {
 	 */
 	int insert(ReportAnswer answer);
 
+	/**
+	 * 取得某个问题的答案
+	 * 
+	 * @param answer
+	 * @param questId
+	 * @return
+	 */
 	int insertByQuestionId(@Param("answer") ReportAnswer answer, @Param("questId") long questId);
 
 	/**

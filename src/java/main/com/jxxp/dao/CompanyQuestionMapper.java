@@ -20,13 +20,18 @@ public interface CompanyQuestionMapper {
 	 */
 	int insertQuestionIds(@Param("questIds") long[] questIds, @Param("companyId") long companyId);
 
+	/**
+	 * 使用问题id和公司id唯一标识公司和问题的关系，因此用问题id和公司id删除关系表中唯一的一条记录
+	 * 
+	 * @param questId
+	 * @param companyId
+	 * @return
+	 */
 	int deleteByDoubleId(@Param("questId") long questId, @Param("companyId") long companyId);
 
 	/**
 	 * 批量删除某个公司已有的问题列表
 	 * 
-	 * @param questList
-	 *            公司问题集合
 	 * @param companyId
 	 *            公司id
 	 * @return
