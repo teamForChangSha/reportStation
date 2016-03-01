@@ -43,26 +43,27 @@
 					<input type="text" name="company.companyId" hidden value="${company.companyId}" />
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司名字：</label>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<input type="text" value="${company.companyName}" name="company.companyName" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司名称代码：</label>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<input type="text" value="${company.companyCode}" name="company.companyCode" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">公司描述：</label>
-						<div class="col-sm-6">
-							<textarea rows="5" name="company.description" class="form-control">${company.description}</textarea>
+						<label class="col-sm-2 control-label">公司联系电话：</label>
+						<div class="col-sm-3">
+							<input type="text" value="${company.phone}" name="company.phone" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">公司联系电话：</label>
-						<div class="col-sm-4">
-							<input type="text" value="${company.phone}" name="company.phone" class="form-control" />
+						<label class="col-sm-2 control-label">公司状态：</label>
+						<div class="col-sm-3">
+							<input type="text" hidden value="${company.companyState }" name="company.companyState" />
+							<p id="state" class="form-control-static"></p>
 						</div>
 					</div>
 					<div class="form-group">
@@ -77,21 +78,20 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label">公司状态：</label>
-						<div class="col-sm-4">
-							<input type="text" hidden value="${company.companyState }" name="company.companyState" />
-							<input type="text" id="state" disabled="" class="form-control" />
+						<label class="col-sm-2 control-label">公司描述：</label>
+						<div class="col-sm-5">
+							<textarea rows="5" name="company.description" class="form-control">${company.description}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">服务协议文本：</label>
-						<div class="col-sm-6">
+						<div class="col-sm-5">
 							<textarea rows="5" name="companyOther.serviceProtocol" class="form-control">${company.otherInfo.serviceProtocol}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">服务协议HTML：</label>
-						<div class="col-sm-6">
+						<div class="col-sm-5">
 							<textarea rows="5" name="companyOther.spHtml" class="form-control">${company.otherInfo.spHtml}</textarea>
 						</div>
 					</div>
@@ -100,7 +100,7 @@
 						<div class="col-sm-3">
 							<input type="file" name="logo" accept="image/*" class="form-info" />
 						</div>
-						<div class="col-sm-3">
+						<div class="col-sm-2">
 							<p class="thumbnail">
       							<img src="jsp/css/img/placeholder.png"   />
     						</p>
@@ -108,11 +108,13 @@
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">最后修改时间：</label>
-						<div class="col-sm-4">
-							<input type="text" disabled="" value='<fmt:formatDate value="${company.stateChanged}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>' class="form-control" />
+						<div class="col-sm-3">
+							<p class="form-control-static">
+								<fmt:formatDate value="${company.stateChanged}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>
+							</p>
 						</div>
 						<div class="col-sm-2 text-right">
-							<input type="button" name="updata" class="btn btn-warning" value="修改" />
+							<input type="button" name="updata" class="btn btn-warning form-control" value="修改" />
 						</div>
 					</div>
 				</form>
@@ -124,7 +126,7 @@
 			/* 获取状态的中文 */
 			var url = "dict/getDictName.do?dictType=company.state&dictValue=${company.companyState }";
 			$.get(url,function(res){
-				$("#state").val(res);
+				$("#state").text(res);
 			});
 			/* 设置select需要选中的状态 */
 			$("#type").get(0).value = "${company.companyType}";
