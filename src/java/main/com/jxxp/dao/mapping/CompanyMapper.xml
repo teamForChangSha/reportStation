@@ -10,6 +10,8 @@
 	<result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />	
 	<result column="company_type" property="companyType" jdbcType="INTEGER" />
     <result column="company_state" property="companyState" jdbcType="INTEGER" />
+    <association column="company_id" property="otherInfo" select="com.jxxp.dao.CompanyOtherMapper.getByCompanyId">
+    </association> 
     <collection property="questList" column="company_id" ofType="com.jxxp.pojo.QuestionInfo"
     select="com.jxxp.dao.QuestionInfoMapper.getAllByCompany">
     </collection>

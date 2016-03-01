@@ -50,12 +50,4 @@
     where company_id = #{companyId,jdbcType=BIGINT}
   </update>
   
-  <!-- <update id="updateByPrimaryKey" parameterType="com.jxxp.pojo.CompanyOther" >
-    update companyother
-    set logo_url = #{logoUrl,jdbcType=VARCHAR},
-      logo_path = #{logoPath,jdbcType=VARCHAR},
-      logo_height = #{logoHeight,jdbcType=INTEGER},
-      logo_width = #{logoWidth,jdbcType=INTEGER}
-    where company_id = #{companyId,jdbcType=BIGINT}
-  </update> -->
 </mapper>

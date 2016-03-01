@@ -466,4 +466,39 @@ public class CompanyBackController {
 		file.transferTo(saveFile);
 
 	}
+
+	/**
+	 * @author gcx
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/getCompanyBranches.do")
+	public String getCompanyBranches(HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
+		User user = (User) request.getSession().getAttribute("user");
+		Company company = user.getUserCompany();
+		List<CompanyBranch> branchList = companyBranchService.getCompanyBranches(company
+				.getCompanyId());
+		model.put("branchList", branchList);
+		return "/jsp/admin/pages/branchAdmin";
+	}
+
+	/**
+	 * @author gcx
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/getOwnerCompanyInfo.do")
+	public String getOwnerCompanyInfo(HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
+		User user = (User) request.getSession().getAttribute("user");
+		Company company = user.getUserCompany();
+		company = companyService.getCompanyById(company.getCompanyId());
+		model.put("company", company);
+		return "/jsp/admin/pages/enterEditor";
+	}
 }
