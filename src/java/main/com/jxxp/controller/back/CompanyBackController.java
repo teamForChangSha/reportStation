@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.controller.CaseController;
@@ -379,12 +380,14 @@ public class CompanyBackController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/updateCompanyWholeInfo.do")
-	public String updateCompanyWholeInfo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) throws IllegalStateException, IOException {
+	public String updateCompanyWholeInfo(RedirectAttributes f, CompanyWholeInfo wholeCompany,
+			HttpServletRequest request, HttpServletResponse response, ModelMap model)
+			throws IllegalStateException, IOException {
 		Company company = wholeCompany.getCompany();
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("logo");
+		log.debug("test---file--ajax=" + file.getName());
 		String dirPath = request.getSession().getServletContext().getRealPath("/")
 				+ "fileupload/logo/" + company.getCompanyId();
 		if (file != null && !file.isEmpty()) {
@@ -410,15 +413,14 @@ public class CompanyBackController {
 		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
-		PrintWriter out;
-		out = response.getWriter();
 		if (flag) {
-			out.print("success");
+			model.put("msg", "操作成功");
 		} else {
-			out.print("error");
+			model.put("msg", "操作失败");
 
 		}
-		return null;
+
+		return "/jsp/admin/pages/enterEditor";
 
 	}
 
