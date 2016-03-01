@@ -66,7 +66,7 @@
 						<a class="userName">您好：${user.userName}</a>
 					</li>
 					<li class="dropdown mtop5">
-						<a href="loginOut.do"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>退出</a>
+						<a href="admin/user/loginOut.do"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>退出</a>
 					</li>
 				</ul>
 			</div>
