@@ -62,12 +62,12 @@
       <if test="owner != null" >
         company_id = #{owner.companyId,jdbcType=BIGINT},
       </if>
-      <if test="province != null" >
+     <!--<if test="province != null" >
         province = #{province.areaId,jdbcType=BIGINT},
       </if>
       <if test="city != null" >
         city = #{city.areaId,jdbcType=BIGINT},
-      </if>
+      </if> -->
       <if test="branchName != null and branchName!=''" >
         branch_name = #{branchName,jdbcType=VARCHAR},
       </if>
