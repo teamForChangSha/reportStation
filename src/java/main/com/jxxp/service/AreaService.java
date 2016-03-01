@@ -49,7 +49,7 @@ public interface AreaService {
 	AreaInfo getCity(long cityId);
 
 	/**
-	 * 获取某一个省份的信息
+	 * 获取公司旗下有分支机构的省列表的信息，根据公司ID
 	 * 
 	 * @param companyId
 	 *            要查询的公司id
