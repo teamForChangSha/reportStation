@@ -281,11 +281,9 @@ public class CompanyBackController {
 		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
 		// 获取前台复选框question的ids
 		String[] questIdStr = request.getParameterValues("questId");
-		log.debug("-----------" + request.getParameterValues("questId"));
 
 		for (int i = 0; i < questIdStr.length; i++) {
 			QuestionInfo question = new QuestionInfo();
-			log.debug("--------" + questIdStr[i]);
 			question.setQuestId(Long.parseLong(questIdStr[i]));
 			questionList.add(question);
 		}
@@ -293,11 +291,18 @@ public class CompanyBackController {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		boolean flag = companyService.saveCompanyQuestions(company, questionList);
-		if (flag) {
-			return "redirect:getQuestTemlate.do";
-		} else {
-			return "redirect:getQuestTemlate.do";
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+
+		} catch (IOException e) {
+			log.error("添加问题类型失败！", e);
 		}
+		return null;
 
 	}
 
