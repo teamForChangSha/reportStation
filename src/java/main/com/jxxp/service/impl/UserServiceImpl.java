@@ -34,4 +34,9 @@ public class UserServiceImpl implements UserService {
 		return userList;
 	}
 
+	@Override
+	public User getUserById(long userId) {
+		return userMapper.getById(userId);
+	}
+
 }

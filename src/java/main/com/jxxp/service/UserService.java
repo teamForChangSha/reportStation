@@ -29,7 +29,16 @@ public interface UserService {
 	 * 
 	 * @param params
 	 *            条件集合对象
-	 * @return 更新成功返回为true,否则返回false
+	 * @return 更新成功返回为用户集合,否则返回空列表
 	 */
 	List<User> getUsersByParams(Map<String, String> params);
+
+	/**
+	 * 根据用户ID获取该用户信息
+	 * 
+	 * @param userId
+	 *            用户ID
+	 * @return 获取成功返回为user对象,否则返回null
+	 */
+	User getUserById(long userId);
 }

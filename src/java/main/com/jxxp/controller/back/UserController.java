@@ -61,7 +61,8 @@ public class UserController {
 					Map<String, String> loginUsers = (Map<String, String>) application.getAttribute("loginUsers");
 					
 					String sessionId = request.getSession(false).getId();
-					if(loginUsers == null) {
+					log.debug("loginUsers:" + loginUsers);
+					if(loginUsers == null || loginUsers.size() == 0) {
 						loginUsers = new HashMap<String, String>();
 						loginUsers.put(user.getLoginName(), sessionId);
 						application.setAttribute("loginUsers", loginUsers);
@@ -70,6 +71,8 @@ public class UserController {
 						out.print("success");
 					} else {
 						String userSessionId = loginUsers.get(user.getLoginName());
+						log.debug("userSessionId:" + userSessionId);
+						log.debug("sessionId:" + sessionId);
 						if(userSessionId == null || !userSessionId.equals(sessionId)) {
 							out.print("登录失败，该用户已登录！");
 						}
@@ -97,8 +100,10 @@ public class UserController {
 		@SuppressWarnings("unchecked")
 		Map<String, String> loginUsers = (Map<String, String>) application.getAttribute("loginUsers");
 		User user = (User) session.getAttribute("user");
+		log.debug("loginUsers:" + loginUsers);
 		if(user != null) {
 			loginUsers.remove(user.getLoginName());
+			application.removeAttribute("loginUsers");
 			application.setAttribute("loginUsers",loginUsers);
 		}
 		@SuppressWarnings("unchecked")
@@ -111,7 +116,7 @@ public class UserController {
 	}
 	
 	/*
-	 * 用户登录
+	 * 用户修改密码
 	 * @author cj
 	 */
 	@RequestMapping("/updatePwd.do")
@@ -119,6 +124,34 @@ public class UserController {
 			ModelMap modelMap) {
 		String userPwd = request.getParameter("userPwd");
 		User user = (User) request.getSession().getAttribute("user");
+		user.setUserPwd(userPwd);
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(userService.update(user)) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
+	
+	/*
+	 * 用户修改密码
+	 * @author cj
+	 */
+	@RequestMapping("/resetUserPwd.do")
+	public String resetUserPwd( HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		String userPwd = request.getParameter("userPwd");
+		String strId = request.getParameter("userId");
+		long userId = Long.parseLong(strId);
+		User user = (User) userService.getUserById(userId);
 		user.setUserPwd(userPwd);
 		
 		response.setCharacterEncoding("UTF-8");
