@@ -130,9 +130,9 @@
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label"></label>
-						<div class="col-sm-4 text-center">
-							<input type="button" name="cancel" class="btn btn-default" value="取消" />
-							<input type="button" name="add" class="btn btn-default" value="提交" />
+						<div class="col-sm-4">
+							<input type="button" name="cancel" class="btn btn-default col-sm-5" value="取消" />
+							<input type="button" name="add" class="btn btn-default col-sm-5 pull-right" value="提交" />
 						</div>
 					</div>
 				</form>
@@ -197,11 +197,10 @@
 			});
 		});
 		function updata(ele,id){
-			$("#addBranchPanel small").text("修改分支机构");
+			$("#addBranchPanel small").text("修改分支机构信息");
 			$("#addBranchPanel").removeClass("hidden");
 			$("#branchId").attr("name","branchId").val(id);
 			$("#seachprov").parent().parent().addClass("hidden");
-			$("#seachcity");
 			$("input[name=branchName]").val($(ele).parent().prev().prev().prev().prev().prev().text());
 			$("input[name=address]").val($(ele).parent().prev().prev().prev().prev().text());
 			$("input[name=phone]").val($(ele).parent().prev().prev().prev().text());
