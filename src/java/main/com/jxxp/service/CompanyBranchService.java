@@ -8,4 +8,8 @@ public interface CompanyBranchService {
 	boolean addCompanyBranch(CompanyBranch companyBranch);
 
 	List<CompanyBranch> getCompanyBranches(long companyId);
+
+	boolean updateBranch(CompanyBranch branch);
+
+	boolean deleteBranch(long branchId);
 }

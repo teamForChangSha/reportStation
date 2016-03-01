@@ -26,4 +26,22 @@ public class CompanyBranchServiceImpl implements CompanyBranchService {
 
 	}
 
+	@Override
+	public boolean updateBranch(CompanyBranch branch) {
+		int flag = companyBranchMapper.update(branch);
+		if (flag > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteBranch(long branchId) {
+		int flag = companyBranchMapper.deleteById(branchId);
+		if (flag > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }
