@@ -362,6 +362,8 @@ public class CompanyBackController {
 	}
 
 	/**
+	 * 更新公司信息包括基本信息和其他信息
+	 * 
 	 * @author gcx
 	 * @param wholeCompany
 	 *            包含Company和CompanyOther
@@ -413,13 +415,16 @@ public class CompanyBackController {
 		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
-		PrintWriter out = response.getWriter();
+		PrintWriter out;
+		out = response.getWriter();
 		if (flag) {
 			out.print("success");
 		} else {
-			out.print("fail");
+			out.print("error");
+
 		}
 		return null;
+
 	}
 
 	/**
@@ -442,10 +447,19 @@ public class CompanyBackController {
 		boolean flag = companyBranchService.addCompanyBranch(branch);
 		log.debug("provinceId=" + branch.getProvince().getAreaId());
 		log.debug("branch name=" + branch.getBranchName());
-		if (flag) {
-			return "/jsp/pages/error";
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+
+			}
+		} catch (IOException e) {
+			log.debug("添加分支机构异常");
 		}
-		return "/jsp/pages/error";
+		return null;
 	}
 
 	private void saveLogo(MultipartFile file, String dirPath) throws IllegalStateException,
@@ -468,6 +482,8 @@ public class CompanyBackController {
 	}
 
 	/**
+	 * 获取公司分支机构
+	 * 
 	 * @author gcx
 	 * @param request
 	 * @param response
@@ -486,6 +502,8 @@ public class CompanyBackController {
 	}
 
 	/**
+	 * 获取公司信息（基本信息和其他信息）
+	 * 
 	 * @author gcx
 	 * @param request
 	 * @param response
