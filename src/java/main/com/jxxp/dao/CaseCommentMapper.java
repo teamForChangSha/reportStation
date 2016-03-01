@@ -17,9 +17,9 @@ public interface CaseCommentMapper {
 	/**
 	 * 添给某个案件加备注信息
 	 * 
-	 * @param comment
+	 * @param caseComment
 	 *            备注对象
-	 * @param caseId
+	 * @param rcId
 	 *            案件id号
 	 * @return
 	 */

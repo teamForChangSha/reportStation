@@ -1,5 +1,9 @@
 package com.jxxp.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +26,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean update(User user) {
 		return userMapper.update(user) > 0;
+	}
+
+	@Override
+	public List<User> getUsersByParams(Map<String, String> params) {
+		List<User> userList = new ArrayList<User>();
+		return userList;
 	}
 
 }

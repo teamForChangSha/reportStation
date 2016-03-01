@@ -2,10 +2,15 @@ package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +56,24 @@ public class UserController {
 				if(user.getUserState() != 1) {
 					out.print("该账号无法使用！");
 				} else {
-					request.getSession().setAttribute("user", user);
-					out.print("success");
+					ServletContext application = request.getSession().getServletContext();
+					@SuppressWarnings("unchecked")
+					Map<String, String> loginUsers = (Map<String, String>) application.getAttribute("loginUsers");
+					
+					String sessionId = request.getSession(false).getId();
+					if(loginUsers == null) {
+						loginUsers = new HashMap<String, String>();
+						loginUsers.put(user.getLoginName(), sessionId);
+						application.setAttribute("loginUsers", loginUsers);
+						
+						request.getSession().setAttribute("user", user);
+						out.print("success");
+					} else {
+						String userSessionId = loginUsers.get(user.getLoginName());
+						if(userSessionId == null || !userSessionId.equals(sessionId)) {
+							out.print("登录失败，该用户已登录！");
+						}
+					}
 				}
 			} else {
 				out.print("登录失败，用户名或者密码错误！");
@@ -63,6 +84,31 @@ public class UserController {
 		return null;
 	}
 
+	/*
+	 * 用户注销
+	 * @author cj
+	 */
+	@RequestMapping("/loginOut.do")
+	public String loginOut( HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		HttpSession session = request.getSession();
+
+		ServletContext application = request.getSession().getServletContext();
+		@SuppressWarnings("unchecked")
+		Map<String, String> loginUsers = (Map<String, String>) application.getAttribute("loginUsers");
+		User user = (User) session.getAttribute("user");
+		if(user != null) {
+			loginUsers.remove(user.getLoginName());
+		}
+		@SuppressWarnings("unchecked")
+		Enumeration<String> attributeNames = session.getAttributeNames();
+		while(attributeNames.hasMoreElements()) {
+			String attributeName = attributeNames.nextElement();
+			session.removeAttribute(attributeName);
+		}
+		return "/jsp/admin/index";
+	}
+	
 	/*
 	 * 用户登录
 	 * @author cj

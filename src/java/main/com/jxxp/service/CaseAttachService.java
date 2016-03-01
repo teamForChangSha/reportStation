@@ -21,7 +21,7 @@ public interface CaseAttachService {
 	List<CaseAttach> getCaseAttachByTrackingNo(String trackingNo);
 	
 	/**
-	 * 增加一个附件信息<br>
+	 * 增加一个附件信息，该附件默认为临时文件，所存路径为fileupload/temp文件夹，该条记录的状态为0
 	 * 
 	 * @param comment
 	 *            需要追加的CaseAttach相关信息
@@ -30,7 +30,7 @@ public interface CaseAttachService {
 	boolean addCaseAttach(CaseAttach caseAttach);
 	
 	/**
-	 * 批量更新临时文件为永久文件
+	 * 批量更新临时文件为永久文件，将fileupload/temp文件夹中的文件复制到fileupload/file目录，并将数据库中的状态更新为1
 	 * 
 	 * @param trackingNo
 	 *            案件的跟踪号

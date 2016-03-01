@@ -10,16 +10,6 @@ import com.jxxp.pojo.CaseAttach;
  */
 public interface CaseAttachMapper {
 
-	/**
-	 * 由于在生成案件前，案件追踪号由程序生成，并且案件追踪号唯一 所以附件信息中保存案件追踪号来标识属于哪一个案件信息
-	 * 为了防止循环，附件信息实体类中没有案件的对象这个属性，因此在保存附件信息的时候应该指定案件追踪号来标识附件属于哪个案件
-	 * 
-	 * @param caseAttach
-	 *            附件对象
-	 * @param trackingNo
-	 *            案件追踪号
-	 * @return
-	 */
 	int insert(CaseAttach caseAttach);
 
 	/**

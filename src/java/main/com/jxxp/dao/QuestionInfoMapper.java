@@ -5,7 +5,7 @@ import java.util.List;
 import com.jxxp.pojo.QuestionInfo;
 
 /**
- * @author gcx
+ * @author gcx 所有公司的默认问题列表一样，如果公司选择了，不修改questioninfo表，只在company_question中建立关系
  * 
  */
 public interface QuestionInfoMapper {
@@ -47,7 +47,7 @@ public interface QuestionInfoMapper {
 	List<QuestionInfo> getAllByCompany(long companyId);
 
 	/**
-	 * 获取默认问题列表
+	 * 获取默认问题列表，所有公司默认问题列表一样
 	 * 
 	 * @return
 	 */

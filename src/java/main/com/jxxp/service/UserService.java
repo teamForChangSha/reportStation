@@ -1,5 +1,8 @@
 package com.jxxp.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.jxxp.pojo.User;
 
 public interface UserService {
@@ -20,4 +23,13 @@ public interface UserService {
 	 * @return 更新成功返回为true,否则返回false
 	 */
 	boolean update(User user);
+	
+	/**
+	 * 根据参数集合获取符合条件的用户信息
+	 * 
+	 * @param params
+	 *            条件集合对象
+	 * @return 更新成功返回为true,否则返回false
+	 */
+	List<User> getUsersByParams(Map<String, String> params);
 }

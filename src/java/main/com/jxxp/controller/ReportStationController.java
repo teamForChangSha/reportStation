@@ -185,4 +185,10 @@ public class ReportStationController {
 		
 		return "/jsp/pages/reportCase";
 	}
+	
+	@RequestMapping("/admin")
+	public String admin(HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		return "/jsp/admin/index";
+	}
 }
