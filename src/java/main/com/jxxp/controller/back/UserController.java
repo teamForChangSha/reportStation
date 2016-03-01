@@ -99,6 +99,7 @@ public class UserController {
 		User user = (User) session.getAttribute("user");
 		if(user != null) {
 			loginUsers.remove(user.getLoginName());
+			application.setAttribute("loginUsers",loginUsers);
 		}
 		@SuppressWarnings("unchecked")
 		Enumeration<String> attributeNames = session.getAttributeNames();
@@ -106,7 +107,7 @@ public class UserController {
 			String attributeName = attributeNames.nextElement();
 			session.removeAttribute(attributeName);
 		}
-		return "/jsp/admin/index";
+		return "redirect:/admin.do";
 	}
 	
 	/*
