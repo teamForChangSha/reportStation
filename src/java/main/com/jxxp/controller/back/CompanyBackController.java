@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -377,20 +376,12 @@ public class CompanyBackController {
 	@RequestMapping("/updateCompanyWholeInfo.do")
 	public String updateCompanyWholeInfo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws IllegalStateException, IOException {
-		// 测试工公司基本信息是否有
-		log.debug("baseInfo companyName=" + wholeCompany.getCompany().getCompanyName());
-		// 其他信息
-		log.debug("otherInfo serviceProtocol ="
-				+ wholeCompany.getCompanyOther().getServiceProtocol());
-		User user = (User) request.getSession().getAttribute("user");
 		Company company = wholeCompany.getCompany();
-
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("logo");
 		String dirPath = request.getSession().getServletContext().getRealPath("/")
 				+ "fileupload/logo/" + company.getCompanyId();
-		log.debug("is image=");
 		if (file != null && !file.isEmpty()) {
 			// 保存文件
 			saveLogo(file, dirPath);
@@ -406,7 +397,6 @@ public class CompanyBackController {
 				BufferedImage image = ImageIO.read(fis);
 				int width = image.getWidth();
 				int height = image.getHeight();
-				log.debug("width=======" + width + "path==" + UUID.randomUUID().toString());
 				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
 				other.setLogoPath(accessPath);
 				other.setLogoWidth(width);
@@ -499,6 +489,68 @@ public class CompanyBackController {
 				.getCompanyId());
 		model.put("branchList", branchList);
 		return "/jsp/admin/pages/branchAdmin";
+	}
+
+	/**
+	 * 更新公司分支机构
+	 * 
+	 * @author gcx
+	 * @param branch
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/updateCompanyBranch.do")
+	public String updateCompanyBranch(CompanyBranch branch, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) {
+		User user = (User) request.getSession().getAttribute("user");
+		log.debug("---update branchName" + branch);
+		Company owner = user.getUserCompany();
+		branch.setOwner(owner);
+		boolean flag = companyBranchService.updateBranch(branch);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+
+			}
+		} catch (IOException e) {
+			log.debug("更新分支机构异常");
+		}
+		return null;
+	}
+
+	/**
+	 * 删除分支机构
+	 * 
+	 * @param branchId
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/deleteCompanyBranch.do")
+	public String deleteCompanyBranch(long branchId, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) {
+
+		boolean flag = companyBranchService.deleteBranch(branchId);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+
+			}
+		} catch (IOException e) {
+			log.debug("删除分支机构异常");
+		}
+		return null;
 	}
 
 	/**

@@ -56,17 +56,34 @@
       #{city.areaId,jdbcType=BIGINT}, #{branchName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{contactor,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR})
   </insert>
-  
-  <update id="update" parameterType="com.jxxp.pojo.CompanyBranch" >
+ <update id="update" parameterType="com.jxxp.pojo.CompanyBranch" >
     update companybranch
-    set company_id = #{companyId,jdbcType=BIGINT},
-      province = #{province,jdbcType=BIGINT},
-      city = #{city,jdbcType=BIGINT},
-      branch_name = #{branchName,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      contactor = #{contactor,jdbcType=VARCHAR}
-      post_code = #{postCode,jdbcType=VARCHAR}
+    <set >
+      <if test="owner != null" >
+        company_id = #{owner.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="province != null" >
+        province = #{province.areaId,jdbcType=BIGINT},
+      </if>
+      <if test="city != null" >
+        city = #{city.areaId,jdbcType=BIGINT},
+      </if>
+      <if test="branchName != null and branchName!=''" >
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null and phone != ''" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactor != null and contactor!=''" >
+        contactor = #{contactor,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null and postCode!=''" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+    </set>
     where branch_id = #{branchId,jdbcType=BIGINT}
   </update>
 </mapper>
