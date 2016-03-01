@@ -18,8 +18,6 @@
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jsp/js/Area.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jsp/js/AreaData_min.js" type="text/javascript" charset="utf-8"></script>
 	<style type="text/css">
 			.form-info {
 				display: block;
@@ -41,30 +39,30 @@
 			<div class="row">
 				<h1><small>公司信息设置</small></h1>
 				<div class="page-header"></div>
-				<form action="company/updateCompanyWholeInfo.do" enctype="multipart/form-data" method="post" class="form-horizontal">
-					<input type="text" name="company.companyId" hidden value="${user.userCompany.companyId}" />
+				<form id="enterInfo" action="admin/caseBack/updateCompanyWholeInfo.do" enctype="multipart/form-data" method="post" class="form-horizontal">
+					<input type="text" name="company.companyId" hidden value="${company.companyId}" />
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司名字：</label>
 						<div class="col-sm-4">
-							<input type="text" value="${user.userCompany.companyName}" name="company.companyName" class="form-control" />
+							<input type="text" value="${company.companyName}" name="company.companyName" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司名称代码：</label>
 						<div class="col-sm-4">
-							<input type="text" value="${user.userCompany.companyCode}" name="company.companyCode" class="form-control" />
+							<input type="text" value="${company.companyCode}" name="company.companyCode" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司描述：</label>
 						<div class="col-sm-6">
-							<textarea rows="5" value="${user.userCompany.description}" name="company.description" class="form-control"></textarea>
+							<textarea rows="5" name="company.description" class="form-control">${company.description}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司联系电话：</label>
 						<div class="col-sm-4">
-							<input type="text" value="${user.userCompany.phone}" name="company.phone" class="form-control" />
+							<input type="text" value="${company.phone}" name="company.phone" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -81,19 +79,20 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司状态：</label>
 						<div class="col-sm-4">
+							<input type="text" hidden value="${company.companyState }" name="company.companyState" />
 							<input type="text" id="state" disabled="" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">服务协议文本：</label>
 						<div class="col-sm-6">
-							<textarea rows="5" value="${user.userCompany.otherInfo.serviceProtocol}" name="companyOther.serviceProtocol" class="form-control"></textarea>
+							<textarea rows="5" name="companyOther.serviceProtocol" class="form-control">${company.otherInfo.serviceProtocol}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">服务协议HTML：</label>
 						<div class="col-sm-6">
-							<textarea rows="5" value="${user.userCompany.otherInfo.spHtml}" name="companyOther.spHtml" class="form-control"></textarea>
+							<textarea rows="5" name="companyOther.spHtml" class="form-control">${company.otherInfo.spHtml}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -110,7 +109,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">最后修改时间：</label>
 						<div class="col-sm-4">
-							<input type="text" disabled="" value='<fmt:formatDate value="${user.userCompany.stateChanged}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>' name="company.stateChanged" class="form-control" />
+							<input type="text" disabled="" value='<fmt:formatDate value="${company.stateChanged}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>' class="form-control" />
 						</div>
 						<div class="col-sm-2 text-right">
 							<input type="button" name="updata" class="btn btn-warning" value="修改" />
@@ -118,36 +117,23 @@
 					</div>
 				</form>
 			</div>
-			
-			<div class="row">
-				<div class="page-header"></div>
-				<h1><small>添加分支机构</small></h1>
-				<div class="form-inline">
-					<select id="seachprov" style="width: 100px;" name="seachprov" class="form-control" onChange="changeComplexProvince(this.value, sub_array, 'seachcity');"></select>
-					<select id="seachcity" style="width: 100px;" name="homecity" class="form-control"></select>
-					<input type="text" name="branchName" class="form-control"/>
-					<input type="button" name="addBranch" class="btn btn-default" value="增加" />
-			</div>
-			
-			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
 		$(function() {
-			initComplexArea('seachprov', 'seachcity', area_array, sub_array, '0', '0', '0');
-			
-			var url = "dict/getDictName.do?dictType=company.state&dictValue=${user.userCompany.companyState }";
+			/* 获取状态的中文 */
+			var url = "dict/getDictName.do?dictType=company.state&dictValue=${company.companyState }";
 			$.get(url,function(res){
 				$("#state").val(res);
 			});
-			
-			$("#type").get(0).value = "${user.userCompany.companyState}";
-			
-			var imgUrl = "${user.userCompany.otherInfo.logoUrl}";
+			/* 设置select需要选中的状态 */
+			$("#type").get(0).value = "${company.companyType}";
+			/* 设置LOGO的图片 */
+			var imgUrl = "${company.otherInfo.logoUrl}";
 			if(imgUrl!=""){
 				$("img").attr("src",imgUrl);
 			}
-			
+			/* 设置logo的缩略图 */
 			$("input[name=logo]").change(function(){
 				if (window.File && window.FileList && window.FileReader) {
 					var oFReader = new FileReader();
@@ -157,13 +143,20 @@
 					oFReader.readAsDataURL($("input[name=logo]").get(0).files[0]);
 				}
 			});
-			
+			/* 更新企业信息 */
 			$("input[name=updata]").click(function() {
-				if ($("select[name=company.companyType]").find("option:selected").val() == "0") {
+				console.log("tijiao");
+				if ($("#type").find("option:selected").val() == "0") {
 					return alert("请选择企业类型");
 				}
-				$("form").submit();
+				$("#enterInfo").submit();
 			});
+			
+			var msg = "${msg}";
+			if(msg!=""){
+				alert(msg);
+				location.href = "admin/caseBack/getOwnerCompanyInfo.do";
+			}
 		});
 	</script>
 

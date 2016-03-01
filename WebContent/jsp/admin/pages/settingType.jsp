@@ -244,15 +244,16 @@
 					reportType["rtDesc"] = desc;
 					reportTypes.unshift(reportType);
 				});
-				$.post("company/addQuestionTypes.do","reportType="+JSON.stringify(reportTypes),function(res,status){
+				$.post("admin/caseBack/addQuestionTypes.do","reportType="+JSON.stringify(reportTypes),function(res,status){
 					if (status=="success") {
 						if (res=="success") {
+							alert("操作成功!");
 							location.reload();
 						}else{
-							alert("添加问题类型失败,请重试!");
+							alert("操作失败!");
 						}
 					}else{
-						alert("添加问题类型失败,请重试!");
+						alert("操作失败!");
 					}
 				});
 			});

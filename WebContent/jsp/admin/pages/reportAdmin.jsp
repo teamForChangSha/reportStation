@@ -315,12 +315,15 @@
 				$.post(url,data,function(res,status){
 					if(status=="success"){
 						if(res=="success"){
+							alert("操作成功!");
 							location.href = "admin/caseBack/showCaseByCompany.do";
 							updataStatus.addClass("hidden");
 							$("tbody tr").removeClass("danger");
 						}else{
-							alert("修改案件状态失败!");
+							alert("操作失败!");
 						}
+					}else{
+						alert("操作失败!");
 					}
 				});
 			});
@@ -334,12 +337,14 @@
 				$.post(url,data,function(res,status){
 					if(status=="success"){
 						if(res=="success"){
-							alert("追加信息提交成功,请到详情查看!");
+							alert("操作成功!");
 							appendInfo.addClass("hidden");
 							$("tbody tr").removeClass("danger");
 						}else{
-							alert("追加信息提交失败,请重试!");
+							alert("操作失败!");
 						}
+					}else{
+						alert("操作失败!");
 					}
 				});
 			});

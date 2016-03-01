@@ -66,7 +66,7 @@
 			<div class="row">
 				请选择需要展示的问题
 			</div>
-			<form action="company/addCompanyQuestions.do" method="post">
+			<form >
 				<div class="row">
 					<div class="col-sm-8">
 						<table class="table table-bordered table-hover">
@@ -98,10 +98,30 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-8 text-right">
-						<input type="submit" class="btn btn-default" value="提交" />
+						<input type="button" class="btn btn-default" value="提交" />
 					</div>
 				</div>
 			</form>
 		</div>
 	</body>
+	<script type="text/javascript">
+		$(function() {
+			$("input[type=button]").click(function() {
+				$.post("admin/caseBack/addCompanyQuestions.do",
+					$("form").serialize(),
+					function(res, status) {
+						if (status == "success") {
+							if (res == "success") {
+								alert("操作成功");
+								location.reload();
+							} else {
+								alert("操作失败");
+							}
+						} else {
+							alert("操作失败");
+						}
+					});
+			});
+		});
+	</script>
 </html>
