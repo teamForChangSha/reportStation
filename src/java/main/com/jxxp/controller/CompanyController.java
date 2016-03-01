@@ -216,12 +216,14 @@ public class CompanyController {
 		// 其他信息
 		log.debug("otherInfo serviceProtocol ="
 				+ wholeCompany.getCompanyOther().getServiceProtocol());
+		User user = (User) request.getSession().getAttribute("user");
+		Company company = wholeCompany.getCompany();
 
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("logo");
 		String dirPath = request.getSession().getServletContext().getRealPath("/")
-				+ "fileupload/companylogo";
+				+ "fileupload/logo/" + company.getCompanyId();
 		log.debug("is image=");
 		if (file != null && !file.isEmpty()) {
 			// 保存文件
@@ -232,7 +234,7 @@ public class CompanyController {
 			if (other != null) {
 				// 获取文件的高度和宽度
 				String webPath = request.getSession().getServletContext().getContextPath();
-				String accessPath = webPath + "/fileupload/companylogo";
+				String accessPath = webPath + "/fileupload/logo/" + company.getCompanyId();
 				FileInputStream fis = new FileInputStream(new File(dirPath + "/"
 						+ file.getOriginalFilename()));
 				BufferedImage image = ImageIO.read(fis);
@@ -292,10 +294,11 @@ public class CompanyController {
 				log.debug("文件夹创建失败！");
 			}
 		}
+
 		String filePath = dirPath + "/" + file.getOriginalFilename();
-		log.debug("fileName===========" + filePath);
 		// 存储文件
-		file.transferTo(new File(filePath));
+		File saveFile = new File(filePath);
+		file.transferTo(saveFile);
 
 	}
 }
