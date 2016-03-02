@@ -197,7 +197,7 @@ public class UserController {
 		List<User> userList = userService.getUsersByParams(params);
 		modelMap.put("userList", userList);
 		
-		return "/jsp/admin/pages/usersAdmin.jsp";
+		return "/jsp/admin/pages/usersAdmin";
 	}
 	
 	public static void main(String[] args) {
