@@ -1,5 +1,7 @@
 package com.jxxp.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.jxxp.pojo.User;
@@ -37,8 +39,27 @@ public interface UserMapper {
 	 */
 	int update(User user);
 
+	/**
+	 * 用户查询
+	 * 
+	 * @param keyWord
+	 *            关键字匹配用户名和手机号
+	 * @param cmopanyId
+	 *            公司id
+	 * @param userType
+	 *            用户类型
+	 * @param userState
+	 *            用户状态
+	 * @return
+	 */
+	List<User> getUsersByParams(@Param("keyWord") String keyWord,
+			@Param("companyId") Long cmcompanyIdopanyId, @Param("userType") Integer userType,
+			@Param("userState") Integer userState);
+
 	User getById(long userId);
 
 	int deleteById(long userId);
+
+	List<User> getAllUers();
 
 }
