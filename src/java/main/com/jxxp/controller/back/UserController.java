@@ -2,6 +2,7 @@ package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jxxp.pojo.OprationLog;
 import com.jxxp.pojo.User;
+import com.jxxp.service.OprationLogService;
 import com.jxxp.service.UserService;
 /*
  * 用户Controller
@@ -32,6 +35,8 @@ public class UserController {
 
 	@Resource
 	private UserService userService;
+	@Resource
+	private OprationLogService oprationLogService;
 	
 	
 	/*
@@ -69,6 +74,9 @@ public class UserController {
 						application.setAttribute("loginUsers", loginUsers);
 						
 						request.getSession().setAttribute("user", user);
+						if(saveOprationLog("登录", user.getUserId())) {
+							log.debug("用户操作日志记录成功！");
+						}
 						out.print("success");
 					} else {
 						String userSessionId = loginUsers.get(user.getLoginName());
@@ -113,11 +121,15 @@ public class UserController {
 			String attributeName = attributeNames.nextElement();
 			session.removeAttribute(attributeName);
 		}
+		
+		if(saveOprationLog("注销", user.getUserId())) {
+			log.debug("用户操作日志记录成功！");
+		}
 		return "redirect:/admin.do";
 	}
 	
 	/*
-	 * 用户修改密码
+	 * 用户修改自己密码
 	 * @author cj
 	 */
 	@RequestMapping("/updatePwd.do")
@@ -132,6 +144,9 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if(userService.update(user)) {
+				if(saveOprationLog("修改密码", user.getUserId())) {
+					log.debug("用户操作日志记录成功！");
+				}
 				out.print("success");
 			} else {
 				out.print("error");
@@ -160,6 +175,10 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if(userService.update(user)) {
+				User oprator = (User)request.getSession().getAttribute("user");
+				if(saveOprationLog("重置了登录名为"+ user.getLoginName() + "的用户密码", oprator.getUserId())) {
+					log.debug("用户操作日志记录成功！");
+				}
 				out.print("success");
 			} else {
 				out.print("error");
@@ -189,6 +208,10 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if(userService.update(user)) {
+				User oprator = (User)request.getSession().getAttribute("user");
+				if(saveOprationLog("变更了"+ user.getLoginName() + "的状态", oprator.getUserId())) {
+					log.debug("用户操作日志记录成功！");
+				}
 				out.print("success");
 			} else {
 				out.print("error");
@@ -213,6 +236,10 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if(userService.addUser(user)) {
+				User oprator = (User)request.getSession().getAttribute("user");
+				if(saveOprationLog("增加了新用户："+ user.getLoginName() , oprator.getUserId())) {
+					log.debug("用户操作日志记录成功！");
+				}
 				out.print("success");
 			} else {
 				out.print("error");
@@ -235,6 +262,10 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if(userService.update(user)) {
+				User oprator = (User)request.getSession().getAttribute("user");
+				if(saveOprationLog("修改了用户："+ user.getLoginName() + "的信息", oprator.getUserId())) {
+					log.debug("用户操作日志记录成功！");
+				}
 				out.print("success");
 			} else {
 				out.print("error");
@@ -272,6 +303,33 @@ public class UserController {
 		modelMap.put("userList", userList);
 		
 		return "/jsp/admin/pages/usersAdmin";
+	}
+	
+	/*
+	 * 根据参数列表获取日志信息
+	 * @author cj
+	 */
+	@RequestMapping("/getLogByParams.do")
+	public String getLogByParams( HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		String logDate = request.getParameter("logDate");
+		User user = (User) request.getSession().getAttribute("user");
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("logDate", logDate);
+		params.put("oprator", user.getUserId());
+		List<OprationLog> logList = oprationLogService.getLogByParams(params);
+		modelMap.put("logList", logList);
+		
+		return "/jsp/admin/pages/showLog";
+	}
+	
+	private boolean saveOprationLog(String msg, long opratorId) {
+		OprationLog log = new OprationLog();
+		log.setLogDate(new Date());
+		log.setOpration(msg);
+		log.setOprator(opratorId);
+		
+		return oprationLogService.addLog(log);
 	}
 	
 }
