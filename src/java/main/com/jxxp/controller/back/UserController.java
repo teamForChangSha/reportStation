@@ -203,6 +203,28 @@ public class UserController {
 	 * 用户修改密码
 	 * @author cj
 	 */
+	@RequestMapping("/addUser.do")
+	public String addUser(User user, HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(userService.addUser(user)) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
+	
+	/*
+	 * 用户修改密码
+	 * @author cj
+	 */
 	@RequestMapping("/getUsersByParams.do")
 	public String getUsersByParams( HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
@@ -228,10 +250,4 @@ public class UserController {
 		return "/jsp/admin/pages/usersAdmin";
 	}
 	
-	public static void main(String[] args) {
-		String num = "23f";
-		Integer in = new Integer(num);
-		
-		System.out.println(in);
-	}
 }
