@@ -22,10 +22,10 @@
     remark, state_changed, user_state
   </sql>
   <select id="login" resultMap="BaseResultMap">
-  select * from user where login_name=#{loginName,jdbcType=VARCHAR} and user_pwd=#{userPwd,jdbcType=VARCHAR}
+  select * from userinfo where login_name=#{loginName,jdbcType=VARCHAR} and user_pwd=#{userPwd,jdbcType=VARCHAR}
   </select>
   <select id="getUsersByParams" resultMap="BaseResultMap">
-  select * from user where 1=1
+  select * from userinfo where 1=1
   <if test="companyId!=null">
   and company_id=#{companyId}
   </if>
@@ -43,20 +43,20 @@
   </if>
   </select>
   <select id="getAllUers" resultMap="BaseResultMap">
-   select * from user
+   select * from userinfo
   </select>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from user
+    from userinfo
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
-    delete from user
+    delete from userinfo
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jxxp.pojo.User" useGeneratedKeys="true" keyProperty="userId" >
-    insert into user (user_type, login_name, 
+    insert into userinfo (user_type, login_name, 
       user_pwd, user_name, company_id, 
       mobile, work_no, remark, 
       state_changed, user_state)
@@ -67,7 +67,7 @@
   </insert>
   
   <update id="update" parameterType="com.jxxp.pojo.User" >
-    update user
+    update userinfo
     <set >
       <if test="userType != null" >
         user_type = #{userType,jdbcType=VARCHAR},
