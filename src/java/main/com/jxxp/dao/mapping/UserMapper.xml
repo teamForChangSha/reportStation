@@ -32,7 +32,7 @@
   <if test="keyWord!=null">
   and (
   user_name like concat(concat('%',#{keyWord},'%')) 
-  or  mobile like concat(concat('%',#{keyWord},'%'))
+  or mobile like concat(concat('%',#{keyWord},'%'))
    )
   </if>
    <if test="userType!=null">
@@ -69,34 +69,34 @@
   <update id="update" parameterType="com.jxxp.pojo.User" >
     update userinfo
     <set >
-      <if test="userType != null" >
+      <if test="userType != null and userType!=''" >
         user_type = #{userType,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null" >
+      <if test="loginName != null and loginName!=''" >
         login_name = #{loginName,jdbcType=VARCHAR},
       </if>
-      <if test="userPwd != null" >
+      <if test="userPwd != null and userPwd!=''" >
         user_pwd = #{userPwd,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
+      <if test="userName != null and userName!=''" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="userCompany != null" >
         company_id = #{userCompany.companyId,jdbcType=INTEGER},
       </if>
-      <if test="mobile != null" >
+      <if test="mobile != null and mobile!=''" >
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="workNo != null" >
+      <if test="workNo != null and workNo!=''" >
         work_no = #{workNo,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null and remark!=''" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="stateChanged != null" >
         state_changed = #{stateChanged,jdbcType=TIMESTAMP},
       </if>
-      <if test="userState != null" >
+      <if test="userState != null and userState!=''" >
         user_state = #{userState,jdbcType=VARCHAR},
       </if>
     </set>
