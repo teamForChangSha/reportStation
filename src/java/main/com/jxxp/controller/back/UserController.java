@@ -143,7 +143,7 @@ public class UserController {
 	}
 	
 	/*
-	 * 用户修改密码
+	 * 重置密码
 	 * @author cj
 	 */
 	@RequestMapping("/resetUserPwd.do")
@@ -171,7 +171,7 @@ public class UserController {
 	}
 	
 	/*
-	 * 用户修改密码
+	 * 修改用户状态
 	 * @author cj
 	 */
 	@RequestMapping("/changeUserState.do")
@@ -199,8 +199,10 @@ public class UserController {
 		return null;
 	}
 	
+	
+	
 	/*
-	 * 用户修改密码
+	 * 添加用户
 	 * @author cj
 	 */
 	@RequestMapping("/addUser.do")
@@ -222,7 +224,29 @@ public class UserController {
 	}
 	
 	/*
-	 * 用户修改密码
+	 * 添加用户
+	 * @author cj
+	 */
+	@RequestMapping("/updateUser.do")
+	public String updateUser(User user, HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(userService.update(user)) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
+	
+	/*
+	 * 根据参数列表获取用户信息
 	 * @author cj
 	 */
 	@RequestMapping("/getUsersByParams.do")
