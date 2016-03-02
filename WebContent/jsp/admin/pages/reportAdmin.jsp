@@ -273,11 +273,11 @@
 					ele.status.get(0).value = "${caseInfo.caseState}";
 					if("${user.userCompany.companyId}"!="${caseInfo.currentHandler.companyId}"){
 						updataStatus.find("p").removeClass("hidden");
-						ele.sendToPlatform.attr("checked",true);
+						ele.sendToPlatform.get(0).checked = true;
 						ele.updataBtn.attr("disabled",true);
 					}else{
 						updataStatus.find("p").addClass("hidden");
-						ele.sendToPlatform.removeAttr("checked");
+						ele.sendToPlatform.get(0).checked = false;
 						ele.updataBtn.removeAttr("disabled");
 					}
 				});
