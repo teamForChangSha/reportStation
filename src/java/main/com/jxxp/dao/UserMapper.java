@@ -53,7 +53,7 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<User> getUsersByParams(@Param("keyWord") String keyWord,
-			@Param("companyId") Long cmcompanyIdopanyId, @Param("userType") Integer userType,
+			@Param("companyId") Long companyId, @Param("userType") Integer userType,
 			@Param("userState") Integer userState);
 
 	User getById(long userId);
