@@ -170,6 +170,34 @@ public class UserController {
 		return null;
 	}
 	
+	/*
+	 * 用户修改密码
+	 * @author cj
+	 */
+	@RequestMapping("/changeUserState.do")
+	public String changeUserState( HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		String strUserState = request.getParameter("userState");
+		String strId = request.getParameter("userId");
+		long userId = Long.parseLong(strId);
+		int userState = Integer.parseInt(strUserState);
+		User user = (User) userService.getUserById(userId);
+		user.setUserState(userState);
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(userService.update(user)) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！",e);
+		}
+		return null;
+	}
 	
 	/*
 	 * 用户修改密码
