@@ -33,7 +33,7 @@ public class CompanyController {
 	private CompanyService companyService;
 
 	/**
-	 * 根据公司用户名模糊查询匹配的公司，如果用户名为空，则是查询所有公司
+	 * 根据公司用户名模糊查询匹配的公司，如果用户名为空，则是
 	 * 
 	 * @author gcx
 	 * @param companyName
@@ -44,7 +44,7 @@ public class CompanyController {
 	@RequestMapping("/getAllByName.do")
 	public String getAllByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		if (companyName != null && !companyName.equals("")) {
+		if (companyName != null) {
 			try {
 				companyName = new String(companyName.getBytes("ISO-8859-1"), "UTF-8");
 			} catch (UnsupportedEncodingException e) {
@@ -67,4 +67,5 @@ public class CompanyController {
 		return null;
 
 	}
+
 }
