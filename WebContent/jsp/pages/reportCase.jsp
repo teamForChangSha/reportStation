@@ -186,6 +186,12 @@
 								<input type="radio" name="quest_2_value" value="false" /> 否
 							</label>
 						</div>
+						<div id="contactInfo" class="form-group hidden">
+							<label class="col-sm-4 control-label">联系方式：</label>
+							<div class="col-sm-7">
+								<textarea name="contactWay" rows="3" class="form-control"></textarea>
+							</div>
+						</div>
 						<form id="userInfo" action="" method="post">
 							<div class="form-group text-center">
 								<span><strong>如果您希望 Hyatt 知道您的身份，请完成以下内容：</strong></span>

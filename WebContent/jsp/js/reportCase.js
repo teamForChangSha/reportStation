@@ -42,6 +42,7 @@ $(function() {
 		code : $("input[name=verifyCode]"),
 		email : $("input[name=email]"),
 		bestContact : $("textarea[name=bestContact]"),
+		contactWay : $("textarea[name=contactWay]"),
 
 		agreed : $("input[name=agreed]"),
 		getCode : $("#getCode")
@@ -183,14 +184,21 @@ $(function() {
 
 	$("#submitReport").click(function(e) {
 		if (!isAgreed(true)) {
-			return alert("同意条款才能继续!");;
+			return alert("同意条款才能继续!");
+			;
 		}
 		if (!showRadioError(quest.isAnonymous)) {
-			return alert("请选择是否实名提交!");;
+			return alert("请选择是否实名提交!");
+			;
 		}
 		if (quest.isAnonymous.filter(':checked').val() == "false") {
 			if (!validationUser()) {
-				return alert("您的实名信息填写有误!");;
+				return alert("您的实名信息填写有误!");
+				;
+			}
+		} else {
+			if (!showErrorIcon(userAndOther.contactWay)) {
+				return alert("匿名请提供一种联系方式!");
 			}
 		}
 		if (!validationQuest()) {
@@ -202,6 +210,8 @@ $(function() {
 		setSendForm();
 		sendForm();
 	});
+
+	hiddenErrorIcon(userAndOther.contactWay);
 
 	/**
 	 * 设置隐藏问题表单的数据
@@ -284,13 +294,14 @@ $(function() {
 		var reporter = "reporter="
 				+ JSON.stringify($("#userInfo").serializeJson());
 		var verifyCode = "verifyCode=" + userAndOther.code.val();
+		var contactWay = "contactWay=" + userAndOther.contactWay.val();
 		var anonymous = "isAnonymous="
 				+ quest.isAnonymous.filter(':checked').val();
 		var questions = "answers=" + setAnswers();
 		var accessCode = "accessCode=" + quest.pass.val();
-		var data = reporter + "&" + verifyCode + "&" + anonymous + "&"
-				+ questions + "&" + trackingNo + "&" + accessCode + "&"
-				+ rtList;
+		var data = reporter + "&" + contactWay + "&" + verifyCode + "&"
+				+ anonymous + "&" + questions + "&" + trackingNo + "&"
+				+ accessCode + "&" + rtList;
 		$.post(url, data, function(res, status) {
 			console.log("data:" + res + "status：" + status);
 			if (status == "success") {
@@ -333,7 +344,9 @@ $(function() {
 				"has-error");
 		if ($(this).filter(':checked').val() == "true") {
 			$("#userInfo").addClass("hidden");
+			$("#contactInfo").removeClass("hidden");
 		} else {
+			$("#contactInfo").addClass("hidden");
 			$("#userInfo").removeClass("hidden");
 		}
 	});
@@ -367,12 +380,12 @@ $(function() {
 				});
 	});
 
-	userAndOther.mobile.keyup(function(){
-		if(t==null){
+	userAndOther.mobile.keyup(function() {
+		if (t == null) {
 			userAndOther.getCode.removeAttr("disabled");
 		}
 	});
-	
+
 	/**
 	 * 验证验证码
 	 */
@@ -388,7 +401,7 @@ $(function() {
 					if (res == "error") {
 						userAndOther.code.next().addClass("glyphicon-remove");
 					} else {
-						userAndOther.getCode.attr("disabled","");
+						userAndOther.getCode.attr("disabled", "");
 						clearInterval(t);
 						t = null;
 						userAndOther.getCode.html("获取临时密码");
