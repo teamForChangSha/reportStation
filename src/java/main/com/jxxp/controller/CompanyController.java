@@ -33,7 +33,7 @@ public class CompanyController {
 	private CompanyService companyService;
 
 	/**
-	 * 根据公司用户名模糊查询匹配的公司，如果用户名为空，则是
+	 * 根据公司用户名模糊查询匹配的公司，如果用户名为空，则是所有公司
 	 * 
 	 * @author gcx
 	 * @param companyName
