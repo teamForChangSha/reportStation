@@ -72,6 +72,7 @@
 			.dropdown-menu {
 				max-height: 300px;
 				overflow: auto;
+				width:83%;
 			}
 			
 			.alert {
@@ -120,16 +121,9 @@
 						</div>
 						<form id="sendCompany" action="showReportType.do" method="post" class="form-horizontal">
 							<div class="input-group form-group">
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										选择企业 <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
-									</button>
-									<ul class="dropdown-menu" id="companys"></ul>
-								</span>
 								<input type="text" name="companyName" autocomplete="off" class="form-control" placeholder="请输入被举报的企业" /> 
 								<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
-								<ul class="dropdown-menu" style="left:92px;"></ul>
+								<ul class="dropdown-menu"></ul>
 								<span class="input-group-btn">
 									<button id="getArea" class="btn btn-default" type="button">GO!</button>
 								</span>

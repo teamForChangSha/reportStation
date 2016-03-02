@@ -1,6 +1,5 @@
 ﻿$(function() {
 	var leftEle = {
-		companys : $("#companys"),
 		province : $("select[name=province]"),
 		city : $("select[name=city]"),
 		institutions : $("select[name=branchId]"),
@@ -21,27 +20,6 @@
 
 	var regStr = /(1[3-9]\d{9}$)/;
 	var t, i = 60;
-
-	/**
-	 * 获取所有企业
-	 */
-	$.getJSON("getAllCompany.do", function(res) {
-		if (res == null || res.length < 0)
-			return;
-		$.each(res, function(i, company) {
-			var li = $("<li/>");
-			var a = $("<a/>").attr("data-id", company.companyId).text(
-					company.companyName);
-			a.click(function() {
-				hiddenEle();
-				leftEle.companyName.val(this.innerHTML);
-				leftEle.companyName.attr("data-id", $(this).attr("data-id"));
-				hiddenErrorIcon(leftEle.companyName);
-			});
-			li.append(a);
-			leftEle.companys.append(li);
-		});
-	});
 
 	/**
 	 * 初始化省份
