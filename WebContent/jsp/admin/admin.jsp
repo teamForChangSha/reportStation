@@ -89,7 +89,7 @@
 							</ul>
 						</li>
 						<li class="sub-menu">
-							<a href="jsp/admin/pages/usersAdmin.jsp" class="" target="MainIframe">
+							<a href="admin/user/getUsersByParams.do" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 								<span>用户管理</span>
 							</a>
