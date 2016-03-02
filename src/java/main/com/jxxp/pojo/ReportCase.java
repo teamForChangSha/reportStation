@@ -2,7 +2,6 @@ package com.jxxp.pojo;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用于表达一个举报案件的信息
@@ -11,6 +10,12 @@ import java.util.Map;
  * 
  */
 public class ReportCase {
+	public static final int CASE_STATE_NEW = 1;
+	public static final int CASE_STATE_READ = 2;
+	public static final int CASE_STATE_IN_HAND = 3;
+	public static final int CASE_STATE_END = 4;
+	public static final int CASE_STATE_CLOSED = 5;
+	
 	private long rcId;
 
 	/**
@@ -84,7 +89,7 @@ public class ReportCase {
 	 */
 	private List<CaseChangeLog> changeList;
 	
-	
+	private String contactWay;
 
 	public long getRcId() {
 		return rcId;
@@ -206,4 +211,13 @@ public class ReportCase {
 		this.changeList = changeList;
 	}
 
+	public String getContactWay() {
+		return contactWay;
+	}
+
+	public void setContactWay(String contactWay) {
+		this.contactWay = contactWay;
+	}
+
+	
 }
