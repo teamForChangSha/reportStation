@@ -15,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
 		<title></title>
 		<style type="text/css">
 			body.lock {
@@ -114,7 +115,7 @@
 					console.log("pwd");
 					return;
 				}
-				var data = "loginName="+user.name.val()+"&userPwd="+user.pwd.val();
+				var data = "loginName="+user.name.val()+"&userPwd="+md5(user.pwd.val());
 				$.post("admin/user/login.do",data,function(res,status){
 					if (status=="success") {
 						if(res=="success"){

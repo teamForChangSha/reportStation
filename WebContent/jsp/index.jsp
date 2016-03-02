@@ -18,6 +18,7 @@
 		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
 			#loginPanel {
 				top: 20%;

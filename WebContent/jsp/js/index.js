@@ -275,7 +275,7 @@
 			return;
 		}
 		var data = "loginName=" + user.name.val() + "&userPwd="
-				+ user.pwd.val();
+				+ md5(user.pwd.val());
 		$.post("admin/user/login.do", data, function(res, status) {
 			if (status == "success") {
 				if (res == "success") {
