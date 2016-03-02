@@ -148,6 +148,7 @@ public class CaseController {
     	String verifyCode = request.getParameter("verifyCode");
     	String trueMobile = (String) request.getSession().getAttribute("mobile"); 
 		String trueCode = (String) request.getSession().getAttribute("verifyCode");
+		String contactWay = request.getParameter("contactWay");
 
     	log.debug("trackingNo:" + trackingNo + "\t" + "accessCode:" + accessCode + "\t" + "rtList:" + rtList);
     	log.debug("reporter:" + reporterJson);
@@ -175,8 +176,9 @@ public class CaseController {
 		reportCase.setTrackingNo(trackingNo);
 		reportCase.setCompany(companyBranch.getOwner());
 		reportCase.setBranch(companyBranch);
-		reportCase.setCaseState(0);
+		reportCase.setCaseState(ReportCase.CASE_STATE_NEW);
 		reportCase.setCreateTime(new Date());
+		reportCase.setContactWay(contactWay);
     	
     	//保存问题回答列表
     	List<ReportAnswer> answerList = JSON.parseArray(answersJson, ReportAnswer.class);
