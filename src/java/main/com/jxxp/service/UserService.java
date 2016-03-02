@@ -41,4 +41,13 @@ public interface UserService {
 	 * @return 获取成功返回为user对象,否则返回null
 	 */
 	User getUserById(long userId);
+	
+	/**
+	 * 增加用户信息
+	 * 
+	 * @param User
+	 *            需要增加的USER对象
+	 * @return 添加成功返回为true,否则返回false
+	 */
+	boolean addUser(User user);
 }

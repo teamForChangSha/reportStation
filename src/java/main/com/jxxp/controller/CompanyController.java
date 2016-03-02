@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.Company;
-import com.jxxp.service.CompanyBranchService;
 import com.jxxp.service.CompanyService;
-import com.jxxp.service.QuestionService;
-import com.jxxp.service.ReportTypeService;
 
 /**
  * @author gcx 公司信息管理，客户的增删该查
@@ -34,14 +31,10 @@ public class CompanyController {
 
 	@Resource
 	private CompanyService companyService;
-	@Resource
-	private ReportTypeService reportTypeService;
-	@Resource
-	private QuestionService questionService;
-	@Resource
-	private CompanyBranchService companyBranchService;
 
 	/**
+	 * 根据公司用户名模糊查询匹配的公司，如果用户名为空，则是查询所有公司
+	 * 
 	 * @author gcx
 	 * @param companyName
 	 *            公司名字
@@ -51,7 +44,7 @@ public class CompanyController {
 	@RequestMapping("/getAllByName.do")
 	public String getAllByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		if (companyName != null) {
+		if (companyName != null && !companyName.equals("")) {
 			try {
 				companyName = new String(companyName.getBytes("ISO-8859-1"), "UTF-8");
 			} catch (UnsupportedEncodingException e) {
@@ -74,5 +67,4 @@ public class CompanyController {
 		return null;
 
 	}
-
 }
