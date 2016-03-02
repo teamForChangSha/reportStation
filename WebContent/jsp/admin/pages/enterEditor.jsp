@@ -39,7 +39,7 @@
 			<div class="row">
 				<h1><small>公司信息设置</small></h1>
 				<div class="page-header"></div>
-				<form id="enterInfo" action="admin/caseBack/updateCompanyWholeInfo.do" enctype="multipart/form-data" method="post" class="form-horizontal">
+				<form id="enterInfo" action="admin/companyBack/updateCompanyWholeInfo.do" enctype="multipart/form-data" method="post" class="form-horizontal">
 					<input type="text" name="company.companyId" hidden value="${company.companyId}" />
 					<div class="form-group">
 						<label class="col-sm-2 control-label">公司名字：</label>
@@ -120,6 +120,7 @@
 				</form>
 			</div>
 		</div>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
 		$(function() {
@@ -147,17 +148,22 @@
 			});
 			/* 更新企业信息 */
 			$("input[name=updata]").click(function() {
-				console.log("tijiao");
 				if ($("#type").find("option:selected").val() == "0") {
-					return alert("请选择企业类型");
+					Modal.alert({
+						msg: '请选择企业类型',
+					});
+					return;
 				}
 				$("#enterInfo").submit();
 			});
 			
-			var msg = "${msg}";
-			if(msg!=""){
-				alert(msg);
-				location.href = "admin/caseBack/getOwnerCompanyInfo.do";
+			var masg = "${msg}";
+			if(masg!=""){
+				Modal.alert({
+					msg: masg,
+				}).on(function(e){
+					location.href = "admin/companyBack/getOwnerCompanyInfo.do";
+				});
 			}
 		});
 	</script>

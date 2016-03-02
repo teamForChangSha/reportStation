@@ -103,23 +103,31 @@
 				</div>
 			</form>
 		</div>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
 		$(function() {
 			$("input[type=button]").click(function() {
-				$.post("admin/caseBack/addCompanyQuestions.do",
+				$.post("admin/companyBack/addCompanyQuestions.do",
 					$("form").serialize(),
 					function(res, status) {
-						if (status == "success") {
-							if (res == "success") {
-								alert("操作成功");
+					if(status=="success"){
+						if(res=="success"){
+							Modal.alert({
+								msg: '操作成功！',
+							}).on(function(e){
 								location.reload();
-							} else {
-								alert("操作失败");
-							}
-						} else {
-							alert("操作失败");
+							});
+						}else{
+							Modal.alert({
+								msg: '操作失败！',
+							});
 						}
+					}else{
+						Modal.alert({
+							msg: '操作失败！',
+						});
+					}
 					});
 			});
 		});

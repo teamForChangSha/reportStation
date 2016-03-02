@@ -130,8 +130,8 @@
 			<div class="row">
 				<input type="button" name="addType" class="btn btn-default" value="添加类型" />
 			</div>
-
 		</div>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
 		$(function() {
@@ -244,16 +244,23 @@
 					reportType["rtDesc"] = desc;
 					reportTypes.unshift(reportType);
 				});
-				$.post("admin/caseBack/addQuestionTypes.do","reportType="+JSON.stringify(reportTypes),function(res,status){
-					if (status=="success") {
-						if (res=="success") {
-							alert("操作成功!");
-							location.reload();
+				$.post("admin/companyBack/addQuestionTypes.do","reportType="+JSON.stringify(reportTypes),function(res,status){
+					if(status=="success"){
+						if(res=="success"){
+							Modal.alert({
+								msg: '操作成功！',
+							}).on(function(e){
+								location.reload();
+							});
 						}else{
-							alert("操作失败!");
+							Modal.alert({
+								msg: '操作失败！',
+							});
 						}
 					}else{
-						alert("操作失败!");
+						Modal.alert({
+							msg: '操作失败！',
+						});
 					}
 				});
 			});

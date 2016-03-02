@@ -138,89 +138,107 @@
 				</form>
 			</div>
 		</div>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
-		$(function() {
-			/* 初始化省市 */
-			initComplexArea('seachprov', 'seachcity', area_array, sub_array, '0', '0', '0');
-			$("input[name=addBranch]").click(function(){
-				$("#addBranchPanel small").text("添加分支机构");
-				$("#addBranchPanel").removeClass("hidden");
-				$("#branchId").removeAttr("name").val("");
-				$("#seachprov").parent().parent().removeClass("hidden");
-				$("#seachprov").get(0).value=0;
-				$("#seachcity").get(0).value=0;
-				$("input[name=branchName]").val("");
-				$("input[name=address]").val("");
-				$("input[name=phone]").val("");
-				$("input[name=contactor]").val("");
-				$("input[name=postCode]").val("");
-			});
-			$("input[name=cancel]").click(function(){
-				$("#addBranchPanel").addClass("hidden");
-			});
-			
-			$("input[name=add]").click(function(){
-				var url;
-				if($("#branchId").val()!=""){
-					url = "admin/caseBack/updateCompanyBranch.do"
-				}else{
-					url = "admin/caseBack/addCompanyBranches.do"
-					if ($("#seachprov").find("option:selected").val() == "0") {
-						return alert("请选择省");
-					}
-					if ($("#seachcity").find("option:selected").val() == "0") {
-						return alert("请选择市");
-					}
+	$(function() {
+		/* 初始化省市 */
+		initComplexArea('seachprov', 'seachcity', area_array, sub_array, '0', '0', '0');
+		$("input[name=addBranch]").click(function() {
+			$("#addBranchPanel small").text("添加分支机构");
+			$("#addBranchPanel").removeClass("hidden");
+			$("#branchId").removeAttr("name").val("");
+			$("#seachprov").parent().parent().removeClass("hidden");
+			$("#seachprov").get(0).value = 0;
+			$("#seachcity").get(0).value = 0;
+			$("input[name=branchName]").val("");
+			$("input[name=address]").val("");
+			$("input[name=phone]").val("");
+			$("input[name=contactor]").val("");
+			$("input[name=postCode]").val("");
+		});
+		$("input[name=cancel]").click(function() {
+			$("#addBranchPanel").addClass("hidden");
+		});
+
+		$("input[name=add]").click(function() {
+			var url;
+			if ($("#branchId").val() != "") {
+				url = "admin/companyBack/updateCompanyBranch.do"
+			} else {
+				url = "admin/companyBack/addCompanyBranches.do"
+				if ($("#seachprov").find("option:selected").val() == "0") {
+					return alr("请选择省");
 				}
-				var branchName = $.trim($("input[name=branchName]").val());
-				if(branchName==null||branchName==""||branchName.length<=0){
-					return alert("请输入分支机构名称");
+				if ($("#seachcity").find("option:selected").val() == "0") {
+					return alr("请选择市");
 				}
-				var address = $.trim($("input[name=address]").val());
-				if(address==null||address==""||address.length<=0){
-					return alert("请输入分支机构地址");
-				}
-				var data = $("form").serialize();
-				$.post(url,data,function(res,status){
-					if(status=="success"){
-						if(res=="success"){
-							alert("操作成功");
-							location.reload();
-						}else{
-							alert("操作失败");
-						}
-					}else{
-						alert("操作失败");
-					}
-				});
+			}
+			var branchName = $.trim($("input[name=branchName]").val());
+			if (branchName == null || branchName == "" || branchName.length <= 0) {
+				return alr("请输入分支机构名称");
+			}
+			var address = $.trim($("input[name=address]").val());
+			if (address == null || address == "" || address.length <= 0) {
+				return alr("请输入分支机构地址");
+			}
+			var data = $("form").serialize();
+			$.post(url, data, function(res, status) {
+				alertMsg(res,status);
 			});
 		});
-		function updata(ele,id){
+		
+		function alr(masg){
+			Modal.alert({
+				msg: masg,
+			});
+		}
+	});
+		function updata(ele, id) {
 			$("#addBranchPanel small").text("修改分支机构信息");
 			$("#addBranchPanel").removeClass("hidden");
-			$("#branchId").attr("name","branchId").val(id);
+			$("#branchId").attr("name", "branchId").val(id);
 			$("#seachprov").parent().parent().addClass("hidden");
 			$("input[name=branchName]").val($(ele).parent().prev().prev().prev().prev().prev().text());
 			$("input[name=address]").val($(ele).parent().prev().prev().prev().prev().text());
 			$("input[name=phone]").val($(ele).parent().prev().prev().prev().text());
 			$("input[name=contactor]").val($(ele).parent().prev().prev().text());
 			$("input[name=postCode]").val($(ele).parent().prev().text());
-			
+
 		}
-		function del(ele,id){
-			$.get("admin/caseBack/deleteCompanyBranch.do?branchId="+id,function(res,status){
-				if(status=="success"){
-					if(res=="success"){
-						alert("删除成功");
-						location.reload();
-					}else{
-						alert("删除失败");
-					}
-				}else{
-					alert("删除失败");
+
+		function del(ele, id) {
+			Modal.confirm({
+				title: '警告',
+				msg: '你确定要删除吗?',
+			}).on(function(e){
+				if(e){
+					$.get("admin/companyBack/deleteCompanyBranch.do?branchId=" + id, function(res, status) {
+						alertMsg(res,status);
+					});
 				}
 			});
+		}
+		
+		/* 弹出操作消息 */
+		function alertMsg(res,status){
+			if(status=="success"){
+				if(res=="success"){
+					Modal.alert({
+						msg: '操作成功！',
+					}).on(function(e){
+						location.reload();
+					});
+				}else{
+					Modal.alert({
+						msg: '操作失败！',
+					});
+				}
+			}else{
+				Modal.alert({
+					msg: '操作失败！',
+				});
+			}
 		}
 	</script>
 
