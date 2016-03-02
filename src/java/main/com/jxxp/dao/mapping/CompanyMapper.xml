@@ -39,10 +39,8 @@
   </select>
   
    <select id="getAllByName" resultMap="BaseResultMap" parameterType="String" >
-    select * from company where 1=1
-   <if test="companyName!=null and companyName!=''"> 
-   and company_name like concat(concat(#{companyName,jdbcType=VARCHAR},'%'))
-  </if>
+    select * from company
+    where company_name like concat(concat(#{companyName,jdbcType=VARCHAR},'%'))
   </select>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
