@@ -31,7 +31,7 @@ public interface UserService {
 	 *            条件集合对象
 	 * @return 更新成功返回为用户集合,否则返回空列表
 	 */
-	List<User> getUsersByParams(Map<String, String> params);
+	List<User> getUsersByParams(Map<String, Object> params);
 
 	/**
 	 * 根据用户ID获取该用户信息

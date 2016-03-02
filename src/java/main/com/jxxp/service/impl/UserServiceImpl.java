@@ -29,9 +29,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsersByParams(Map<String, String> params) {
-		List<User> userList = new ArrayList<User>();
-		return userList;
+	public List<User> getUsersByParams(Map<String,Object> params) {
+		String keyWord = (String) params.get("keyWord");
+		Long companyId = (Long) params.get("companyId");
+		Integer userType = (Integer) params.get("userType");
+		Integer userState = (Integer) params.get("userState");
+		return userMapper.getUsersByParams(keyWord, companyId, userType, userState);
 	}
 
 	@Override

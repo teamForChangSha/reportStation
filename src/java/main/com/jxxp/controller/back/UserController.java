@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -168,5 +169,41 @@ public class UserController {
 		}
 		return null;
 	}
-
+	
+	
+	/*
+	 * 用户修改密码
+	 * @author cj
+	 */
+	@RequestMapping("/getUsersByParams.do")
+	public String getUsersByParams( HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		String keyWord = request.getParameter("keyWord");
+		String strCompanyId = request.getParameter("companyId");
+		String strUserType = request.getParameter("userType");
+		String strUserState = request.getParameter("userState");
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("keyWord", keyWord);
+		if(strCompanyId != null && strCompanyId.length() > 0 && strCompanyId.matches("^[0-9]*$")) {
+			params.put("companyId", new Long(strCompanyId));
+		}
+		if(strUserType != null && strUserType.length() > 0 && strUserType.matches("^[0-9]*$")) {
+			params.put("userType", new Integer(strUserType));
+		}
+		if(strUserState != null && strUserState.length() > 0 && strUserState.matches("^[0-9]*$")) {
+			params.put("userState", new Integer(strUserState));
+		}
+		List<User> userList = userService.getUsersByParams(params);
+		modelMap.put("userList", userList);
+		
+		return "/jsp/admin/pages/usersAdmin.jsp";
+	}
+	
+	public static void main(String[] args) {
+		String num = "23f";
+		Integer in = new Integer(num);
+		
+		System.out.println(in);
+	}
 }
