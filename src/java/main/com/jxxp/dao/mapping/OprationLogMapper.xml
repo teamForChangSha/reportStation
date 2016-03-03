@@ -26,6 +26,7 @@
    <if test="logDate!=null and logDate!=''">
    and log_date like concat(concat('%',#{logDate},'%'))
    </if>
+   order by log_date desc
   </select>
   
   <insert id="insert" parameterType="com.jxxp.pojo.OprationLog" >
