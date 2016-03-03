@@ -14,7 +14,7 @@ public interface UserService {
 	 * @return 用户名以及密码匹配，则返回该用户对象，否则返回NULL
 	 */
 	User longin(User user);
-	
+
 	/**
 	 * 更新用户信息
 	 * 
@@ -23,7 +23,7 @@ public interface UserService {
 	 * @return 更新成功返回为true,否则返回false
 	 */
 	boolean update(User user);
-	
+
 	/**
 	 * 根据参数集合获取符合条件的用户信息
 	 * 
@@ -41,7 +41,7 @@ public interface UserService {
 	 * @return 获取成功返回为user对象,否则返回null
 	 */
 	User getUserById(long userId);
-	
+
 	/**
 	 * 增加用户信息
 	 * 
@@ -50,4 +50,11 @@ public interface UserService {
 	 * @return 添加成功返回为true,否则返回false
 	 */
 	boolean addUser(User user);
+
+	/**
+	 * 停用该公司所有用户，超级管理员和平台管理员由此权限
+	 * 
+	 * @param companyId
+	 */
+	boolean stopAllUsersByCompanyId(Long companyId);
 }

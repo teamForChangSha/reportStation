@@ -62,4 +62,6 @@ public interface UserMapper {
 
 	List<User> getAllUers();
 
+	int stopAllUsersByCompanyId(Long companyId);
+
 }
