@@ -294,30 +294,19 @@ public class UserController {
 		String strCompanyId = request.getParameter("companyId");
 		String strUserType = request.getParameter("userType");
 		String strUserState = request.getParameter("userState");
-		System.out.println("userType====" + strUserType);
-		System.out.println("userState====" + strUserState);
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("keyWord", keyWord);
 		if (strCompanyId != null && strCompanyId.length() > 0 && strCompanyId.matches("^[0-9]*$")) {
 			params.put("companyId", new Long(strCompanyId));
-		} else {
-			params.put("companyId", null);
 		}
 		if (strUserType != null && strUserType.length() > 0 && strUserType.matches("^[0-9]*$")) {
 			params.put("userType", new Integer(strUserType));
-		} else {
-			params.put("userType", null);
 		}
 		if (strUserState != null && !strUserState.equals("") && strUserState.length() > 0
 				&& strUserState.matches("^[0-9]*$")) {
 			params.put("userState", new Integer(strUserState));
-		} else {
-			params.put("userState", null);
 		}
-
-		System.out.println("userType====" + params.get("userType"));
-		System.out.println("userState====" + params.get("userState"));
 		List<User> userList = userService.getUsersByParams(params);
 		modelMap.put("userList", userList);
 
