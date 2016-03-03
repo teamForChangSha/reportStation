@@ -39,6 +39,7 @@ public class AreaInfoTest {
 		areaInfoMapper.insert(area1);
 		AreaInfo area2 = areaInfoMapper.getById(area1.getAreaId());
 		assertTrue(TestUtil.isEqual(area1, area2));
+
 	}
 
 	@Test

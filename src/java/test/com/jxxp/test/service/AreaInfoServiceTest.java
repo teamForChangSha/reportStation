@@ -174,6 +174,7 @@ public class AreaInfoServiceTest {
 		province.setName("xx省");
 		province.setParentId(1111);
 		return province;
+
 	}
 
 	private AreaInfo getCity(AreaInfo parent) {
