@@ -358,6 +358,7 @@ public class UserController {
 				if (saveOprationLog("停用了" + stopedCompany.getCompanyName() + "公司的所有用户",
 						oprator.getUserId())) {
 					log.debug("停用公司所有用户成功");
+
 				}
 				out.print("success");
 
