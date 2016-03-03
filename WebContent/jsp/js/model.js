@@ -37,7 +37,6 @@ $(function() {
 			_dialog(options);
 			alr.find(".ok").removeClass("btn-primary").addClass("btn-default");
 			alr.find(".cancel").addClass("hidden");
-			console.log(alr.html());
 			alr.modal('show');
 			return {
 				on : function(callback) {
@@ -55,7 +54,6 @@ $(function() {
 			_dialog(options);
 			alr.find(".ok").removeClass("btn-default").addClass("btn-primary");
 			alr.find(".cancel").removeClass("hidden");
-			console.log(alr.html());
 			alr.modal('show');
 			return {
 				on : function(callback) {
