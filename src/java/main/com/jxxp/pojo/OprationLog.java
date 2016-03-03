@@ -12,7 +12,7 @@ public class OprationLog {
 	private long logId;
 	private Date logDate;
 	private String opration;
-	private long oprator;
+	private User oprator;
 
 	public long getLogId() {
 		return logId;
@@ -38,13 +38,12 @@ public class OprationLog {
 		this.opration = opration;
 	}
 
-	public long getOprator() {
+	public User getOprator() {
 		return oprator;
 	}
 
-	public void setOprator(long oprator) {
+	public void setOprator(User oprator) {
 		this.oprator = oprator;
 	}
-	
-	
+
 }
