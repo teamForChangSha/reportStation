@@ -82,17 +82,22 @@
 								<span class="arrow"></span>
 							</a>
 							<ul class="sub">
-								<li><a class="" href="admin/caseBack/getOwnerCompanyInfo.do" target="MainIframe">公司信息设置</a></li>
-								<li><a class="" href="admin/caseBack/getCompanyBranches.do" target="MainIframe">分支机构管理</a></li>
-								<li><a class="" href="admin/caseBack/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
-								<li><a class="" href="admin/caseBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
+								<li><a class="" href="admin/companyBack/getOwnerCompanyInfo.do" target="MainIframe">公司信息设置</a></li>
+								<li><a class="" href="admin/companyBack/getCompanyBranches.do" target="MainIframe">分支机构管理</a></li>
+								<li><a class="" href="admin/companyBack/getAllReportTypes.do" target="MainIframe">举报类型设置</a></li>
+								<li><a class="" href="admin/companyBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
 							</ul>
 						</li>
 						<li class="sub-menu">
-							<a href="admin/user/getUsersByParams.do" class="" target="MainIframe">
+							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 								<span>用户管理</span>
+								<span class="arrow"></span>
 							</a>
+							<ul class="sub">
+								<li><a class="" href="admin/user/getUsersByParams.do" target="MainIframe">用户设置</a></li>
+								<li><a class="" href="admin/user/getLogByParams.do" target="MainIframe">操作日志</a></li>
+							</ul>
 						</li>
 						<li class="sub-menu">
 							<a href="admin/caseBack/showCaseByCompany.do" class="" target="MainIframe">
