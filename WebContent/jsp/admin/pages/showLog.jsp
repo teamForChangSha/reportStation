@@ -59,6 +59,7 @@
 							<tr class="table-info">
 								<th>操作日期</th>
 								<th>操作内容</th>
+								<th>操作人</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -66,6 +67,7 @@
 								<tr>
 									<td><fmt:formatDate value="${log.logDate}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
 									<td>${log.opration}</td>
+									<td>${log.oprator.userName}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

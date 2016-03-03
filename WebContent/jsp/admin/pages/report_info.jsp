@@ -130,10 +130,10 @@
 					<c:forEach items = "${reportCase.commentList}" var = "comment" varStatus = "i" >
 						<div class="form-group">
 							<c:if test="${comment.isReporter=='1'}">
-								<label class="col-sm-4 control-label">${reportCase.reporter.name }：</label>
+								<label class="col-sm-4 control-label">举报人：</label>
 							</c:if>
 							<c:if test="${comment.isReporter!='1'}">
-								<label class="col-sm-4 control-label">${comment.ownerCompany.companyName }${comment.owner.userName }：</label>
+								<label class="col-sm-4 control-label">${comment.owner.userName }：</label>
 							</c:if>
 							<div class="col-sm-7">
 								<textarea rows="3" readonly class="form-control">${comment.content }</textarea>

@@ -75,7 +75,7 @@
 			<div tabindex="5000" style="overflow: auto;" class="sidebar-scroll">
 				<div style="height: auto;" id="sidebar" class="nav-collapse in collapse">
 					<ul class="sidebar-menu">
-						<li class="sub-menu">
+						<li id="enterAdmin" class="sub-menu">
 							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 								<span>公司设置</span>
@@ -88,7 +88,7 @@
 								<li><a class="" href="admin/companyBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
 							</ul>
 						</li>
-						<li class="sub-menu">
+						<li id="userAdmin" class="sub-menu">
 							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 								<span>用户管理</span>
@@ -105,7 +105,7 @@
 								<span>举报管理<span class="badge">4</span></span>
 							</a>
 						</li>
-						<li class="sub-menu">
+						<li id="statistical" class="sub-menu">
 							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
 								<span>统计分析</span>
@@ -115,7 +115,7 @@
 								<li><a class="" href="" target="MainIframe">表单布局</a></li>
 							</ul>
 						</li>
-						<li class="sub-menu">
+						<li id="dataSetting" class="sub-menu">
 							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 								<span>数据设计</span>
@@ -173,7 +173,7 @@
 					$("#date").text(text);
 				};
 				
-				$("#updataPwd").click(function(){
+				ids.updataPwd.click(function(){
 					Modal.prompt({
 						title:'修改密码',
 						msg: '请输入密码',
@@ -200,6 +200,24 @@
 						}
 					});
 				});
+				
+				var ids = {
+						enterAdmin:$("#enterAdmin"),
+						userAdmin:$("#userAdmin"),
+						statistical:$("#statistical"),
+						dataSetting:$("#dataSetting"),
+						updataPwd:$("#updataPwd")
+				}
+				
+				if("${user.userType}"=="2"){
+					ids.statistical.hide();
+					ids.dataSetting.hide();
+				}
+				if("${user.userType}"=="1"){
+					ids.statistical.hide();
+					ids.dataSetting.hide();
+					ids.userAdmin.hide();
+				}
 			});
 		</script>
 	</body>

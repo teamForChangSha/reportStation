@@ -372,7 +372,7 @@
 						if(search.companyId.find("option:selected").val()=="0"){
 							return alr("您选择的企业有误!");
 						}
-						var url = "admin/user/resetUserPwd.do";
+						var url = "admin/user/stopCompanyAllUsers.do";
 						var data = "companyId="+search.companyId.find("option:selected").val();
 						console.log(data);
 						$.post(url,data,function(res,status){
