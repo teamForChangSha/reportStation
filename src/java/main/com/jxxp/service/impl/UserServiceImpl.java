@@ -1,6 +1,5 @@
 package com.jxxp.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
 	@Resource
 	private UserMapper userMapper;
-	
+
 	@Override
 	public User longin(User user) {
 		return userMapper.login(user.getLoginName(), user.getUserPwd());
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsersByParams(Map<String,Object> params) {
+	public List<User> getUsersByParams(Map<String, Object> params) {
 		String keyWord = (String) params.get("keyWord");
 		Long companyId = (Long) params.get("companyId");
 		Integer userType = (Integer) params.get("userType");
@@ -48,4 +47,12 @@ public class UserServiceImpl implements UserService {
 		return userMapper.insert(user) > 0;
 	}
 
+	@Override
+	public boolean stopAllUsersByCompanyId(Long companyId) {
+		int flag = userMapper.stopAllUsersByCompanyId(companyId);
+		if (flag > 0) {
+			return true;
+		}
+		return false;
+	}
 }

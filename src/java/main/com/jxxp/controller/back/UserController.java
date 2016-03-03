@@ -20,8 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.jxxp.pojo.Company;
 import com.jxxp.pojo.OprationLog;
 import com.jxxp.pojo.User;
+import com.jxxp.service.CompanyService;
 import com.jxxp.service.OprationLogService;
 import com.jxxp.service.UserService;
 
@@ -38,6 +40,8 @@ public class UserController {
 	private UserService userService;
 	@Resource
 	private OprationLogService oprationLogService;
+	@Resource
+	private CompanyService companyService;
 
 	/*
 	 * 用户登录
@@ -329,6 +333,41 @@ public class UserController {
 		List<OprationLog> logList = oprationLogService.getLogByParams(params);
 		modelMap.put("logList", logList);
 
+		return "/jsp/admin/pages/showLog";
+	}
+
+	/**
+	 * 停用某个公司的所有用户
+	 * 
+	 * @author gcx
+	 * @param companyId
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping("/stopCompanyAllUsers.do")
+	public String stopCompanyAllUsers(Long companyId, HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		log.debug("has companyId?====" + companyId);
+		boolean falg = userService.stopAllUsersByCompanyId(companyId);
+		Company stopedCompany = companyService.getCompanyById(companyId);
+		try {
+			PrintWriter out = response.getWriter();
+			if (falg) {
+				User oprator = (User) request.getSession().getAttribute("user");
+				if (saveOprationLog("停用了" + stopedCompany.getCompanyName() + "公司的所有用户",
+						oprator.getUserId())) {
+					log.debug("停用所有用户成功");
+				}
+				out.print("success");
+
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.debug("停用公司所有用户异常");
+		}
 		return "/jsp/admin/pages/showLog";
 	}
 

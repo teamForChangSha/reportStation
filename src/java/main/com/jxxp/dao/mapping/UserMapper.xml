@@ -66,6 +66,14 @@
       #{stateChanged,jdbcType=TIMESTAMP}, #{userState,jdbcType=VARCHAR})
   </insert>
   
+  <update id="stopAllUsersByCompanyId" parameterType="java.lang.Long">
+	  update userinfo 
+	  <set>
+	  user_state=4,
+	  </set> 
+	  where company_id=#{companyId,jdbcType=BIGINT}
+  </update>
+  
   <update id="update" parameterType="com.jxxp.pojo.User" >
     update userinfo
     <set >
