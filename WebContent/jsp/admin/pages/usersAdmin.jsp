@@ -353,9 +353,9 @@
 					selected:$("#selected")
 			}
 			
-			/* getAllCompany(upEle.upCompany);
+			getAllCompany(upEle.upCompany);
 			getAllCompany(addEle.addCompany);
-			getAllCompany(search.companyId); */
+			getAllCompany(search.companyId);
 			
 			close.updataUserInfo.get(0).onclick = hiddenPanle;
 			close.addUser.get(0).onclick = hiddenPanle;

@@ -18,7 +18,7 @@ $(function() {
 	body.append(p);
 	var footer = $("<div/>").addClass("modal-footer").css("text-align","center");
 	var ok = $("<button/>").attr("type", "button").addClass(
-			"btn btn-primary ok").attr("data-dismiss", "modal").text("确定");
+			"btn btn-warning ok").attr("data-dismiss", "modal").text("确定");
 	var cancel = $("<button/>").attr("type", "button").addClass(
 			"btn btn-default cancel").attr("data-dismiss", "modal").text(
 			"取消");
@@ -35,7 +35,7 @@ $(function() {
 		var _alert = function(options) {
 			alr.html(ahtml);
 			_dialog(options);
-			alr.find(".ok").removeClass("btn-primary").addClass("btn-default");
+			alr.find(".ok").removeClass("btn-warning").addClass("btn-default");
 			alr.find(".cancel").addClass("hidden");
 			alr.modal('show');
 			return {
@@ -52,7 +52,7 @@ $(function() {
 		var _confirm = function(options) {
 			alr.html(ahtml);
 			_dialog(options);
-			alr.find(".ok").removeClass("btn-default").addClass("btn-primary");
+			alr.find(".ok").removeClass("btn-default").addClass("btn-warning");
 			alr.find(".cancel").removeClass("hidden");
 			alr.modal('show');
 			return {
