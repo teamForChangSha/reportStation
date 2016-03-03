@@ -26,10 +26,10 @@
   </select>
   <select id="getUsersByParams" resultMap="BaseResultMap">
   select * from userinfo where 1=1
-  <if test="companyId!=null">
+  <if test="companyId!=null and companyId!=0">
   and company_id=#{companyId}
   </if>
-  <if test="keyWord!=null">
+  <if test="keyWord!=null and keyWord!=''">
   and (
   user_name like concat(concat('%',#{keyWord},'%')) 
   or mobile like concat(concat('%',#{keyWord},'%'))
