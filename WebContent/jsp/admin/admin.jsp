@@ -126,10 +126,10 @@
 								<li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">企业名称合并</a></li>
 							</ul>
 						</li>
-						<li class="sub-menu">
+						<li id="updataPwd" class="sub-menu">
 							<a href="#" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-								<span>信息修改</span>
+								<span>修改密码</span>
 							</a>
 						</li>
 					</ul>
@@ -145,6 +145,9 @@
 			Copyright © 2016-2018 用户举报系统
 		</div>
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/common-scripts.js"></script>
 		<script type="text/javascript">
 			$(function() {
@@ -169,6 +172,34 @@
 					var text = time.getFullYear() + "年" + month + "月" + day + "日 " + hour + ":" + minute + ":" + second;
 					$("#date").text(text);
 				};
+				
+				$("#updataPwd").click(function(){
+					Modal.prompt({
+						title:'修改密码',
+						msg: '请输入密码',
+					}).on(function(e,res){
+						if(e){
+							var url = "admin/user/updatePwd.do?userPwd="+md5(res);
+							$.get(url,function(res,status){
+								if(status=="success"){
+									if(res=="success"){
+										Modal.alert({
+											msg: '操作成功！',
+										});
+									}else{
+										Modal.alert({
+											msg: '操作失败！',
+										});
+									}
+								}else{
+									Modal.alert({
+										msg: '操作失败！',
+									});
+								}
+							});
+						}
+					});
+				});
 			});
 		</script>
 	</body>
