@@ -107,10 +107,10 @@
 						<label class="col-sm-1 control-label">用户类型：</label>
 						<div class="col-sm-3">
 							<select id="userType" name="userType" class="form-control">
-								<option value="0">-请选择-</option>
+								<option value="">-请选择-</option>
 								<option value="1">普通用户</option>
-								<option value="2">企业用户</option>
-								<option value="3">管理员</option>
+								<option value="2">企业管理员</option>
+								<option value="3">超级管理员</option>
 							</select>
 						</div>
 					</div>
@@ -118,7 +118,7 @@
 						<label class="col-sm-1 control-label">用户状态：</label>
 						<div class="col-sm-3">
 							<select id="userStatus" name="userState" class="form-control">
-								<option value="0">-请选择-</option>
+								<option value="">-请选择-</option>
 								<option value="1">正常</option>
 								<option value="2">注销</option>
 								<option value="3">待审核</option>
@@ -179,8 +179,8 @@
 									<select id="upType" name="userType" class="form-control">
 										<option value="0">-请选择-</option>
 										<option value="1">普通用户</option>
-										<option value="2">企业用户</option>
-										<option value="3">管理员</option>
+										<option value="2">企业管理员</option>
+										<option value="3">超级管理员</option>
 									</select>
 								</div>
 							</div>
@@ -260,8 +260,8 @@
 									<select id="addType" name="userType" class="form-control">
 										<option value="0">-请选择-</option>
 										<option value="1">普通用户</option>
-										<option value="2">企业用户</option>
-										<option value="3">管理员</option>
+										<option value="2">企业管理员</option>
+										<option value="3">超级管理员</option>
 									</select>
 								</div>
 							</div>
@@ -390,7 +390,7 @@
 				if("${user.userType}"=="1"){
 					td3.text("普通用户");
 				}else if("${user.userType}"=="2"){
-					td3.text("管理员");
+					td3.text("企业管理员");
 				}else{
 					td3.text("超级管理员");
 				}
@@ -498,7 +498,7 @@
 				if(upEle.upType.find("option:selected").val()=="0"){
 					return alr("请选择用户类型");
 				}
-				if(upEle.upCompany.find("option:selected").val()=="0"){
+				if(upEle.upCompany.find("option:selected").val()==""){
 					return alr("请选择所属公司");
 				}
 				$.post("admin/user/updateUser.do",$("#upForm").serialize(),function(res,status){
@@ -520,7 +520,7 @@
 				if(addEle.addType.find("option:selected").val()=="0"){
 					return alr("请选择用户类型");
 				}
-				if(addEle.addCompany.find("option:selected").val()=="0"){
+				if(addEle.addCompany.find("option:selected").val()==""){
 					return alr("请选择所属公司");
 				}
 				addEle.addUserPwd.val(md5(addEle.addUserPwd.val()));
@@ -549,7 +549,7 @@
 					if (res == null || res.length < 0)
 						return;
 					upEle.upCompany.empty();
-					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "0");
+					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
 					upEle.upCompany.append(opt);
 					upEle.upCompany.attr("multiple","multiple").css("padding-top","35px");
 					$(res).each(function() {
@@ -563,7 +563,7 @@
 					if (res == null || res.length < 0)
 						return;
 					addEle.addCompany.empty();
-					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "0");
+					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
 					addEle.addCompany.append(opt);
 					addEle.addCompany.attr("multiple","multiple").css("padding-top","35px");
 					$(res).each(function() {
@@ -577,7 +577,7 @@
 					if (res == null || res.length < 0)
 						return;
 					search.companyId.empty();
-					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "0");
+					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
 					search.companyId.append(opt);
 					search.companyId.attr("multiple","multiple").css("padding-top","35px");
 					$(res).each(function() {
@@ -593,7 +593,7 @@
 					if (res == null || res.length < 0)
 						return;
 					ele.empty();
-					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "0");
+					var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
 					ele.append(opt);
 					$(res).each(function() {
 						var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
