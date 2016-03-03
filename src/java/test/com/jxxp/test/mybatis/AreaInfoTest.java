@@ -1,13 +1,11 @@
 package com.jxxp.test.mybatis;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Ignore;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,65 +26,61 @@ public class AreaInfoTest {
 
 	@Resource
 	private AreaInfoMapper areaInfoMapper;
+	private AreaInfo area1;
+
+	@Before
+	public void init() {
+		area1 = getArea(2);
+	}
 
 	@Test
 	public void saveArea() {
-		AreaInfo area1 = getProvince();
-		areaInfoMapper.insert(getProvince());
+		area1 = getProvince();
+		areaInfoMapper.insert(area1);
 		AreaInfo area2 = areaInfoMapper.getById(area1.getAreaId());
 		assertTrue(TestUtil.isEqual(area1, area2));
 	}
 
 	@Test
 	public void testGetAreaById() {
-		AreaInfo area1 = getProvince();
+		area1 = getProvince();
+		areaInfoMapper.insert(area1);
+		AreaInfo area2 = areaInfoMapper.getById(area1.getAreaId());
+		assertTrue(TestUtil.isEqual(area1, area2));
+	}
+
+	@Test
+	public void delAreaInfo() {
+		area1 = getProvince();
 		areaInfoMapper.insert(area1);
 		AreaInfo area2 = areaInfoMapper.getById(area1.getAreaId());
 		assertTrue(TestUtil.isEqual(area1, area2));
 		areaInfoMapper.deleteById(area1.getAreaId());
+		AreaInfo area3 = areaInfoMapper.getById(area1.getAreaId());
+		assertTrue(area3 == null);
+
 	}
 
-	@Test
-	public void getByParentId() {
-		AreaInfo province = getProvince();
-		areaInfoMapper.insert(province);
-		AreaInfo city = getCity(province.getAreaId());
-		assertTrue(areaInfoMapper.insert(city) > 0);
-		assertTrue(areaInfoMapper.getAreaByParent(province.getAreaId()).size() > 0);
-		areaInfoMapper.deleteById(city.getAreaId());
-		areaInfoMapper.deleteById(province.getAreaId());
+	@After
+	public void del() {
+		areaInfoMapper.deleteById(area1.getAreaId());
 	}
 
-	@Ignore
-	public void testGetCityByCompanyId() {
-		List<AreaInfo> cityList = areaInfoMapper.getCityByCompanyId(new Long(1), new Long(10001));
-		assertNotNull(cityList);
-	}
-
-	@Ignore
-	public void testGetProvinceByCompanyId() {
-		List<AreaInfo> Province = areaInfoMapper.getProvinceByCompanyId(new Long(1));
-		assertNotNull(Province);
-	}
-
-	private AreaInfo getProvince() {
+	private static AreaInfo getProvince() {
 		AreaInfo province = new AreaInfo();
 		province.setLevel(2);
-		List<AreaInfo> list = areaInfoMapper.getAll();
-		province.setAreaId(list.get(list.size() - 1).getAreaId() + 1);
+		province.setAreaId(100000);
 		province.setName("xx省");
-		province.setParentId(10000);
+		province.setParentId(1111);
 		return province;
 	}
 
-	private AreaInfo getCity(long prentId) {
+	private static AreaInfo getArea(int level) {
 		AreaInfo city = new AreaInfo();
-		city.setLevel(3);
-		List<AreaInfo> list = areaInfoMapper.getAll();
-		city.setAreaId(list.get(list.size() - 1).getAreaId() + 1);
+		city.setLevel(level);
+		city.setAreaId(1000000);
 		city.setName("xx市");
-		city.setParentId(prentId);
+		city.setParentId(1111);
 		return city;
 	}
-
 }
