@@ -17,8 +17,6 @@
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jsp/js/Area.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jsp/js/AreaData_min.js" type="text/javascript" charset="utf-8"></script>
 	<style type="text/css">
 			th,
 			td {
@@ -90,9 +88,9 @@
 				<form method="post" class="form-horizontal">
 					<input type="text" id="branchId" name="branchId" hidden />
 					<div class="form-group">
-						<div class="col-sm-2"></div>
+						<div class="col-sm-2">选择机构省市</div>
 						<div class="col-sm-2">
-							<select id="seachprov" name="province.areaId" class="form-control" onChange="changeComplexProvince(this.value, sub_array, 'seachcity');"></select>
+							<select id="seachprov" name="province.areaId" class="form-control" onChange="initCity(this.value);"></select>
 						</div>
 						<div class="col-sm-2">
 							<select id="seachcity" name="city.areaId" class="form-control"></select>
@@ -143,7 +141,25 @@
 	<script type="text/javascript">
 	$(function() {
 		/* 初始化省市 */
-		initComplexArea('seachprov', 'seachcity', area_array, sub_array, '0', '0', '0');
+		(function() {
+			var b = $("#seachprov");
+			var url = "admin/areaBack/getAllProvice.do";
+			$.getJSON(url, function(result) {
+				if (result == null || result.length <= 0) {
+					return;
+				}
+				b.empty();
+				var opt = $("<option/>").text("--请选择--").attr("value", "0");
+				b.append(opt);
+				$(result).each(
+						function() {
+							var opt = $("<option/>").text(this.name).attr("value",
+									this.areaId);
+							b.append(opt);
+						});
+			});
+		})();
+		
 		$("input[name=addBranch]").click(function() {
 			$("#addBranchPanel small").text("添加分支机构");
 			$("#addBranchPanel").removeClass("hidden");
@@ -194,6 +210,29 @@
 			});
 		}
 	});
+	
+	/**
+	 * 初始化市
+	 */
+	function initCity(a) {
+		var c = $("#seachcity");
+		var url = "admin/areaBack /getChildrenArea.do?areaId=" + a;
+		$.getJSON(url, function(result) {
+			if (result == null || result.length <= 0) {
+				return;
+			}
+			c.empty();
+			var opt = $("<option/>").text("--请选择--").attr("value", "0");
+			c.append(opt);
+			$(result).each(
+					function() {
+						var opt = $("<option/>").text(this.name).attr("value",
+								this.areaId);
+						c.append(opt);
+					});
+		});
+	}
+	
 		function updata(ele, id) {
 			$("#addBranchPanel small").text("修改分支机构信息");
 			$("#addBranchPanel").removeClass("hidden");
