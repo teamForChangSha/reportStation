@@ -79,7 +79,7 @@ public class UserController {
 						application.setAttribute("loginUsers", loginUsers);
 
 						request.getSession().setAttribute("user", user);
-						if (saveOprationLog("登录", user.getUserId())) {
+						if (saveOprationLog("登录", user)) {
 							log.debug("用户操作日志记录成功！");
 						}
 						out.print("success");
@@ -129,7 +129,7 @@ public class UserController {
 			session.removeAttribute(attributeName);
 		}
 
-		if (saveOprationLog("注销", user.getUserId())) {
+		if (saveOprationLog("注销", user)) {
 			log.debug("用户操作日志记录成功！");
 		}
 		return "redirect:/admin.do";
@@ -152,7 +152,7 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if (userService.update(user)) {
-				if (saveOprationLog("修改密码", user.getUserId())) {
+				if (saveOprationLog("修改密码", user)) {
 					log.debug("用户操作日志记录成功！");
 				}
 				out.print("success");
@@ -185,7 +185,7 @@ public class UserController {
 			out = response.getWriter();
 			if (userService.update(user)) {
 				User oprator = (User) request.getSession().getAttribute("user");
-				if (saveOprationLog("重置了登录名为" + user.getLoginName() + "的用户密码", oprator.getUserId())) {
+				if (saveOprationLog("重置了登录名为" + user.getLoginName() + "的用户密码", oprator)) {
 					log.debug("用户操作日志记录成功！");
 				}
 				out.print("success");
@@ -219,7 +219,7 @@ public class UserController {
 			out = response.getWriter();
 			if (userService.update(user)) {
 				User oprator = (User) request.getSession().getAttribute("user");
-				if (saveOprationLog("变更了" + user.getLoginName() + "的状态", oprator.getUserId())) {
+				if (saveOprationLog("变更了" + user.getLoginName() + "的状态", oprator)) {
 					log.debug("用户操作日志记录成功！");
 				}
 				out.print("success");
@@ -246,7 +246,7 @@ public class UserController {
 			out = response.getWriter();
 			if (userService.addUser(user)) {
 				User oprator = (User) request.getSession().getAttribute("user");
-				if (saveOprationLog("增加了新用户：" + user.getLoginName(), oprator.getUserId())) {
+				if (saveOprationLog("增加了新用户：" + user.getLoginName(), oprator)) {
 					log.debug("用户操作日志记录成功！");
 				}
 				out.print("success");
@@ -273,7 +273,7 @@ public class UserController {
 			out = response.getWriter();
 			if (userService.update(user)) {
 				User oprator = (User) request.getSession().getAttribute("user");
-				if (saveOprationLog("修改了用户：" + user.getLoginName() + "的信息", oprator.getUserId())) {
+				if (saveOprationLog("修改了用户：" + user.getLoginName() + "的信息", oprator)) {
 					log.debug("用户操作日志记录成功！");
 				}
 				out.print("success");
@@ -355,8 +355,7 @@ public class UserController {
 			PrintWriter out = response.getWriter();
 			if (falg) {
 				User oprator = (User) request.getSession().getAttribute("user");
-				if (saveOprationLog("停用了" + stopedCompany.getCompanyName() + "公司的所有用户",
-						oprator.getUserId())) {
+				if (saveOprationLog("停用了" + stopedCompany.getCompanyName() + "公司的所有用户", oprator)) {
 					log.debug("停用公司所有用户成功");
 
 				}
@@ -371,11 +370,11 @@ public class UserController {
 		return null;
 	}
 
-	private boolean saveOprationLog(String msg, long opratorId) {
+	private boolean saveOprationLog(String msg, User oprator) {
 		OprationLog log = new OprationLog();
 		log.setLogDate(new Date());
 		log.setOpration(msg);
-		log.setOprator(opratorId);
+		log.setOprator(oprator);
 
 		return oprationLogService.addLog(log);
 	}

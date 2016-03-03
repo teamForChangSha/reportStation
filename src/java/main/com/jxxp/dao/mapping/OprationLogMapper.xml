@@ -5,7 +5,9 @@
     <id column="log_id" property="logId" jdbcType="BIGINT" />
     <result column="log_date" property="logDate" jdbcType="TIMESTAMP" />
     <result column="opration" property="opration" jdbcType="VARCHAR" />
-    <result column="oprator" property="oprator" jdbcType="BIGINT" />
+    <association column="oprator" property="oprator" javaType="com.jxxp.pojo.User" 
+    select="com.jxxp.dao.UserMapper.getById">
+    </association>
   </resultMap>
   <sql id="Base_Column_List" >
     log_id, log_date, opration, oprator
@@ -33,7 +35,7 @@
     insert into oprationlog (log_date, opration, 
       oprator)
     values (#{logDate,jdbcType=TIMESTAMP}, #{opration,jdbcType=VARCHAR}, 
-      #{oprator,jdbcType=BIGINT})
+      #{oprator.userId,jdbcType=BIGINT})
   </insert>
   
  <delete id="deleteById" parameterType="java.lang.Long" >
@@ -50,7 +52,7 @@
         opration = #{opration,jdbcType=VARCHAR},
       </if>
       <if test="oprator != null" >
-        oprator = #{oprator,jdbcType=BIGINT},
+        oprator = #{oprator.userId,jdbcType=BIGINT},
       </if>
     </set>
     where log_id = #{logId,jdbcType=BIGINT}
