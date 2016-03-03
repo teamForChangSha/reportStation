@@ -238,7 +238,7 @@
 						<label class="col-sm-4 control-label">案件处理流程：</label>
 						<div class="col-sm-8">
 							<c:forEach items = "${reportCase.changeList}" var = "change" varStatus = "i" >
-								<span class="form-info">${change.operator }
+								<span class="form-info">${change.operator.userName }
 									<time class="pull-right"><fmt:formatDate value="${change.changeTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/></time>
 								</span>
 							</c:forEach>
@@ -247,10 +247,10 @@
 					<c:forEach items = "${reportCase.commentList}" var = "comment" varStatus = "i" >
 						<div class="form-group">
 							<c:if test="${comment.isReporter=='1'}">
-								<label class="col-sm-4 control-label">${reportCase.reporter.name }：</label>
+								<label class="col-sm-4 control-label">举报人：</label>
 							</c:if>
 							<c:if test="${comment.isReporter!='1'}">
-								<label class="col-sm-4 control-label">${comment.owner }：</label>
+								<label class="col-sm-4 control-label">${comment.owner.userName }：</label>
 							</c:if>
 							<div class="col-sm-7">
 								<textarea rows="3" readonly class="form-control">${comment.content }</textarea>
@@ -280,7 +280,13 @@
 			ele.addNote.click(function() {
 				$(this).addClass("hidden");
 				var rootDiv = $("<div/>").attr("class", "form-group");
-				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text("${reportCase.reporter.name}：");
+				var reName;
+				if("${reportCase.reporter.name}"==""){
+					reName = "举报人：";
+				}else{
+					reName = "${reportCase.reporter.name}：";
+				}
+				var lable = $("<label/>").attr("class", "col-sm-4 control-label").text(reName);
 				var div = $("<div/>").attr("class", "col-sm-7");
 				var textarea = $("<textarea/>").attr("class", "form-control").attr("rows", 5);
 				div.append(textarea);
