@@ -349,7 +349,6 @@ public class UserController {
 	@RequestMapping("/stopCompanyAllUsers.do")
 	public String stopCompanyAllUsers(Long companyId, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
-		log.debug("has companyId?====" + companyId);
 		boolean falg = userService.stopAllUsersByCompanyId(companyId);
 		Company stopedCompany = companyService.getCompanyById(companyId);
 		try {
@@ -358,7 +357,7 @@ public class UserController {
 				User oprator = (User) request.getSession().getAttribute("user");
 				if (saveOprationLog("停用了" + stopedCompany.getCompanyName() + "公司的所有用户",
 						oprator.getUserId())) {
-					log.debug("停用所有用户成功");
+					log.debug("停用公司所有用户成功");
 				}
 				out.print("success");
 
@@ -368,7 +367,7 @@ public class UserController {
 		} catch (IOException e) {
 			log.debug("停用公司所有用户异常");
 		}
-		return "/jsp/admin/pages/showLog";
+		return null;
 	}
 
 	private boolean saveOprationLog(String msg, long opratorId) {
