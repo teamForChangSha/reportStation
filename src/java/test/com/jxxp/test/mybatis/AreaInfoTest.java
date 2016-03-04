@@ -67,7 +67,7 @@ public class AreaInfoTest {
 		areaInfoMapper.deleteById(area1.getAreaId());
 	}
 
-	private static AreaInfo getProvince() {
+	public static AreaInfo getProvince() {
 		AreaInfo province = new AreaInfo();
 		province.setLevel(2);
 		province.setAreaId(100000);
@@ -76,7 +76,7 @@ public class AreaInfoTest {
 		return province;
 	}
 
-	private static AreaInfo getArea(int level) {
+	public static AreaInfo getArea(int level) {
 		AreaInfo city = new AreaInfo();
 		city.setLevel(level);
 		city.setAreaId(1000000);
