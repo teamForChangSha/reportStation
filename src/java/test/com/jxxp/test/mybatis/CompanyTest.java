@@ -59,6 +59,12 @@ public class CompanyTest {
 		assertTrue(TestUtil.isEqual(company1, company2));
 	}
 
+	@Test
+	public void getTemplateCompany() {
+		Company company = companyMapper.getPlatformCompany();
+		System.out.println("---" + company.getCompanyCode());
+	}
+
 	@After
 	public void clear() {
 		companyMapper.deleteById(company1.getCompanyId());

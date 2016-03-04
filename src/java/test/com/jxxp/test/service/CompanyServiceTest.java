@@ -133,6 +133,15 @@ public class CompanyServiceTest {
 		assertTrue(types.size() == 0);
 	}
 
+	/**
+	 * TODO 通过公司对象中含公司其他信息，看是否取的到公司的其他信息
+	 */
+	@Test
+	public void getCompanyById() {
+		System.out.println("----"
+				+ companyMapper.getById(new Long(1)).getOtherInfo().getServiceProtocol());
+	}
+
 	private List<ReportType> getRtList() {
 		ReportType type1 = new ReportType();
 		type1.setRtDesc("test desc1");
