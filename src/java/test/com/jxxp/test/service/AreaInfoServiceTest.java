@@ -59,6 +59,75 @@ public class AreaInfoServiceTest {
 	}
 
 	/**
+	 * 获取所有省，添加
+	 */
+	@Test
+	public void getAllProvinceWithAdd() {
+		// 添加前后取出来的省份数量+1；
+		List<AreaInfo> interList = areaService.getAllProvince();
+		AreaInfo province = getProvince();
+		areaInfoMapper.insert(province);
+		List<AreaInfo> interList2 = areaService.getAllProvince();
+		assertTrue((interList.size() + 1) == interList2.size());
+		// 和数据库中的省份数量相同
+		List<AreaInfo> priorList = areaInfoMapper.getAllByLevel(2);
+		assertTrue(priorList.size() == interList2.size());
+		assertTrue(TestUtil.isEqual(priorList, interList2));
+		// 删除
+		areaInfoMapper.deleteById(province.getAreaId());
+	}
+
+	/**
+	 * 获取所有省，删除
+	 */
+	@Test
+	public void getAllProvinceWithDel() {
+		// 删除前所取得的和数据库中的相同
+		AreaInfo province = getProvince();
+		areaInfoMapper.insert(province);
+		List<AreaInfo> interList1 = areaService.getAllProvince();
+		List<AreaInfo> priorList = areaInfoMapper.getAllByLevel(2);
+		assertTrue(TestUtil.isEqual(priorList, interList1));
+
+		// 删除后取出来的省份数量少1，且和数据库中的数量以及值相同；
+		areaInfoMapper.deleteById(province.getAreaId());
+		List<AreaInfo> interList2 = areaService.getAllProvince();
+		assertTrue(!TestUtil.isEqual(interList1, interList2));
+
+		assertTrue(interList1.size() == (interList2.size() + 1));
+		priorList = areaInfoMapper.getAllByLevel(2);
+		assertTrue(priorList.size() == interList2.size());
+		assertTrue(TestUtil.isEqual(priorList, interList2));
+
+	}
+
+	/**
+	 * 获取所有省，修改
+	 */
+	@Test
+	public void getAllProvinceWithUpdate() {
+		// 修改前所取得的和数据库中的数量相同
+		AreaInfo province = getProvince();
+		areaInfoMapper.insert(province);
+		List<AreaInfo> interList1 = areaService.getAllProvince();
+		List<AreaInfo> priorList = areaInfoMapper.getAllByLevel(2);
+		assertTrue(priorList.size() == interList1.size());
+
+		// 修改前后取出来的省信息不同相同但是数量相等,且数据库中的数量相同
+		province.setName("修改省份名字");
+		assertTrue(areaInfoMapper.update(province) > 0);
+		List<AreaInfo> interList2 = areaService.getAllProvince();
+
+		System.out.println("is same??=" + TestUtil.isEqual(interList1, interList2));
+		assertTrue(interList1.size() == interList2.size());
+		priorList = areaInfoMapper.getAllByLevel(2);
+		assertTrue(priorList.size() == interList2.size());
+		// 删除
+		areaInfoMapper.deleteById(province.getAreaId());
+
+	}
+
+	/**
 	 * 测试通过省获取市 添加的数量是否正确
 	 */
 	@Test
@@ -132,7 +201,7 @@ public class AreaInfoServiceTest {
 	}
 
 	/**
-	 * TODO 脏数据检查
+	 * TODO 脏数据检查 待改正
 	 * 
 	 * 2、 检查所有省数据是否都合法（parentid合法）
 	 * 
