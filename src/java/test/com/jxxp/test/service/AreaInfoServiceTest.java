@@ -2,6 +2,7 @@ package com.jxxp.test.service;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,8 +14,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jxxp.dao.AreaInfoMapper;
+import com.jxxp.dao.CompanyBranchMapper;
+import com.jxxp.dao.CompanyMapper;
 import com.jxxp.pojo.AreaInfo;
+import com.jxxp.pojo.Company;
+import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.service.AreaService;
+import com.jxxp.test.mybatis.CompanyBranchTest;
+import com.jxxp.test.mybatis.CompanyTest;
 import com.jxxp.test.unit.TestUtil;
 
 /**
@@ -30,13 +37,19 @@ public class AreaInfoServiceTest {
 	private AreaService areaService;
 	@Resource
 	private AreaInfoMapper areaInfoMapper;
+	@Resource
+	private CompanyMapper companyMapper;
+	@Resource
+	private CompanyBranchMapper companyBranchMapper;
+	private List<AreaInfo> addProvinces;
+	private List<CompanyBranch> addBranches;
+	private List<AreaInfo> addcities;
+	private Company owner;
 
 	/**
-	 * @exception 接口实现不正确
-	 * 
-	 *                获取所有省
+	 * 获取所有省
 	 */
-	@Ignore
+	@Test
 	public void getAllProvince() {
 		// 获取所有省，等级为2的即是省份
 		List<AreaInfo> priorList = areaInfoMapper.getAllByLevel(2);
@@ -100,7 +113,7 @@ public class AreaInfoServiceTest {
 	 * 1、 检查所有城市数据是否都合法（parentid合法） 2、根据level直接获取所有市的信息，和上述步骤获取的信息的数量是否相等
 	 */
 	@Test
-	public void CheckAreaInfo() {
+	public void CheckCity() {
 		List<AreaInfo> allProvinc = areaService.getAllProvince();
 		int cityTotalNum = 0;
 		for (int i = 0; i < allProvinc.size(); i++) {
@@ -116,6 +129,36 @@ public class AreaInfoServiceTest {
 		// 获取所有省下的市数量和原来存在的所有市级的数量相等
 		List<AreaInfo> cities = areaInfoMapper.getAllByLevel(3);
 		assertTrue(cities.size() == cityTotalNum);
+	}
+
+	/**
+	 * TODO 脏数据检查
+	 * 
+	 * 2、 检查所有省数据是否都合法（parentid合法）
+	 * 
+	 * a、验证parentId和法：根据level=2直接获取所有省，省的parent（上一级别）的地区存在，且level=1
+	 * b、parent的下一级别中是否含有省；
+	 * 
+	 * c、验证数量正确性：获取所有级别为国家（级别为1）下的所有省数目和a中的数量是否一致；
+	 */
+	@Ignore
+	public void CheckProvince() {
+		List<AreaInfo> allProvince = areaInfoMapper.getAllByLevel(2);
+		for (int i = 0; i < allProvince.size(); i++) {
+			AreaInfo province = allProvince.get(i);
+			AreaInfo country = areaInfoMapper.getById(province.getParentId());
+			assertTrue(country.getLevel() == 1);
+			List<AreaInfo> childrenProvince = areaService.getByParent(country);
+			boolean isExist = childrenProvince.contains(province);
+			assertTrue(isExist);
+		}
+		int provinceNum = 0;
+		List<AreaInfo> allCountry = areaInfoMapper.getAllByLevel(1);
+		for (int i = 0; i < allCountry.size(); i++) {
+			List<AreaInfo> childProvince = areaService.getByParent(allCountry.get(i));
+			provinceNum = provinceNum + childProvince.size();
+		}
+		assertTrue(allProvince.size() == provinceNum);
 	}
 
 	@Test
@@ -135,12 +178,12 @@ public class AreaInfoServiceTest {
 		areaInfoMapper.insert(province);
 		AreaInfo priorCity = getCity(province);
 		areaInfoMapper.insert(priorCity);
-		AreaInfo laterCity = areaService.getCity(priorCity.getAreaId());
-		assertTrue(TestUtil.isEqual(priorCity, laterCity));
+		AreaInfo addCity = areaService.getCity(priorCity.getAreaId());
+		assertTrue(TestUtil.isEqual(priorCity, addCity));
 		List<AreaInfo> allCity = areaService.getByParent(province);
 		boolean flag = false;
 		for (int i = 0; i < allCity.size(); i++) {
-			if (TestUtil.isEqual(laterCity, allCity.get(i))) {
+			if (TestUtil.isEqual(addCity, allCity.get(i))) {
 				flag = true;
 				break;
 			}
@@ -154,19 +197,178 @@ public class AreaInfoServiceTest {
 
 	}
 
-	/*
-	 * @Ignore public void getWithNoPrent() { AreaInfo area = getArea(1);
-	 * areaInfoMapper.insert(area); assertNull(areaService.getByParent(area));
-	 * areaInfoMapper.deleteById(area.getAreaId()); }
+	/**
+	 * 获取某个公司（所有分支机构）所在的省份
 	 * 
-	 * @Ignore public void testGetCityByCompanyId() { List<AreaInfo> cityList =
-	 * areaService.getCityByCompanyId(new Long(1), new Long(10001));
-	 * assertNotNull(cityList); }
-	 * 
-	 * @Ignore public void testGetProvinceByCompanyId() { List<AreaInfo>
-	 * Province = areaService.getProvinceByCompanyId(new Long(1));
-	 * assertNotNull(Province); }
+	 * 正常情况 1、需验证取出来的省份信息是否和所添加的相同
 	 */
+	@Test
+	public void getProvinceByCompanyId() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		initBraches(owner);
+		List<AreaInfo> getProvinces = areaService.getProvinceByCompanyId(owner.getCompanyId());
+		assertTrue(getProvinces.size() == 2);
+		assertTrue(TestUtil.isEqual(addProvinces, getProvinces));
+		delList();
+	}
+
+	/**
+	 * 获取某个公司（所有分支机构）所在的省份
+	 * 
+	 * 2、不正常的情况：不含分支机构，行政区域未知 需验证取则出来的省份size==0
+	 */
+	@Test
+	public void getProvinceWithNoBranch() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		List<AreaInfo> list = areaService.getProvinceByCompanyId(owner.getCompanyId());
+		assertTrue(list.size() == 0);
+		companyMapper.deleteById(owner.getCompanyId());
+
+	}
+
+	/**
+	 * 获取某个公司（所有分支机构）所在的省份
+	 * 
+	 * 3、不正常的情况：含分支机构，行政区域未知 需验证取则出来的省份size==0
+	 */
+	@Test
+	public void getProvinceWithNoPrarentArea() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		initBrachesWithNoArea(owner);
+		for (int i = 0; i < addBranches.size(); i++) {
+			List<AreaInfo> list = areaService.getProvinceByCompanyId(owner.getCompanyId());
+			assertTrue(list.size() == 0);
+		}
+		delList();
+
+	}
+
+	/**
+	 * 获取某个公司（所有分支机构），某个省下的拥有分支机构的城市（List）
+	 * 
+	 * 1、公司存在（companyId存在），需验证取出来的城市信息是否和所添加的相同
+	 */
+	@Test
+	public void getCityByCompanyId() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		initBraches(owner);
+		List<AreaInfo> getCitis1 = new ArrayList<AreaInfo>();
+		List<AreaInfo> getCitis2 = new ArrayList<AreaInfo>();
+		for (int i = 0; i < addProvinces.size(); i++) {
+			getCitis1 = areaService.getCityByCompanyId(owner.getCompanyId(), addProvinces.get(i)
+					.getAreaId());
+			assertTrue(getCitis1.size() > 0);
+			getCitis2.addAll(getCitis1);
+		}
+		assertTrue(TestUtil.isEqual(addcities, getCitis2));
+		assertTrue(addcities.size() == getCitis2.size());
+		delList();
+	}
+
+	/**
+	 * 获取某个公司（所有分支机构），某个省下的拥有分支机构的城市（List）
+	 * 
+	 * 2、公司(分支机构)不存在，即是（companyId不存在），列表为空size==0;
+	 */
+	@Test
+	public void getCityWithNoCompanyId() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		initBraches(owner);
+		// 删除公司
+		companyMapper.deleteById(owner.getCompanyId());
+		// 删除分支机构
+		for (int i = 0; i < addBranches.size(); i++) {
+			companyBranchMapper.deleteById(addBranches.get(i).getBranchId());
+		}
+		List<AreaInfo> getCitis = new ArrayList<AreaInfo>();
+		for (int i = 0; i < addProvinces.size(); i++) {
+			getCitis = areaService.getCityByCompanyId(owner.getCompanyId(), addProvinces.get(i)
+					.getAreaId());
+			assertTrue(getCitis.size() == 0);
+		}
+		delList();
+	}
+
+	/**
+	 * 获取某个公司（所有分支机构），某个省下的拥有分支机构的城市（List）
+	 * 
+	 * 3、未知行政区域的公司
+	 */
+	@Test
+	public void getCityWithNoPrarentArea() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		initBrachesWithNoArea(owner);
+		for (int i = 0; i < addBranches.size(); i++) {
+			List<AreaInfo> list = areaService.getCityByCompanyId(owner.getCompanyId(), addBranches
+					.get(i).getProvince().getAreaId());
+			assertTrue(list.size() == 0);
+		}
+		delList();
+
+	}
+
+	public void delList() {
+		for (int i = 0; i < 2; i++) {
+			if (owner != null) {
+				companyMapper.deleteById(owner.getCompanyId());
+			}
+			if (addBranches != null) {
+				companyBranchMapper.deleteById(addBranches.get(i).getBranchId());
+			}
+			if (addProvinces != null) {
+				areaInfoMapper.deleteById(addProvinces.get(i).getAreaId());
+			}
+			if (addcities != null) {
+				areaInfoMapper.deleteById(addcities.get(i).getAreaId());
+			}
+		}
+	}
+
+	private void initBrachesWithNoArea(Company company) {
+		addBranches = new ArrayList<CompanyBranch>();
+		for (int i = 0; i < 2; i++) {
+			CompanyBranch branch = CompanyBranchTest.getBranch();
+			// 关联公司
+			branch.setOwner(owner);
+			companyBranchMapper.insert(branch);
+			branch.setProvince(new AreaInfo());
+			branch.setCity(new AreaInfo());
+			addBranches.add(branch);
+		}
+	}
+
+	private void initBraches(Company owner) {
+		addProvinces = new ArrayList<AreaInfo>();
+		addcities = new ArrayList<AreaInfo>();
+		addBranches = new ArrayList<CompanyBranch>();
+		for (int i = 0; i < 2; i++) {
+			CompanyBranch branch = CompanyBranchTest.getBranch();
+			AreaInfo province = getProvince();
+			province.setAreaId(province.getAreaId() + i);
+			// 设置省信息
+			areaInfoMapper.insert(province);
+			addProvinces.add(province);
+			branch.setProvince(province);
+			// 设置市信息
+			AreaInfo city = getCity(province);
+			city.setAreaId(city.getAreaId() + i);
+			areaInfoMapper.insert(city);
+			addcities.add(city);
+			branch.setCity(city);
+			// 关联公司
+			branch.setOwner(owner);
+			companyBranchMapper.insert(branch);
+			addBranches.add(branch);
+		}
+
+	}
+
 	private AreaInfo getProvince() {
 		AreaInfo province = new AreaInfo();
 		province.setLevel(2);
@@ -185,13 +387,5 @@ public class AreaInfoServiceTest {
 		city.setParentId(parent.getAreaId());
 		return city;
 	}
-
-	public void delData() {
-	}
-	/*
-	 * private AreaInfo getArea(int level) { AreaInfo area = new AreaInfo();
-	 * area.setLevel(2); area.setAreaId(100000); area.setName("xx市");
-	 * area.setParentId(10000); return area; }
-	 */
 
 }
