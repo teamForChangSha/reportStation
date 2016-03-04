@@ -265,27 +265,32 @@
 		pwd : $("#password"),
 		btn : $("#loginBtn")
 	}
-	user.btn.click(function() {
+	user.pwd.get(0).onkeydown = function(e){
+		if(e.keyCode==13){
+			login();
+		}
+	};
+	user.btn.get(0).onclick = login;
+	function login() {
 		if (isEmty(user.name.val())) {
-			console.log("user");
 			return;
 		}
 		if (isEmty(user.pwd.val())) {
-			console.log("pwd");
 			return;
 		}
 		var data = "loginName=" + user.name.val() + "&userPwd="
 				+ md5(user.pwd.val());
+		console.log(data);
 		$.post("admin/user/login.do", data, function(res, status) {
 			if (status == "success") {
 				if (res == "success") {
 					location.href = "jsp/admin/admin.jsp";
 				} else {
-					alert(res);
+					Modal.alert({msg:res});
 				}
 			}
 		});
-	});
+	};
 
 	/**
 	 * 验证手机号

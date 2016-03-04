@@ -91,13 +91,14 @@
 				<p class="navbar-text">Copyright © 2016-2018 用户举报系统</p>
 			</div>
 		</nav>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
 		$(function() {
 			$('[data-toggle="popover"]').popover();
 			$("#next").click(function() {
 				if ($("input[type=checkbox]:checked").length <= 0) {
-					return alert("请至少选择一个举报类型");
+					return Modal.alert({msg:"请至少选择一个举报类型"});
 				}
 				$("form").submit();
 			});

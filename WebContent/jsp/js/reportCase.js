@@ -184,28 +184,25 @@ $(function() {
 
 	$("#submitReport").click(function(e) {
 		if (!isAgreed(true)) {
-			return alert("同意条款才能继续!");
-			;
+			return Modal.alert({msg:"同意条款才能继续!"});
 		}
 		if (!showRadioError(quest.isAnonymous)) {
-			return alert("请选择是否实名提交!");
-			;
+			return Modal.alert({msg:"请选择是否实名提交!"});
 		}
 		if (quest.isAnonymous.filter(':checked').val() == "false") {
 			if (!validationUser()) {
-				return alert("您的实名信息填写有误!");
-				;
+				return Modal.alert({msg:"您的实名信息填写有误!"});
 			}
 		} else {
 			if (!showErrorIcon(userAndOther.contactWay)) {
-				return alert("匿名请提供一种联系方式!");
+				return Modal.alert({msg:"匿名请提供一种联系方式!"});
 			}
 		}
 		if (!validationQuest()) {
-			return alert("您有必填项还未填写!");
+			return Modal.alert({msg:"您有必填项还未填写!"});
 		}
 		if (!validationPass()) {
-			return alert("您的密码填写有误!");
+			return Modal.alert({msg:"您的密码填写有误!"});
 		}
 		setSendForm();
 		sendForm();
@@ -306,10 +303,10 @@ $(function() {
 			console.log("data:" + res + "status：" + status);
 			if (status == "success") {
 				if (res == "saveError") { // 案件提交失败
-					return alert("举报信息提交失败，请重试!");
+					return Modal.alert({msg:"举报信息提交失败，请重试!"});
 				}
 				if (res == "checkError") { // 实名手机验证失败
-					return alert("实名手机验证失败!");
+					return Modal.alert({msg:"实名手机验证失败!"});
 				}
 				location.href = "jsp/pages/reportSuccess.jsp";
 			}

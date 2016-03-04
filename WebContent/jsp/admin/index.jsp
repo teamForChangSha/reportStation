@@ -106,7 +106,14 @@
 			}
 			hiddenError(user.name);
 			hiddenError(user.pwd);
-			user.btn.click(function() {
+			
+			user.pwd.get(0).onkeydown = function(e){
+				if(e.keyCode==13){
+					login();
+				}
+			};
+			user.btn.get(0).onclick = login;
+			function login() {
 				if (!showError(user.name)) {
 					console.log("user");
 					return;
@@ -125,7 +132,7 @@
 						}
 					}
 				});
-			});
+			};
 
 			function showError(ele) {
 				console.log(ele.val());
