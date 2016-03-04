@@ -286,7 +286,7 @@
 				if (res == "success") {
 					location.href = "jsp/admin/admin.jsp";
 				} else {
-					alert(res);
+					Modal.alert({msg:res});
 				}
 			}
 		});

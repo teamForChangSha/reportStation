@@ -261,6 +261,7 @@
 			</div>
 		</div>
 	</body>
+	<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	<script src="jsp/js/index.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

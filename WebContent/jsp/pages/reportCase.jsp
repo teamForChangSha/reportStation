@@ -39,11 +39,6 @@
 				cursor: pointer;
 			}
 			
-			.btn-default {
-				position: absolute;
-				z-index: -1;
-			}
-			
 			.col-xs-6 {
 				margin-bottom: 10px;
 			}
@@ -596,6 +591,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
 	var trackingNo = "trackingNo=${trackingNo }";
