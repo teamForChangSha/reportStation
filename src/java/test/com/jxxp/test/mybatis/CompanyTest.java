@@ -41,14 +41,19 @@ public class CompanyTest {
 	public void saveCompany() {
 		int isSuccess = companyMapper.insert(company1);
 		assertTrue(isSuccess > 0);
-	}
-
-	@Test
-	public void testGetCompany() {
-		companyMapper.insert(company1);
 		Company company2 = companyMapper.getById(company1.getCompanyId());
 		assertNotNull(company2);
 		assertTrue(TestUtil.isEqual(company1, company2));
+	}
+
+	@Test
+	public void testDelCompany() {
+		companyMapper.insert(company1);
+		Company company2 = companyMapper.getById(company1.getCompanyId());
+		companyMapper.deleteById(company2.getCompanyId());
+		Company company3 = companyMapper.getById(company1.getCompanyId());
+		assertTrue(company3 == null);
+
 	}
 
 	@Test
@@ -73,9 +78,9 @@ public class CompanyTest {
 	public static Company getCompany() {
 		Company company = new Company();
 		company.setCompanyCode("ZTX");
-		company.setCompanyName("company name");
-		company.setDescription("规模大");
-		company.setPhone("1234567");
+		company.setCompanyName("xx公司");
+		company.setDescription("高大上");
+		company.setPhone("073136786688");
 		company.setCompanyState(1);
 		company.setCompanyType(1);
 		return company;

@@ -3,6 +3,7 @@
 <mapper namespace="com.jxxp.dao.CaseAttachMapper" >
   <resultMap id="BaseResultMap" type="com.jxxp.pojo.CaseAttach" >
     <id column="ca_id" property="caId" jdbcType="BIGINT" />
+    <result column="tracking_no" property="trackingNo" jdbcType="VARCHAR" />    
     <result column="attach_name" property="attachName" jdbcType="VARCHAR" />
     <result column="attach_url" property="attachUrl" jdbcType="VARCHAR" />
     <result column="attach_path" property="attachPath" jdbcType="VARCHAR" />

@@ -51,7 +51,6 @@ public class CompanyController {
 				e.printStackTrace();
 			}
 		}
-		log.debug("get companyName====" + companyName);
 		List<Company> companyList = new ArrayList<Company>();
 		companyList = companyService.getCompanyByName(companyName);
 		String companyJson = JSON.toJSONString(companyList);
@@ -63,7 +62,6 @@ public class CompanyController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		log.debug("获取公司集合成功size=" + companyList.size());
 		return null;
 
 	}

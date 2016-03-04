@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -58,7 +57,7 @@ public class CaseTest {
 	/**
 	 * 案件的存储是否成功
 	 */
-	@Ignore
+	@Test
 	public void saveCaseInfo() {
 		ReportCase case1 = getReportCase();
 		assertTrue(reportCaseMapper.insert(case1) > 0);
@@ -71,7 +70,7 @@ public class CaseTest {
 	/**
 	 * 根据案件号追踪号和密码查询案件
 	 */
-	@Ignore
+	@Test
 	public void testFindByNo() {
 		ReportCase case1 = getReportCase();
 		reportCaseMapper.insert(case1);
@@ -96,7 +95,7 @@ public class CaseTest {
 	/**
 	 * 除了公司id，没有其他关键字
 	 */
-	@Ignore
+	@Test
 	public void testSearchByCompnayId() {
 		ReportCase caseInfo = getReportCase();
 		Company company = caseInfo.getCompany();
@@ -116,7 +115,7 @@ public class CaseTest {
 	/**
 	 * 按照时间搜索，时间存在
 	 */
-	@Ignore
+	@Test
 	public void testSearchByKeys() {
 		ReportCase caseInfo = getReportCase();
 		Company company = caseInfo.getCompany();
@@ -136,7 +135,7 @@ public class CaseTest {
 
 	}
 
-	@Ignore
+	@Test
 	public void getAllByCompanyId() {
 		ReportCase case1 = getReportCase();
 		Company company = case1.getCompany();
@@ -151,7 +150,7 @@ public class CaseTest {
 	/**
 	 * 获取案件，包括该案件包含的附件list、追加信息list、日志list、答案list
 	 */
-	@Ignore
+	@Test
 	public void testGetCaseById() {
 		ReportCase case1 = getReportCase();
 		reportCaseMapper.insert(case1);
@@ -167,7 +166,7 @@ public class CaseTest {
 	/**
 	 * 获取实名举报这举报过案件
 	 */
-	@Ignore
+	@Test
 	public void getCaseByReport() {
 		ReportCase caseInfo = getReportCase();
 		Reporter reporter = ReporterTest.getReporter();
@@ -181,24 +180,9 @@ public class CaseTest {
 	}
 
 	/**
-	 * 更新附件
-	 */
-	@Ignore
-	public void testUpdateAttach() {
-		CaseAttach caseAttach1 = getAttach();
-		caseAttachMapper.insert(caseAttach1);
-		caseAttach1.setAttachName("change fileName");
-		assertTrue(caseAttachMapper.update(caseAttach1) > 0);
-		CaseAttach caseAttach2 = caseAttachMapper.getById(caseAttach1.getCaId());
-		assertTrue(!TestUtil.isEqual(caseAttach1, caseAttach2));
-		caseAttachMapper.deleteById(caseAttach2.getCaId());
-
-	}
-
-	/**
 	 * 保存answer
 	 */
-	@Ignore
+	@Test
 	public void testInsertAnswer() {
 		// reportCaseMapper.getAllCase().get(0).getRcId();
 		ReportAnswer answer1 = getAnswer();
@@ -211,7 +195,7 @@ public class CaseTest {
 	/**
 	 * 保存answer
 	 */
-	@Ignore
+	@Test
 	public void insertAnswerByQuestKey() {
 		// reportCaseMapper.getAllCase().get(0).getRcId();
 		ReportAnswer answer1 = getAnswer();
