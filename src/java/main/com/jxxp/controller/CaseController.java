@@ -427,7 +427,7 @@ public class CaseController {
 		CaseComment caseComment = new CaseComment();
 		caseComment.setContent(content);
 		caseComment.setPostTime(new Date());
-		// 前台用户添加一定是用户自己添加的
+		// 前台用户添加备注，无论以匿名还是实名举报，能添加备注的只有举报者自己因此不需要判断
 		caseComment.setIsReporter(1);
 		/*
 		 * if(user == null) { caseComment.setIsReporter(1); } else {
