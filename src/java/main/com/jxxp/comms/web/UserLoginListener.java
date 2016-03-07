@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.jxxp.pojo.User;
 
 public class UserLoginListener implements HttpSessionListener {
-	private static final Logger log = LoggerFactory.getLogger(HttpSessionListener.class);
+	private static final Logger log = LoggerFactory.getLogger(UserLoginListener.class);
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
@@ -27,8 +27,10 @@ public class UserLoginListener implements HttpSessionListener {
 		@SuppressWarnings("unchecked")
 		Map<String, String> loginUsers = (Map<String, String>) application.getAttribute("loginUsers");
 		User user = (User) session.getAttribute("user");
-		loginUsers.remove(user.getLoginName());
-		application.setAttribute("loginUsers", loginUsers);
+		if(user != null) {
+			loginUsers.remove(user.getLoginName());
+			application.setAttribute("loginUsers", loginUsers);
+		}
 		log.debug("session已失效！id:" + session.getId());
 	}
 	
