@@ -54,7 +54,7 @@
    select * from reportcase rc 
    where rc.company_id=#{companyId,jdbcType=BIGINT}
    <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
-   and rc.create_time &gt; #{startTime} and rc.create_time &lt;#{endTime} 
+   and rc.create_time &gt;=#{startTime} and rc.create_time &lt;=#{endTime} 
    </if> 
     <if test="rtList!=null and rtList!=''">
    and rc.rt_list like concat(concat('%',#{rtList,jdbcType=VARCHAR},'%'))  

@@ -1,5 +1,6 @@
 package com.jxxp.test.service;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -57,6 +58,30 @@ public class CaseAttachServiceTest {
 			}
 		}
 		assertTrue(count == 1);
+
+	}
+
+	/**
+	 * 通过案件跟踪号查询案件 正常情况:案件号为空null
+	 */
+	@Test
+	public void getCaseAttachByNoTracking() {
+		caseAttachService.addCaseAttach(caseAttach1);
+		List<CaseAttach> caseAttaches = caseAttachService.getCaseAttachByTrackingNo(null);
+		assertTrue(caseAttaches.size() == 0);
+		assertNotNull(caseAttaches);
+
+	}
+
+	/**
+	 * 通过案件跟踪号查询案件 正常情况:错误的案件跟踪号
+	 */
+	@Test
+	public void getCaseAttachByErrorTracking() {
+		caseAttachService.addCaseAttach(caseAttach1);
+		List<CaseAttach> caseAttaches = caseAttachService.getCaseAttachByTrackingNo("ahhedeoe");
+		assertTrue(caseAttaches.size() == 0);
+		assertNotNull(caseAttaches);
 
 	}
 

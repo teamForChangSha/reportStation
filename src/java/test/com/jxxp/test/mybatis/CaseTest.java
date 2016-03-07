@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -123,12 +124,18 @@ public class CaseTest {
 		reportCaseMapper.insert(caseInfo);
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-		String dateStr = format.format(caseInfo.getCreateTime());
+		Date createTime = caseInfo.getCreateTime();
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		Date afterDate = cal.getTime();
+
 		ReportAnswer answer = getAnswer();
 		answer.setRcId(caseInfo.getRcId());
 		reportAnswerMapper.insert(answer);
-		assertTrue(reportCaseMapper.searchByKeys(company.getCompanyId(), "2016-02-01",
-				"2016-02-28", null, null).size() > 0);
+		assertTrue(reportCaseMapper.searchByKeys(company.getCompanyId(), format.format(createTime),
+				"2016-04", null, null).size() > 0);
 		companyMapper.deleteById(company.getCompanyId());
 		reportAnswerMapper.deleteById(answer.getRdId());
 		reportCaseMapper.deleteById(caseInfo.getRcId());
