@@ -43,6 +43,8 @@ public class CompanyController {
 	@RequestMapping("/getAllByName.do")
 	public String getAllByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
+		log.debug("参数companyName===" + companyName);
+
 		/*
 		 * if (companyName != null) { try { companyName = new
 		 * String(companyName.getBytes("ISO-8859-1"), "UTF-8"); } catch
@@ -59,6 +61,7 @@ public class CompanyController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
+		log.debug("企业集合数目==" + companyList.size());
 		return null;
 
 	}
