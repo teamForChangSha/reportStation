@@ -40,7 +40,7 @@
   
    <select id="getAllByName" resultMap="BaseResultMap" parameterType="String" >
     select * from company
-    where company_name like concat(concat(#{companyName,jdbcType=VARCHAR},'%'))
+    where company_name like concat('%',concat(#{companyName,jdbcType=VARCHAR},'%'))
   </select>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >
