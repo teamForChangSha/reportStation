@@ -141,8 +141,7 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label">组织/机构：</label>
 							<div class="col-sm-8">
-								<span class="form-info"><strong>${companyBranch.owner.companyName
-									} / ${companyBranch.branchName }</strong></span>
+								<span class="form-info"><strong>${companyBranch.owner.companyName} / ${companyBranch.branchName }</strong></span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -189,7 +188,7 @@
 						</div>
 						<form id="userInfo" action="" method="post">
 							<div class="form-group text-center">
-								<span><strong>如果您希望 Hyatt 知道您的身份，请完成以下内容：</strong></span>
+								<span><strong>如果您希望 ${companyBranch.owner.companyName} 知道您的身份，请完成以下内容：</strong></span>
 							</div>
 							<div class="form-group">
 								<input name="reporterId" type="text" hidden/>
@@ -203,14 +202,14 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">验证码：</label>
 								<div class="col-sm-3">
-									<input name="verifyCode" type="text" class="form-control" placeholder="请输入手机验证码"></input>
+									<input name="verifyCode" type="text" class="form-control" placeholder="请输入手机验证码"/>
 									<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label">您的姓名：</label>
 								<div class="col-sm-3">
-									<input name="name" type="text" class="form-control" placeholder="姓名"></input>
+									<input name="name" type="text" class="form-control" placeholder="姓名"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -223,13 +222,13 @@
 									</select>
 								</div>
 								<div class="col-sm-4">
-									<input name="idNo" type="text" class="form-control" placeholder="证件号"></input>
+									<input name="idNo" type="text" class="form-control" placeholder="证件号"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label">邮箱：</label>
 								<div class="col-sm-4">
-									<input name="email" type="text" class="form-control" placeholder="邮箱地址"></input>
+									<input name="email" type="text" class="form-control" placeholder="邮箱地址"/>
 								</div>
 							</div>
 							<div class="form-group">

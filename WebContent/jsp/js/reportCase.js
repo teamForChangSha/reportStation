@@ -129,6 +129,34 @@ $(function() {
 	 * 控制页面需要显示的问题列表并设置是否为必填
 	 */
 	(function() {
+		if(questionList.length<=0){
+			$("#quest_1").removeClass("hidden");
+			$("#quest_2").removeClass("hidden");
+			$("#quest_2").next().removeClass("hidden");
+			$("#quest_2").next().next().removeClass("hidden");
+			$("#quest_2").next().next().next().removeClass("hidden");
+			$("#quest_2").next().next().next().next().removeClass("hidden");
+			$("#quest_3").removeClass("hidden");
+			$("#quest_4").removeClass("hidden");
+			$("#quest_9").removeClass("hidden");
+			$("#quest_5").removeClass("hidden");
+			$("#quest_6").removeClass("hidden");
+			$("#quest_7").removeClass("hidden");
+			$("#quest_8").removeClass("hidden");
+			$("#quest_10").removeClass("hidden");
+			$("#quest_11").removeClass("hidden");
+			$("#quest_12").removeClass("hidden");
+			$("#quest_13").removeClass("hidden");
+			$("#quest_5").next().removeClass("hidden");
+			$("#quest_6").next().removeClass("hidden");
+			$("#quest_7").next().removeClass("hidden");
+			$("#quest_8").next().removeClass("hidden");
+			$("#quest_10").next().removeClass("hidden");
+			$("#quest_11").next().removeClass("hidden");
+			$("#quest_12").next().removeClass("hidden");
+			$("#quest_13").next().removeClass("hidden");
+			return;
+		}
 		$.each(questionList, function(i, question) {
 			var key = question.quest_key;
 			var span = $("<span/>").attr("class", "xinghao").text("*");
