@@ -61,7 +61,7 @@ public class CompanyController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		log.debug("企业集合数目==" + companyList.size());
+		log.debug("企业集合数目===" + companyList.size());
 		return null;
 
 	}
