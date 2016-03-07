@@ -102,7 +102,7 @@
 						<li class="sub-menu">
 							<a href="admin/caseBack/showCaseByCompany.do" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
-								<span>举报管理<span class="badge">0</span></span>
+								<span>举报管理<span class="badge"></span></span>
 							</a>
 						</li>
 						<li id="statistical" class="sub-menu">
@@ -127,7 +127,7 @@
 							</ul>
 						</li>
 						<li id="updataPwd" class="sub-menu">
-							<a href="#" class="" target="MainIframe">
+							<a href="javascript:;" class="">
 								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 								<span>修改密码</span>
 							</a>
@@ -137,7 +137,7 @@
 			</div>
 
 			<div id="main-content">
-				<iframe src="#" id="MainIframe" name="MainIframe" style="height: 100%;width: 100%" frameborder="0">
+				<iframe src="jsp/admin/default.jsp" id="MainIframe" name="MainIframe" style="height: 100%;width: 100%" frameborder="0">
 				</iframe>
 			</div>
 		</div>
