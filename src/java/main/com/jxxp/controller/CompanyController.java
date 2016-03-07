@@ -2,7 +2,6 @@ package com.jxxp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,13 +43,11 @@ public class CompanyController {
 	@RequestMapping("/getAllByName.do")
 	public String getAllByName(String companyName, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) {
-		if (companyName != null) {
-			try {
-				companyName = new String(companyName.getBytes("ISO-8859-1"), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
+		/*
+		 * if (companyName != null) { try { companyName = new
+		 * String(companyName.getBytes("ISO-8859-1"), "UTF-8"); } catch
+		 * (UnsupportedEncodingException e) { e.printStackTrace(); } }
+		 */
 		List<Company> companyList = new ArrayList<Company>();
 		companyList = companyService.getCompanyByName(companyName);
 		String companyJson = JSON.toJSONString(companyList);

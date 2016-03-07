@@ -3,6 +3,9 @@ package com.jxxp.test.mybatis;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.After;
@@ -56,15 +59,29 @@ public class CompanyTest {
 
 	}
 
+	/**
+	 * 根据公司名字模糊查询，名字为空串则查询所有
+	 */
 	@Test
-	public void testGetCompanyByName() {
-		companyMapper.insert(company1);
-		Company company2 = companyMapper.findByName(company1.getCompanyName());
-		assertNotNull(company2);
-		assertTrue(TestUtil.isEqual(company1, company2));
+	public void getAllByName() {
+		Company addCompany = null;
+		List<Company> addList = new ArrayList<Company>();
+		for (int i = 0; i < 2; i++) {
+			addCompany = getCompany();
+			companyMapper.insert(addCompany);
+			addList.add(addCompany);
+		}
+		List<Company> getList = companyMapper.getAllByName(addCompany.getCompanyName());
+		assertTrue(getList.size() > 0);
+		assertTrue(getList.size() >= addList.size());
+		// assertTrue(getList.containsAll(addList));
+		for (int i = 0; i < 2; i++) {
+			companyMapper.deleteById(addList.get(i).getCompanyId());
+		}
 	}
 
 	@Test
+	// TODO
 	public void getTemplateCompany() {
 		Company company = companyMapper.getPlatformCompany();
 		System.out.println("---" + company.getCompanyCode());

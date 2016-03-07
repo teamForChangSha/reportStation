@@ -136,7 +136,7 @@ public class CompanyServiceTest {
 	/**
 	 * TODO 通过公司对象中含公司其他信息，看是否取的到公司的其他信息
 	 */
-	@Test
+	// @Test
 	public void getCompanyById() {
 		System.out.println("----"
 				+ companyMapper.getById(new Long(1)).getOtherInfo().getServiceProtocol());
