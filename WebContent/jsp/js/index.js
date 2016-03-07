@@ -149,13 +149,12 @@
      * 自动完成提示
      */
     function AutoComplete() {
-        var data = "companyName=" + encodeURI(leftEle.companyName.val());
+        var data = "companyName=" + leftEle.companyName.val();
         $.post("company/getAllByName.do", data, function (res) {
             if (res == null || res.length < 0)
                 return;
             leftEle.companyName.next().next().find("li").remove();
-            $.each(res, function (i, company) {
-                console.log(company.companyName);
+            $.each(JSON.parse(res), function (i, company) {
                 var li = $("<li/>");
                 var a = $("<a/>").attr("data-id", company.companyId).text(
                     company.companyName);
