@@ -5,7 +5,8 @@
         institutions: $("select[name=branchId]"),
         companyName: $("input[name=companyName]"),
         getArea: $("#getArea"),
-        next: $("#next")
+        next: $("#next"),
+        sendCompany: $("#sendCompany")
     };
 
     var rightEle = {
@@ -29,7 +30,7 @@
             + leftEle.companyName.attr("data-id");
         $.getJSON(url, function (result) {
             if (result == null || result.length <= 0) {
-                return;
+                return ;
             }
             leftEle.province.empty();
             var opt = $("<option/>").text("--请选择--").attr("value", "-1");
@@ -103,11 +104,17 @@
         initProvince();
     });
 
+    leftEle.sendCompany.keydown(function (e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+    });
+
     /**
      * 转到企业问题类型页面
      */
     leftEle.next.click(function () {
-        $("#sendCompany").submit();
+        leftEle.sendCompany.submit();
     });
 
     leftEle.province.change(function () {
