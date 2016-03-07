@@ -44,12 +44,6 @@ public class CaseBackController {
 	private CompanyService companyService;
 	@Resource
 	private CaseCommentService caseCommentService;
-	@Resource
-	private ReportTypeService reportTypeService;
-	@Resource
-	private QuestionService questionService;
-	@Resource
-	private CompanyBranchService companyBranchService;
 
 	/***
 	 * 根据公司以及其他条件获取案件信息列表
