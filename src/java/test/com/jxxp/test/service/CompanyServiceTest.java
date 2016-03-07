@@ -50,7 +50,7 @@ public class CompanyServiceTest {
 	@Resource
 	private ReportTypeService reportTypeService;
 
-	@Ignore
+	@Test
 	public void saveCompany() {
 		Company company = getCompany();
 		boolean isSuccess = companyService.saveCompanyInfo(company);

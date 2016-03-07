@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -56,7 +55,7 @@ public class CaseServiceTest {
 	/**
 	 * 实名举报
 	 */
-	@Ignore
+	@Test
 	public void testAddCase() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		Company company = CompanyTest.getCompany();
@@ -80,7 +79,7 @@ public class CaseServiceTest {
 	/**
 	 * 匿名举报,无举报人
 	 */
-	@Ignore
+	@Test
 	public void testAddCaseAno() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		Company company = CompanyTest.getCompany();
@@ -101,7 +100,7 @@ public class CaseServiceTest {
 	/**
 	 * 问题和答案不一致，异常
 	 */
-	@Ignore
+	@Test
 	public void QuestUnSameWithAnswer() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		Company company = CompanyTest.getCompany();
@@ -126,7 +125,7 @@ public class CaseServiceTest {
 	/**
 	 * 存储后案件案件追踪号、密码是否生成
 	 */
-	@Ignore
+	@Test
 	public void testHasTrackNo() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
@@ -144,7 +143,7 @@ public class CaseServiceTest {
 	/**
 	 * 案件号码的生成：生成并且每次生成的要不一致
 	 */
-	@Ignore
+	@Test
 	public void testTrackingNo() {
 		Company company = CompanyTest.getCompany();
 		String trackingNo1 = caseService.getNewTrackingNo(company);
@@ -156,7 +155,7 @@ public class CaseServiceTest {
 	/**
 	 * 查询案件号，正确的案件追踪号和密码
 	 */
-	@Ignore
+	@Test
 	public void getCaseByTrackNo() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
@@ -170,7 +169,7 @@ public class CaseServiceTest {
 	/**
 	 * 查询案件号,输入错误的密码
 	 */
-	@Ignore
+	@Test
 	public void getCaseByErrorCode() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
@@ -182,7 +181,7 @@ public class CaseServiceTest {
 	/**
 	 * 查询案件号,输入错误的追踪号
 	 */
-	@Ignore
+	@Test
 	public void getCaseByErrorTrack() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
@@ -194,7 +193,7 @@ public class CaseServiceTest {
 	/**
 	 * 查询案件号,错误的案件追踪号和密码
 	 */
-	@Ignore
+	@Test
 	public void getCaseByErrorTrackNo() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
@@ -206,7 +205,7 @@ public class CaseServiceTest {
 	/**
 	 * 存储后案件初始状态是否正确,第一存储状态应该为正常，值是1。
 	 */
-	@Ignore
+	@Test
 	public void testCaseState() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseInfo.setCaseState(0);
@@ -231,7 +230,7 @@ public class CaseServiceTest {
 	}
 
 	// TODO
-	@Ignore
+	@Test
 	public void getCaseNoReporter() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
