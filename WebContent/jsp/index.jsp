@@ -62,14 +62,6 @@
 				right: 44px;
 			}
 			
-			.glyphicon-ok {
-				color: #419641;
-			}
-			
-			.glyphicon-remove {
-				color: #C12E2A;
-			}
-			
 			.dropdown-menu {
 				max-height: 300px;
 				overflow: auto;
@@ -111,7 +103,7 @@
 				</div>
 			</div>
 		</nav>
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="col-sm-10">

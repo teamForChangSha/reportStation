@@ -102,7 +102,7 @@
 						<li class="sub-menu">
 							<a href="admin/caseBack/showCaseByCompany.do" class="" target="MainIframe">
 								<span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
-								<span>举报管理<span class="badge">4</span></span>
+								<span>举报管理<span class="badge">0</span></span>
 							</a>
 						</li>
 						<li id="statistical" class="sub-menu">

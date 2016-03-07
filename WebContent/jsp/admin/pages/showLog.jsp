@@ -14,10 +14,14 @@
     <base href="<%=basePath%>"/>
     <meta charset="UTF-8">
     <title></title>
+    <link href="jsp/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/datepicker.min.js"></script>
+    <!-- Include English language -->
+    <script src="jsp/js/datepicker.en.js"></script>
     <style type="text/css">
         .row {
             margin-top: 10px;
@@ -52,17 +56,17 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="form-horizontal">
+        <form action="admin/user/getLogByParams.do" method="post" class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-1 control-label">按时间查询</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" name="logDate" placeholder="请输入查询时间"/>
+                <div class="col-sm-2">
+                    <input type="text" class="datepicker-here form-control" data-position="right top" name="logDate" placeholder="请输入查询时间"/>
                 </div>
                 <div class="col-sm-4">
-                    <input type="button" class="btn btn-default" name="logDate" value="查询"/>
+                    <input type="submit" class="btn btn-default" value="查询"/>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- 操作日志 -->
     <div class="row">
@@ -93,4 +97,16 @@
     </div>
 </div>
 </body>
+<script>
+    $(function(){
+        var logDate = $("input[name=logDate]");
+        logDate.datepicker({
+            language: 'zh',
+            autoClose:true,
+            navTitles: {
+                days: '<h6>当前日期:yyyy年mm月dd日</h6> '
+            }
+        });
+    });
+</script>
 </html>
