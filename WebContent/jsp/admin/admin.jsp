@@ -172,7 +172,15 @@
 					var text = time.getFullYear() + "年" + month + "月" + day + "日 " + hour + ":" + minute + ":" + second;
 					$("#date").text(text);
 				};
-				
+
+				var ids = {
+					enterAdmin:$("#enterAdmin"),
+					userAdmin:$("#userAdmin"),
+					statistical:$("#statistical"),
+					dataSetting:$("#dataSetting"),
+					updataPwd:$("#updataPwd")
+				}
+
 				ids.updataPwd.click(function(){
 					Modal.prompt({
 						title:'修改密码',
@@ -200,14 +208,6 @@
 						}
 					});
 				});
-				
-				var ids = {
-						enterAdmin:$("#enterAdmin"),
-						userAdmin:$("#userAdmin"),
-						statistical:$("#statistical"),
-						dataSetting:$("#dataSetting"),
-						updataPwd:$("#updataPwd")
-				}
 				
 				if("${user.userType}"=="2"){
 					ids.statistical.hide();
