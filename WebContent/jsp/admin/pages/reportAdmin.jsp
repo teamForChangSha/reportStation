@@ -65,7 +65,7 @@
 
 <body>
 <div class="container">
-    <form action="admin/caseBack/showCaseByCompany.do" method="post">
+    <form id="selectForm" action="admin/caseBack/showCaseByCompany.do" method="post">
         <div class="row">
             <h1>
                 <small>举报管理</small>
@@ -110,7 +110,7 @@
                     <input type="text" name="keyWord" class="form-control" style="width: 200px;"
                            placeholder="可查询问题答案关键字">
                 </div>
-                <input type="submit" class="btn btn-default" value="搜索"/>
+                <input type="button" id="submitSelect" class="btn btn-default" value="搜索"/>
             </div>
         </div>
     </form>
@@ -245,6 +245,27 @@
             }
         });
 
+        search.startTime.keyup(function(){
+            search.startTime.val("");
+        });
+        search.endTime.keyup(function(){
+            search.endTime.val("");
+        });
+
+        $("#submitSelect").click(function () {
+            if (search.startTime.val() != "") {
+                if (search.endTime.val() == "") {
+                    return Modal.alert({msg: "请选择结束时间"});
+                }
+            }
+            if (search.endTime.val() != "") {
+                if (search.startTime.val() == "") {
+                    return Modal.alert({msg: "请选择起始时间"});
+                }
+            }
+            $("#selectForm").submit();
+        });
+
 
         var updataStatus = $("#updataStatus");
         var appendInfo = $("#appendInfo");
@@ -268,7 +289,7 @@
         var url = "dict/getDictName.do?dictType=case.state&dictValue=${caseInfo.caseState}";
         $.get(url, function (res) {
             var tr = $("<tr/>");
-            var td1 = $("<td/>").text("${caseInfo.reporter.name}"==""?"匿名":"${caseInfo.reporter.name}");
+            var td1 = $("<td/>").text("${caseInfo.reporter.name}" == "" ? "匿名" : "${caseInfo.reporter.name}");
             var td2 = $("<td/>").text('<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
             var td3 = $("<td/>").text(res);
             var td4 = $("<td/>").text("${caseInfo.company.companyName}");
