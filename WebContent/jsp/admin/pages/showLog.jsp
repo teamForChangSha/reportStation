@@ -55,25 +55,21 @@
 
 <body>
 <div class="container">
-    <div class="row">
-        <form action="admin/user/getLogByParams.do" method="post" class="form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-1 control-label">按时间查询</label>
-                <div class="col-sm-2">
-                    <input type="text" class="datepicker-here form-control" data-position="right top" name="logDate" placeholder="请输入查询时间"/>
-                </div>
-                <div class="col-sm-4">
-                    <input type="submit" class="btn btn-default" value="查询"/>
-                </div>
-            </div>
-        </form>
-    </div>
     <!-- 操作日志 -->
     <div class="row">
         <h1>
             <small>操作日志</small>
         </h1>
         <div class="page-header"></div>
+        <form action="admin/user/getLogByParams.do" method="post" class="form-inline">
+            <div class="form-group">
+                <label class="control-label">按时间查询</label>
+                <input type="text" class="datepicker-here form-control" data-position="right top" name="logDate"
+                       placeholder="请输入查询时间"/>
+                <input type="submit" class="btn btn-default" value="查询"/>
+            </div>
+        </form>
+        <br>
         <div class="col-sm-8">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -98,11 +94,11 @@
 </div>
 </body>
 <script>
-    $(function(){
+    $(function () {
         var logDate = $("input[name=logDate]");
         logDate.datepicker({
             language: 'zh',
-            autoClose:true,
+            autoClose: true,
             navTitles: {
                 days: '<h6>当前日期:yyyy年mm月dd日</h6> '
             }

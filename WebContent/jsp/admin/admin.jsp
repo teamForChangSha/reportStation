@@ -15,6 +15,7 @@
     <meta charset="utf-8">
     <title>后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
     <link href="jsp/css/style.css" rel="stylesheet">
     <style type="text/css">
         .navbar-default {

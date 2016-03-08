@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">分支机构联系人名称：</label>
+                <label class="col-sm-2 control-label">分支机构联系人：</label>
 
                 <div class="col-sm-4">
                     <input type="text" name="contactor" class="form-control"/>

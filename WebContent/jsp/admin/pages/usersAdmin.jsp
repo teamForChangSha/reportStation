@@ -48,11 +48,19 @@
             padding-left: 0;
         }
 
-        #upCompanyInput, #addCompanyInput, #selectCompanyInput {
+        #upCompanyInput, #addCompanyInput {
             z-index: 99;
             position: absolute;
             top: 0px;
-            width: 83%;
+            width: 82%;
+            border-right: none;
+            border-top-right-radius: inherit;
+            border-bottom-right-radius: inherit;
+        }
+        #selectCompanyInput {
+            z-index: 99;
+            width: 180px;
+            margin-left: -463px;
             border-right: none;
             border-top-right-radius: inherit;
             border-bottom-right-radius: inherit;
@@ -73,7 +81,14 @@
 
         .text-right, .text-left {
             color: #d9534f;
-            margin-right: 36px;
+        }
+
+        .form-inline .form-group {
+            display: inherit;
+            margin-bottom: 15px;
+        }
+        .form-inline .form-control{
+            width: 200px;
         }
     </style>
 </head>
@@ -85,58 +100,40 @@
             <small>用户管理</small>
         </h1>
         <div class="page-header"></div>
-        <form action="admin/user/getUsersByParams.do" method="post" class="form-horizontal">
+        <form action="admin/user/getUsersByParams.do" method="post" class="form-inline">
             <div class="form-group">
-                <label class="col-sm-1 control-label">所属公司：</label>
+                <label class="control-label">所属公司：</label>
 
-                <div class="col-sm-3">
-                    <select id="companyId" name="companyId" class="form-control">
-                    </select>
-                    <input type="text" autocomplete="off" id="selectCompanyInput" class="form-control"
-                           placeholder="请搜索或选择公司">
-                </div>
+                <select id="companyId" name="companyId" class="form-control">
+                </select>
+                <span class="text-left">输入操作仅供搜索,实际以选择的企业为准</span>
+                <input type="text" autocomplete="off" id="selectCompanyInput" class="form-control"
+                       placeholder="请搜索或选择公司">
+            </div>
+            <div class="form-group">
+                <label class="control-label">用户类型：</label>
+                <select id="userType" name="userType" class="form-control">
+                    <option value="">-请选择-</option>
+                    <option value="1">普通用户</option>
+                    <option value="2">企业管理员</option>
+                    <option value="3">超级管理员</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">用户状态：</label>
+                <select id="userStatus" name="userState" class="form-control">
+                    <option value="">-请选择-</option>
+                    <option value="1">正常</option>
+                    <option value="2">注销</option>
+                    <option value="3">待审核</option>
+                    <option value="4">停用</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">搜关键字：</label>
+                <input type="text" id="keyWord" name="keyWord" placeholder="按电话或用户名称搜索" class="form-control"/>
+                <input type="submit" id="selected" class="btn btn-default" value="搜索"/>
                 <input type="button" id="stopAllUser" class="btn btn-warning hidden" value="停用该公司所有用户"/>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-4">
-                    <p class="text-left">输入操作仅供搜索,实际以选择的企业为准</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">用户类型：</label>
-
-                <div class="col-sm-3">
-                    <select id="userType" name="userType" class="form-control">
-                        <option value="">-请选择-</option>
-                        <option value="1">普通用户</option>
-                        <option value="2">企业管理员</option>
-                        <option value="3">超级管理员</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">用户状态：</label>
-
-                <div class="col-sm-3">
-                    <select id="userStatus" name="userState" class="form-control">
-                        <option value="">-请选择-</option>
-                        <option value="1">正常</option>
-                        <option value="2">注销</option>
-                        <option value="3">待审核</option>
-                        <option value="4">停用</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">搜关键字：</label>
-
-                <div class="col-sm-4">
-                    <input type="text" id="keyWord" name="keyWord" placeholder="按电话或用户名称搜索" class="form-control"/>
-                </div>
-                <div class="col-sm-2">
-                    <input type="submit" id="selected" class="btn btn-default" value="搜索"/>
-                </div>
             </div>
         </form>
     </div>
@@ -572,7 +569,7 @@
         });
 
         upEle.upCompanyInput.keyup(function () {
-            $.post("company/getAllByName.do","companyName="+upEle.upCompanyInput.val(), function (res) {
+            $.post("company/getAllByName.do", "companyName=" + upEle.upCompanyInput.val(), function (res) {
                 if (res == null || res.length < 0)
                     return;
                 upEle.upCompany.empty();
@@ -586,7 +583,7 @@
             });
         });
         addEle.addCompanyInput.keyup(function () {
-            $.post("company/getAllByName.do","companyName="+addEle.addCompanyInput.val(), function (res) {
+            $.post("company/getAllByName.do", "companyName=" + addEle.addCompanyInput.val(), function (res) {
                 if (res == null || res.length < 0)
                     return;
                 addEle.addCompany.empty();
@@ -600,7 +597,7 @@
             });
         });
         search.selectCompanyInput.keyup(function () {
-            $.post("company/getAllByName.do","companyName="+search.selectCompanyInput.val(), function (res) {
+            $.post("company/getAllByName.do", "companyName=" + search.selectCompanyInput.val(), function (res) {
                 if (res == null || res.length < 0)
                     return;
                 search.companyId.empty();
@@ -616,7 +613,7 @@
 
         /* 获取所有企业 */
         function getAllCompany(ele) {
-            $.post("company/getAllByName.do","companyName=", function (res) {
+            $.post("company/getAllByName.do", "companyName=", function (res) {
                 if (res == null || res.length < 0)
                     return;
                 ele.empty();
