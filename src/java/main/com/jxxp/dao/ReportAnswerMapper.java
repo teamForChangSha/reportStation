@@ -43,6 +43,15 @@ public interface ReportAnswerMapper {
 	 */
 	List<ReportAnswer> getAnswerByCaseId(long rcId);
 
+	/**
+	 * 删除某个案件的所有答案
+	 * 
+	 * @param rc_id
+	 *            案件id
+	 * @return
+	 */
+	int delByCaseId(Long rc_id);
+
 	int deleteById(long raId);
 
 }

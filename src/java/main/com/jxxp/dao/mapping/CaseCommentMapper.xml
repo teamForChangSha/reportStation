@@ -23,6 +23,12 @@
     from casecomment
     where rc_id = #{rcId,jdbcType=BIGINT}
   </select>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+   select 
+    <include refid="Base_Column_List" />
+    from casecomment
+    where cc_id = #{ccId,jdbcType=BIGINT}
+  </select>
   
    <insert id="insert" parameterType="com.jxxp.pojo.CaseComment" useGeneratedKeys="true" keyProperty="caseComment.ccId">
     insert into casecomment (cc_id, rc_id, is_reporter, 

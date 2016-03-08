@@ -1,5 +1,7 @@
 package com.jxxp.dao;
 
+import java.util.List;
+
 import com.jxxp.pojo.Reporter;
 
 /**
@@ -32,6 +34,8 @@ public interface ReporterMapper {
 	 * @return
 	 */
 	Reporter getByMobile(String mobile);
+
+	List<Reporter> getAll();
 
 	Reporter getById(long reporterId);
 
