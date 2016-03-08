@@ -38,10 +38,6 @@
             margin-bottom: 30px;
         }
 
-        #time {
-            width: 90px;
-        }
-
         th,
         td {
             text-align: center;
@@ -55,11 +51,6 @@
             padding-left: 0;
         }
 
-        .glyphicon {
-            color: #C12E2A;
-            border: 3px solid #C12E2A;
-            border-radius: 50px;
-        }
     </style>
 </head>
 
