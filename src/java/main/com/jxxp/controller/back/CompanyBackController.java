@@ -85,11 +85,12 @@ public class CompanyBackController {
 		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
 		// 获取前台复选框question的ids
 		String[] questIdStr = request.getParameterValues("questId");
-
-		for (int i = 0; i < questIdStr.length; i++) {
-			QuestionInfo question = new QuestionInfo();
-			question.setQuestId(Long.parseLong(questIdStr[i]));
-			questionList.add(question);
+		if (questIdStr != null && !questIdStr.equals("")) {
+			for (int i = 0; i < questIdStr.length; i++) {
+				QuestionInfo question = new QuestionInfo();
+				question.setQuestId(Long.parseLong(questIdStr[i]));
+				questionList.add(question);
+			}
 		}
 		// 获取该客户所属的公司
 		User user = (User) request.getSession().getAttribute("user");
