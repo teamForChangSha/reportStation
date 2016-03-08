@@ -13,6 +13,7 @@
 <head>
     <base href="<%=basePath%>"/>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/common_top.css"/>
@@ -46,6 +47,7 @@
             background-image: linear-gradient(to bottom, #4a8bc2, #4a8bc2);
             color: #fff;
         }
+
     </style>
 </head>
 
@@ -73,10 +75,10 @@
 </nav>
 <div class="container">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-1">
 
         </div>
-        <div class="col-sm-8 text-center">
+        <div class="col-sm-10 text-center">
             <div class="page-header">
                 <p><strong></strong></p>
 
