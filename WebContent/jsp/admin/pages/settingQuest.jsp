@@ -110,27 +110,34 @@
 <script type="text/javascript">
     $(function () {
         $("input[type=button]").click(function () {
-            $.post("admin/companyBack/addCompanyQuestions.do",
-                    $("form").serialize(),
-                    function (res, status) {
-                        if (status == "success") {
-                            if (res == "success") {
-                                Modal.alert({
-                                    msg: '操作成功！',
-                                }).on(function (e) {
-                                    location.reload();
-                                });
-                            } else {
-                                Modal.alert({
-                                    msg: '操作失败！',
-                                });
+            if ($("input[type=checkbox]:checked").length <= 0) {
+                return Modal.alert({msg: "您未选择问题将使用系统默认的问题!"})
+                        .on(function (e) {
+                            if (e) {
+                                $.post("admin/companyBack/addCompanyQuestions.do",
+                                        $("form").serialize(),
+                                        function (res, status) {
+                                            if (status == "success") {
+                                                if (res == "success") {
+                                                    Modal.alert({
+                                                        msg: '操作成功！',
+                                                    }).on(function (e) {
+                                                        location.reload();
+                                                    });
+                                                } else {
+                                                    Modal.alert({
+                                                        msg: '操作失败！',
+                                                    });
+                                                }
+                                            } else {
+                                                Modal.alert({
+                                                    msg: '操作失败！',
+                                                });
+                                            }
+                                        });
                             }
-                        } else {
-                            Modal.alert({
-                                msg: '操作失败！',
-                            });
-                        }
-                    });
+                        });
+            }
         });
     });
 </script>
