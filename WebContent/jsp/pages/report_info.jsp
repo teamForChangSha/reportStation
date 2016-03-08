@@ -247,7 +247,12 @@
 					<c:forEach items = "${reportCase.commentList}" var = "comment" varStatus = "i" >
 						<div class="form-group">
 							<c:if test="${comment.isReporter=='1'}">
-								<label class="col-sm-4 control-label">举报人：</label>
+								<c:if test="${reportCase.reporter!=null}">
+									<label class="col-sm-4 control-label">${reportCase.reporter.name}：</label>
+								</c:if>
+								<c:if test="${reportCase.reporter==null}">
+									<label class="col-sm-4 control-label">举报人：</label>
+								</c:if>
 							</c:if>
 							<c:if test="${comment.isReporter!='1'}">
 								<label class="col-sm-4 control-label">${comment.owner.userName }：</label>
