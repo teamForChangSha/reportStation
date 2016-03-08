@@ -4,7 +4,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,17 +20,23 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.jxxp.dao.CaseCommentMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.dao.ReporterMapper;
+import com.jxxp.dao.UserMapper;
+import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
+import com.jxxp.pojo.User;
+import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
+import com.jxxp.test.mybatis.CaseCommentTest;
 import com.jxxp.test.mybatis.CaseTest;
 import com.jxxp.test.mybatis.CompanyTest;
 import com.jxxp.test.mybatis.QuestionInfoTest;
@@ -44,6 +54,8 @@ public class CaseServiceTest {
 	@Resource
 	private CaseService caseService;
 	@Resource
+	private CaseCommentService caseCommentService;
+	@Resource
 	private ReportCaseMapper reportCaseMapper;
 	@Resource
 	private ReporterMapper reporterMapper;
@@ -51,11 +63,18 @@ public class CaseServiceTest {
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private CompanyMapper companyMapper;
+
+	@Resource
+	private UserMapper userMapper;
+	@Resource
+	private CaseCommentMapper caseCommentMapper;
 	@Resource
 	private CompanyQuestionMapper cqMapper;
 	private List<QuestionInfo> qustionList;
 	private List<ReportAnswer> answerList;
 	private ReportCase caseInfo;
+	private ReportAnswer answer;
+	private CaseComment caseComment;
 
 	/**
 	 * 实名举报,第一次举报，添加案件的同时添加举报人
@@ -260,6 +279,205 @@ public class CaseServiceTest {
 	}
 
 	/**
+	 * 追加备注 取出来的添加的备注相同
+	 * 
+	 * 1、举报人追加的： 查找某个案件下的所有备注，含有该备注
+	 */
+	@Test
+	public void addCaseCommentByReporter() {
+		caseComment = CaseCommentTest.getComment();
+		caseInfo = CaseTest.getReportCase();
+		caseComment.setIsReporter(1);
+		reportCaseMapper.insert(caseInfo);
+		caseCommentService.addCaseComment(caseComment, caseInfo.getRcId());
+		CaseComment CaseComment2 = caseCommentMapper.getById(caseComment.getCcId());
+		assertTrue(TestUtil.isEqual(caseComment, CaseComment2));
+		List<CaseComment> cComentList = caseCommentMapper.getAllByReportCaseId(caseInfo.getRcId());
+		int count = 0;
+		for (int i = 0; i < cComentList.size(); i++) {
+			if (TestUtil.isEqual(caseComment, cComentList.get(i))) {
+				count++;
+			}
+		}
+		assertTrue(count == 1);
+	}
+
+	/**
+	 * 追加备注 取出来的添加的备注相同
+	 * 
+	 * 2、用户追加的： 查找某个案件下的所有备注，含有该备注
+	 */
+	@Test
+	public void addCaseCommentByUser() {
+		caseComment = CaseCommentTest.getComment();
+		caseInfo = CaseTest.getReportCase();
+		User owner = userMapper.getAllUers().get(0);
+		caseComment.setOwner(owner);
+		caseComment.setOwnerCompany(owner.getUserCompany());
+		reportCaseMapper.insert(caseInfo);
+		caseCommentService.addCaseComment(caseComment, caseInfo.getRcId());
+		CaseComment CaseComment2 = caseCommentMapper.getById(caseComment.getCcId());
+		assertTrue(TestUtil.isEqual(caseComment, CaseComment2));
+		List<CaseComment> cComentList = caseCommentMapper.getAllByReportCaseId(caseInfo.getRcId());
+		int count = 0;
+		for (int i = 0; i < cComentList.size(); i++) {
+			if (TestUtil.isEqual(caseComment, cComentList.get(i))) {
+				count++;
+			}
+		}
+		assertTrue(caseComment.getIsReporter() == 0);
+		assertTrue(count == 1);
+	}
+
+	/**
+	 * 查件 除了公司id，没有其他关键字,同根据公司id查出来的结果一致
+	 */
+	@Test
+	public void testSearchByCompnayId() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+
+		HashMap<String, String> params = new HashMap<String, String>();
+		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList2 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
+				.getCompanyId());
+
+		assertTrue(caseList2.size() >= 1);
+		assertTrue(caseList1.size() == caseList2.size());
+
+	}
+
+	/**
+	 * 查件：通过公司的id、案件起始时间、关键字（答案中含有）、类型搜索案件其中 按照时间搜索：必须有起始时间，缺少任何一个则视作null，
+	 * 
+	 * 没有开始时间
+	 */
+	@Test
+	public void testSearchByNoStartTime() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("endTime", format.format(caseInfo.getCreateTime()));
+		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList2 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
+				.getCompanyId());
+		assertTrue(caseList2.size() >= 1);
+		assertTrue(caseList1.size() == caseList2.size());
+		assertTrue(TestUtil.isEqual(caseList1, caseList2));
+
+	}
+
+	/**
+	 * 查件：通过公司的id、案件起始时间、关键字（答案中含有）、类型搜索案件其中 按照时间搜索：必须有起始时间，缺少任何一个则视作null，
+	 * 
+	 * 没有结束时间
+	 */
+	@Test
+	public void testSearchByNoEndTime() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("startTime", format.format(caseInfo.getCreateTime()));
+		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList2 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
+				.getCompanyId());
+
+		assertTrue(caseList2.size() >= 1);
+		assertTrue(caseList1.size() == caseList2.size());
+		assertTrue(TestUtil.isEqual(caseList1, caseList2));
+
+	}
+
+	/**
+	 * 查件：通过公司的id、案件起始时间、关键字（答案中含有）、类型搜索案件其中 按照时间搜索：必须有起始时间，缺少任何一个则视作null，
+	 * 
+	 * 开始时间和结束时间相同,包括测试时间的临界值
+	 */
+	@Test
+	public void testSearchBySameTimes() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
+		answerList.add(answer);
+		caseInfo.setAnswers(answerList);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("startTime", format.format(caseInfo.getCreateTime()));
+		params.put("endTime", format.format(caseInfo.getCreateTime()));
+
+		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		assertTrue(caseList.size() == 1);
+		assertTrue(TestUtil.isEqual(caseInfo, caseList.get(0)));
+	}
+
+	@Test
+	public void SearchWithNotMatchType() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
+		answerList.add(answer);
+		caseInfo.setAnswers(answerList);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("startTime", format.format(caseInfo.getCreateTime()));
+		params.put("endTime", format.format(caseInfo.getCreateTime()));
+		params.put("rtList", "noThisType");
+
+		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		assertTrue(caseList.size() == 0);
+
+	}
+
+	@Test
+	public void testSearchWithType() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
+		answerList.add(answer);
+		caseInfo.setAnswers(answerList);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("startTime", format.format(caseInfo.getCreateTime()));
+		params.put("endTime", format.format(caseInfo.getCreateTime()));
+		params.put("rtList", caseInfo.getRtList().substring(0, caseInfo.getRtList().length() / 2));
+
+		List<ReportCase> caseList = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
+				.getCompanyId());
+		assertTrue(caseList.size() == 1);
+		assertTrue(TestUtil.isEqual(caseInfo, caseList.get(0)));
+
+	}
+
+	private Date getNextDate(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, 1);
+		Date afterDate = cal.getTime();
+		return afterDate;
+	}
+
+	/**
 	 * 问题和答案不一致，异常
 	 */
 	@Ignore
@@ -343,9 +561,6 @@ public class CaseServiceTest {
 		return aList;
 	}
 
-	public void addCaseComment() {
-	}
-
 	@After
 	public void clear() {
 		// 删除案件
@@ -363,6 +578,10 @@ public class CaseServiceTest {
 				reportAnswerMapper.delByCaseId(caseInfo.getRcId());
 			}
 		}
+
+		if (caseComment != null) {
+			caseCommentMapper.deleteById(caseComment.getCcId());
+		}
 	}
 
 	public ReportCase getFullReportCase(ReportCase casePoj) {
@@ -377,4 +596,5 @@ public class CaseServiceTest {
 		casePoj.setReporter(reporter);
 		return casePoj;
 	}
+
 }
