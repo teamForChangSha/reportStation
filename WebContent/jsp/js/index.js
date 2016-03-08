@@ -1,4 +1,26 @@
 ﻿$(function () {
+    var companyData = null;
+    $.post("company/getAllByName.do", "companyName=", function (res) {
+        if (res != null || res.length > 0) {
+            companyData = res;
+            $("#companyData").find("li").remove();
+            $.each(JSON.parse(res), function (i, company) {
+                var li = $("<li/>");
+                var a = $("<a/>").attr("data-id", company.companyId).text(
+                    company.companyName);
+                a.click(function () {
+                    hiddenEle();
+                    leftEle.companyName.next().next().hide();
+                    leftEle.companyName.val(this.innerHTML);
+                    leftEle.companyName
+                        .attr("data-id", $(this).attr("data-id"));
+                });
+                li.append(a);
+                $("#companyData").append(li);
+            });
+        }
+    });
+
     var leftEle = {
         province: $("select[name=province]"),
         city: $("select[name=city]"),
@@ -30,7 +52,7 @@
             + leftEle.companyName.attr("data-id");
         $.getJSON(url, function (result) {
             if (result == null || result.length <= 0) {
-                return ;
+                return;
             }
             leftEle.province.empty();
             var opt = $("<option/>").text("--请选择--").attr("value", "-1");
@@ -156,27 +178,34 @@
      * 自动完成提示
      */
     function AutoComplete() {
-        var data = "companyName=" + leftEle.companyName.val();
-        $.post("company/getAllByName.do", data, function (res) {
-            if (res == null || res.length < 0)
-                return;
-            leftEle.companyName.next().next().find("li").remove();
-            $.each(JSON.parse(res), function (i, company) {
-                var li = $("<li/>");
-                var a = $("<a/>").attr("data-id", company.companyId).text(
-                    company.companyName);
-                a.click(function () {
-                    hiddenEle();
-                    leftEle.companyName.next().next().css("display", "none");
-                    leftEle.companyName.val(this.innerHTML);
-                    leftEle.companyName
-                        .attr("data-id", $(this).attr("data-id"));
+        $("#companyData").hide();
+        $("#companyData li").hide();
+        if (companyData != null) {
+            $("#companyData li:contains(" + leftEle.companyName.val() + ")").show();
+            $("#companyData").show();
+        } else {
+            var data = "companyName=" + leftEle.companyName.val();
+            $.post("company/getAllByName.do", data, function (res) {
+                if (res == null || res.length < 0)
+                    return;
+                leftEle.companyName.next().next().find("li").remove();
+                $.each(JSON.parse(res), function (i, company) {
+                    var li = $("<li/>");
+                    var a = $("<a/>").attr("data-id", company.companyId).text(
+                        company.companyName);
+                    a.click(function () {
+                        hiddenEle();
+                        leftEle.companyName.next().next().css("display", "none");
+                        leftEle.companyName.val(this.innerHTML);
+                        leftEle.companyName
+                            .attr("data-id", $(this).attr("data-id"));
+                    });
+                    li.append(a);
+                    leftEle.companyName.next().next().append(li);
+                    leftEle.companyName.next().next().css("display", "block");
                 });
-                li.append(a);
-                leftEle.companyName.next().next().append(li);
-                leftEle.companyName.next().next().css("display", "block");
             });
-        });
+        }
     }
     ;
 
@@ -189,7 +218,7 @@
             if ($(e.target) == leftEle.companyName.next().next()
                 || $(e.target).get(0).name == "companyName")
                 return;
-            leftEle.companyName.next().next().css("display", "none");
+            leftEle.companyName.next().next().hide();
         });
 
     hiddenErrorIcon(leftEle.companyName);

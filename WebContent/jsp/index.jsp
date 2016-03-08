@@ -67,6 +67,9 @@
 				overflow: auto;
 				width:83%;
 			}
+			.dropdown-menu > li{
+				cursor: pointer;
+			}
 			
 			.alert {
 				margin: 0 -15px;
@@ -116,7 +119,7 @@
 							<div class="input-group form-group">
 								<input type="text" name="companyName" autocomplete="off" class="form-control" placeholder="请选择或输入被举报的企业" />
 								<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
-								<ul class="dropdown-menu"></ul>
+								<ul id="companyData" class="dropdown-menu"></ul>
 								<span class="input-group-btn">
 									<button id="getArea" class="btn btn-default" type="button">GO!</button>
 								</span>
