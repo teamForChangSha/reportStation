@@ -113,7 +113,7 @@
         $.get(url, function (res) {
             var tr = $("<tr/>");
             var td1 = $("<td/>").text("${caseInfo.company.companyName}");
-            var td2 = $("<td/>").text("${caseInfo.rtList}");
+            var td2 = $("<td/>").css("width","500px").text("${caseInfo.rtList}");
             var td3 = $("<td/>").text(res);
             var td4 = $("<td/>").text("<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>");
             tr.append(td1).append(td2).append(td3).append(td4);
