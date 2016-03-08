@@ -31,7 +31,7 @@ public interface CaseCommentMapper {
 	 * @param ccId
 	 * @return
 	 */
-	CaseComment findById(long ccId);
+	CaseComment getById(long ccId);
 
 	/**
 	 * 通过举报人获得该举报人提交的某个举报案件的备注

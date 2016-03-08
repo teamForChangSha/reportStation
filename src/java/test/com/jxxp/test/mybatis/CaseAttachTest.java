@@ -2,8 +2,6 @@ package com.jxxp.test.mybatis;
 
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Field;
-
 import javax.annotation.Resource;
 
 import org.junit.After;
@@ -73,7 +71,7 @@ public class CaseAttachTest {
 		caseAttach2.setAttachName("change fileName");
 		assertTrue(caseAttachMapper.update(caseAttach2) > 0);
 		CaseAttach caseAttach3 = caseAttachMapper.getById(caseAttach1.getCaId());
-		assertTrue(!isEqual(caseAttach1, caseAttach3));
+		assertTrue(!TestUtil.isEqual(caseAttach1, caseAttach3));
 	}
 
 	/*
@@ -108,44 +106,4 @@ public class CaseAttachTest {
 		return caseAttach;
 	}
 
-	/**
-	 * java反射机制验证两个对象的属性值是否相等
-	 * 
-	 * @param src
-	 * @param dst
-	 * @return
-	 */
-	public boolean isEqual(CaseAttach src, CaseAttach dst) {
-		Field[] fields = src.getClass().getDeclaredFields();
-		boolean flag = true;
-		for (Field srcField : fields) {
-			srcField.setAccessible(true);
-			try {
-				if (!(srcField.getName().equals("thumb"))) {
-					// 获取原对象字段值
-					Object srcFieldData = srcField.get(src);
-					Field dstField = dst.getClass().getDeclaredField(srcField.getName());
-					dstField.setAccessible(true);
-					Object dstFieldData = dstField.get(dst);
-					if (!srcFieldData.equals(dstFieldData)) {
-						flag = false;
-						break;
-					}
-				}
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return flag;
-	}
 }

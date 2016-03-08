@@ -3,6 +3,7 @@ package com.jxxp.test.mybatis;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,17 +12,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.jxxp.dao.CaseAttachMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.dao.ReporterMapper;
-import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.ReportAnswer;
@@ -41,31 +43,34 @@ public class CaseTest {
 	@Resource
 	private ReportCaseMapper reportCaseMapper;
 	@Resource
-	private CaseAttachMapper caseAttachMapper;
-	@Resource
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private ReporterMapper reporterMapper;
 	@Resource
 	private CompanyMapper companyMapper;
 
+	private ReportCase caseInfo;
+	private ReportAnswer answer;
 	/**
 	 * 案件追踪号
 	 */
 	private static String trackingNo = "YT2016021040";
 	private static String accessCode = "123456";
 
+	@Before
+	public void init() {
+		caseInfo = getReportCase();
+	}
+
 	/**
 	 * 案件的存储是否成功
 	 */
 	@Test
 	public void saveCaseInfo() {
-		ReportCase case1 = getReportCase();
-		assertTrue(reportCaseMapper.insert(case1) > 0);
-		ReportCase case2 = reportCaseMapper.getById(case1.getRcId());
-		reportCaseMapper.deleteById(case1.getRcId());
-		assertNotNull(case2);
-		// assertTrue(TestUtil.isEqual(case1, case2));
+		caseInfo = getReportCase();
+		assertTrue(reportCaseMapper.insert(caseInfo) > 0);
+		ReportCase caseInfo2 = reportCaseMapper.getById(caseInfo.getRcId());
+		assertTrue(TestUtil.isEqual(caseInfo, caseInfo2));
 	}
 
 	/**
@@ -73,91 +78,144 @@ public class CaseTest {
 	 */
 	@Test
 	public void testFindByNo() {
-		ReportCase case1 = getReportCase();
-		reportCaseMapper.insert(case1);
-		ReportCase case2 = reportCaseMapper.findByNo(case1.getTrackingNo(), case1.getAccessCode());
-		reportCaseMapper.deleteById(case1.getRcId());
-		assertNotNull(case2);
-		// assertTrue(TestUtil.isEqual(case1, case2));
-
-	}
-
-	@Test
-	public void testSearchByNull() {
-		ReportCase caseInfo = getReportCase();
+		caseInfo = getReportCase();
 		reportCaseMapper.insert(caseInfo);
-		assertNotNull(reportCaseMapper.searchByKeys(new Long(1), "", "2016-02-28", null, null)
-				.size());
-
-		reportCaseMapper.deleteById(caseInfo.getRcId());
+		ReportCase caseInfo2 = reportCaseMapper.findByNo(caseInfo.getTrackingNo(),
+				caseInfo.getAccessCode());
+		assertNotNull(caseInfo2);
+		assertTrue(TestUtil.isEqual(caseInfo, caseInfo2));
 
 	}
 
 	/**
-	 * 除了公司id，没有其他关键字
+	 * 查询某个公司的所有案件
+	 * 
+	 * 给某个公司添加一个案件，要求size>0,且查出来的集合所有案件属于这个公司的
+	 */
+	@Test
+	public void getAllByCompanyId() {
+		caseInfo = getReportCase();
+		Company company = CompanyTest.getCompany();
+		companyMapper.insert(company);
+		caseInfo.setCompany(company);
+		reportCaseMapper.insert(caseInfo);
+		List<ReportCase> list = reportCaseMapper.getAllByCompanyId(company.getCompanyId());
+		assertTrue(list.size() > 0);
+		for (int i = 0; i < list.size(); i++) {
+			assertTrue(TestUtil.isEqual(list.get(i).getCompany(), caseInfo.getCompany()));
+		}
+	}
+
+	/**
+	 * 查件：通过公司的id、案件起始时间、关键字（答案中含有）、类型搜索案件
+	 * 
+	 * 所有关键字都有
+	 */
+	@Test
+	public void searchByAllParams() {
+		caseInfo = getFullReportCase(getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date createTime = caseInfo.getCreateTime();
+		List<ReportCase> caseList = reportCaseMapper.searchByKeys(caseInfo.getCompany()
+				.getCompanyId(), format.format(createTime), fullFormat.format(createTime), answer
+				.getQuestValue(), caseInfo.getRtList());
+		System.out.println(caseList.size());
+		assertTrue(caseList.size() == 1);
+	}
+
+	/**
+	 * 查件，没有开始时间（要求开始时间和结束时间同时存在，不同时存在则相当于时间设置无效）
+	 * 
+	 * 1、size>0 2、与不设置时间的集合结果相同
+	 */
+	@Test
+	public void testSearchByNoStartTime() {
+		caseInfo = getFullReportCase(getReportCase());
+		reportCaseMapper.insert(caseInfo);
+		answer = getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+
+		List<ReportCase> caseList1 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
+				.getCompanyId());
+		List<ReportCase> caseList2 = reportCaseMapper.searchByKeys(caseInfo.getCompany()
+				.getCompanyId(), "", "2016-02-28", null, null);
+		assertTrue(caseList2.size() >= 1);
+		assertTrue(caseList1.size() == caseList2.size());
+
+	}
+
+	/**
+	 * 查件 除了公司id，没有其他关键字
 	 */
 	@Test
 	public void testSearchByCompnayId() {
-		ReportCase caseInfo = getReportCase();
-		Company company = caseInfo.getCompany();
-		companyMapper.insert(company);
+		caseInfo = getFullReportCase(getReportCase());
 		reportCaseMapper.insert(caseInfo);
-		ReportAnswer answer = getAnswer();
+		answer = getAnswer();
 		answer.setRcId(caseInfo.getRcId());
 		reportAnswerMapper.insert(answer);
-		assertTrue(reportCaseMapper.searchByKeys(company.getCompanyId(), null, null, null, null)
-				.size() > 0);
-		reportAnswerMapper.deleteById(answer.getRdId());
-		companyMapper.deleteById(company.getCompanyId());
-		reportCaseMapper.deleteById(caseInfo.getRcId());
+
+		List<ReportCase> caseList1 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
+				.getCompanyId());
+		List<ReportCase> caseList2 = reportCaseMapper.searchByKeys(caseInfo.getCompany()
+				.getCompanyId(), null, null, null, null);
+		assertTrue(caseList2.size() >= 1);
+		assertTrue(caseList1.size() == caseList2.size());
 
 	}
 
 	/**
+	 * 查件：通过公司的id、案件起始时间、关键字（答案中含有）、类型搜索案件
+	 * 
 	 * 按照时间搜索，时间存在
+	 * 
+	 * size>0 且集合中含有自己加进去的
 	 */
-	@Test
+	@Ignore
 	public void testSearchByKeys() {
 		ReportCase caseInfo = getReportCase();
 		Company company = caseInfo.getCompany();
 		companyMapper.insert(company);
 		reportCaseMapper.insert(caseInfo);
-
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+		isEqual(reportCaseMapper.getById(caseInfo.getRcId()).getCompany(), caseInfo.getCompany());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date createTime = caseInfo.getCreateTime();
-
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DAY_OF_MONTH, -1);
+		cal.add(Calendar.DATE, 1);
 		Date afterDate = cal.getTime();
-
 		ReportAnswer answer = getAnswer();
 		answer.setRcId(caseInfo.getRcId());
 		reportAnswerMapper.insert(answer);
-		assertTrue(reportCaseMapper.searchByKeys(company.getCompanyId(), format.format(createTime),
-				"2016-04", null, null).size() > 0);
-		companyMapper.deleteById(company.getCompanyId());
+		List<ReportCase> caseList = reportCaseMapper.searchByKeys(company.getCompanyId(),
+				format.format(createTime), format.format(afterDate), null, null);
+		assertTrue(caseList.size() > 0);
+		int count = 0;
+		for (int i = 0; i < caseList.size(); i++) {
+			ReportCase getCase = caseList.get(i);
+			// if (isEqual(getCase, caseInfo)) {
+			// count++;
+			// }
+
+		}
+		System.out.println("----" + count);
+		// companyMapper.deleteById(company.getCompanyId());
 		reportAnswerMapper.deleteById(answer.getRdId());
-		reportCaseMapper.deleteById(caseInfo.getRcId());
+		// reportCaseMapper.deleteById(caseInfo.getRcId());
 
-	}
-
-	@Test
-	public void getAllByCompanyId() {
-		ReportCase case1 = getReportCase();
-		Company company = case1.getCompany();
-		companyMapper.insert(company);
-		reportCaseMapper.insert(case1);
-		List<ReportCase> list = reportCaseMapper.getAllByCompanyId(company.getCompanyId());
-		assertTrue(list.size() > 0);
-		companyMapper.deleteById(company.getCompanyId());
-		reportCaseMapper.deleteById(case1.getRcId());
 	}
 
 	/**
 	 * 获取案件，包括该案件包含的附件list、追加信息list、日志list、答案list
 	 */
-	@Test
+	@Ignore
 	public void testGetCaseById() {
 		ReportCase case1 = getReportCase();
 		reportCaseMapper.insert(case1);
@@ -172,18 +230,24 @@ public class CaseTest {
 
 	/**
 	 * 获取实名举报这举报过案件
+	 * 
+	 * 取出来的集合中包含该案件，且数量为1
 	 */
 	@Test
 	public void getCaseByReport() {
-		ReportCase caseInfo = getReportCase();
-		Reporter reporter = ReporterTest.getReporter();
-		caseInfo.setReporter(reporter);
-		reporterMapper.insert(reporter);
+		caseInfo = getFullReportCase(getReportCase());
 		reportCaseMapper.insert(caseInfo);
-		assertTrue(reportCaseMapper.getCaseByReporter(reporter).size() > 0);
-		reporterMapper.deleteById(reporter.getReporterId());
-		reportCaseMapper.deleteById(caseInfo.getRcId());
+		List<ReportCase> caseList = reportCaseMapper.getCaseByReporter(caseInfo.getReporter());
+		int count = 0;
 
+		for (int i = 0; i < caseList.size(); i++) {
+			ReportCase getCase = caseList.get(i);
+			if (TestUtil.isEqual(getCase, caseInfo)) {
+				count++;
+			}
+		}
+		assertTrue(caseList.size() > 0);
+		assertTrue(count == 1);
 	}
 
 	/**
@@ -191,49 +255,51 @@ public class CaseTest {
 	 */
 	@Test
 	public void testInsertAnswer() {
-		// reportCaseMapper.getAllCase().get(0).getRcId();
+		caseInfo = getReportCase();
+		reportCaseMapper.insert(caseInfo);
+		answer = getAnswer();
+		answer.setRcId(caseInfo.getRcId());
+		reportAnswerMapper.insert(answer);
+		ReportAnswer answer2 = reportAnswerMapper.getById(answer.getRdId());
+		assertTrue(TestUtil.isEqual(answer, answer2));
+	}
+
+	/**
+	 * 删除answer
+	 */
+	@Test
+	public void delAnswer() {
 		ReportAnswer answer1 = getAnswer();
 		reportAnswerMapper.insert(answer1);
 		ReportAnswer answer2 = reportAnswerMapper.getById(answer1.getRdId());
 		assertTrue(TestUtil.isEqual(answer1, answer2));
 		reportAnswerMapper.deleteById(answer1.getRdId());
+		ReportAnswer answer3 = reportAnswerMapper.getById(answer1.getRdId());
+		assertTrue(answer3 == null);
+
 	}
 
-	/**
-	 * 保存answer
-	 */
-	@Test
-	public void insertAnswerByQuestKey() {
-		// reportCaseMapper.getAllCase().get(0).getRcId();
-		ReportAnswer answer1 = getAnswer();
-		reportAnswerMapper.insertByQuestionId(answer1, new Long(1));
-		ReportAnswer answer2 = reportAnswerMapper.getById(answer1.getRdId());
-		reportAnswerMapper.deleteById(answer1.getRdId());
-		assertNotNull(answer2);
-	}
+	public ReportCase getFullReportCase(ReportCase casePoj) {
+		Company company = CompanyTest.getCompany();
+		companyMapper.insert(company);
+		casePoj.setCompany(company);
 
-	public static CaseAttach getAttach() {
-		CaseAttach caseAttach = new CaseAttach();
-		caseAttach.setAttachExt("扩展文本");
-		caseAttach.setAttachName("附件名");
-		caseAttach.setTrackingNo(trackingNo);
-		caseAttach.setAttachSize(200);
-		caseAttach.setAttachFileName("fileName");
-		caseAttach.setAttachPath("upload");
-		caseAttach.setAttachUrl("http://");
-		caseAttach.setState(1);
-		caseAttach.setDescription("附件描述");
-		return caseAttach;
+		// CompanyBranch branch = getBranch();
+		// casePoj.setBranch(branch);
+		Reporter reporter = ReporterTest.getReporter();
+		reporterMapper.insert(reporter);
+		casePoj.setReporter(reporter);
+		return casePoj;
 	}
 
 	public static ReportCase getReportCase() {
 		ReportCase caseInfo = new ReportCase();
 		caseInfo.setAccessCode(accessCode);
 		caseInfo.setTrackingNo(trackingNo);
-		caseInfo.setCreateTime(new Timestamp(new Date().getTime() / 1000 * 1000));
-		caseInfo.setCompany(CompanyTest.getCompany());
-		caseInfo.setBranch(getBranch());
-		caseInfo.setReporter(ReporterTest.getReporter());
+		caseInfo.setCreateTime(new Date(new Timestamp(new Date().getTime() / 1000 * 1000).getTime()));
+		// caseInfo.setCompany(CompanyTest.getCompany());
+		// caseInfo.setBranch(getBranch());
+		// caseInfo.setReporter(ReporterTest.getReporter());
 		caseInfo.setRtList("举报类型1，举报类型2");
 		caseInfo.setCaseState(1);
 		return caseInfo;
@@ -258,4 +324,61 @@ public class CaseTest {
 		return branch;
 	}
 
+	/**
+	 * java反射机制验证两个对象的属性值是否相等
+	 * 
+	 * @param src
+	 * @param dst
+	 * @return
+	 */
+	public boolean isEqual(Object src, Object dst) {
+		Field[] fields = src.getClass().getDeclaredFields();
+		boolean flag = true;
+		for (Field srcField : fields) {
+			srcField.setAccessible(true);
+			try {
+				// 获取原对象字段值
+				Object srcFieldData = srcField.get(src);
+				Field dstField = dst.getClass().getDeclaredField(srcField.getName());
+				dstField.setAccessible(true);
+				Object dstFieldData = dstField.get(dst);
+				/*
+				 * System.out.println("fieldName==" + srcField.getName() +
+				 * "----value=" + dstFieldData + "--" + srcFieldData +
+				 * "---isEquals=" + dstFieldData.equals(srcFieldData));
+				 */if (!srcFieldData.equals(dstFieldData)) {
+					flag = false;
+					break;
+				}
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return flag;
+	}
+
+	@After
+	public void clear() {
+		reportCaseMapper.deleteById(caseInfo.getRcId());
+		if (caseInfo.getCompany() != null) {
+			companyMapper.deleteById(caseInfo.getCompany().getCompanyId());
+		}
+		if (answer != null) {
+			reportAnswerMapper.deleteById(answer.getRdId());
+		}
+		if (caseInfo.getReporter() != null) {
+			reporterMapper.deleteById(caseInfo.getReporter().getReporterId());
+
+		}
+	}
 }

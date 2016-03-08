@@ -19,6 +19,11 @@
     from reporter
     where reporter_id = #{reporterId,jdbcType=BIGINT}
   </select>
+  
+  <select id="getAll" resultMap="BaseResultMap">
+   select * from reporter
+  </select>
+  
   <select id="getByMobile" resultMap="BaseResultMap" parameterType="String" >
     select 
     <include refid="Base_Column_List" />
