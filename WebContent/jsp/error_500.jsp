@@ -16,10 +16,8 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/common_top.css"/>
     <style>
-        .container{
-            padding-top: 80px;
-        }
         h1{
+            margin-top: 100px;
             font-weight: bold;
             color: #595d60;
             font-size: 50px;
@@ -59,5 +57,10 @@
     <br>
     <a href="" class="btn btn-link">&lt;返回首页</a>
 </div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <p class="navbar-text" id="bottom">Copyright © 2016-2018 用户举报系统</p>
+    </div>
+</nav>
 </body>
 </html>
