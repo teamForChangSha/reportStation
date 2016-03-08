@@ -74,8 +74,12 @@ public class CompanyServiceImpl implements CompanyService {
 		long companyId = company.getCompanyId();
 		// 则先删除原来的问题列表
 		companyQuestionMapper.deleteByCompanyId(company.getCompanyId());
-		int count = companyQuestionMapper.insertQuestionList(questList, companyId);
-		flag = count > 0 ? true : false;
+		if (questList.size() > 0) {
+			int count = companyQuestionMapper.insertQuestionList(questList, companyId);
+			flag = count > 0 ? true : false;
+		} else {
+			flag = true;
+		}
 		return flag;
 	}
 

@@ -45,7 +45,7 @@ public interface CaseCommentMapper {
 	List<CaseComment> getByReporter(@Param("rcId") Long rcId, @Param("reporterId") Long reporterId);
 
 	/**
-	 * 通过举报人获得该举报人提交的某个举报案件的备注
+	 * 获得用户提交的某个举报案件的备注
 	 * 
 	 * @param rcId
 	 *            案件id号
@@ -55,6 +55,12 @@ public interface CaseCommentMapper {
 	 */
 	List<CaseComment> getByUser(@Param("rcId") Long rcId, @Param("userId") Long userId);
 
+	/**
+	 * 属于某个案件的所有追加的备注
+	 * 
+	 * @param crId
+	 * @return
+	 */
 	List<CaseComment> getAllByReportCaseId(long crId);
 
 	/**

@@ -44,7 +44,7 @@ public class CaseCommentTest {
 	}
 
 	@Test
-	public void AddCaseComment() {
+	public void addCaseComment() {
 		caseInfo = CaseTest.getReportCase();
 		reportCaseMapper.insert(caseInfo);
 		caseCommentMapper.insert(caseComment, caseInfo.getRcId());

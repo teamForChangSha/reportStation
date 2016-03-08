@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -168,47 +167,6 @@ public class CaseTest {
 				.getCompanyId(), null, null, null, null);
 		assertTrue(caseList2.size() >= 1);
 		assertTrue(caseList1.size() == caseList2.size());
-
-	}
-
-	/**
-	 * 查件：通过公司的id、案件起始时间、关键字（答案中含有）、类型搜索案件
-	 * 
-	 * 按照时间搜索，时间存在
-	 * 
-	 * size>0 且集合中含有自己加进去的
-	 */
-	@Ignore
-	public void testSearchByKeys() {
-		ReportCase caseInfo = getReportCase();
-		Company company = caseInfo.getCompany();
-		companyMapper.insert(company);
-		reportCaseMapper.insert(caseInfo);
-		isEqual(reportCaseMapper.getById(caseInfo.getRcId()).getCompany(), caseInfo.getCompany());
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date createTime = caseInfo.getCreateTime();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.DATE, 1);
-		Date afterDate = cal.getTime();
-		ReportAnswer answer = getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
-		List<ReportCase> caseList = reportCaseMapper.searchByKeys(company.getCompanyId(),
-				format.format(createTime), format.format(afterDate), null, null);
-		assertTrue(caseList.size() > 0);
-		int count = 0;
-		for (int i = 0; i < caseList.size(); i++) {
-			ReportCase getCase = caseList.get(i);
-			// if (isEqual(getCase, caseInfo)) {
-			// count++;
-			// }
-
-		}
-		System.out.println("----" + count);
-		// companyMapper.deleteById(company.getCompanyId());
-		reportAnswerMapper.deleteById(answer.getRdId());
-		// reportCaseMapper.deleteById(caseInfo.getRcId());
 
 	}
 
