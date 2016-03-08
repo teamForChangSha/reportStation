@@ -188,7 +188,7 @@
 					}).on(function(e,res){
 						if(e){
 							if($.trim(res)==null||$.trim(res)==""||$.trim(res).length>0){
-								return;
+								return Modal.alert({msg:'未填写密码'});
 							}
 							var url = "admin/user/updatePwd.do?userPwd="+md5(res);
 							$.get(url,function(res,status){
