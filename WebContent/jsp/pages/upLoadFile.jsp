@@ -61,9 +61,10 @@
 				<div class="col-sm-6">
 					<label class="control-label">已上传文件</label>
 					<br/>
-					<div style="height:115px; overflow:auto;" class="form-control">
+					<div id="fSize" style="height:115px; overflow:auto;" class="form-control">
 						<c:forEach items = "${fileList}" var = "file" varStatus = "i">
-							<c:out value="${file.attachFileName }"></c:out><span class="pull-right">${file.description }</span><br/><br/>
+							<c:out value="${file.attachFileName }"></c:out><span class="pull-right">${file.description }</span><br/>
+							<p class="hidden">${i.count}</p>
 						</c:forEach>
 					</div>
 				</div>
@@ -73,15 +74,37 @@
 				<input type="submit" class="btn btn-default" value="上传" />
 			</div>
 		</div>
+		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 	<script type="text/javascript">
 		$(function() {
+			var imgSize = 2*1024*1024;//2M
+			var videoSize = 5*1024*1024;//5M
 			$("input[type=submit]").click(function() {
-				var file = $("input[name=file]").val();
-				if(file!=null&&file!=""&&file.length>0){
+				if($("#fSize p:last-child").text()=="5"){
+					return Modal.alert({msg:'上传文件总数不能超过5个'});
+				}
+				var file = $("input[name=file]");
+				if(file.val()!=null&&file.val()!=""&&file.val().length>0){
+					if(suffix(file.val())==".jpg"||suffix(file.val())==".png"||suffix(file.val())==".jpeg"
+						||suffix(file.val())==".bmp"||suffix(file.val())==".psd"||suffix(file.val())==".jif"){
+
+						if(file.get(0).files[0].size>imgSize){
+							return Modal.alert({msg:'图片文件大小不能超过2M'});
+						}
+					}else{
+						if(file.get(0).files[0].size>videoSize){
+							return Modal.alert({msg:'音视频文件大小不能超过5M'});
+						}
+					}
 					$("form").submit();
 				}
 			});
+
+			function suffix(file_name){
+				var result =/\.[^\.]+/.exec(file_name);
+				return result.toString().toLowerCase();
+			}
 		});
 	</script>
 
