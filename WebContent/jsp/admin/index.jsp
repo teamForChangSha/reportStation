@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
     <title></title>
     <style type="text/css">
@@ -99,12 +100,13 @@
                     <input type="button" name="loginBtn" value="登陆" class="btn btn-success form-control"/>
                 </div>
                 <div class="form-group">
-                    <a href="" class="btn btn-link form-control">忘记密码</a>
+                    <a href="javascript:;" id="forgetPwd" class="btn btn-link form-control">忘记密码</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
     $(function () {
@@ -115,6 +117,10 @@
         }
         hiddenError(user.name);
         hiddenError(user.pwd);
+
+        $("#forgetPwd").click(function () {
+            Modal.alert({msg:'请联系管理员重置密码'});
+        });
 
         user.pwd.get(0).onkeydown = function (e) {
             if (e.keyCode == 13) {
