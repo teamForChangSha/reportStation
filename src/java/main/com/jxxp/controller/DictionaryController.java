@@ -41,7 +41,9 @@ public class DictionaryController {
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			out.print(dict.getDictName());
+			if(dict != null) {
+				out.print(dict.getDictName());
+			}
 		} catch (IOException e) {
 			log.error("流获取失败！",e);
 		}

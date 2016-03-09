@@ -39,7 +39,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             } else {
             	response.sendRedirect("../../admin.do");
             }
-        } 
+        }
         return flag; 
     } 
   
