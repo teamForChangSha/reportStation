@@ -9,7 +9,7 @@
     <result column="dict_desc" property="dictDesc" jdbcType="VARCHAR" />
   </resultMap>
   <select id="getDictionary" parameterType="java.util.Map" resultMap="BaseResultMap">
-		select * from dictionarybean
+		select * from dictionarybean 
 		where dict_type=#{dictType} and dict_value=#{dictValue}
   </select>  
   
