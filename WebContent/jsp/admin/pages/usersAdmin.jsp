@@ -57,6 +57,7 @@
             border-top-right-radius: inherit;
             border-bottom-right-radius: inherit;
         }
+
         #selectCompanyInput {
             z-index: 99;
             width: 180px;
@@ -87,7 +88,8 @@
             display: inherit;
             margin-bottom: 15px;
         }
-        .form-inline .form-control{
+
+        .form-inline .form-control {
             width: 200px;
         }
     </style>
@@ -114,8 +116,8 @@
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
                     <option value="">-请选择-</option>
-                    <option value="1">普通用户</option>
-                    <option value="2">企业管理员</option>
+                    <option value="1">公司用户</option>
+                    <option value="2">平台管理员</option>
                     <option value="3">超级管理员</option>
                 </select>
             </div>
@@ -183,8 +185,8 @@
                         <div class="col-sm-8">
                             <select id="upType" name="userType" class="form-control">
                                 <option value="0">-请选择-</option>
-                                <option value="1">普通用户</option>
-                                <option value="2">企业管理员</option>
+                                <option value="1">公司用户</option>
+                                <option value="2">平台管理员</option>
                                 <option value="3">超级管理员</option>
                             </select>
                         </div>
@@ -277,8 +279,8 @@
                         <div class="col-sm-8">
                             <select id="addType" name="userType" class="form-control">
                                 <option value="0">-请选择-</option>
-                                <option value="1">普通用户</option>
-                                <option value="2">企业管理员</option>
+                                <option value="1">公司用户</option>
+                                <option value="2">平台管理员</option>
                                 <option value="3">超级管理员</option>
                             </select>
                         </div>
@@ -377,6 +379,15 @@
             selected: $("#selected")
         }
 
+        if ("${user.userType}" != "3") {
+            search.userType.find("option[value=3]").hide();
+            upEle.upType.find("option[value=3]").hide();
+            addEle.addType.find("option[value=3]").hide();
+            search.userType.find("option[value=2]").hide();
+            upEle.upType.find("option[value=2]").hide();
+            addEle.addType.find("option[value=2]").hide();
+        }
+
         getAllCompany(upEle.upCompany);
         getAllCompany(addEle.addCompany);
         getAllCompany(search.companyId);
@@ -412,16 +423,16 @@
         var td2 = $("<td/>").text("${user.userCompany.companyName}");
         var td3 = $("<td/>");
         if ("${user.userType}" == "1") {
-            td3.text("普通用户");
+            td3.text("公司用户");
         } else if ("${user.userType}" == "2") {
-            td3.text("企业管理员");
+            td3.text("平台管理员");
         } else {
             td3.text("超级管理员");
         }
         var td4 = $("<td/>").text("${user.mobile}");
         var td5 = $("<td/>");
         var a1 = $("<a/>").attr("class", "btn btn-link").text("重置密码");
-        a1.click(function () {
+        a1.bind("click",function () {
             hiddenPanle();
             Modal.confirm({
                 msg: '重置后默认密码为"123456"',
@@ -437,7 +448,7 @@
             });
         });
         var a2 = $("<a/>").attr("class", "btn btn-link").text("修改信息");
-        a2.click(function () {
+        a2.bind("click",function () {
             hiddenPanle();
             panle.updataUserInfo.removeClass("hidden");
             upEle.userId.val("${user.userId}");
@@ -455,15 +466,13 @@
         if ("${user.userState}" == "4") {
             a3.text("启用");
             var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=1";
-            a3.click(function () {
+            a3.bind("click",function () {
                 $.get(url, function (res, status) {
                     alertMsg(res, status);
                 });
             });
-        } else if ("${user.userState}" == "3" || "${user.userState}" == "2") {
-            a3 = $("<span/>").attr("class", "label").text("停用");
         } else {
-            a3.click(function () {
+            a3.bind("click",function () {
                 Modal.confirm({
                     title: '警告',
                     msg: '你确定要停用该用户吗?',
@@ -478,26 +487,31 @@
             });
         }
 
-        var a4;
-        if ("${user.userState}" == "2" || "${user.userState}" == "3") {
-            a4 = $("<span/>").attr("class", "label").text("注销");
-        } else {
-            a4 = $("<a/>").attr("class", "btn btn-link").text("注销");
-            a4.click(function () {
-                Modal.confirm({
-                    title: '警告',
-                    msg: '你确定要注销该用户吗?',
-                }).on(function (e) {
-                    if (e) {
-                        var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=2";
-                        $.get(url, function (res, status) {
-                            alertMsg(res, status);
-                        });
-                    }
-                });
+        var a4 = $("<a/>").attr("class", "btn btn-link").text("注销");
+        a4.bind("click",function () {
+            Modal.confirm({
+                title: '警告',
+                msg: '你确定要注销该用户吗?',
+            }).on(function (e) {
+                if (e) {
+                    var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=2";
+                    $.get(url, function (res, status) {
+                        alertMsg(res, status);
+                    });
+                }
             });
+        });
+        if ("${user.userState}" == "2" || "${user.userState}" == "3") {
+            a1.attr("disabled", true);
+            a2.attr("disabled", true);
+            a3.attr("disabled", true);
+            a4.attr("disabled", true);
+            a1.unbind("click");
+            a2.unbind("click");
+            a3.unbind("click");
+            a4.unbind("click");
         }
-        var a5;
+        /*var a5 = $("<span/>").attr("class", "label").text("已审核");
         if ("${user.userState}" == "3") {
             a5 = $("<a/>").attr("class", "btn btn-link").text("待审核");
             a5.click(function () {
@@ -506,10 +520,8 @@
                     alertMsg(res, status);
                 });
             });
-        } else {
-            a5 = $("<span/>").attr("class", "label").text("已审核");
-        }
-        td5.append(a1).append(a2).append(a3).append(a4).append(a5);
+        }*/
+        td5.append(a1).append(a2).append(a3).append(a4);
         tr.append(td1).append(td2).append(td3).append(td4).append(td5);
         $("tbody").append(tr);
         </c:forEach>
