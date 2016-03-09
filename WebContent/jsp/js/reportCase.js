@@ -339,7 +339,6 @@ $(function () {
         var data = reporter + "&" + contactWay + "&" + verifyCode + "&"
             + anonymous + "&" + questions + "&" + trackingNo + "&"
             + accessCode + "&" + rtList;
-        alert(data);
         $.post(url, data, function (res, status) {
             console.log("data:" + res + "status：" + status);
             if (status == "success") {

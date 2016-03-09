@@ -165,7 +165,6 @@
 
     leftEle.companyName.focus(function () {
         hiddenErrorIcon(leftEle.companyName);
-        AutoComplete();
     });
 
     leftEle.companyName.keyup(function () {
