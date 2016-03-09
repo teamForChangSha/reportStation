@@ -14,6 +14,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="cache-control" content="no-cache">
     <title>后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
