@@ -78,7 +78,7 @@ public interface ReportCaseMapper {
 	int deleteById(long rcId);
 
 	/**
-	 * 用于模糊查询
+	 * 用于模糊查询案件，如果公司companyId=1则是平台管理公司，将查询所有案件。否则查询该companyId的案件
 	 * 
 	 * @return
 	 */
