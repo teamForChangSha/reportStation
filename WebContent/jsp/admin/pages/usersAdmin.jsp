@@ -61,7 +61,8 @@
         #selectCompanyInput {
             z-index: 99;
             width: 180px;
-            margin-left: -463px;
+            position: absolute;
+            left: 4px;
             border-right: none;
             border-top-right-radius: inherit;
             border-bottom-right-radius: inherit;
@@ -103,14 +104,24 @@
         </h1>
         <div class="page-header"></div>
         <form action="admin/user/getUsersByParams.do" method="post" class="form-inline">
-            <div class="form-group">
-                <label class="control-label">所属公司：</label>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="width: auto;padding-right: inherit">所属公司：</label>
 
-                <select id="companyId" name="companyId" class="form-control">
-                </select>
-                <span class="text-left">输入操作仅供搜索,实际以选择的企业为准</span>
-                <input type="text" autocomplete="off" id="selectCompanyInput" class="form-control"
-                       placeholder="请搜索或选择公司">
+                    <div class="col-sm-4" style="padding-left: 5px">
+                        <select id="companyId" name="companyId" class="form-control">
+                        </select>
+                        <input type="text" autocomplete="off" id="selectCompanyInput" class="form-control"
+                               placeholder="请搜索或选择公司">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="width: auto;padding-right: inherit"></label>
+
+                    <div class="col-sm-4">
+                        <span class="text-left">输入操作仅供搜索,实际以选择的企业为准</span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
@@ -432,7 +443,7 @@
         var td4 = $("<td/>").text("${user.mobile}");
         var td5 = $("<td/>");
         var a1 = $("<a/>").attr("class", "btn btn-link").text("重置密码");
-        a1.bind("click",function () {
+        a1.bind("click", function () {
             hiddenPanle();
             Modal.confirm({
                 msg: '重置后默认密码为"123456"',
@@ -448,7 +459,7 @@
             });
         });
         var a2 = $("<a/>").attr("class", "btn btn-link").text("修改信息");
-        a2.bind("click",function () {
+        a2.bind("click", function () {
             hiddenPanle();
             panle.updataUserInfo.removeClass("hidden");
             upEle.userId.val("${user.userId}");
@@ -466,13 +477,13 @@
         if ("${user.userState}" == "4") {
             a3.text("启用");
             var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=1";
-            a3.bind("click",function () {
+            a3.bind("click", function () {
                 $.get(url, function (res, status) {
                     alertMsg(res, status);
                 });
             });
         } else {
-            a3.bind("click",function () {
+            a3.bind("click", function () {
                 Modal.confirm({
                     title: '警告',
                     msg: '你确定要停用该用户吗?',
@@ -488,7 +499,7 @@
         }
 
         var a4 = $("<a/>").attr("class", "btn btn-link").text("注销");
-        a4.bind("click",function () {
+        a4.bind("click", function () {
             Modal.confirm({
                 title: '警告',
                 msg: '你确定要注销该用户吗?',
@@ -512,15 +523,17 @@
             a4.unbind("click");
         }
         /*var a5 = $("<span/>").attr("class", "label").text("已审核");
-        if ("${user.userState}" == "3") {
-            a5 = $("<a/>").attr("class", "btn btn-link").text("待审核");
-            a5.click(function () {
-                var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=1";
-                $.get(url, function (res, status) {
-                    alertMsg(res, status);
-                });
-            });
-        }*/
+         if ("
+        ${user.userState}" == "3") {
+         a5 = $("<a/>").attr("class", "btn btn-link").text("待审核");
+         a5.click(function () {
+         var url = "admin/user/changeUserState.do?userId=
+        ${user.userId}&userState=1";
+         $.get(url, function (res, status) {
+         alertMsg(res, status);
+         });
+         });
+         }*/
         td5.append(a1).append(a2).append(a3).append(a4);
         tr.append(td1).append(td2).append(td3).append(td4).append(td5);
         $("tbody").append(tr);
@@ -580,48 +593,69 @@
             search.stopAllUser.removeClass("hidden");
         });
 
-        upEle.upCompanyInput.keyup(function () {
-            $.post("company/getAllByName.do", "companyName=" + upEle.upCompanyInput.val(), function (res) {
-                if (res == null || res.length < 0)
-                    return;
-                upEle.upCompany.empty();
-                var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-                upEle.upCompany.append(opt);
-                upEle.upCompany.attr("multiple", "multiple").css("padding-top", "35px");
-                $(JSON.parse(res)).each(function () {
-                    var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-                    upEle.upCompany.append(opt);
+        inputKeyup(upEle.upCompany, upEle.upCompanyInput);
+        inputKeyup(addEle.addCompany, addEle.addCompanyInput);
+        inputKeyup(search.companyId, search.selectCompanyInput);
+
+        function inputKeyup(ele, inp) {
+            inp.keyup(function () {
+                $.post("company/getAllByName.do", "companyName=" + inp.val(), function (res) {
+                    if (res == null || res.length < 0)
+                        return;
+                    ele.empty();
+                    var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
+                    ele.append(opt);
+                    ele.attr("multiple", "multiple").css("padding-top", "35px");
+                    $(JSON.parse(res)).each(function () {
+                        var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
+                        ele.append(opt);
+                    });
                 });
             });
-        });
-        addEle.addCompanyInput.keyup(function () {
-            $.post("company/getAllByName.do", "companyName=" + addEle.addCompanyInput.val(), function (res) {
-                if (res == null || res.length < 0)
-                    return;
-                addEle.addCompany.empty();
-                var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-                addEle.addCompany.append(opt);
-                addEle.addCompany.attr("multiple", "multiple").css("padding-top", "35px");
-                $(JSON.parse(res)).each(function () {
-                    var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-                    addEle.addCompany.append(opt);
-                });
-            });
-        });
-        search.selectCompanyInput.keyup(function () {
-            $.post("company/getAllByName.do", "companyName=" + search.selectCompanyInput.val(), function (res) {
-                if (res == null || res.length < 0)
-                    return;
-                search.companyId.empty();
-                var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-                search.companyId.append(opt);
-                search.companyId.attr("multiple", "multiple").css("padding-top", "35px");
-                $(JSON.parse(res)).each(function () {
-                    var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-                    search.companyId.append(opt);
-                });
-            });
-        });
+        }
+
+        /*upEle.upCompanyInput.keyup(function () {
+         $.post("company/getAllByName.do", "companyName=" + upEle.upCompanyInput.val(), function (res) {
+         if (res == null || res.length < 0)
+         return;
+         upEle.upCompany.empty();
+         var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
+         upEle.upCompany.append(opt);
+         upEle.upCompany.attr("multiple", "multiple").css("padding-top", "35px");
+         $(JSON.parse(res)).each(function () {
+         var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
+         upEle.upCompany.append(opt);
+         });
+         });
+         });
+         addEle.addCompanyInput.keyup(function () {
+         $.post("company/getAllByName.do", "companyName=" + addEle.addCompanyInput.val(), function (res) {
+         if (res == null || res.length < 0)
+         return;
+         addEle.addCompany.empty();
+         var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
+         addEle.addCompany.append(opt);
+         addEle.addCompany.attr("multiple", "multiple").css("padding-top", "35px");
+         $(JSON.parse(res)).each(function () {
+         var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
+         addEle.addCompany.append(opt);
+         });
+         });
+         });
+         search.selectCompanyInput.keyup(function () {
+         $.post("company/getAllByName.do", "companyName=" + search.selectCompanyInput.val(), function (res) {
+         if (res == null || res.length < 0)
+         return;
+         search.companyId.empty();
+         var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
+         search.companyId.append(opt);
+         search.companyId.attr("multiple", "multiple").css("padding-top", "35px");
+         $(JSON.parse(res)).each(function () {
+         var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
+         search.companyId.append(opt);
+         });
+         });
+         });*/
 
         /* 获取所有企业 */
         function getAllCompany(ele) {
