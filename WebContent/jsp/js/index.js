@@ -326,6 +326,10 @@
         });
     };
 
+    $("#forgetPwd").click(function () {
+        Modal.alert({msg:'请联系管理员重置密码'});
+    });
+
     /**
      * 验证手机号
      */

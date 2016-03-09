@@ -195,7 +195,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<a href="userPages/forget_pwd.html" target="_blank" id="forgetPwd" type="button" class="btn btn-link">忘记密码</a>
+						<a href="javascript:;" id="forgetPwd" type="button" class="btn btn-link">忘记密码</a>
 					</div>
 				</div>
 			</div>
