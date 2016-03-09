@@ -54,4 +54,11 @@ public interface ReportTypeMapper {
 	 */
 	List<ReportType> getAllByCompanyId(long companyId);
 
+	/**
+	 * 获取默认问题类型列表
+	 * 
+	 * @return
+	 */
+	List<ReportType> getAllStandard();
+
 }
