@@ -204,7 +204,7 @@ $(function () {
                 var ans = $("input[name=quest_" + (i + 1) + "]").val();
                 if (ans != null && ans != "") {
                     var data = {};
-                    data["questKey"] = i + 1;
+                    data["questKey"] = "quest_"+(i + 1);
                     data["questValue"] = ans;
                     list.push(data);
                 }
