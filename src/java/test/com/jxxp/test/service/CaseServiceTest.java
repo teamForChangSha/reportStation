@@ -335,10 +335,6 @@ public class CaseServiceTest {
 	@Test
 	public void testSearchByCompnayId() {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
-		reportCaseMapper.insert(caseInfo);
-		answer = CaseTest.getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
 
 		HashMap<String, String> params = new HashMap<String, String>();
 		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
@@ -358,10 +354,7 @@ public class CaseServiceTest {
 	@Test
 	public void testSearchByNoStartTime() {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
-		reportCaseMapper.insert(caseInfo);
-		answer = CaseTest.getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("endTime", format.format(caseInfo.getCreateTime()));
@@ -382,10 +375,6 @@ public class CaseServiceTest {
 	@Test
 	public void testSearchByNoEndTime() {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
-		reportCaseMapper.insert(caseInfo);
-		answer = CaseTest.getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
@@ -408,13 +397,7 @@ public class CaseServiceTest {
 	@Test
 	public void testSearchBySameTimes() {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
-		reportCaseMapper.insert(caseInfo);
-		answer = CaseTest.getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
-		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
-		answerList.add(answer);
-		caseInfo.setAnswers(answerList);
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("startTime", format.format(caseInfo.getCreateTime()));
@@ -428,13 +411,7 @@ public class CaseServiceTest {
 	@Test
 	public void SearchWithNotMatchType() {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
-		reportCaseMapper.insert(caseInfo);
-		answer = CaseTest.getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
-		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
-		answerList.add(answer);
-		caseInfo.setAnswers(answerList);
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("startTime", format.format(caseInfo.getCreateTime()));
@@ -449,13 +426,7 @@ public class CaseServiceTest {
 	@Test
 	public void testSearchWithType() {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
-		reportCaseMapper.insert(caseInfo);
-		answer = CaseTest.getAnswer();
-		answer.setRcId(caseInfo.getRcId());
-		reportAnswerMapper.insert(answer);
-		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
-		answerList.add(answer);
-		caseInfo.setAnswers(answerList);
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("startTime", format.format(caseInfo.getCreateTime()));
@@ -466,6 +437,40 @@ public class CaseServiceTest {
 				.getCompanyId());
 		assertTrue(caseList.size() == 1);
 		assertTrue(TestUtil.isEqual(caseInfo, caseList.get(0)));
+
+	}
+
+	@Test
+	public void SearchWithKeyword() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("startTime", format.format(caseInfo.getCreateTime()));
+		params.put("endTime", format.format(caseInfo.getCreateTime()));
+		params.put("rtList", caseInfo.getRtList().substring(0, caseInfo.getRtList().length() / 2));
+		params.put("keyWord",
+				answer.getQuestValue().substring(0, answer.getQuestValue().length() / 2));
+
+		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		assertTrue(caseList.size() == 1);
+		assertTrue(TestUtil.isEqual(caseInfo, caseList.get(0)));
+
+	}
+
+	@Test
+	public void SearchWithNotMatchKeyword() {
+		caseInfo = getFullReportCase(CaseTest.getReportCase());
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("startTime", format.format(caseInfo.getCreateTime()));
+		params.put("endTime", format.format(caseInfo.getCreateTime()));
+		params.put("rtList", caseInfo.getRtList().substring(0, caseInfo.getRtList().length() / 2));
+		params.put("keyWord", "noKeyWord");
+
+		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		assertTrue(caseList.size() == 0);
 
 	}
 
@@ -594,6 +599,14 @@ public class CaseServiceTest {
 		Reporter reporter = ReporterTest.getReporter();
 		reporterMapper.insert(reporter);
 		casePoj.setReporter(reporter);
+
+		reportCaseMapper.insert(casePoj);
+		answer = CaseTest.getAnswer();
+		answer.setRcId(casePoj.getRcId());
+		reportAnswerMapper.insert(answer);
+		List<ReportAnswer> answerList = new ArrayList<ReportAnswer>();
+		answerList.add(answer);
+		casePoj.setAnswers(answerList);
 		return casePoj;
 	}
 

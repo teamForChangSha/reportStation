@@ -180,6 +180,7 @@ public class CaseController {
 		reportCase.setReporter(reporter);
 		reportCase.setTrackingNo(trackingNo);
 		reportCase.setCompany(companyBranch.getOwner());
+		reportCase.setCurrentHandler(companyBranch.getOwner());
 		reportCase.setBranch(companyBranch);
 		reportCase.setCaseState(ReportCase.CASE_STATE_NEW);
 		reportCase.setCreateTime(new Date());
