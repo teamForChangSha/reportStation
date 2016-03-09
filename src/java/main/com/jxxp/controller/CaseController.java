@@ -233,6 +233,7 @@ public class CaseController {
 	@RequestMapping("/fileUpload.do")
 	public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
+		log.debug("fileUpload...");
 		response.setCharacterEncoding("UTF-8");
 		if (!file.isEmpty()) {
 			String rootPath = request.getSession().getServletContext().getRealPath("/")
@@ -240,6 +241,7 @@ public class CaseController {
 			String webPath = request.getSession().getServletContext().getContextPath()
 					+ "/fileupload/temp/";
 			String trackingNo = request.getParameter("trackingNo");
+			log.debug("trackingNo:" + trackingNo);
 			String desc = request.getParameter("desc");
 			// 保存文件到服务器的临时文件夹
 			try {

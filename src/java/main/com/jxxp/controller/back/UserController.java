@@ -49,7 +49,8 @@ public class UserController {
 	 * @author cj
 	 */
 	@RequestMapping("/login.do")
-	public String login(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+	public String login(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
+			throws Exception {
 		String loginName = request.getParameter("loginName");
 		String userPwd = request.getParameter("userPwd");
 		User user = new User();
@@ -108,7 +109,7 @@ public class UserController {
 	 */
 	@RequestMapping("/loginOut.do")
 	public String loginOut(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		HttpSession session = request.getSession();
 
 		ServletContext application = request.getSession().getServletContext();
@@ -142,7 +143,7 @@ public class UserController {
 	 */
 	@RequestMapping("/updatePwd.do")
 	public String updatePwd(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String userPwd = request.getParameter("userPwd");
 		User user = (User) request.getSession().getAttribute("user");
 		user.setUserPwd(userPwd);
@@ -172,7 +173,7 @@ public class UserController {
 	 */
 	@RequestMapping("/resetUserPwd.do")
 	public String resetUserPwd(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String userPwd = request.getParameter("userPwd");
 		String strId = request.getParameter("userId");
 		long userId = Long.parseLong(strId);
@@ -205,7 +206,7 @@ public class UserController {
 	 */
 	@RequestMapping("/changeUserState.do")
 	public String changeUserState(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String strUserState = request.getParameter("userState");
 		String strId = request.getParameter("userId");
 		long userId = Long.parseLong(strId);
@@ -239,7 +240,7 @@ public class UserController {
 	 */
 	@RequestMapping("/addUser.do")
 	public String addUser(User user, HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -266,7 +267,7 @@ public class UserController {
 	 */
 	@RequestMapping("/updateUser.do")
 	public String updateUser(User user, HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -293,15 +294,15 @@ public class UserController {
 	 */
 	@RequestMapping("/getUsersByParams.do")
 	public String getUsersByParams(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String keyWord = request.getParameter("keyWord");
 		String strCompanyId = request.getParameter("companyId");
 		String strUserType = request.getParameter("userType");
 		String strUserState = request.getParameter("userState");
-		User user = (User) request.getSession().getAttribute("user");
 
 		Map<String, Object> params = new HashMap<String, Object>();
-		// 用于判断登入者的级别
+		// 用户级别判断
+		User user = (User) request.getSession().getAttribute("user");
 		params.put("user", user);
 		params.put("keyWord", keyWord);
 		if (strCompanyId != null && strCompanyId.length() > 0 && strCompanyId.matches("^[0-9]*$")) {
@@ -327,12 +328,16 @@ public class UserController {
 	 */
 	@RequestMapping("/getLogByParams.do")
 	public String getLogByParams(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String logDate = request.getParameter("logDate");
-		User user = (User) request.getSession().getAttribute("user");
+		String strUserId = request.getParameter("oprator");
+		Long userId = null;
+		if (strUserId != null) {
+			userId = Long.valueOf(strUserId);
+		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("logDate", logDate);
-		params.put("oprator", user.getUserId());
+		params.put("oprator", userId);
 		List<OprationLog> logList = oprationLogService.getLogByParams(params);
 		modelMap.put("logList", logList);
 
@@ -351,7 +356,7 @@ public class UserController {
 	 */
 	@RequestMapping("/stopCompanyAllUsers.do")
 	public String stopCompanyAllUsers(Long companyId, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletResponse response, ModelMap modelMap) throws Exception {
 		boolean falg = userService.stopAllUsersByCompanyId(companyId);
 		Company stopedCompany = companyService.getCompanyById(companyId);
 		try {
@@ -373,7 +378,7 @@ public class UserController {
 		return null;
 	}
 
-	private boolean saveOprationLog(String msg, User oprator) {
+	private boolean saveOprationLog(String msg, User oprator) throws Exception {
 		OprationLog log = new OprationLog();
 		log.setLogDate(new Date());
 		log.setOpration(msg);
