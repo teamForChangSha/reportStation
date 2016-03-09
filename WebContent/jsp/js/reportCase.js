@@ -201,12 +201,12 @@ $(function () {
         var list = [];
         if (questionList.length <= 0) {
             for (var i = 0; i < 13; i++) {
-                var data = {};
                 var ans = $("input[name=quest_" + (i + 1) + "]").val();
-                if (ans != null || ans != "") {
+                if (ans != null && ans != "") {
+                    var data = {};
                     data["questKey"] = i + 1;
                     data["questValue"] = ans;
-                    list.unshift(data);
+                    list.push(data);
                 }
             }
         } else {
@@ -339,7 +339,7 @@ $(function () {
         var data = reporter + "&" + contactWay + "&" + verifyCode + "&"
             + anonymous + "&" + questions + "&" + trackingNo + "&"
             + accessCode + "&" + rtList;
-        console.log(data);
+        alert(data);
         $.post(url, data, function (res, status) {
             console.log("data:" + res + "status：" + status);
             if (status == "success") {
