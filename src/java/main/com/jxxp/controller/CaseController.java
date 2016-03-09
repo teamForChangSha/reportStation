@@ -40,6 +40,7 @@ import com.jxxp.service.CaseChangeLogService;
 import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.MobileService;
+import com.jxxp.service.QuestionService;
 import com.jxxp.service.ReporterService;
 
 /*
@@ -62,6 +63,8 @@ public class CaseController {
 	private CaseCommentService caseCommentService;
 	@Resource
 	private CaseChangeLogService caseChangeLogService;
+	@Resource
+	private QuestionService questionService;
 
 	/***
 	 * 根据所输入的手机号，获取验证码
@@ -370,7 +373,7 @@ public class CaseController {
 			return "/jsp/pages/error";
 		}
 
-		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
+		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase,questionService.getAllQuestions()));
 		modelMap.put("reportCase", reportCase);
 		return "/jsp/pages/report_info";
 	}
@@ -397,7 +400,7 @@ public class CaseController {
 		}
 
 		modelMap.put("reportCase", reportCase);
-		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase));
+		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase,questionService.getAllQuestions()));
 		return "/jsp/pages/report_info";
 	}
 
@@ -471,12 +474,15 @@ public class CaseController {
 	}
 
 	// 获取问题及答案的集合，方便前台展示
-	public static List<Map<String, String>> getQuestionAnswerList(ReportCase reportCase) {
+	public static List<Map<String, String>> getQuestionAnswerList(ReportCase reportCase,List<QuestionInfo> allQuestion) {
 		List<Map<String, String>> questAnswerList = new ArrayList<Map<String, String>>();
 		List<ReportAnswer> answerList = reportCase.getAnswers();
 		for (int i = 0; i < answerList.size(); i++) {
 			ReportAnswer answer = answerList.get(i);
 			List<QuestionInfo> questList = reportCase.getCompany().getQuestList();
+			if(questList.size() == 0) {
+				questList = allQuestion;
+			}
 			for (int j = 0; j < questList.size(); j++) {
 				QuestionInfo question = questList.get(j);
 				if (answer.getQuestKey().equals(question.getQuestKey())) {

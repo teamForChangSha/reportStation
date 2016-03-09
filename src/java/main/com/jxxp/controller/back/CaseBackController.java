@@ -44,6 +44,8 @@ public class CaseBackController {
 	private CompanyService companyService;
 	@Resource
 	private CaseCommentService caseCommentService;
+	@Resource
+	private QuestionService questionService;
 
 	/***
 	 * 根据公司以及其他条件获取案件信息列表
@@ -94,7 +96,7 @@ public class CaseBackController {
 			return "/jsp/pages/error";
 		}
 
-		modelMap.put("questionAnswerList", CaseController.getQuestionAnswerList(reportCase));
+		modelMap.put("questionAnswerList", CaseController.getQuestionAnswerList(reportCase,questionService.getAllQuestions()));
 		modelMap.put("reportCase", reportCase);
 		return "/jsp/admin/pages/report_info";
 	}
