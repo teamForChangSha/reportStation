@@ -29,17 +29,20 @@
   <if test="companyId!=null and companyId!=0">
   and company_id=#{companyId}
   </if>
+ 
   <if test="keyWord!=null and keyWord!=''">
   and (
   user_name like concat(concat('%',#{keyWord},'%')) 
   or mobile like concat(concat('%',#{keyWord},'%'))
    )
   </if>
-   <if test="userType!=null">
-  and user_type=#{userType}
-  </if>
+  
+   <if test="user!=null">
+    and user_type &lt;=#{user.userType}
+   </if>
+   
    <if test="userState!=null">
-  and user_state=#{userState}
+  and user_state=#{userState} 
   </if>
   </select>
   <select id="getAllUers" resultMap="BaseResultMap">
