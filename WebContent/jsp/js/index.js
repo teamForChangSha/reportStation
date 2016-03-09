@@ -165,6 +165,7 @@
 
     leftEle.companyName.focus(function () {
         hiddenErrorIcon(leftEle.companyName);
+        leftEle.companyName.next().next().css("display", "block");
     });
 
     leftEle.companyName.keyup(function () {
