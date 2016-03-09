@@ -38,9 +38,12 @@
 			.row {
 				margin: 0 10%;
 			}
-			
-			.navbar-right {
-				margin-right: 15px;
+
+			.tooltip-inner {
+				background-color: #265a88;
+			}
+			.tooltip.bottom .tooltip-arrow {
+				border-bottom-color: #265a88;
 			}
 		</style>
 	</head>
@@ -78,7 +81,7 @@
 								</label>
 							</div>
 							<div class="col-sm-4 text-right pull-right">
-								<button class="btn btn-link" type="button" data-toggle="popover" data-container="body" data-placement="bottom" data-content="${reportType.rtDesc }">查看描述</button>
+								<p type="button" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="${reportType.rtDesc }">查看描述</p>
 							</div>
 						</div>
 					</c:forEach>
@@ -97,7 +100,7 @@
 	</body>
 	<script type="text/javascript">
 		$(function() {
-			$('[data-toggle="popover"]').popover();
+			$('[data-toggle="tooltip"]').tooltip()
 			$("#next").click(function() {
 				if ($("input[type=checkbox]:checked").length <= 0) {
 					return Modal.alert({msg:"请至少选择一个举报类型"});
