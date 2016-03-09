@@ -42,6 +42,8 @@ public interface UserMapper {
 	/**
 	 * 用户查询
 	 * 
+	 * @param user
+	 * 
 	 * @param keyWord
 	 *            关键字匹配用户名和手机号
 	 * @param cmopanyId
@@ -52,7 +54,7 @@ public interface UserMapper {
 	 *            用户状态
 	 * @return
 	 */
-	List<User> getUsersByParams(@Param("keyWord") String keyWord,
+	List<User> getUsersByParams(@Param("user") User user, @Param("keyWord") String keyWord,
 			@Param("companyId") Long companyId, @Param("userType") Integer userType,
 			@Param("userState") Integer userState);
 

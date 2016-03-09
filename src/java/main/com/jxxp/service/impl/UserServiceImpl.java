@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
 		Long companyId = (Long) params.get("companyId");
 		Integer userType = (Integer) params.get("userType");
 		Integer userState = (Integer) params.get("userState");
-		return userMapper.getUsersByParams(keyWord, companyId, userType, userState);
+		User user = (User) params.get("user");
+		return userMapper.getUsersByParams(user, keyWord, companyId, userType, userState);
 	}
 
 	@Override

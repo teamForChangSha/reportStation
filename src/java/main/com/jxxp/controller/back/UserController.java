@@ -298,8 +298,11 @@ public class UserController {
 		String strCompanyId = request.getParameter("companyId");
 		String strUserType = request.getParameter("userType");
 		String strUserState = request.getParameter("userState");
+		User user = (User) request.getSession().getAttribute("user");
 
 		Map<String, Object> params = new HashMap<String, Object>();
+		// 用于判断登入者的级别
+		params.put("user", user);
 		params.put("keyWord", keyWord);
 		if (strCompanyId != null && strCompanyId.length() > 0 && strCompanyId.matches("^[0-9]*$")) {
 			params.put("companyId", new Long(strCompanyId));

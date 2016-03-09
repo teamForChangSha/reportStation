@@ -21,13 +21,12 @@
     select * from reporttype
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
-  
-  <delete id="deleteOneCompanyType">
-  delete from reporttype where 
-  company_id = #{companyId,jdbcType=BIGINT}
-  and rt_id=#{rtId,jdbcType=BIGINT}
-  </delete>
-  
+  <select id="getAllStandard" resultMap="BaseResultMap">
+   select * from reporttype
+    where company_id =0 
+    and is_standard=0
+  </select>
+ 
   <delete id="deleteByCompanyId">
   delete from reporttype where 
   company_id = #{companyId,jdbcType=BIGINT}

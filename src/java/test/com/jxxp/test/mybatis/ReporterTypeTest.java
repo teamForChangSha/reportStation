@@ -2,10 +2,13 @@ package com.jxxp.test.mybatis;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,41 +34,85 @@ public class ReporterTypeTest {
 	@Resource
 	private CompanyMapper companyMapper;
 
+	private ReportType type;
+	private List<ReportType> addList;
+	private Company owner;
+
+	@Before
+	public void init() {
+		type = getReportType();
+		owner = CompanyTest.getCompany();
+	}
+
 	@Test
 	public void insert() {
-		ReportType type1 = getReportType();
-		reportTypeMapper.insert(type1);
-		ReportType type2 = reportTypeMapper.getById(type1.getRtId());
-		reportTypeMapper.deleteById(type2.getRtId());
-		System.out.println("===" + type2.getRtDesc());
-		assertTrue(TestUtil.isEqual(type1, type2));
-		companyMapper.deleteById(type1.getOwner().getCompanyId());
-
+		companyMapper.insert(owner);
+		reportTypeMapper.insert(type);
+		ReportType type2 = reportTypeMapper.getById(type.getRtId());
+		assertTrue(TestUtil.isEqual(type, type2));
 	}
 
 	@Test
 	public void getAllTypeByCompany() {
-		ReportType type = getReportType();
-		Company company = type.getOwner();
-		reportTypeMapper.insert(type);
-		List<ReportType> list = reportTypeMapper.getAllByCompanyId(company.getCompanyId());
-		assertTrue(list.size() > 0);
-		companyMapper.deleteById(company.getCompanyId());
-		reportTypeMapper.deleteById(type.getRtId());
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		addList = new ArrayList<ReportType>();
+		for (int i = 0; i < 2; i++) {
+			ReportType addType = getReportType();
+			addType.setOwner(owner);
+			addType.setIsStandard(1);
+			addList.add(addType);
+			reportTypeMapper.insert(addType);
+		}
+		List<ReportType> getList = reportTypeMapper.getAllByCompanyId(owner.getCompanyId());
+		assertTrue(getList.size() == 2);
+		assertTrue(TestUtil.isEqual(addList, getList));
+
 	}
 
 	@Test
-	public void getOne() {
+	public void deleteByCompanyId() {
+		owner = CompanyTest.getCompany();
+		companyMapper.insert(owner);
+		addList = new ArrayList<ReportType>();
+		for (int i = 0; i < 2; i++) {
+			ReportType addType = getReportType();
+			addType.setOwner(owner);
+			addList.add(addType);
+			reportTypeMapper.insert(addType);
+		}
+		List<ReportType> getList = reportTypeMapper.getAllByCompanyId(owner.getCompanyId());
+		assertTrue(getList.size() == 2);
+		reportTypeMapper.deleteByCompanyId(owner.getCompanyId());
+		List<ReportType> delList = reportTypeMapper.getAllByCompanyId(owner.getCompanyId());
+		assertTrue(delList.size() == 0);
+
+	}
+
+	@After
+	public void clear() {
+		if (type != null) {
+			reportTypeMapper.deleteById(type.getRtId());
+		}
+		if (owner != null) {
+			companyMapper.deleteById(owner.getCompanyId());
+		}
+
+		if (addList != null) {
+			for (int i = 0; i < addList.size(); i++) {
+				reportTypeMapper.deleteById(addList.get(i).getRtId());
+				companyMapper.deleteById(addList.get(i).getOwner().getCompanyId());
+			}
+		}
+
 	}
 
 	public ReportType getReportType() {
 		ReportType type = new ReportType();
-		Company owner = CompanyTest.getCompany();
-		companyMapper.insert(owner);
-		type.setOwner(owner);
 		type.setRtDesc("举报工作态度");
 		type.setRtTitle("title");
-		type.setIsStandard(1);
+		// 是否为标准类型：0标准，1非标准
+		type.setIsStandard(0);
 		return type;
 	}
 
