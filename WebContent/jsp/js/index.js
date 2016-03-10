@@ -273,7 +273,6 @@
             }
         }, 1000);
         $.get("case/getTempPwd.do?mobile=" + rightEle.mobile.val(), function (res, status) {
-            console.log("data:" + res + "status:" + status);
         });
     });
 
@@ -315,7 +314,6 @@
         }
         var data = "loginName=" + user.name.val() + "&userPwd="
             + md5(user.pwd.val());
-        console.log(data);
         $.post("admin/user/login.do", data, function (res, status) {
             if (status == "success") {
                 if (res == "success") {
