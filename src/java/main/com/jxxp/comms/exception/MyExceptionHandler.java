@@ -23,7 +23,7 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
 		Map<String, Object> model = new HashMap<String, Object>();  
 		model.put("errorMsg", exp); 
 		
-		return new ModelAndView("/jsp/pages/error", model);
+		return new ModelAndView("forward:/jsp/pages/error", model);
 	}
 
 }
