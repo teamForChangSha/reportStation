@@ -34,7 +34,7 @@ public class AreaBackController {
 	 */
 	@RequestMapping("/getAllProvice.do")
 	public void getAllProvice(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		List<AreaInfo> provinceList = areaService.getAllProvince();
 		modelMap.put("provinceList", provinceList);
 		String jsonList = JSON.toJSONString(provinceList);
@@ -61,7 +61,7 @@ public class AreaBackController {
 	 */
 	@RequestMapping("/getChildrenArea.do")
 	public void getChildArea(AreaInfo parent, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletResponse response, ModelMap modelMap) throws Exception  {
 		List<AreaInfo> childrenList = areaService.getByParent(parent);
 		log.debug("have parentId??==" + parent.getAreaId() + "size====" + childrenList.size());
 		String jsonList = JSON.toJSONString(childrenList);

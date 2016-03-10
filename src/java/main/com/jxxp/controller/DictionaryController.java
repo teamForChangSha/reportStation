@@ -33,7 +33,7 @@ public class DictionaryController {
      * @return 
      */  
 	@RequestMapping("/getDictName.do")
-	public String getDictName(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+	public String getDictName(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) throws Exception {
 		String dictType = request.getParameter("dictType");
 		String dictValue = request.getParameter("dictValue");
 		DictionaryBean dict = dictionaryService.getDictName(dictType, Integer.parseInt(dictValue));
@@ -57,7 +57,7 @@ public class DictionaryController {
      * @return 
      */  
 	@RequestMapping("/getDictList.do")
-	public String getDictList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) {
+	public String getDictList(HttpServletRequest request, HttpServletResponse response,ModelMap modelMap ) throws Exception {
 		String dictType = request.getParameter("dictType");
 		List<DictionaryBean> dictList = dictionaryService.getDictTypeList(dictType);
 		response.setCharacterEncoding("UTF-8");

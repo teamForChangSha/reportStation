@@ -42,7 +42,7 @@ public class ReportStationController {
 
 	@RequestMapping("/getAllCompany.do")
 	public String getCompany(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		log.debug("into getAllCompany.do...");
 		List<Company> dataList = companyService.getAllCompanyList();
 		
@@ -60,7 +60,7 @@ public class ReportStationController {
 
 	@RequestMapping("/getProvinceByCompany.do")
 	public String getProvinceByCompanyId(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		long companyId = 0;
 
 		String cId = request.getParameter("companyId");
@@ -84,7 +84,7 @@ public class ReportStationController {
 
 	@RequestMapping("/getCityByCompany.do")
 	public String getCityByCompanyId(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		long companyId = 0;
 		long parentId = 0;
 
@@ -113,7 +113,7 @@ public class ReportStationController {
 
 	@RequestMapping("/getCompanyBranch.do")
 	public String getCompanyBranch(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		long companyId = 0;
 		long areaId = 0;
 
@@ -142,7 +142,7 @@ public class ReportStationController {
 	
 	@RequestMapping("/showReportType.do")
 	public String showReportType(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		long branchId = 0;
 
 		String bId = request.getParameter("branchId");
@@ -168,7 +168,7 @@ public class ReportStationController {
 	
 	@RequestMapping("/showQuestionPage.do")
 	public String showQuestionPage(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String[] strs = request.getParameterValues("reportType");
 		String rtList = "";
 		for (int i = 0; i < strs.length; i++) {
@@ -192,7 +192,7 @@ public class ReportStationController {
 	
 	@RequestMapping("/admin")
 	public String admin(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		return "/jsp/admin/index";
 	}
 }

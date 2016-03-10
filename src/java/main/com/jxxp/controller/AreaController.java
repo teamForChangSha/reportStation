@@ -31,7 +31,7 @@ public class AreaController {
 	 */
 	@RequestMapping("/getAll.do")
 	public String getAllProvice(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		List<AreaInfo> areaList = areaService.getAllProvince();
 		modelMap.put("areaList", areaList);
 		return "/jsp/index";
@@ -51,7 +51,7 @@ public class AreaController {
 	 */
 	@RequestMapping("/getChildArea.do")
 	public String getChildArea(AreaInfo parent, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletResponse response, ModelMap modelMap) throws Exception  {
 		List<AreaInfo> areaList = areaService.getByParent(parent);
 		modelMap.put("areaList", areaList);
 		return "/jsp/areaAll";

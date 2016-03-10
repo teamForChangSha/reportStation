@@ -42,7 +42,7 @@ public class CompanyController {
 
 	@RequestMapping("/getAllByName.do")
 	public String getAllByName(String companyName, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
+			HttpServletResponse response, ModelMap model) throws Exception {
 		List<Company> companyList = new ArrayList<Company>();
 		companyList = companyService.getCompanyByName(companyName);
 		String companyJson = JSON.toJSONString(companyList);

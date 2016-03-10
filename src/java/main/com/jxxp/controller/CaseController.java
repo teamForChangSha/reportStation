@@ -75,7 +75,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/getVerifyCode.do")
 	public String getVerifyCode(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String mobile = request.getParameter("mobile");
 		String verifyCode = mobileService.sendVerifySMS(mobile);
 		request.getSession().setAttribute("verifyCode", verifyCode);
@@ -105,7 +105,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/checkVerifyCode.do")
 	public String checkVerifyCode(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String mobile = request.getParameter("mobile");
 		String verifyCode = request.getParameter("verifyCode");
 		String trueMobile = (String) request.getSession().getAttribute("mobile");
@@ -144,7 +144,7 @@ public class CaseController {
 	 * @return
 	 */
 	@RequestMapping("/addCase.do")
-	public String addCase(HttpServletRequest request, HttpServletResponse response) {
+	public String addCase(HttpServletRequest request, HttpServletResponse response) throws Exception  {
 		// 获取参数，包括跟踪号，查询密码，问题列表
 		String trackingNo = request.getParameter("trackingNo");
 		String accessCode = request.getParameter("accessCode");
@@ -232,7 +232,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/fileUpload.do")
 	public String fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletResponse response, ModelMap modelMap) throws Exception  {
 		log.debug("fileUpload...");
 		response.setCharacterEncoding("UTF-8");
 		if (!file.isEmpty()) {
@@ -283,7 +283,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/showFileList.do")
 	public String showFileList(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String trackingNo = request.getParameter("trackingNo");
 
 		List<CaseAttach> fileList = caseAttachService.getCaseAttachByTrackingNo(trackingNo);
@@ -302,7 +302,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/getTempPwd.do")
 	public String getTempPwd(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String mobile = request.getParameter("mobile");
 		String tempPwd = mobileService.sendTempPwd(mobile);
 		request.getSession().setAttribute("mobile", mobile);
@@ -331,7 +331,7 @@ public class CaseController {
 	 */
 	@RequestMapping(value = "/showCaseList.do", method = RequestMethod.POST)
 	public String showCaseList(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String reqMobile = request.getParameter("mobile");
 		String reqPwd = request.getParameter("tempPwd");
 		// 还需要加手机验证码判断
@@ -362,7 +362,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/showCaseById.do")
 	public String showCaseById(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String strId = request.getParameter("rcId");
 		long rcId = 0;
 		if (strId != null) {
@@ -389,7 +389,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/showCaseByTrankingNo.do")
 	public String showCaseByTrackingNo(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String trackingNo = request.getParameter("trankingNo");
 		String accessCode = request.getParameter("accecCode");
 		log.debug("trackingNo:" + trackingNo);
@@ -421,7 +421,7 @@ public class CaseController {
 	 */
 	@RequestMapping("/addCaseComment.do")
 	public String addCaseComment(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception {
 		String content = request.getParameter("content");
 		String strId = request.getParameter("rcId");
 		User user = (User) request.getSession().getAttribute("user");
@@ -476,7 +476,7 @@ public class CaseController {
 	}
 
 	// 获取问题及答案的集合，方便前台展示
-	public static List<Map<String, String>> getQuestionAnswerList(ReportCase reportCase,List<QuestionInfo> allQuestion) {
+	public static List<Map<String, String>> getQuestionAnswerList(ReportCase reportCase,List<QuestionInfo> allQuestion) throws Exception {
 		List<Map<String, String>> questAnswerList = new ArrayList<Map<String, String>>();
 		List<ReportAnswer> answerList = reportCase.getAnswers();
 		for (int i = 0; i < answerList.size(); i++) {
@@ -502,7 +502,7 @@ public class CaseController {
 
 	// 保存临时文件
 	public void saveTempFile(String rootPath, MultipartFile file, String trackingNo)
-			throws IllegalStateException, IOException {
+			throws Exception {
 		String fileDir = rootPath + trackingNo;
 		File dir = new File(fileDir);
 		log.debug("路径：" + System.getProperty("user.dir"));
@@ -521,7 +521,7 @@ public class CaseController {
 	}
 
 	// 获取临时文件列表
-	public String getTempFileNames(String rootPath, String trackingNo) {
+	public String getTempFileNames(String rootPath, String trackingNo) throws Exception {
 		String fileNames = "";
 		String path = rootPath + trackingNo;
 		File root = new File(path);
@@ -538,7 +538,7 @@ public class CaseController {
 	}
 
 	// 将临时文件保存为永久文件
-	public void tempToFile(String tempPath, String filePath) {
+	public void tempToFile(String tempPath, String filePath) throws Exception {
 		// 复制文件
 		File tempRoot = new File(tempPath);
 		File newRoot = null;
@@ -572,7 +572,4 @@ public class CaseController {
 		}
 	}
 
-	public static void main(String[] args) {
-
-	}
 }

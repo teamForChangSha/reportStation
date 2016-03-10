@@ -56,7 +56,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/showCaseByCompany.do")
 	public String showCaseByCompany(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String rtList = request.getParameter("rtList");
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
@@ -83,7 +83,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/showCaseById.do")
 	public String showCaseById(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String strId = request.getParameter("rcId");
 		long rcId = 0;
 		if (strId != null) {
@@ -110,7 +110,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/updateCaseState.do")
 	public String updateCaseState(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String strId = request.getParameter("rcId");
 		String strState = request.getParameter("state");
 		String strCompanyId = request.getParameter("companyId");
@@ -173,7 +173,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/addCaseComment.do")
 	public String addCaseComment(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 		String content = request.getParameter("content");
 		String strId = request.getParameter("rcId");
 		User user = (User) request.getSession().getAttribute("user");

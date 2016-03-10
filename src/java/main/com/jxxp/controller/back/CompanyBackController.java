@@ -60,7 +60,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getQuestTemlate.do")
 	public String getQuestTemlate(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) {
+			ModelMap model) throws Exception  {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		List<Map<String, String>> questList = questionService.getMarkQuestions(company);
@@ -80,7 +80,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/addCompanyQuestions.do")
 	public String addCompanyQuestions(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			ModelMap modelMap) throws Exception  {
 
 		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
 		// 获取前台复选框question的ids
@@ -120,7 +120,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getAllReportTypes.do")
 	public String getAllReportTypes(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) {
+			ModelMap model) throws Exception  {
 		List<ReportType> delfRtList = reportTypeService.getDefaultList();
 		List<ReportType> rtList = new ArrayList<ReportType>();
 		User user = (User) request.getSession().getAttribute("user");
@@ -147,7 +147,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/addQuestionTypes.do")
 	public String addQuestionTypes(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) {
+			ModelMap model) throws Exception  {
 		String typeJson = request.getParameter("reportType");
 		List<ReportType> rtList = JSON.parseArray(typeJson, ReportType.class);
 		User user = (User) request.getSession().getAttribute("user");
@@ -183,7 +183,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/updateCompanyWholeInfo.do")
 	public String updateCompanyWholeInfo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) throws IllegalStateException, IOException {
+			HttpServletResponse response, ModelMap model) throws Exception  {
 		Company company = wholeCompany.getCompany();
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -237,7 +237,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping(value = "/addCompanyBranches.do", method = RequestMethod.POST)
 	public String addCompanyBranches(CompanyBranch branch, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
+			HttpServletResponse response, ModelMap model) throws Exception  {
 		User user = (User) request.getSession().getAttribute("user");
 		Company owner = user.getUserCompany();
 		branch.setOwner(owner);
@@ -249,7 +249,6 @@ public class CompanyBackController {
 				out.print("success");
 			} else {
 				out.print("error");
-
 			}
 		} catch (IOException e) {
 			log.debug("添加分支机构异常");
@@ -257,8 +256,7 @@ public class CompanyBackController {
 		return null;
 	}
 
-	private void saveLogo(MultipartFile file, String dirPath) throws IllegalStateException,
-			IOException {
+	private void saveLogo(MultipartFile file, String dirPath) throws Exception {
 		// 建立存放文件的文件夹
 		File fileDir = new File(dirPath);
 		if (!fileDir.exists()) {
@@ -287,7 +285,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getCompanyBranches.do")
 	public String getCompanyBranches(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) {
+			ModelMap model) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		List<CompanyBranch> branchList = companyBranchService.getCompanyBranches(company
@@ -308,7 +306,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/updateCompanyBranch.do")
 	public String updateCompanyBranch(CompanyBranch branch, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
+			HttpServletResponse response, ModelMap model) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		Company owner = user.getUserCompany();
 		branch.setOwner(owner);
@@ -339,7 +337,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/deleteCompanyBranch.do")
 	public String deleteCompanyBranch(long branchId, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) {
+			HttpServletResponse response, ModelMap model) throws Exception {
 
 		boolean flag = companyBranchService.deleteBranch(branchId);
 		PrintWriter out;
@@ -368,7 +366,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getOwnerCompanyInfo.do")
 	public String getOwnerCompanyInfo(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) {
+			ModelMap model) throws Exception  {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		company = companyService.getCompanyById(company.getCompanyId());
