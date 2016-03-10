@@ -500,7 +500,7 @@
         a4.bind("click", function () {
             Modal.confirm({
                 title: '警告',
-                msg: '你确定要注销该用户吗?',
+                msg: '注销后该用将无法再启用，你确定要注销吗?',
             }).on(function (e) {
                 if (e) {
                     var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=2";
