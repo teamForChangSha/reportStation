@@ -23,8 +23,7 @@
   </select>
   <select id="getAllStandard" resultMap="BaseResultMap">
    select * from reporttype
-    where company_id =0 
-    and is_standard=0
+    where is_standard=0 and (company_id is null or company_id=0)
   </select>
  
   <delete id="deleteByCompanyId">
@@ -47,7 +46,7 @@
   <update id="update" parameterType="com.jxxp.pojo.ReportType" >
     update reporttype
     set is_standard = #{isStandard,jdbcType=INTEGER},
-      company_id = #{companyId,jdbcType=BIGINT},
+      company_id = #{owner.companyId,jdbcType=BIGINT},
       rt_title = #{rtTitle,jdbcType=VARCHAR},
       rt_desc = #{rtDesc,jdbcType=VARCHAR}
     where rt_id = #{rtId,jdbcType=BIGINT}

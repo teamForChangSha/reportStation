@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,20 +36,23 @@ public class reportTypeServiceTest {
 	private ReportTypeMapper reportTypeMapper;
 	@Resource
 	private CompanyMapper companyMapper;
+
+	private ReportType type;
 	private Company company;
 	private List<ReportType> types;
 
 	/**
 	 * 获取默认问题类型列表,isStandard=0标准，isStandard=1非标准
 	 * 
-	 * 1、不添加，获取的默认列表所有类型的值应该为isStandard=0
+	 * 1、不添加，获取的默认列表所有类型的值应该为isStandard=0 且company_id=0
 	 */
-	@Test
+	@Ignore
 	public void getDefTypes() {
 		List<ReportType> getTypes = reportTypeService.getDefaultList();
 		List<ReportType> defTypes = reportTypeMapper.getAllStandard();
 		for (int i = 0; i < getTypes.size(); i++) {
 			assertTrue(getTypes.get(i).getIsStandard() == 0);
+			assertTrue(getTypes.get(i).getOwner() == null);
 		}
 		assertTrue(getTypes.size() == defTypes.size());
 
@@ -59,7 +63,7 @@ public class reportTypeServiceTest {
 	 * 
 	 * 2、添加非标准的，获取的默认列表与原来的默认列表相同
 	 */
-	@Test
+	@Ignore
 	public void getDefTypesAddNoStandand() {
 		List<ReportType> getTypesBeforAdd = reportTypeService.getDefaultList();
 		types = getRtList(1);
@@ -83,7 +87,46 @@ public class reportTypeServiceTest {
 			reportTypeMapper.insert(types.get(i));
 		}
 		List<ReportType> getTypesAfterAdd = reportTypeService.getDefaultList();
+
+		System.out.println(getTypesBeforAdd.size() + "===" + getTypesAfterAdd.size());
+
 		assertTrue(getTypesAfterAdd.size() == (getTypesBeforAdd.size() + types.size()));
+	}
+
+	/**
+	 * 更新标准的
+	 * 
+	 * 更新前取出来的和添加的相同，更新后取出和添加的不同
+	 */
+	@Ignore
+	public void updateReportType() {
+		type = getReportType(0);
+		reportTypeMapper.insert(type);
+		ReportType getType = reportTypeMapper.getById(type.getRtId());
+		assertTrue(TestUtil.isEqual(getType, type));
+		getType.setRtTitle("change title");
+		reportTypeService.updateReportType(getType);
+		ReportType getType2 = reportTypeMapper.getById(type.getRtId());
+		assertTrue(!TestUtil.isEqual(getType2, type));
+
+	}
+
+	/**
+	 * 更新非标准的
+	 * 
+	 * 更新前取出来的和添加的相同，更新后取出和添加的不同
+	 */
+	@Ignore
+	public void updateNotStandardReportType() {
+		type = getReportType(1);
+		reportTypeMapper.insert(type);
+		ReportType getType = reportTypeMapper.getById(type.getRtId());
+		assertTrue(TestUtil.isEqual(getType, type));
+		getType.setIsStandard(0);
+		getType.setOwner(null);
+		reportTypeService.updateReportType(getType);
+		ReportType getType2 = reportTypeMapper.getById(type.getRtId());
+		assertTrue(!TestUtil.isEqual(getType2, type));
 	}
 
 	@After
@@ -96,29 +139,37 @@ public class reportTypeServiceTest {
 				}
 			}
 		}
+		if (type != null) {
+			reportTypeMapper.deleteById(type.getRtId());
+			if (type.getOwner() != null) {
+				companyMapper.deleteById(type.getOwner().getCompanyId());
+			}
+		}
+		if (company != null) {
+			companyMapper.deleteById(company.getCompanyId());
+		}
 	}
 
 	private List<ReportType> getRtList(int isStandard) {
 		List<ReportType> rtList = new ArrayList<ReportType>();
-		company = CompanyTest.getCompany();
-		companyMapper.insert(company);
 		for (int i = 0; i < 2; i++) {
-			ReportType type1 = getReportType();
-			type1.setIsStandard(isStandard);
-			// 非标准的则会添加公司类型
-			if (isStandard == 1) {
-				type1.setOwner(company);
-			}
+			ReportType typeObj = getReportType(isStandard);
+			rtList.add(typeObj);
 		}
 		return rtList;
 	}
 
-	public ReportType getReportType() {
+	public ReportType getReportType(int isStandard) {
 		ReportType type = new ReportType();
 		type.setRtDesc("举报工作态度");
 		type.setRtTitle("title");
 		// 是否为标准类型：0标准，1非标准
-		type.setIsStandard(0);
+		type.setIsStandard(isStandard);
+		if (isStandard == 1) {
+			company = CompanyTest.getCompany();
+			companyMapper.insert(company);
+			type.setOwner(company);
+		}
 		return type;
 	}
 
