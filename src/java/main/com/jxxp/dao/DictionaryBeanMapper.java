@@ -34,6 +34,13 @@ public interface DictionaryBeanMapper {
 
 	int insert(DictionaryBean dctionary);
 
+	/**
+	 * 根据类型和值删除某个字典类型
+	 * 
+	 * @param dictType
+	 * @param dictValue
+	 * @return
+	 */
 	int delByTypeAndValue(@Param("dictType") String dictType, @Param("dictValue") Integer dictValue);
 
 }

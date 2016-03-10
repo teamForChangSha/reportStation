@@ -21,6 +21,7 @@ public interface DictionaryService {
 	 *            值
 	 * @return 匹配的字典对象，否则返回null
 	 */
+
 	DictionaryBean getDictName(String dictType, Integer dictValue);
 
 	/***

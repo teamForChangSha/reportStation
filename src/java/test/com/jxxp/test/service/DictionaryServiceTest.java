@@ -139,6 +139,7 @@ public class DictionaryServiceTest {
 		if (dictionary != null) {
 			dictionaryBeanMapper.delByTypeAndValue(dictionary.getDictType(),
 					Integer.parseInt(dictionary.getDictValue()));
+
 		}
 	}
 }

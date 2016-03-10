@@ -17,6 +17,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
 	@Override
 	public DictionaryBean getDictName(String dictType, Integer dictValue) {
+
 		return dictionaryBeanMapper.getDictionary(dictType, dictValue);
 	}
 

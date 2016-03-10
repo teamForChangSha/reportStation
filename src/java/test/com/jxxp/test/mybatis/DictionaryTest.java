@@ -28,6 +28,7 @@ public class DictionaryTest {
 	private DictionaryBean dictionary;
 
 	/**
+	 * 
 	 * 删除某个字典类型
 	 */
 	@Test

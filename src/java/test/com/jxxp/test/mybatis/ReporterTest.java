@@ -59,6 +59,7 @@ public class ReporterTest {
 		getReporter.setMobile("12345678908");
 		reporterMapper.update(getReporter);
 		Reporter getReporter2 = reporterMapper.getById(addReporter.getReporterId());
+
 		assertTrue(!TestUtil.isEqual(addReporter, getReporter2));
 
 	}

@@ -28,6 +28,7 @@ public class ReporterServiceTest {
 	private ReporterService reporterService;
 	@Resource
 	private ReporterMapper reporterMapper;
+
 	private Reporter addReporter;
 
 	/**
