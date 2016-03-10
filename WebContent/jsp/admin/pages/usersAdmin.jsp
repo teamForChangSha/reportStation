@@ -420,7 +420,6 @@
                     }
                     var url = "admin/user/stopCompanyAllUsers.do";
                     var data = "companyId=" + search.companyId.find("option:selected").val();
-                    console.log(data);
                     $.post(url, data, function (res, status) {
                         alertMsg(res, status);
                     });
@@ -451,7 +450,6 @@
                 if (e) {
                     var url = "admin/user/resetUserPwd.do";
                     var data = "userId=${user.userId}&userPwd=" + md5("123456");
-                    console.log(data);
                     $.post(url, data, function (res, status) {
                         alertMsg(res, status);
                     });
