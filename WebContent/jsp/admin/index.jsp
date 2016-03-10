@@ -100,7 +100,8 @@
                     <input type="button" name="loginBtn" value="登陆" class="btn btn-success form-control"/>
                 </div>
                 <div class="form-group">
-                    <a href="javascript:;" id="forgetPwd" class="btn btn-link form-control">忘记密码</a>
+                    <a href="javascript:;" id="forgetPwd" class="btn btn-link">忘记密码</a>
+                    <a href="mailto:178972841@qq.com" class="btn btn-link">联系管理</a>
                 </div>
             </form>
         </div>
@@ -130,11 +131,9 @@
         user.btn.get(0).onclick = login;
         function login() {
             if (!showError(user.name)) {
-                console.log("user");
                 return;
             }
             if (!showError(user.pwd)) {
-                console.log("pwd");
                 return;
             }
             var data = "loginName=" + user.name.val() + "&userPwd=" + md5(user.pwd.val());
@@ -150,7 +149,6 @@
         };
 
         function showError(ele) {
-            console.log(ele.val());
             if (isEmty(ele.val())) {
                 return false;
             }
