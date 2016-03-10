@@ -26,10 +26,8 @@ import com.jxxp.pojo.User;
 import com.jxxp.service.CaseChangeLogService;
 import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
-import com.jxxp.service.CompanyBranchService;
 import com.jxxp.service.CompanyService;
 import com.jxxp.service.QuestionService;
-import com.jxxp.service.ReportTypeService;
 
 @Controller("caseBackController")
 @RequestMapping("/admin/caseBack")
@@ -56,7 +54,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/showCaseByCompany.do")
 	public String showCaseByCompany(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) throws Exception  {
+			ModelMap modelMap) throws Exception {
 		String rtList = request.getParameter("rtList");
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
@@ -83,7 +81,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/showCaseById.do")
 	public String showCaseById(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) throws Exception  {
+			ModelMap modelMap) throws Exception {
 		String strId = request.getParameter("rcId");
 		long rcId = 0;
 		if (strId != null) {
@@ -96,7 +94,8 @@ public class CaseBackController {
 			return "/jsp/pages/error";
 		}
 
-		modelMap.put("questionAnswerList", CaseController.getQuestionAnswerList(reportCase,questionService.getAllQuestions()));
+		modelMap.put("questionAnswerList",
+				CaseController.getQuestionAnswerList(reportCase, questionService.getAllQuestions()));
 		modelMap.put("reportCase", reportCase);
 		return "/jsp/admin/pages/report_info";
 	}
@@ -110,7 +109,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/updateCaseState.do")
 	public String updateCaseState(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) throws Exception  {
+			ModelMap modelMap) throws Exception {
 		String strId = request.getParameter("rcId");
 		String strState = request.getParameter("state");
 		String strCompanyId = request.getParameter("companyId");
@@ -122,15 +121,16 @@ public class CaseBackController {
 		long afterCompanyId = Long.parseLong(strCompanyId);
 		Company afterHandler = null;
 
+		ReportCase reportCase = caseService.getReportCaseById(rcId);
+		User user = (User) request.getSession().getAttribute("user");
 		// 判断是否交由平台方处理
 		if (sendToPlatform == 1) {
 			afterHandler = companyService.getPlatformCompany();
-			afterCompanyId = afterHandler.getCompanyId();
+			// afterCompanyId = afterHandler.getCompanyId();
 		} else {
-			afterHandler = companyService.getCompanyById(afterCompanyId);
+			// 不是交给平台方处理，则是案件所属公司处理
+			afterHandler = companyService.getCompanyById(reportCase.getCompany().getCompanyId());
 		}
-		ReportCase reportCase = caseService.getReportCaseById(rcId);
-		User user = (User) request.getSession().getAttribute("user");
 
 		int beforeState = reportCase.getCaseState();
 		Company beforeCompany = reportCase.getCurrentHandler();
@@ -173,7 +173,7 @@ public class CaseBackController {
 	 */
 	@RequestMapping("/addCaseComment.do")
 	public String addCaseComment(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) throws Exception  {
+			ModelMap modelMap) throws Exception {
 		String content = request.getParameter("content");
 		String strId = request.getParameter("rcId");
 		User user = (User) request.getSession().getAttribute("user");
