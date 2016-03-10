@@ -16,11 +16,17 @@
     select="com.jxxp.dao.QuestionInfoMapper.getAllByCompany">
     </collection>
   </resultMap>
+  
+   <resultMap id="search" type="com.jxxp.pojo.Company" >
+    <id column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     company_id, company_name, description, company_code, phone, company_type, company_state, 
     state_changed
   </sql>
-   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from company
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
@@ -38,8 +44,8 @@
     where company_name = #{companyName,jdbcType=VARCHAR}
   </select>
   
-   <select id="getAllByName" resultMap="BaseResultMap" parameterType="String" >
-    select * from company
+   <select id="getAllByName" resultMap="search" parameterType="String" >
+    select company_id, company_name from company
     where company_name like concat('%',concat(#{companyName,jdbcType=VARCHAR},'%'))
   </select>
   
