@@ -21,6 +21,7 @@
     select * from reporttype
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
+  
   <select id="getAllStandard" resultMap="BaseResultMap">
    select * from reporttype
     where is_standard=0 and (company_id is null or company_id=0)

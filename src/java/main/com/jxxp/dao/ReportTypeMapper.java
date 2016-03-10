@@ -55,9 +55,9 @@ public interface ReportTypeMapper {
 	List<ReportType> getAllByCompanyId(long companyId);
 
 	/**
-	 * 获取标准（默认）问题类型列表，isStandard=0
+	 * 获取标准（默认）问题类型列表，isStandard=0，由于造数据不够严谨，因此附加条件companyId=0或者为空
 	 * 
-	 * @return
+	 * @return 默认问题类型列表
 	 */
 	List<ReportType> getAllStandard();
 

@@ -87,9 +87,6 @@ public class reportTypeServiceTest {
 			reportTypeMapper.insert(types.get(i));
 		}
 		List<ReportType> getTypesAfterAdd = reportTypeService.getDefaultList();
-
-		System.out.println(getTypesBeforAdd.size() + "===" + getTypesAfterAdd.size());
-
 		assertTrue(getTypesAfterAdd.size() == (getTypesBeforAdd.size() + types.size()));
 	}
 
