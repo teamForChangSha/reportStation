@@ -236,10 +236,10 @@
             }
         });
 
-        search.startTime.keyup(function(){
+        search.startTime.keyup(function () {
             search.startTime.val("");
         });
-        search.endTime.keyup(function(){
+        search.endTime.keyup(function () {
             search.endTime.val("");
         });
 
@@ -280,44 +280,68 @@
         var url = "dict/getDictName.do?dictType=case.state&dictValue=${caseInfo.caseState}";
         $.get(url, function (res) {
             var tr = $("<tr/>");
-            var td1 = $("<td/>").css("width","60px").text("${caseInfo.reporter.name}" == "" ? "匿名" : "${caseInfo.reporter.name}");
+            var td1 = $("<td/>").css("width", "60px").text("${caseInfo.reporter.name}" == "" ? "匿名" : "${caseInfo.reporter.name}");
             var td2 = $("<td/>").text('<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
-            var td3 = $("<td/>").css("width","80px").text(res);
+            var td3 = $("<td/>").css("width", "80px").text(res);
             var td4 = $("<td/>").text("${caseInfo.company.companyName}");
             var td5 = $("<td/>").text("${caseInfo.rtList}");
             var updata = $("<button/>").addClass("btn btn-link").text("修改");
             var look = $("<button/>").addClass("btn btn-link").text("查看");
             var append = $("<button/>").addClass("btn btn-link").text("追加");
-            var td6 = $("<td/>").css("width","180px");
+            var td6 = $("<td/>").css("width", "180px");
             td6.append(updata).append(look).append(append);
             tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
             look.click(function () {
                 location.href = "admin/caseBack/showCaseById.do?rcId=${caseInfo.rcId}";
             });
-            updata.click(function () {
+            updata.bind("click", function () {
                 $("tbody tr").removeClass("danger");
                 $(this).parent().parent().addClass("danger");
                 hiddenAll();
                 updataStatus.removeClass("hidden");
                 caseId = "${caseInfo.rcId}";
                 ele.status.get(0).value = "${caseInfo.caseState}";
-                if ("${user.userCompany.companyId}" != "${caseInfo.currentHandler.companyId}") {
-                    updataStatus.find("p").removeClass("hidden");
-                    ele.sendToPlatform.get(0).checked = true;
-                    ele.updataBtn.attr("disabled", true);
-                } else {
-                    updataStatus.find("p").addClass("hidden");
-                    ele.sendToPlatform.get(0).checked = false;
-                    ele.updataBtn.removeAttr("disabled");
+                if("${user.userCompany.companyId}"=="1"){
+                    if("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}"){
+                        updataStatus.find("p").removeClass("hidden");
+                        ele.sendToPlatform.get(0).checked = true;
+                        ele.updataBtn.removeAttr("disabled");
+                    }else{
+                        updataStatus.find("p").addClass("hidden");
+                        ele.sendToPlatform.get(0).checked = false;
+                        ele.updataBtn.attr("disabled", true);
+                    }
+                }else{
+                    if("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}"){
+                        updataStatus.find("p").addClass("hidden");
+                        ele.sendToPlatform.get(0).checked = false;
+                        ele.updataBtn.removeAttr("disabled");
+                    }else{
+                        updataStatus.find("p").removeClass("hidden");
+                        ele.sendToPlatform.get(0).checked = true;
+                        ele.updataBtn.attr("disabled", true);
+                    }
                 }
             });
-            append.click(function () {
+
+            append.bind("click", function () {
                 $("tbody tr").removeClass("danger");
                 $(this).parent().parent().addClass("danger");
                 hiddenAll();
                 appendInfo.removeClass("hidden");
                 caseId = "${caseInfo.rcId}";
             });
+            if("${user.userCompany.companyId}" != "${caseInfo.currentHandler.companyId}"){
+                if("${user.userCompany.companyId}" == "1"){
+                    updata.unbind("click").click(function () {
+                        Modal.alert({msg:'案件未交由平台方处理，您目前只能查看'});
+                    });
+                }else{
+                    updata.unbind("click").click(function () {
+                        Modal.alert({msg:'案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
+                    });
+                }
+            }
             $("tbody").append(tr);
         });
         </c:forEach>
@@ -342,7 +366,6 @@
             }
             var data = "rcId=" + caseId + "&state=" + ele.status.find("option:selected").val()
                     + "&sendToPlatform=" + sendToPlatform + "&companyId=" + "${user.userCompany.companyId}";
-            console.log(data);
             $.post(url, data, function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
@@ -367,7 +390,6 @@
             }
             var url = "admin/caseBack/addCaseComment.do";
             var data = "rcId=" + caseId + "&content=" + ele.content.val();
-            console.log(data);
             $.post(url, data, function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
@@ -386,7 +408,6 @@
         });
         $("#selectStatus").change(function () {
             $("tbody tr td:nth-child(3)").each(function () {
-                console.log($(this).text() + "\n" + $("#selectStatus").find("option:selected").text());
                 if ($(this).text() == $("#selectStatus").find("option:selected").text()) {
                     $(this).parent().removeClass("hidden");
                 } else {
