@@ -12,10 +12,9 @@ $(function() {
 	var span = $("<span/>").attr("aria-hidden", "true").text("x");
 	var span1 = $("<span/>").addClass("sr-only").text("Close");
 	button.append(span).append(span1);
-	var h4 = $("<h5/>").addClass("modal-title");
-	var i = $("<i/>").addClass("fa fa-exclamation-circle");
-	h4.append(i);
-	header.append(button).append(h4);
+	var icon = "<span class='glyphicon glyphicon-exclamation-sign' style='margin-right: 4px' aria-hidden='true'></span>"
+	var h5 = $("<h5/>").addClass("modal-title").append(icon);
+	header.append(button).append(h5);
 	var body = $("<div/>").addClass("modal-body small text-center");
 	var p = $("<p/>");
 	var input = $("<input/>").attr("type", "password").addClass("form-control")
@@ -102,7 +101,7 @@ $(function() {
 				msg : '内容'
 			};
 			$.extend(opt, options);
-			alr.find("h5").text(opt.title);
+			alr.find("h5").append(opt.title);
 			alr.find("p").text(opt.msg);
 		}
 
