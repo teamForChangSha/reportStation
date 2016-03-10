@@ -8,7 +8,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,7 +45,7 @@ public class reportTypeServiceTest {
 	 * 
 	 * 1、不添加，获取的默认列表所有类型的值应该为isStandard=0 且company_id=0
 	 */
-	@Ignore
+	@Test
 	public void getDefTypes() {
 		List<ReportType> getTypes = reportTypeService.getDefaultList();
 		List<ReportType> defTypes = reportTypeMapper.getAllStandard();
@@ -63,7 +62,7 @@ public class reportTypeServiceTest {
 	 * 
 	 * 2、添加非标准的，获取的默认列表与原来的默认列表相同
 	 */
-	@Ignore
+	@Test
 	public void getDefTypesAddNoStandand() {
 		List<ReportType> getTypesBeforAdd = reportTypeService.getDefaultList();
 		types = getRtList(1);
@@ -95,7 +94,7 @@ public class reportTypeServiceTest {
 	 * 
 	 * 更新前取出来的和添加的相同，更新后取出和添加的不同
 	 */
-	@Ignore
+	@Test
 	public void updateReportType() {
 		type = getReportType(0);
 		reportTypeMapper.insert(type);
@@ -113,7 +112,7 @@ public class reportTypeServiceTest {
 	 * 
 	 * 更新前取出来的和添加的相同，更新后取出和添加的不同
 	 */
-	@Ignore
+	@Test
 	public void updateNotStandardReportType() {
 		type = getReportType(1);
 		reportTypeMapper.insert(type);
