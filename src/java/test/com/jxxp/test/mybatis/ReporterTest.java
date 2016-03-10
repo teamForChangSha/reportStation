@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import javax.annotation.Resource;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,15 +25,49 @@ public class ReporterTest {
 
 	@Resource
 	private ReporterMapper reporterMapper;
+	private Reporter addReporter;
+
+	/**
+	 * 增加一个举报者
+	 */
+	@Test
+	public void addReporter() {
+		addReporter = getReporter();
+		int count = reporterMapper.insert(addReporter);
+		assertTrue(count == 1);
+		Reporter getReporter = reporterMapper.getById(addReporter.getReporterId());
+		assertTrue(TestUtil.isEqual(addReporter, getReporter));
+
+	}
 
 	@Test
 	public void getReportByMobile() {
-		Reporter reporter1 = getReporter();
-		assertTrue(reporterMapper.insert(reporter1) > 0);
-		Reporter reporter2 = reporterMapper.getByMobile(reporter1.getMobile());
-		reporterMapper.deleteById(reporter1.getReporterId());
-		TestUtil.isEqual(reporter1, reporter2);
+		addReporter = getReporter();
+		int count = reporterMapper.insert(addReporter);
+		assertTrue(count == 1);
+		Reporter getReporter = reporterMapper.getByMobile(addReporter.getMobile());
+		reporterMapper.deleteById(addReporter.getReporterId());
+		assertTrue(TestUtil.isEqual(addReporter, getReporter));
 
+	}
+
+	@Test
+	public void updateReporter() {
+		addReporter = getReporter();
+		reporterMapper.insert(addReporter);
+		Reporter getReporter = reporterMapper.getById(addReporter.getReporterId());
+		getReporter.setMobile("12345678908");
+		reporterMapper.update(getReporter);
+		Reporter getReporter2 = reporterMapper.getById(addReporter.getReporterId());
+		assertTrue(!TestUtil.isEqual(addReporter, getReporter2));
+
+	}
+
+	@After
+	public void clear() {
+		if (addReporter != null) {
+			reporterMapper.deleteById(addReporter.getReporterId());
+		}
 	}
 
 	public static Reporter getReporter() {
@@ -41,7 +76,6 @@ public class ReporterTest {
 		reporter.setMobile("13142056499");
 		reporter.setName("lisi");
 		reporter.setIdNo("432024199405046467X");
-		//reporter.setReporterId(555);
 		return reporter;
 	}
 }
