@@ -129,7 +129,8 @@ public class CaseBackController {
 			// afterCompanyId = afterHandler.getCompanyId();
 		} else {
 			// 不是交给平台方处理，则是案件所属公司处理
-			afterHandler = companyService.getCompanyById(reportCase.getCompany().getCompanyId());
+			// afterHandler = companyService.getCompanyById(afterCompanyId);
+			afterHandler = reportCase.getCompany();
 		}
 
 		int beforeState = reportCase.getCaseState();
