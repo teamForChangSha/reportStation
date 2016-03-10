@@ -14,9 +14,9 @@ import com.jxxp.service.DictionaryService;
 public class DictionaryServiceImpl implements DictionaryService {
 	@Resource
 	private DictionaryBeanMapper dictionaryBeanMapper;
-	
+
 	@Override
-	public DictionaryBean getDictName(String dictType, int dictValue) {
+	public DictionaryBean getDictName(String dictType, Integer dictValue) {
 		return dictionaryBeanMapper.getDictionary(dictType, dictValue);
 	}
 

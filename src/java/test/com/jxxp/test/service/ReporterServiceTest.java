@@ -39,8 +39,7 @@ public class ReporterServiceTest {
 		boolean flag = reporterService.addReporter(addReporter);
 		assertTrue(flag);
 		Reporter getReporter = reporterMapper.getById(addReporter.getReporterId());
-		reporterMapper.deleteById(addReporter.getReporterId());
-		TestUtil.isEqual(addReporter, getReporter);
+		assertTrue(TestUtil.isEqual(addReporter, getReporter));
 
 	}
 
@@ -78,7 +77,6 @@ public class ReporterServiceTest {
 		boolean flag = reporterService.addReporter(addReporter);
 		assertTrue(flag);
 		Reporter getReporter = reporterService.getByMobile(addReporter.getMobile());
-		reporterMapper.deleteById(addReporter.getReporterId());
 		TestUtil.isEqual(addReporter, getReporter);
 
 	}
