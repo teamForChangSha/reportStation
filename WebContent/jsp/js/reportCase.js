@@ -340,7 +340,6 @@ $(function () {
             + anonymous + "&" + questions + "&" + trackingNo + "&"
             + accessCode + "&" + rtList;
         $.post(url, data, function (res, status) {
-            console.log("data:" + res + "status：" + status);
             if (status == "success") {
                 if (res == "saveError") { // 案件提交失败
                     return Modal.alert({msg: "举报信息提交失败，请重试!"});
@@ -413,7 +412,6 @@ $(function () {
         }, 1000);
         $.get("case/getVerifyCode.do?mobile=" + userAndOther.mobile.val(),
             function (res, status) {
-                console.log("data:" + res + "status:" + status);
             });
     });
 
@@ -572,7 +570,6 @@ $(function () {
                             if (!showRadioError(quest.isEmployees))
                                 bool = false;
                         }
-                        console.log("quest_1" + bool);
                         break;
                     case "quest_2":
                         if (needed == 1) {
@@ -602,21 +599,18 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_2" + bool);
                         break;
                     case "quest_3":
                         if (needed == 1) {
                             if (!showRadioError(quest.regulators))
                                 bool = false;
                         }
-                        console.log("quest_3" + bool);
                         break;
                     case "quest_4":
                         if (needed == 1) {
                             if (!showRadioError(quest.admin))
                                 bool = false;
                         }
-                        console.log("quest_4" + bool);
                         break;
                     case "quest_5":
                         if (needed == 1) {
@@ -627,7 +621,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_5" + bool);
                         break;
                     case "quest_6":
                         if (needed == 1) {
@@ -657,7 +650,6 @@ $(function () {
                                 }
                             }
                         }
-                        console.log("quest_6" + bool);
                         break;
                     case "quest_7":
                         if (needed == 1) {
@@ -668,7 +660,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_7" + bool);
                         break;
                     case "quest_8":
                         if (needed == 1) {
@@ -679,7 +670,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_8" + bool);
                         break;
                     case "quest_9":
                         if (needed == 1) {
@@ -690,7 +680,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_9" + bool);
                         break;
                     case "quest_10":
                         if (needed == 1) {
@@ -700,7 +689,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_10" + bool);
                         break;
                     case "quest_11":
                         if (needed == 1) {
@@ -708,7 +696,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_11" + bool);
                         break;
                     case "quest_12":
                         if (needed == 1) {
@@ -719,7 +706,6 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_12" + bool);
                         break;
                     case "quest_13":
                         if (needed == 1) {
@@ -730,11 +716,9 @@ $(function () {
                                 bool = false;
                             }
                         }
-                        console.log("quest_13" + bool);
                         break;
                 }
             });
-        console.log(bool);
         return bool;
     }
 

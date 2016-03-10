@@ -138,6 +138,12 @@
                         <span>修改密码</span>
                     </a>
                 </li>
+                <li class="sub-menu">
+                    <a href="mailto:178972841@qq.com" class="">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        <span>联系管理</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

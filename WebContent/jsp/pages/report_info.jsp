@@ -306,7 +306,6 @@
 				var button2 = $("<button/>").attr("class","btn btn-default").text("提交");
 				button2.click(function(){
 					var str = $.trim(textarea.val());
-					console.log(str);
 					if (str == null || str.length <= 0 || str == "") {
 						return;
 					}
