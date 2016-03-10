@@ -101,7 +101,10 @@ public class CompanyServiceImpl implements CompanyService {
 			flag = reportTypeMapper.deleteByCompanyId(company.getCompanyId()) > 0;
 		}
 		for (ReportType reportType : rtList) {
-			reportType.setOwner(company);
+			if (company != null) {
+				reportType.setOwner(company);
+				reportType.setIsStandard(1);
+			}
 			flag = reportTypeMapper.insert(reportType) > 0;
 			if (!flag) {
 				break;

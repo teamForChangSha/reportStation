@@ -24,8 +24,8 @@ public class ReportTypeServiceImpl implements ReportTypeService {
 
 	@Override
 	public List<ReportType> getDefaultList() {
-		// TODO Auto-generated method stub
-		return reportTypeMapper.getAllByCompanyId(0);
+		// return reportTypeMapper.getAllByCompanyId(0);
+		return reportTypeMapper.getAllStandard();
 	}
 
 }
