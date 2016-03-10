@@ -97,7 +97,7 @@ public class ReporterServiceTest {
 	/**
 	 * 号码为空串或者为null，实际上不会允许这种情况出现，一旦存储就应该有号码
 	 */
-	@Test
+	@Ignore
 	public void getReportWithNullMobile() {
 		Reporter getReporter = reporterService.getByMobile(null);
 		assertTrue(getReporter == null);
