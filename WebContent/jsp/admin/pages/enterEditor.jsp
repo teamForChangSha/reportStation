@@ -40,6 +40,9 @@
             background: #595d60;
             color: white;
         }
+        .table-hover > tbody > tr:hover {
+            background-color: inherit;
+        }
     </style>
 </head>
 
