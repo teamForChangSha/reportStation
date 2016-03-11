@@ -17,5 +17,16 @@
 		select * from dictionarybean
 		where dict_type=#{dictType}
   </select>  
-
+ <insert id="insert" parameterType="com.jxxp.pojo.DictionaryBean" >
+    insert into dictionarybean (dict_type, dict_name, dict_value, 
+      display_order, dict_desc)
+    values (#{dictType,jdbcType=VARCHAR}, #{dictName,jdbcType=VARCHAR}, #{dictValue,jdbcType=VARCHAR}, 
+      #{displayOrder,jdbcType=INTEGER}, #{dictDesc,jdbcType=VARCHAR})
+  </insert>
+  <delete id="delByTypeAndValue">
+  delete from dictionarybean 
+  where dict_type=#{dictType,jdbcType=VARCHAR} 
+  and dict_value=#{dictValue,jdbcType=VARCHAR}
+  </delete>
+  
 </mapper>

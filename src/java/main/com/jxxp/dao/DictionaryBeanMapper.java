@@ -23,7 +23,7 @@ public interface DictionaryBeanMapper {
 	 * @return 获取得到的字典对象
 	 */
 	DictionaryBean getDictionary(@Param("dictType") String dictType,
-			@Param("dictValue") int dictValue);
+			@Param("dictValue") Integer dictValue);
 
 	/**
 	 * @param dictType
@@ -31,5 +31,16 @@ public interface DictionaryBeanMapper {
 	 * @return 获得某个类别下的所有字典
 	 */
 	List<DictionaryBean> getByType(String dictType);
+
+	int insert(DictionaryBean dctionary);
+
+	/**
+	 * 根据类型和值删除某个字典类型
+	 * 
+	 * @param dictType
+	 * @param dictValue
+	 * @return
+	 */
+	int delByTypeAndValue(@Param("dictType") String dictType, @Param("dictValue") Integer dictValue);
 
 }

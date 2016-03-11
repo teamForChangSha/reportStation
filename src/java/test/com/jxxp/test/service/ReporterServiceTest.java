@@ -28,6 +28,7 @@ public class ReporterServiceTest {
 	private ReporterService reporterService;
 	@Resource
 	private ReporterMapper reporterMapper;
+
 	private Reporter addReporter;
 
 	/**
@@ -39,8 +40,7 @@ public class ReporterServiceTest {
 		boolean flag = reporterService.addReporter(addReporter);
 		assertTrue(flag);
 		Reporter getReporter = reporterMapper.getById(addReporter.getReporterId());
-		reporterMapper.deleteById(addReporter.getReporterId());
-		TestUtil.isEqual(addReporter, getReporter);
+		assertTrue(TestUtil.isEqual(addReporter, getReporter));
 
 	}
 
@@ -78,7 +78,6 @@ public class ReporterServiceTest {
 		boolean flag = reporterService.addReporter(addReporter);
 		assertTrue(flag);
 		Reporter getReporter = reporterService.getByMobile(addReporter.getMobile());
-		reporterMapper.deleteById(addReporter.getReporterId());
 		TestUtil.isEqual(addReporter, getReporter);
 
 	}
@@ -98,7 +97,7 @@ public class ReporterServiceTest {
 	/**
 	 * 号码为空串或者为null，实际上不会允许这种情况出现，一旦存储就应该有号码
 	 */
-	@Test
+	@Ignore
 	public void getReportWithNullMobile() {
 		Reporter getReporter = reporterService.getByMobile(null);
 		assertTrue(getReporter == null);
