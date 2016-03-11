@@ -32,6 +32,14 @@
         .container {
             padding: 30px 0;
         }
+        .form-horizontal .form-group {
+            margin-right: 0;
+            margin-left: 0;
+        }
+        .tableTh_tSeach_list{
+            background: #595d60;
+            color: white;
+        }
     </style>
 </head>
 
@@ -89,6 +97,21 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-2 control-label">所属行业：</label>
+
+                <div class="col-sm-3">
+                    <div class="input-group form-group">
+                        <input id="industry" type="text" value="${company.companyName}" name="company.companyName" class="form-control"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectIndustry">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <%--jsp/admin/pages/industrySelect.jsp选择行业--%>
+            <div class="form-group">
                 <label class="col-sm-2 control-label">公司描述：</label>
 
                 <div class="col-sm-5">
@@ -138,6 +161,178 @@
         </form>
     </div>
 </div>
+
+<!--选择行业对话框-->
+<div class="modal fade bs-example-modal-lg" id="selectIndustry" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">行业选择</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">计算机/互联网/通信/电子</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('01')">计算机软件</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('37')">计算机硬件</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('38')">计算机服务(系统、数据服务、维修)</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('31')">通信/电信/网络设备</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('39')">通信/电信运营、增值服务</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('32')">互联网/电子商务</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('40')">网络游戏</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('02')">电子技术/半导体/集成电路</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('35')">仪器仪表/工业自动化</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">会计/金融/银行/保险</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('41')">会计/审计</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('03')">金融/投资/证券</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('42')">银行</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('43')">保险</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('62')">信托/担保/拍卖/典当</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">贸易/消费/制造/营运</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('04')">贸易/进出口</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('22')">批发/零售</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('05')">快速消费品(食品、饮料、化妆品)</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('06')">服装/纺织/皮革</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('44')">家具/家电/玩具/礼品</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('60')">奢侈品/收藏品/工艺品/珠宝</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('45')">办公用品及设备</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('14')">机械/设备/重工</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('33')">汽车及零配件</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">制药/医疗</td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('08')">制药/生物工程</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('46')">医疗/护理/卫生</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('47')">医疗设备/器械</a></td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">广告/媒体</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('12')">广告</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('48')">公关/市场推广/会展</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('49')">影视/媒体/艺术/文化传播</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('13')">文字媒体/出版</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('15')">印刷/包装/造纸</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">房地产/建筑</td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('26')">房地产</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('09')">建筑/建材/工程</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('50')">家居/室内设计/装潢</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('51')">物业管理/商业中心</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">专业服务/教育/培训</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('34')">中介服务</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('63')">租赁服务</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('07')">专业服务(咨询、人力资源、财会)</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('59')">外包服务</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('52')">检测，认证</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('18')">法律</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('23')">教育/培训/院校</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('24')">学术/科研</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">服务业</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('11')">餐饮业</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('53')">酒店/旅游</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('17')">娱乐/休闲/体育</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('54')">美容/保健</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('27')">生活服务</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">物流/运输</td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('21')">交通/运输/物流</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('55')">航天/航空</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">能源/原材料</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('19')">石油/化工/矿产/地质</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('16')">采掘业/冶炼</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('36')">电气/电力/水利</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('61')">新能源</a></td>
+                    </tr>
+                    <tr class="tableUnitLine">
+                        <td><a href="javascript:void(0);" onclick="getInd('56')">原材料和加工</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    <tr>
+                        <td colspan="4" class="tableTh_tSeach_list">政府/非赢利机构/其他</td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('28')">政府/公共事业</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('57')">非盈利机构</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('20')">环保</a></td>
+                        <td><a href="javascript:void(0);" onclick="getInd('29')">农/林/牧/渔</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="javascript:void(0);" onclick="getInd('58')">多元化业务集团公司</a></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
@@ -173,6 +368,11 @@
                 return;
             }
             $("#enterInfo").submit();
+        });
+
+        $("td a").click(function () {
+            $("#selectIndustry").modal('hide');
+           $("#industry").val($(this).text());
         });
 
         var masg = "${msg}";
