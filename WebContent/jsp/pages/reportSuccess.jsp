@@ -19,7 +19,7 @@
 		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
 		<script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-		<title></title>
+		<title>51report-举报成功</title>
 	</head>
 
 	<body>
@@ -63,7 +63,7 @@
 		
 		<nav class="navbar navbar-default navbar-fixed-bottom">
 			<div class="container">
-				<p class="navbar-text" id="bottom">Copyright © 2016-2018 用户举报系统</p>
+				<p class="navbar-text" id="bottom">Copyright © 2016-2018 51report.com</p>
 			</div>
 		</nav>
 	</body>

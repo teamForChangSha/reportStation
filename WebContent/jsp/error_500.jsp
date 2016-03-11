@@ -60,7 +60,7 @@
 </div>
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container">
-        <p class="navbar-text" id="bottom">Copyright © 2016-2018 用户举报系统</p>
+        <p class="navbar-text" id="bottom">Copyright © 2016-2018 51report.com</p>
     </div>
 </nav>
 </body>

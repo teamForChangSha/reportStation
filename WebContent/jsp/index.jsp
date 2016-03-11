@@ -15,7 +15,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="Window-target" content="_top">
-		<title></title>
+		<title>51report-企业举报网</title>
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
@@ -159,15 +159,15 @@
 					</h1>
 					</div>
 					<div class="jumbotron">
-						<div class="container">Belden 是一家拥有高度负责和诚信价值观的组织。 我们的 商业行为与道德准则 包含以最高道德标准开展业务的一般性指南。 Belden 承诺创建一个坦诚、诚实交流而非排除在外的环境。 我们希望在您认为有违反政策或标准的行为发生时，能够适应向您的主管或管理层举报，而不会遭到报复。 在您希望能够以保密、匿名的方式进行举报的情况下，我们鼓励您使用此热线电话，该电话由第三方热线电话提供商 EthicsPoint 提供。 我们鼓励您提交与我们的 商业行为和道德准则中所列违规行为有关的举报，询问有关政策和程序的指南并提供积极的建议和故事。
-							EthicsPoint 将会按照您的选择以完全保密和匿名的方式，把您提供的信息发送给我们。 我们保证您的意见将会得到听取。</div>
+						<div class="container">51report 是一家拥有高度负责和诚信价值观的组织。 我们的 商业行为与道德准则 包含以最高道德标准开展业务的一般性指南。 51report 承诺创建一个坦诚、诚实交流而非排除在外的环境。 我们希望在您认为有违反政策或标准的行为发生时，能够适应向您的主管或管理层举报，而不会遭到报复。 在您希望能够以保密、匿名的方式进行举报的情况下，我们鼓励您使用此热线电话，该电话由第三方热线电话提供商 51report 提供。 我们鼓励您提交与我们的 商业行为和道德准则中所列违规行为有关的举报，询问有关政策和程序的指南并提供积极的建议和故事。
+							51report 将会按照您的选择以完全保密和匿名的方式，把您提供的信息发送给我们。 我们保证您的意见将会得到听取。</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<nav class="navbar navbar-default navbar-fixed-bottom">
 			<div class="container">
-				<p class="navbar-text" id="bottom">Copyright © 2016-2018 用户举报系统</p>
+				<p class="navbar-text" id="bottom">Copyright © 2016-2018 51report.com</p>
 			</div>
 		</nav>
 

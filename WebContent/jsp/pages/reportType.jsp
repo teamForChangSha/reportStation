@@ -14,7 +14,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="cache-control" content="no-cache">
-		<title></title>
+		<title>51report-举报类型</title>
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
@@ -93,7 +93,7 @@
 		</div>
 		<nav class="navbar navbar-default navbar-fixed-bottom">
 			<div class="container text-center">
-				<p class="navbar-text">Copyright © 2016-2018 用户举报系统</p>
+				<p class="navbar-text">Copyright © 2016-2018 51report.com</p>
 			</div>
 		</nav>
 		<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>

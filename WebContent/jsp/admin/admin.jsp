@@ -155,7 +155,7 @@
     </div>
 </div>
 <div id="footer">
-    Copyright © 2016-2018 用户举报系统
+    Copyright © 2016-2018 51report.com
 </div>
 <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>

@@ -14,7 +14,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="cache-control" content="no-cache">
-		<title></title>
+		<title>51report-案件举报</title>
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
 		<link rel="stylesheet" type="text/css" href="jsp/css/common_top.css" />
@@ -508,7 +508,7 @@
 						<div class="page-header"></div>
 						<div class="form-group text-center">
 							<p class="bg-danger">
-								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 EthicsPoint 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您可以查阅任何"后续问题"或提交关于此事件的更多信息。
+								您提交报告时，将会发给您一个举报编号。请记下此编号并存放在安全的地方。在5-6个营业日后，您通过网站或热线电话返回 51report 时，我们会要求您使用此举报编号以及您选择的密码。在5-6个营业日后返回，您可以查阅任何"后续问题"或提交关于此事件的更多信息。
 							</p>
 						</div>
 						<div class="form-group text-center">
@@ -558,7 +558,7 @@
 			</form>
 		</div>
 		<div class="page-header"></div>
-		<p class="navbar-text text-center">Copyright © 2016-2018 用户举报系统</p>
+		<p class="navbar-text text-center">Copyright © 2016-2018 51report.com</p>
 
 		<!--条款对话框-->
 		<div class="modal fade bs-example-modal-lg" id="agreeMentPanel" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -571,7 +571,7 @@
 						<h5 class="modal-title" id="exampleModalLabel">条款与条件</h5>
 					</div>
 					<div class="modal-body">
-						<iframe src="jsp/pages/agreement.html" frameborder="0" width="100%" height="400px"></iframe>
+						<iframe src="jsp/pages/agreement.jsp" frameborder="0" width="100%" height="400px"></iframe>
 					</div>
 				</div>
 			</div>

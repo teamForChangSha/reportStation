@@ -20,7 +20,7 @@
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
-    <title></title>
+    <title>后台管理</title>
     <style type="text/css">
         body.lock {
             background: #393939;
