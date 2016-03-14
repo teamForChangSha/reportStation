@@ -77,6 +77,7 @@
                         <th>编号</th>
                         <th>问题描述</th>
                         <th>是否展示</th>
+                        <th>是否必填</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,14 @@
                                 </c:if>
                                 <c:if test="${quest.mark!='1'}">
                                     <input type="checkbox" name="questId" value="${quest.questId}"/>
+                                </c:if>
+                            </td>
+                            <td>
+                                <c:if test="${quest.isNeeded=='1'}">
+                                    <input type="checkbox" name="isNeeded" checked value="${quest.isNeeded}"/>
+                                </c:if>
+                                <c:if test="${quest.isNeeded!='1'}">
+                                    <input type="checkbox" name="isNeeded" value="${quest.isNeeded}"/>
                                 </c:if>
                             </td>
                         </tr>
@@ -109,36 +118,72 @@
 </body>
 <script type="text/javascript">
     $(function () {
+        $.fn.serializeJson = function () {
+            var serializeObj = {};
+            var array = this.serializeArray();
+            var str = this.serialize();
+            $(array).each(
+                    function () {
+                        if (serializeObj[this.name]) {
+                            if ($.isArray(serializeObj[this.name])) {
+                                serializeObj[this.name].push(this.value);
+                            } else {
+                                serializeObj[this.name] = [
+                                    serializeObj[this.name], this.value];
+                            }
+                        } else {
+                            serializeObj[this.name] = this.value;
+                        }
+                    });
+            return serializeObj;
+        };
+
         $("input[type=button]").click(function () {
             if ($("input[type=checkbox]:checked").length <= 0) {
                 return Modal.alert({msg: "您未选择问题将使用系统默认的问题!"})
                         .on(function (e) {
                             if (e) {
-                                $.post("admin/companyBack/addCompanyQuestions.do",
-                                        $("form").serialize(),
-                                        function (res, status) {
-                                            if (status == "success") {
-                                                if (res == "success") {
-                                                    Modal.alert({
-                                                        msg: '操作成功！',
-                                                    }).on(function (e) {
-                                                        location.reload();
-                                                    });
-                                                } else {
-                                                    Modal.alert({
-                                                        msg: '操作失败！',
-                                                    });
-                                                }
-                                            } else {
-                                                Modal.alert({
-                                                    msg: '操作失败！',
-                                                });
-                                            }
-                                        });
+                                sendForm();
                             }
                         });
+            }else{
+                sendForm();
             }
         });
+
+        function sendForm() {
+            var datas = [];
+            $("tbody tr").each(function () {
+                var data = {};
+                var id = $(this).find("td:nth-child(3) input").filter(':checked').val();
+                if(id==null) return;
+                data['questId'] = id;
+                data['isNeeded'] = $(this).find("td:nth-child(4) input").filter(':checked').val();
+                datas.push(data);
+            });
+            console.log("comQuestList="+JSON.stringify(datas));
+            $.post("admin/companyBack/addCompanyQuestions.do",
+                    "comQuestList="+JSON.stringify(datas),
+                    function (res, status) {
+                        if (status == "success") {
+                            if (res == "success") {
+                                Modal.alert({
+                                    msg: '操作成功！',
+                                }).on(function (e) {
+                                    location.reload();
+                                });
+                            } else {
+                                Modal.alert({
+                                    msg: '操作失败！',
+                                });
+                            }
+                        } else {
+                            Modal.alert({
+                                msg: '操作失败！',
+                            });
+                        }
+                    });
+        }
     });
 </script>
 </html>
