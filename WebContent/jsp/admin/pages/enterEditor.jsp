@@ -104,7 +104,7 @@
 
                 <div class="col-sm-3">
                     <div class="input-group form-group">
-                        <input id="industry" type="text" value="${company.companyName}" name="company.companyName" class="form-control"/>
+                        <input id="industry" type="text" value="${company.industries}" name="company.industries" class="form-control"/>
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectIndustry">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
