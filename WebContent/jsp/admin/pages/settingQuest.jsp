@@ -12,6 +12,7 @@
 <head>
     <base href="<%=basePath%>"/>
     <meta charset="UTF-8">
+    <meta http-equiv="cache-control" content="no-cache">
     <title></title>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
@@ -95,10 +96,10 @@
                             </td>
                             <td>
                                 <c:if test="${quest.isNeeded=='1'}">
-                                    <input type="checkbox" name="isNeeded" checked value="${quest.isNeeded}"/>
+                                    <input type="checkbox" name="isNeeded" checked/>
                                 </c:if>
                                 <c:if test="${quest.isNeeded!='1'}">
-                                    <input type="checkbox" name="isNeeded" value="${quest.isNeeded}"/>
+                                    <input type="checkbox" name="isNeeded"/>
                                 </c:if>
                             </td>
                         </tr>
@@ -118,26 +119,6 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        $.fn.serializeJson = function () {
-            var serializeObj = {};
-            var array = this.serializeArray();
-            var str = this.serialize();
-            $(array).each(
-                    function () {
-                        if (serializeObj[this.name]) {
-                            if ($.isArray(serializeObj[this.name])) {
-                                serializeObj[this.name].push(this.value);
-                            } else {
-                                serializeObj[this.name] = [
-                                    serializeObj[this.name], this.value];
-                            }
-                        } else {
-                            serializeObj[this.name] = this.value;
-                        }
-                    });
-            return serializeObj;
-        };
-
         $("input[type=button]").click(function () {
             if ($("input[type=checkbox]:checked").length <= 0) {
                 return Modal.alert({msg: "您未选择问题将使用系统默认的问题!"})
@@ -146,7 +127,7 @@
                                 sendForm();
                             }
                         });
-            }else{
+            } else {
                 sendForm();
             }
         });
@@ -156,14 +137,15 @@
             $("tbody tr").each(function () {
                 var data = {};
                 var id = $(this).find("td:nth-child(3) input").filter(':checked').val();
-                if(id==null) return;
+                var isNeeded = $(this).find("td:nth-child(4) input").is(':checked');
+                console.log(isNeeded);
+                if (id == null) return;
                 data['questId'] = id;
-                data['isNeeded'] = $(this).find("td:nth-child(4) input").filter(':checked').val();
+                data['isNeeded'] = isNeeded == true ? 1 : 0;
                 datas.push(data);
             });
-            console.log("comQuestList="+JSON.stringify(datas));
             $.post("admin/companyBack/addCompanyQuestions.do",
-                    "comQuestList="+JSON.stringify(datas),
+                    "comQuestList=" + JSON.stringify(datas),
                     function (res, status) {
                         if (status == "success") {
                             if (res == "success") {
