@@ -14,7 +14,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.jxxp.dao.CaseCommentMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyQuestionMapper;
+import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.dao.ReporterMapper;
@@ -63,6 +63,8 @@ public class CaseServiceTest {
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private CompanyMapper companyMapper;
+	@Resource
+	private QuestionInfoMapper questionInfoMapper;
 
 	@Resource
 	private UserMapper userMapper;
@@ -84,22 +86,24 @@ public class CaseServiceTest {
 		caseInfo = CaseTest.getReportCase();
 		Company company = CompanyTest.getCompany();
 		companyMapper.insert(company);
-		caseInfo.setCompany(company);
 		qustionList = getQuestionList();
 		for (int i = 0; i < qustionList.size(); i++) {
+			questionInfoMapper.insert(qustionList.get(i));
 			cqMapper.insert(qustionList.get(i).getQuestId(), company.getCompanyId());
 		}
+		company.setQuestList(qustionList);
+		caseInfo.setCompany(company);
 		answerList = getAnswers(caseInfo, qustionList);
 		Reporter reporter = ReporterTest.getReporter();
-		// reporterMapper.insert(reporter);
+		reporterMapper.insert(reporter);
 		caseInfo.setReporter(reporter);
 		assertTrue(caseService.saveCase(reporter, caseInfo, answerList));
 		List<ReportCase> getList = reportCaseMapper.getCaseByReporter(reporter);
-		// 案件本省
+		// 案件本身，添加和取出来的相同
 		assertTrue(getList.size() == 1);
-		assertTrue(TestUtil.isEqual(getList.get(0), caseInfo));
+		assertTrue(TestUtil.isEqual(getList.get(0).getCompany(), company));
+		// 举报人添加和取出来的相同
 		Reporter re = reporterMapper.getById(reporter.getReporterId());
-		// 举报人
 		assertTrue(TestUtil.isEqual(reporter, re));
 		// 所举报的问题答案
 		TestUtil.isEqual(getList.get(0).getAnswers(), answerList);
@@ -131,7 +135,7 @@ public class CaseServiceTest {
 		assertTrue(caseService.saveCase(reporter, caseInfo2, answerList));
 
 		List<ReportCase> getList = reportCaseMapper.getCaseByReporter(reporter);
-		// 案件本省
+		// 案件本身
 		assertTrue(getList.size() == 2);
 		List<Reporter> reList = reporterMapper.getAll();
 		// 同一个举报人
@@ -144,7 +148,7 @@ public class CaseServiceTest {
 		}
 		assertTrue(count == 1);
 		// 所举报的问题答案和添加的相同
-		TestUtil.isEqual(getList.get(0).getAnswers(), answerList);
+		assertTrue(TestUtil.isEqual(getList.get(0).getAnswers(), answerList));
 		reportCaseMapper.deleteById(caseInfo2.getRcId());
 	}
 
@@ -484,29 +488,23 @@ public class CaseServiceTest {
 
 	/**
 	 * 问题和答案不一致，异常
+	 * 
+	 * @Test public void QuestNotSameWithAnswer() { caseInfo =
+	 *       CaseTest.getReportCase(); Company company =
+	 *       CompanyTest.getCompany(); companyMapper.insert(company);
+	 *       caseInfo.setCompany(company); List<QuestionInfo> qustionList =
+	 *       getQuestionList(); for (int i = 0; i < qustionList.size(); i++) {
+	 *       cqMapper.insert(qustionList.get(i).getQuestId(),
+	 *       company.getCompanyId()); } List<ReportAnswer> answerList =
+	 *       getNotSameAnswers(caseInfo, qustionList); try {
+	 *       caseService.saveCase(null, caseInfo, answerList);
+	 * 
+	 *       } catch (Exception ex) { ex.getMessage(); }
+	 *       assertNull(reportCaseMapper
+	 *       .getById(caseInfo.getRcId()).getReporter()); }
 	 */
-	@Ignore
-	public void QuestNotSameWithAnswer() {
-		caseInfo = CaseTest.getReportCase();
-		Company company = CompanyTest.getCompany();
-		companyMapper.insert(company);
-		caseInfo.setCompany(company);
-		List<QuestionInfo> qustionList = getQuestionList();
-		for (int i = 0; i < qustionList.size(); i++) {
-			cqMapper.insert(qustionList.get(i).getQuestId(), company.getCompanyId());
-		}
-		List<ReportAnswer> answerList = getNotSameAnswers(caseInfo, qustionList);
-		try {
-			caseService.saveCase(null, caseInfo, answerList);
-
-		} catch (Exception ex) {
-			ex.getMessage();
-		}
-		assertNull(reportCaseMapper.getById(caseInfo.getRcId()).getReporter());
-	}
-
 	// TODO
-	@Ignore
+	@Test
 	public void getCaseNoReporter() {
 		ReportCase caseInfo = CaseTest.getReportCase();
 		caseService.saveCaseInfo(caseInfo);
@@ -544,12 +542,14 @@ public class CaseServiceTest {
 	private List<QuestionInfo> getQuestionList() {
 		List<QuestionInfo> qList = new ArrayList<QuestionInfo>();
 		QuestionInfo q = null;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			q = new QuestionInfo();
 			q = QuestionInfoTest.getQuestion();
-			q.setQuestId(q.getQuestId() + i);
+			q.setQuestDesc("questDesc" + i);
+			qList.add(q);
+			// q.setQuestId(q.getQuestId() + i);
 		}
-		qList.add(q);
+
 		return qList;
 	}
 
@@ -583,7 +583,12 @@ public class CaseServiceTest {
 				reportAnswerMapper.delByCaseId(caseInfo.getRcId());
 			}
 		}
+		if (qustionList != null) {
+			for (int i = 0; i < qustionList.size(); i++) {
+				questionInfoMapper.deleteById(qustionList.get(i).getQuestId());
 
+			}
+		}
 		if (caseComment != null) {
 			caseCommentMapper.deleteById(caseComment.getCcId());
 		}
