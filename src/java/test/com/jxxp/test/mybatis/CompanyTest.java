@@ -101,6 +101,7 @@ public class CompanyTest {
 		company.setPhone("073136786688");
 		company.setCompanyState(1);
 		company.setCompanyType(1);
+		company.setIndustries("某某行业");
 		return company;
 	}
 }
