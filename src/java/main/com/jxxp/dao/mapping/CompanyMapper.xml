@@ -10,6 +10,8 @@
 	<result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />	
 	<result column="company_type" property="companyType" jdbcType="INTEGER" />
     <result column="company_state" property="companyState" jdbcType="INTEGER" />
+    <!-- 增加一个字段，industries表示行业 -->
+    <result column="industries" property="industries" jdbcType="VARCHAR" />
     <association column="company_id" property="otherInfo" select="com.jxxp.dao.CompanyOtherMapper.getByCompanyId">
     </association> 
     <collection property="questList" column="company_id" ofType="com.jxxp.pojo.QuestionInfo"
@@ -24,7 +26,7 @@
   
   <sql id="Base_Column_List" >
     company_id, company_name, description, company_code, phone, company_type, company_state, 
-    state_changed
+    state_changed,industries
   </sql>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from company
@@ -60,16 +62,16 @@
       <if test="companyId != null" >
         company_id,
       </if>
-      <if test="companyName != null" >
+      <if test="companyName != null and companyName!=''" >
         company_name,
       </if>
-      <if test="description != null" >
+      <if test="description != null and description!=''" >
         description,
       </if>
-      <if test="companyCode != null" >
+      <if test="companyCode != null and companyCode!=''" >
         company_code,
       </if>
-      <if test="phone != null" >
+      <if test="phone != null and phone!=''" >
         phone,
       </if>
       <if test="companyType != null" >
@@ -81,21 +83,24 @@
       <if test="stateChanged != null" >
         state_changed,
       </if>
+      <if test="industries != null and industries!=''" >
+      industries
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="companyId != null" >
         #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="companyName != null" >
+      <if test="companyName != null and companyName!=''" >
         #{companyName,jdbcType=VARCHAR},
       </if>
-      <if test="description != null" >
+      <if test="description != null and description!=''" >
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="companyCode != null" >
+      <if test="companyCode != null and companyCode!=''" >
         #{companyCode,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null and phone!=''" >
         #{phone,jdbcType=VARCHAR},
       </if>
       <if test="companyType != null" >
@@ -107,21 +112,25 @@
       <if test="stateChanged != null" >
         #{stateChanged,jdbcType=TIMESTAMP},
       </if>
+      <if test="industries != null and industries!=''" >
+        #{industries,jdbcType=VARCHAR},
+      </if>
+      
     </trim>
   </insert>
   <update id="update" parameterType="com.jxxp.pojo.Company" >
     update company
     <set >
-      <if test="companyName != null" >
+      <if test="companyName != null and companyName!=''" >
         company_name = #{companyName,jdbcType=VARCHAR},
       </if>
-      <if test="description != null" >
+      <if test="description != null and description!=''" >
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="companyCode != null" >
+      <if test="companyCode != null and companyCode!=''" >
         company_code = #{companyCode,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null and phone!=''" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="companyType != null" >
@@ -132,6 +141,9 @@
       </if>
       <if test="stateChanged != null" >
         state_changed = #{stateChanged,jdbcType=TIMESTAMP},
+      </if>
+      <if test="industries != null and industries!=''" >
+       industries= #{industries,jdbcType=VARCHAR},
       </if>
     </set>
     where company_id = #{companyId,jdbcType=INTEGER}

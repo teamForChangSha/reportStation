@@ -53,6 +53,11 @@ public class Company {
 	private CompanyOther otherInfo;
 
 	/**
+	 * 行业
+	 */
+	private String industries;
+
+	/**
 	 * 该公司所选取的问题列表
 	 */
 	private List<QuestionInfo> questList;
@@ -135,5 +140,13 @@ public class Company {
 
 	public void setCompanyState(int companyState) {
 		this.companyState = companyState;
+	}
+
+	public String getIndustries() {
+		return industries;
+	}
+
+	public void setIndustries(String industries) {
+		this.industries = industries;
 	}
 }
