@@ -6,10 +6,9 @@
     <result column="quest_key" property="questKey" jdbcType="VARCHAR" />
     <result column="quest" property="quest" jdbcType="VARCHAR" />
     <result column="quest_desc" property="questDesc" jdbcType="VARCHAR" />
-    <result column="is_needed" property="isNeeded" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    quest_id, quest_key, quest, quest_desc, is_needed
+    quest_id, quest_key, quest, quest_desc
   </sql>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from questioninfo
@@ -48,9 +47,7 @@
       <if test="questDesc != null" >
         quest_desc,
       </if>
-      <if test="isNeeded != null" >
-        is_needed,
-      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="questId != null" >
@@ -65,9 +62,7 @@
       <if test="questDesc != null" >
         #{questDesc,jdbcType=VARCHAR},
       </if>
-      <if test="isNeeded != null" >
-        #{isNeeded,jdbcType=INTEGER},
-      </if>
+     
     </trim>
   </insert> 
   
@@ -76,7 +71,6 @@
     set quest_key = #{questKey,jdbcType=VARCHAR},
       quest = #{quest,jdbcType=VARCHAR},
       quest_desc = #{questDesc,jdbcType=VARCHAR},
-      is_needed = #{isNeeded,jdbcType=INTEGER}
     where quest_id = #{questId,jdbcType=BIGINT}
   </update>
 </mapper>

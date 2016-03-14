@@ -42,9 +42,7 @@ public class QuestionInfoTest {
 		QuestionInfo question = getQuestion();
 		Company company = CompanyTest.getCompany();
 		companyMapper.insert(company);
-		questionInfoMapper.insert(getQuestion());
-		System.out.println("------" + question.getQuestId());
-		System.out.println("----comid--" + company.getCompanyId());
+		questionInfoMapper.insert(question);
 		cqMapper.insert(question.getQuestId(), company.getCompanyId());
 		List<QuestionInfo> qList = questionInfoMapper.getAllByCompany(company.getCompanyId());
 		assertNotNull(qList);
@@ -57,8 +55,8 @@ public class QuestionInfoTest {
 
 	public static QuestionInfo getQuestion() {
 		QuestionInfo question = new QuestionInfo();
-		question.setQuestId(100);
-		question.setIsNeeded(1);
+		// question.setQuestId(100);
+		// question.setIsNeeded(1);
 		question.setQuest("quest");
 		question.setQuestDesc("this is desc xx");
 		question.setQuestKey("NOXY");

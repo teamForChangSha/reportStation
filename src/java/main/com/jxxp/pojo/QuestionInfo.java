@@ -17,11 +17,6 @@ public class QuestionInfo {
 	 */
 	private String questDesc;
 
-	/**
-	 * 该问题是否必填
-	 */
-	private int isNeeded;
-
 	public String getQuestKey() {
 		return questKey;
 	}
@@ -52,14 +47,6 @@ public class QuestionInfo {
 
 	public void setQuestId(long questId) {
 		this.questId = questId;
-	}
-
-	public int getIsNeeded() {
-		return isNeeded;
-	}
-
-	public void setIsNeeded(int isNeeded) {
-		this.isNeeded = isNeeded;
 	}
 
 	@Override

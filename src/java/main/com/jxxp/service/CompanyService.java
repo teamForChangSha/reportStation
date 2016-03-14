@@ -6,6 +6,7 @@ import java.util.Map;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyQuestion;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
@@ -72,11 +73,11 @@ public interface CompanyService {
 	 * 
 	 * @param company
 	 *            需要保存问题的公司
-	 * @param questList
+	 * @param comQuestList
 	 *            公司选定的问题列表
 	 * @return 全部列表保存成功则返回true，否则返回false，返回false需要回滚数据，不能对原有数据发生改变
 	 */
-	boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList);
+	boolean saveCompanyQuestions(Company company, List<CompanyQuestion> comQuestList);
 
 	/**
 	 * 获取某个公司选定的举报问题<br>
@@ -154,11 +155,11 @@ public interface CompanyService {
 	 * @return 修改成功则返回true，否则返回false
 	 */
 	boolean updateCompanyWholeInfo(CompanyWholeInfo companyWholeInfo);
-	
+
 	/**
 	 * 获得平台公司的基本信息
 	 * 
-	 * @param 
+	 * @param
 	 * @return 返回查询到的公司基本信息
 	 */
 	Company getPlatformCompany();

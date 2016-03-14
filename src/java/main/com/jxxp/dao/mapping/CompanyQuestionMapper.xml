@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jxxp.dao.CompanyQuestionMapper" >  
+<resultMap id="BaseResultMap" type="com.jxxp.pojo.CompanyQuestion" >
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="quest_id" property="questId" jdbcType="BIGINT" />
+    <result column="is_needed" property="isNeeded" jdbcType="INTEGER" />
+    <!--   <association property="questInfo" column="quest_id" 
+    select="com.jxxp.dao.QuestionInfoMapper.getById" >
+    </association> -->
+  </resultMap>
+  <select id="getAllByCompany" resultMap="BaseResultMap">
+  select * from company_question where company_id=#{companyId}
+  </select>
+  
   <insert id="insert">
     insert into company_question (company_id, quest_id)
     values (#{companyId,jdbcType=BIGINT}, #{questId,jdbcType=BIGINT})
@@ -15,10 +27,10 @@
   
    
 <insert id="insertQuestionList" parameterType="java.util.List">
-    insert into company_question (company_id, quest_id)
+    insert into company_question (company_id, quest_id,is_needed)
     values 
-    <foreach collection="questList" index="index" item="item" separator="," >
-    (#{companyId,jdbcType=BIGINT}, #{item.questId,jdbcType=BIGINT})
+    <foreach collection="comQuestList" index="index" item="item" separator="," >
+    (#{companyId,jdbcType=BIGINT}, #{item.questId,jdbcType=BIGINT},#{item.isNeeded,jdbcType=INTEGER})
     </foreach>
   </insert>
   

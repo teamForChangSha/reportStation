@@ -15,6 +15,7 @@ import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.pojo.Company;
+import com.jxxp.pojo.CompanyQuestion;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.service.QuestionService;
@@ -55,18 +56,22 @@ public class QuestionServiceImpl implements QuestionService {
 		List<QuestionInfo> defQuestList = questionInfoMapper.getQuestionTemlate();
 		log.debug("defQuestList:" + defQuestList);
 		// 该公司下的问题
-		List<QuestionInfo> comQuestList = questionInfoMapper
-				.getAllByCompany(company.getCompanyId());
+		List<CompanyQuestion> comQuestList = companyQuestionMapper.getAllByCompany(company
+				.getCompanyId());
 
 		for (int i = 0; i < defQuestList.size(); i++) {
 			QuestionInfo defQuest = defQuestList.get(i);
 			Map<String, String> questMap = new HashMap<String, String>();
 			questMap.put("questId", String.valueOf(defQuest.getQuestId()));
 			questMap.put("quest", defQuest.getQuest());
+
 			int mark = 0;
 			for (int j = 0; j < comQuestList.size(); j++) {
-				QuestionInfo comQuest = comQuestList.get(j);
+				CompanyQuestion comQuest = comQuestList.get(j);
 				if (defQuest.getQuestId() == comQuest.getQuestId()) {
+					// 标记该问题是否必须填写，1是必须填写，0为非必须
+					questMap.put("isNeeded", comQuest.getIsNeeded() + "");
+					// 标记公司是否已经选择该问题
 					mark = 1;
 					break;
 				}

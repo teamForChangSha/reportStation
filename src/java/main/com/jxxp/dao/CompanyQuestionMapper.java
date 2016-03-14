@@ -4,9 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.jxxp.pojo.QuestionInfo;
+import com.jxxp.pojo.CompanyQuestion;
 
 public interface CompanyQuestionMapper {
+	/**
+	 * 通过客户公司的id号获取该公司所选择的所有问题
+	 * 
+	 * @param companyId
+	 *            公司Id
+	 * @return
+	 */
+	List<CompanyQuestion> getAllByCompany(long companyId);
+
 	int insert(@Param("questId") long questId, @Param("companyId") long companyId);
 
 	/**
@@ -47,6 +56,6 @@ public interface CompanyQuestionMapper {
 	 *            公司id
 	 * @return
 	 */
-	int insertQuestionList(@Param("questList") List<QuestionInfo> questList,
+	int insertQuestionList(@Param("comQuestList") List<CompanyQuestion> comQuestList,
 			@Param("companyId") long companyId);
 }

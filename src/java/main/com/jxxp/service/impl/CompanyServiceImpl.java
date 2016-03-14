@@ -18,6 +18,7 @@ import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyQuestion;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
@@ -69,13 +70,13 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Transactional
-	public boolean saveCompanyQuestions(Company company, List<QuestionInfo> questList) {
+	public boolean saveCompanyQuestions(Company company, List<CompanyQuestion> comQuestList) {
 		boolean flag = false;
 		long companyId = company.getCompanyId();
 		// 则先删除原来的问题列表
 		companyQuestionMapper.deleteByCompanyId(company.getCompanyId());
-		if (questList.size() > 0) {
-			int count = companyQuestionMapper.insertQuestionList(questList, companyId);
+		if (comQuestList.size() > 0) {
+			int count = companyQuestionMapper.insertQuestionList(comQuestList, companyId);
 			flag = count > 0 ? true : false;
 		} else {
 			flag = true;

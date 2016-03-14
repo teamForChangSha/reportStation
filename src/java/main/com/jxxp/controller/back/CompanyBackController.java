@@ -27,8 +27,8 @@ import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyQuestion;
 import com.jxxp.pojo.CompanyWholeInfo;
-import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.pojo.User;
 import com.jxxp.service.CompanyBranchService;
@@ -60,7 +60,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getQuestTemlate.do")
 	public String getQuestTemlate(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) throws Exception  {
+			ModelMap model) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		List<Map<String, String>> questList = questionService.getMarkQuestions(company);
@@ -80,22 +80,15 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/addCompanyQuestions.do")
 	public String addCompanyQuestions(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) throws Exception  {
+			ModelMap modelMap) throws Exception {
 
-		List<QuestionInfo> questionList = new ArrayList<QuestionInfo>();
-		// 获取前台复选框question的ids
-		String[] questIdStr = request.getParameterValues("questId");
-		if (questIdStr != null && !questIdStr.equals("")) {
-			for (int i = 0; i < questIdStr.length; i++) {
-				QuestionInfo question = new QuestionInfo();
-				question.setQuestId(Long.parseLong(questIdStr[i]));
-				questionList.add(question);
-			}
-		}
+		// 获取前台复选框CompanyQuestion集合
+		String comQuestJson = request.getParameter("comQuestList");
+		List<CompanyQuestion> comQuestList = JSON.parseArray(comQuestJson, CompanyQuestion.class);
 		// 获取该客户所属的公司
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
-		boolean flag = companyService.saveCompanyQuestions(company, questionList);
+		boolean flag = companyService.saveCompanyQuestions(company, comQuestList);
 		try {
 			PrintWriter out = response.getWriter();
 			if (flag) {
@@ -120,7 +113,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getAllReportTypes.do")
 	public String getAllReportTypes(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) throws Exception  {
+			ModelMap model) throws Exception {
 		List<ReportType> delfRtList = reportTypeService.getDefaultList();
 		List<ReportType> rtList = new ArrayList<ReportType>();
 		User user = (User) request.getSession().getAttribute("user");
@@ -147,7 +140,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/addQuestionTypes.do")
 	public String addQuestionTypes(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) throws Exception  {
+			ModelMap model) throws Exception {
 		String typeJson = request.getParameter("reportType");
 		List<ReportType> rtList = JSON.parseArray(typeJson, ReportType.class);
 		User user = (User) request.getSession().getAttribute("user");
@@ -183,7 +176,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/updateCompanyWholeInfo.do")
 	public String updateCompanyWholeInfo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) throws Exception  {
+			HttpServletResponse response, ModelMap model) throws Exception {
 		Company company = wholeCompany.getCompany();
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -237,7 +230,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping(value = "/addCompanyBranches.do", method = RequestMethod.POST)
 	public String addCompanyBranches(CompanyBranch branch, HttpServletRequest request,
-			HttpServletResponse response, ModelMap model) throws Exception  {
+			HttpServletResponse response, ModelMap model) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		Company owner = user.getUserCompany();
 		branch.setOwner(owner);
@@ -366,7 +359,7 @@ public class CompanyBackController {
 	 */
 	@RequestMapping("/getOwnerCompanyInfo.do")
 	public String getOwnerCompanyInfo(HttpServletRequest request, HttpServletResponse response,
-			ModelMap model) throws Exception  {
+			ModelMap model) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		Company company = user.getUserCompany();
 		company = companyService.getCompanyById(company.getCompanyId());
