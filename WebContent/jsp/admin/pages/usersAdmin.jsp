@@ -48,26 +48,6 @@
             padding-left: 0;
         }
 
-        #upCompanyInput, #addCompanyInput {
-            z-index: 99;
-            position: absolute;
-            top: 0px;
-            width: 82%;
-            border-right: none;
-            border-top-right-radius: inherit;
-            border-bottom-right-radius: inherit;
-        }
-
-        #selectCompanyInput {
-            z-index: 99;
-            width: 180px;
-            position: absolute;
-            left: 4px;
-            border-right: none;
-            border-top-right-radius: inherit;
-            border-bottom-right-radius: inherit;
-        }
-
         .label {
             display: inline-block;
             padding: 6px 12px;
@@ -104,25 +84,20 @@
         </h1>
         <div class="page-header"></div>
         <form action="admin/user/getUsersByParams.do" method="post" class="form-inline">
-            <div class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" style="width: auto;padding-right: inherit">所属公司：</label>
+                    <label class="control-label">所属公司：</label>
 
-                    <div class="col-sm-4" style="padding-left: 5px">
-                        <select id="companyId" name="companyId" class="form-control">
-                        </select>
-                        <input type="text" autocomplete="off" id="selectCompanyInput" class="form-control"
-                               placeholder="请搜索或选择公司">
-                    </div>
+                        <div class="input-group">
+                            <input type="text" id="companyId" name="companyId" hidden />
+                            <input type="text" id="selectCompanyInput" class="form-control"
+                                   placeholder="请选择公司"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#getCompanyPanl">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" style="width: auto;padding-right: inherit"></label>
-
-                    <div class="col-sm-4">
-                        <span class="text-left">输入操作仅供搜索,实际以选择的企业为准</span>
-                    </div>
-                </div>
-            </div>
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
@@ -206,12 +181,17 @@
                         <label class="col-sm-4 control-label">选择公司：</label>
 
                         <div class="col-sm-8">
-                            <select id="upCompany" name="userCompany.companyId" class="form-control">
-                            </select>
-                            <input type="text" autocomplete="off" id="upCompanyInput" class="form-control"
-                                   placeholder="请搜索或选择公司">
+                            <div class="input-group">
+                                <input type="text" id="upCompany" name="userCompany.companyId" hidden />
+                                <input type="text" id="upCompanyInput" class="form-control"
+                                       placeholder="请选择公司"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#getCompanyPanl">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                            </div>
                         </div>
-                        <p class="text-right">输入操作仅供搜索,实际以选择的企业为准</p>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">手机号码：</label>
@@ -300,12 +280,17 @@
                         <label class="col-sm-4 control-label">选择公司：</label>
 
                         <div class="col-sm-8">
-                            <select id="addCompany" name="userCompany.companyId" class="form-control">
-                            </select>
-                            <input type="text" autocomplete="off" id="addCompanyInput" class="form-control"
-                                   placeholder="请选择或选择公司">
+                            <div class="input-group">
+                                <input type="text" id="addCompany" name="userCompany.companyId" hidden />
+                                <input type="text" id="addCompanyInput" class="form-control"
+                                       placeholder="请选择公司"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#getCompanyPanl">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                            </div>
                         </div>
-                        <p class="text-right">输入操作仅供搜索,实际以选择的企业为准</p>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">手机号码：</label>
@@ -341,6 +326,24 @@
         </div>
     </div>
 </div>
+
+<!--选择企业对话框-->
+<div class="modal fade bs-example-modal-md" id="getCompanyPanl" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">选择企业</h5>
+            </div>
+            <div class="modal-body">
+                <iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
@@ -399,14 +402,12 @@
             addEle.addType.find("option[value=2]").hide();
         }
 
-        getAllCompany(upEle.upCompany);
-        getAllCompany(addEle.addCompany);
-        getAllCompany(search.companyId);
-
         close.updataUserInfo.get(0).onclick = hiddenPanle;
         close.addUser.get(0).onclick = hiddenPanle;
         close.register.click(function () {
             hiddenPanle();
+            addEle.addCompany.val("");
+            addEle.addCompanyInput.val("");
             panle.addUser.removeClass("hidden");
         });
         search.stopAllUser.click(function () {
@@ -415,16 +416,30 @@
                 msg: '你确定要停用该公司所有用户吗?',
             }).on(function (e) {
                 if (e) {
-                    if (search.companyId.find("option:selected").val() == "0") {
-                        return alr("您选择的企业有误!");
-                    }
                     var url = "admin/user/stopCompanyAllUsers.do";
-                    var data = "companyId=" + search.companyId.find("option:selected").val();
+                    var data = "companyId=" + search.companyId.val();
                     $.post(url, data, function (res, status) {
                         alertMsg(res, status);
                     });
                 }
             });
+        });
+
+        upEle.upCompanyInput.keyup(function () {
+            upEle.upCompanyInput.val("");
+            upEle.upCompany.val("");
+            return Modal.alert({msg:'请选择企业'});
+        });
+        addEle.addCompanyInput.keyup(function () {
+            addEle.addCompanyInput.val("");
+            addEle.addCompany.val("");
+            return Modal.alert({msg:'请选择企业'});
+        });
+        search.selectCompanyInput.keyup(function () {
+            search.selectCompanyInput.val("");
+            search.companyId.val("");
+            $("#stopAllUser").addClass("hidden");
+            return Modal.alert({msg:'请选择企业'});
         });
 
         <c:forEach items="${userList}" var="user" varStatus = "i">
@@ -464,7 +479,7 @@
             upEle.userState.val("${user.userState}");
             upEle.upName.val("${user.userName}");
             upEle.upType.get(0).value = "${user.userType}";
-            upEle.upCompany.get(0).value = "${user.userCompany.companyId}";
+            upEle.upCompany.val("${user.userCompany.companyId}");
             upEle.upCompanyInput.val("${user.userCompany.companyName}");
             upEle.upMobile.val("${user.mobile}");
             upEle.upWorkNo.val("${user.workNo}");
@@ -545,7 +560,7 @@
             if (upEle.upType.find("option:selected").val() == "0") {
                 return alr("请选择用户类型");
             }
-            if (upEle.upCompany.find("option:selected").val() == "") {
+            if (isEmty(upEle.upCompany.val())) {
                 return alr("请选择所属公司");
             }
             $.post("admin/user/updateUser.do", $("#upForm").serialize(), function (res, status) {
@@ -567,7 +582,7 @@
             if (addEle.addType.find("option:selected").val() == "0") {
                 return alr("请选择用户类型");
             }
-            if (addEle.addCompany.find("option:selected").val() == "") {
+            if (isEmty(addEle.addCompany.val())) {
                 return alr("请选择所属公司");
             }
             addEle.addUserPwd.val(md5(addEle.addUserPwd.val()));
@@ -575,117 +590,6 @@
                 alertMsg(res, status);
             });
         });
-
-        /* 监听选择企业事件 */
-        upEle.upCompany.change(function () {
-            upEle.upCompanyInput.val($(this).find("option:selected").text());
-            removeMultiple();
-        });
-        addEle.addCompany.change(function () {
-            addEle.addCompanyInput.val($(this).find("option:selected").text());
-            removeMultiple();
-        });
-        search.companyId.change(function () {
-            search.selectCompanyInput.val($(this).find("option:selected").text());
-            removeMultiple();
-            search.stopAllUser.removeClass("hidden");
-        });
-
-        inputKeyup(upEle.upCompany, upEle.upCompanyInput);
-        inputKeyup(addEle.addCompany, addEle.addCompanyInput);
-        inputKeyup(search.companyId, search.selectCompanyInput);
-
-        function inputKeyup(ele, inp) {
-            inp.keyup(function () {
-                $.post("company/getAllByName.do", "companyName=" + inp.val(), function (res) {
-                    if (res == null || res.length < 0)
-                        return;
-                    ele.empty();
-                    var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-                    ele.append(opt);
-                    ele.attr("multiple", "multiple").css("padding-top", "35px");
-                    $(JSON.parse(res)).each(function () {
-                        var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-                        ele.append(opt);
-                    });
-                });
-            });
-        }
-
-        /*upEle.upCompanyInput.keyup(function () {
-         $.post("company/getAllByName.do", "companyName=" + upEle.upCompanyInput.val(), function (res) {
-         if (res == null || res.length < 0)
-         return;
-         upEle.upCompany.empty();
-         var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-         upEle.upCompany.append(opt);
-         upEle.upCompany.attr("multiple", "multiple").css("padding-top", "35px");
-         $(JSON.parse(res)).each(function () {
-         var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-         upEle.upCompany.append(opt);
-         });
-         });
-         });
-         addEle.addCompanyInput.keyup(function () {
-         $.post("company/getAllByName.do", "companyName=" + addEle.addCompanyInput.val(), function (res) {
-         if (res == null || res.length < 0)
-         return;
-         addEle.addCompany.empty();
-         var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-         addEle.addCompany.append(opt);
-         addEle.addCompany.attr("multiple", "multiple").css("padding-top", "35px");
-         $(JSON.parse(res)).each(function () {
-         var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-         addEle.addCompany.append(opt);
-         });
-         });
-         });
-         search.selectCompanyInput.keyup(function () {
-         $.post("company/getAllByName.do", "companyName=" + search.selectCompanyInput.val(), function (res) {
-         if (res == null || res.length < 0)
-         return;
-         search.companyId.empty();
-         var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-         search.companyId.append(opt);
-         search.companyId.attr("multiple", "multiple").css("padding-top", "35px");
-         $(JSON.parse(res)).each(function () {
-         var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-         search.companyId.append(opt);
-         });
-         });
-         });*/
-
-        /* 获取所有企业 */
-        function getAllCompany(ele) {
-            $.post("company/getAllByName.do", "companyName=", function (res) {
-                if (res == null || res.length < 0)
-                    return;
-                ele.empty();
-                var opt = $("<option/>").text("-请点击选择企业-").attr("value", "");
-                ele.append(opt);
-                $(JSON.parse(res)).each(function () {
-                    var opt = $("<option/>").text(this.companyName).attr("value", this.companyId);
-                    ele.append(opt);
-                });
-            });
-        };
-
-        /* 绑定点击事件 */
-        $(document).bind('click', function (e) {
-            if ($(e.target) == upEle.upCompany || $(e.target) == addEle.addCompany ||
-                    $(e.target).get(0).id == "upCompanyInput" || $(e.target).get(0).id == "addCompanyInput")
-                return;
-            removeMultiple();
-        });
-
-        function removeMultiple() {
-            upEle.upCompany.removeAttr("multiple");
-            upEle.upCompany.css("padding-top", "0");
-            addEle.addCompany.removeAttr("multiple");
-            addEle.addCompany.css("padding-top", "0");
-            search.companyId.removeAttr("multiple");
-            search.companyId.css("padding-top", "0");
-        }
 
         /* 隐藏添加修改用户的面板 */
         function hiddenPanle() {
@@ -729,6 +633,10 @@
             }
         }
     });
+    function hideModal(){
+        $("#getCompanyPanl").modal('hide');
+        $("#stopAllUser").removeClass("hidden");
+    }
 </script>
 
 </html>
