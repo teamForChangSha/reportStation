@@ -15,7 +15,6 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" type="text/css" href="jsp/css/common_top.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <title></title>
@@ -38,20 +37,13 @@
             color: #555;
         }
 
-        #content {
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #DDDDDD;
-            border-radius: 4px;
-            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075);
-        }
     </style>
 </head>
 
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-sm-8 form-horizontal" id="content">
+        <div class="col-sm-12 form-horizontal" id="content">
             <div class="form-group text-center">
                 <h3><span class="label label-danger" id="caseId">案件编号：${reportCase.trackingNo }</span></h3>
             </div>
