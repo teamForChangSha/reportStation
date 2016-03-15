@@ -87,8 +87,18 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Map<String, QuestionInfo> getCompanyQuestions(Company company) {
 		Map<String, QuestionInfo> map = new HashMap<String, QuestionInfo>();
+		List<CompanyQuestion> comQuests = companyQuestionMapper.getAllByCompany(company
+				.getCompanyId());
 		List<QuestionInfo> questions = questionInfoMapper.getAllByCompany(company.getCompanyId());
+		System.out.println("company----------" + company.getCompanyId());
 		for (QuestionInfo question : questions) {
+			// 装配quesntion对象，把公司自定义的问题规定的是否必填的属性赋值给question
+			for (CompanyQuestion comQuest : comQuests) {
+				if (comQuest.getQuestId() == question.getQuestId()) {
+					question.setIsNeeded(comQuest.getIsNeeded());
+					break;
+				}
+			}
 			map.put(question.getQuestKey(), question);
 		}
 		return map;

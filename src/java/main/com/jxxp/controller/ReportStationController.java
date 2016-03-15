@@ -25,6 +25,7 @@ import com.jxxp.pojo.ReportType;
 import com.jxxp.service.AreaService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
+
 /*
  * auther cj
  */
@@ -45,7 +46,7 @@ public class ReportStationController {
 			ModelMap modelMap) throws Exception {
 		log.debug("into getAllCompany.do...");
 		List<Company> dataList = companyService.getAllCompanyList();
-		
+
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -53,7 +54,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			log.error("流获取失败！",e);
+			log.error("流获取失败！", e);
 		}
 		return null;
 	}
@@ -77,7 +78,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			log.error("流获取失败！",e);
+			log.error("流获取失败！", e);
 		}
 		return null;
 	}
@@ -106,7 +107,7 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			log.error("流获取失败！",e);
+			log.error("流获取失败！", e);
 		}
 		return null;
 	}
@@ -135,37 +136,37 @@ public class ReportStationController {
 			String json = JSONArray.toJSONString(dataList);
 			out.print(json);
 		} catch (IOException e) {
-			log.error("流获取失败！",e);
+			log.error("流获取失败！", e);
 		}
 		return null;
 	}
-	
+
 	@RequestMapping("/showReportType.do")
 	public String showReportType(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
 		long branchId = 0;
 
 		String bId = request.getParameter("branchId");
-		
+
 		if (bId != null) {
 			branchId = Long.parseLong(bId);
 		}
 
 		CompanyBranch companyBranch = companyService.getCompanyBranchById(branchId);
-		
+
 		HttpSession session = request.getSession();
 		session.setAttribute("companyBranch", companyBranch);
-		
+
 		List<ReportType> dataList = companyService.getCompanyReportType(companyBranch.getOwner());
-		//如果该公司未配置举报类型，则使用默认类型
-		if(dataList.size() == 0) {
+		// 如果该公司未配置举报类型，则使用默认类型
+		if (dataList.size() == 0) {
 			dataList = companyService.getCompanyReportType(new Company());
 		}
 		modelMap.put("reportTypeList", dataList);
-		
+
 		return "/jsp/pages/reportType";
 	}
-	
+
 	@RequestMapping("/showQuestionPage.do")
 	public String showQuestionPage(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
@@ -174,25 +175,29 @@ public class ReportStationController {
 		for (int i = 0; i < strs.length; i++) {
 			rtList += strs[i] + ",";
 		}
-		if(rtList.length() > 0) {
+		if (rtList.length() > 0) {
 			rtList = rtList.substring(0, rtList.length() - 1);
 		}
-		
-		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute("companyBranch");
-		Map<String,QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch.getOwner());
+
+		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
+				"companyBranch");
+		Map<String, QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch
+				.getOwner());
+		// System.out.println("size======" +
+		// dataMap.get("quest").getQuestDesc());
 		String trackingNo = caseService.getNewTrackingNo(companyBranch.getOwner());
 		HttpSession session = request.getSession();
 		session.setAttribute("trackingNo", trackingNo);
-		
+
 		modelMap.put("questionMap", dataMap);
 		modelMap.put("rtList", rtList);
-		
+
 		return "/jsp/pages/reportCase";
 	}
-	
+
 	@RequestMapping("/admin")
-	public String admin(HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) throws Exception {
+	public String admin(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
+			throws Exception {
 		return "/jsp/admin/index";
 	}
 }
