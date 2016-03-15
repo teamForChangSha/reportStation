@@ -72,6 +72,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-2 control-label">公司股票代码：</label>
+
+                <div class="col-sm-3">
+                    <input type="text" value="${company.stockCode}" name="company.stockCode" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label">公司联系电话：</label>
 
                 <div class="col-sm-3">
