@@ -133,7 +133,7 @@
 						</div>
 						<div class="form-group text-center">
 							<input type="checkbox" value="true" name="agreed" />
-							<label><span class="xinghao">*</span>是 – 我同意这项报告相关的 <a href="#" class="btn-link" data-toggle="modal" data-target="#agreeMentPanel">条款与条件</a> </label>
+							<label><span class="xinghao">*</span>是 – 我同意这项报告相关的 <a href="javascript:;" class="btn-link" data-toggle="modal" data-target="#agreeMentPanel">条款与条件</a> </label>
 						</div>
 						<div class="page-header"></div>
 						<div class="form-group text-center">
@@ -568,7 +568,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h5 class="modal-title" id="exampleModalLabel">条款与条件</h5>
+						<h5 class="modal-title" id="exampleModalLabel1">条款与条件</h5>
 					</div>
 					<div class="modal-body">
 						<iframe src="jsp/pages/agreement.jsp" frameborder="0" width="100%" height="400px"></iframe>
@@ -584,7 +584,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h5 class="modal-title" id="exampleModalLabel">上传文件</h5>
+						<h5 class="modal-title" id="exampleModalLabel2">上传文件</h5>
 					</div>
 					<div class="modal-body">
 						<iframe src="case/showFileList.do?${trackingNo }" frameborder="0" width="100%" height="400px"></iframe>
@@ -597,13 +597,12 @@
 	<script type="text/javascript">
 	var trackingNo = "trackingNo=${trackingNo }";
 	var rtList = "rtList=${rtList }";
-		var questionList = []; 
+	var questionList = [];
 		<c:forEach items = "${questionMap}" var = "question" varStatus = "i" >
 			var questionJson = {};
 			questionJson["quest_id"]="${question.value.questId}";
 			questionJson["quest_key"]="${question.value.questKey}";
 			questionJson["is_needed"]="${question.value.isNeeded}";
-			
 			questionList.unshift(questionJson);
 		</c:forEach>
 	</script>
