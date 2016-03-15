@@ -16,6 +16,12 @@ public class QuestionInfo {
 	 * 该问题的进一步描述
 	 */
 	private String questDesc;
+	/**
+	 * 该问题是否必填。
+	 * 
+	 * 此属性只是为了构造完整对象，便于前台使用，数据库表没有此字段
+	 */
+	private int isNeeded;
 
 	public String getQuestKey() {
 		return questKey;
@@ -53,6 +59,14 @@ public class QuestionInfo {
 	public String toString() {
 		return "QuestionInfo [questId=" + questId + ", questKey=" + questKey + ", quest=" + quest
 				+ "]";
+	}
+
+	public int getIsNeeded() {
+		return isNeeded;
+	}
+
+	public void setIsNeeded(int isNeeded) {
+		this.isNeeded = isNeeded;
 	}
 
 }
