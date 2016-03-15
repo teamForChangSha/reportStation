@@ -81,11 +81,27 @@ public class CompanyTest {
 		}
 	}
 
+	@Test
+	public void testUpdateCompany() {
+		companyMapper.insert(company1);
+		Company company2 = companyMapper.getById(company1.getCompanyId());
+		assertTrue(TestUtil.isEqual(company1, company2));
+		company2.setStockCode("update stockCode");
+		companyMapper.update(company2);
+		Company company3 = companyMapper.getById(company1.getCompanyId());
+		assertTrue(!TestUtil.isEqual(company1, company3));
+
+	}
+
+	/**
+	 * 获取平台公司，内定平台公司的companyId=0;
+	 */
 	@Ignore
-	// TODO
 	public void getTemplateCompany() {
 		Company company = companyMapper.getPlatformCompany();
-		System.out.println("---" + company.getCompanyCode());
+		long id = 0;
+		// assertTrue(company.getCompanyId() == id);
+		assertNotNull(company);
 	}
 
 	@After
@@ -102,6 +118,7 @@ public class CompanyTest {
 		company.setCompanyState(1);
 		company.setCompanyType(1);
 		company.setIndustries("某某行业");
+		company.setStockCode("股票代码");
 		return company;
 	}
 }

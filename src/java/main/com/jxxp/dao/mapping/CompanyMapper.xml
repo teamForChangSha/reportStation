@@ -10,8 +10,10 @@
 	<result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />	
 	<result column="company_type" property="companyType" jdbcType="INTEGER" />
     <result column="company_state" property="companyState" jdbcType="INTEGER" />
-    <!-- 增加一个字段，industries表示行业 -->
+    <!-- 增加连个字段，industries表示行业，stockCode表示股票代码 -->
     <result column="industries" property="industries" jdbcType="VARCHAR" />
+    <result column="stock_code" property="stockCode" jdbcType="VARCHAR" />
+   
     <association column="company_id" property="otherInfo" select="com.jxxp.dao.CompanyOtherMapper.getByCompanyId">
     </association> 
     <collection property="questList" column="company_id" ofType="com.jxxp.pojo.QuestionInfo"
@@ -26,7 +28,7 @@
   
   <sql id="Base_Column_List" >
     company_id, company_name, description, company_code, phone, company_type, company_state, 
-    state_changed,industries
+    state_changed,industries,stockCode
   </sql>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from company
@@ -84,7 +86,10 @@
         state_changed,
       </if>
       <if test="industries != null and industries!=''" >
-      industries
+      industries,
+      </if>
+      <if test="stockCode != null and stockCode!=''" >
+      stock_code
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -115,7 +120,9 @@
       <if test="industries != null and industries!=''" >
         #{industries,jdbcType=VARCHAR},
       </if>
-      
+      <if test="stockCode != null and stockCode!=''" >
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="update" parameterType="com.jxxp.pojo.Company" >
@@ -144,6 +151,9 @@
       </if>
       <if test="industries != null and industries!=''" >
        industries= #{industries,jdbcType=VARCHAR},
+      </if>
+       <if test="stockCode != null and stockCode!=''" >
+      stock_code=#{stockCode,jdbcType=VARCHAR}
       </if>
     </set>
     where company_id = #{companyId,jdbcType=INTEGER}

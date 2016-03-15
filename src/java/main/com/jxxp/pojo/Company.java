@@ -58,6 +58,11 @@ public class Company {
 	private String industries;
 
 	/**
+	 * 股票代码
+	 */
+	private String stockCode;
+
+	/**
 	 * 该公司所选取的问题列表
 	 */
 	private List<QuestionInfo> questList;
@@ -148,5 +153,13 @@ public class Company {
 
 	public void setIndustries(String industries) {
 		this.industries = industries;
+	}
+
+	public String getStockCode() {
+		return stockCode;
+	}
+
+	public void setStockCode(String stockCode) {
+		this.stockCode = stockCode;
 	}
 }
