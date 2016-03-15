@@ -122,21 +122,26 @@
             </table>
         </div>
     </div>
+</div>
 
-    <!--状态更新-->
-    <div class="row hidden" id="updataStatus">
-        <div class="col-sm-12">
-            <div class="page-header"></div>
-            <h4 class="col-sm-2">状态更新</h4>
-
-            <div class="col-sm-4">
+<!--修改案件状态对话框-->
+<div class="modal fade bs-example-modal-sm" id="updataReportStatus" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title text-center">更改案件状态</h5>
+            </div>
+            <div class="modal-body">
                 <div class="form-horizontal">
                     <p class="hidden alert alert-warning">当前案件已交由平台方处理，您暂时无法更改，请等待平台处理结果或致电管理员</p>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">状态：</label>
-
-                        <div class="col-sm-8">
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-10">
                             <select id="status" class="form-control">
                                 <option value="-1">-请选择-</option>
                                 <option value="1">新建</option>
@@ -147,58 +152,41 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"></label>
-
-                        <div class="col-sm-8">
-                            <div class="checkbox">
-                                <label>
-                                    <input id="sendToPlatform" type="checkbox"/> 是否交由平台方处理
-                                </label>
-                            </div>
+                    <div class="form-group text-center">
+                        <div class="checkbox">
+                            <label>
+                                <input id="sendToPlatform" type="checkbox"/> 是否交由平台方处理
+                            </label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"></label>
-
-                        <div class="col-sm-8">
-                            <input type="button" id="updataCancel" class="btn btn-default" value="取消">
-                            <input type="button" id="updataBtn" class="btn btn-default" value="更改">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--追加信息-->
-    <div class="row hidden" id="appendInfo">
-        <div class="col-sm-12">
-            <div class="page-header"></div>
-            <h4 class="col-sm-2">追加信息</h4>
-
-            <div class="col-sm-6">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">${user.userName}：</label>
-
-                        <div class="col-sm-9">
-                            <textarea id="content" class="form-control" rows="5"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label"></label>
-
-                        <div class="col-sm-10 text-right">
-                            <input type="button" id="appendCancel" class="btn btn-default" value="取消">
-                            <input type="button" id="appendBtn" class="btn btn-default" value="确定">
-                        </div>
+                    <div class="form-group text-center">
+                        <input type="button" id="updataCancel" class="btn btn-default" value="取消">
+                        <input type="button" id="updataBtn" class="btn btn-default" value="更改">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!--查看案件信息对话框-->
+<div class="modal fade bs-example-modal-lg" id="reprotInfoPanel" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title text-center">案件详情</h5>
+            </div>
+            <div class="modal-body">
+                <iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
@@ -258,18 +246,13 @@
         });
 
 
-        var updataStatus = $("#updataStatus");
-        var appendInfo = $("#appendInfo");
         var caseId;
 
         var ele = {
             status: $("#status"),
             sendToPlatform: $("#sendToPlatform"),
-            content: $("#content"),
             updataCancel: $("#updataCancel"),
-            updataBtn: $("#updataBtn"),
-            appendCancel: $("#appendCancel"),
-            appendBtn: $("#appendBtn")
+            updataBtn: $("#updataBtn")
         }
 
         var i = 0;
@@ -277,83 +260,88 @@
         if ("${caseInfo.caseState}" == "1") {
             i++;
         }
-        var url = "dict/getDictName.do?dictType=case.state&dictValue=${caseInfo.caseState}";
-        $.get(url, function (res) {
-            var tr = $("<tr/>");
-            var td1 = $("<td/>").css("width", "60px").text("${caseInfo.reporter.name}" == "" ? "匿名" : "${caseInfo.reporter.name}");
-            var td2 = $("<td/>").text('<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
-            var td3 = $("<td/>").css("width", "80px").text(res);
-            var td4 = $("<td/>").text("${caseInfo.company.companyName}");
-            var td5 = $("<td/>").text("${caseInfo.rtList}");
-            var updata = $("<button/>").addClass("btn btn-link").text("修改");
-            var look = $("<button/>").addClass("btn btn-link").text("查看");
-            var append = $("<button/>").addClass("btn btn-link").text("追加");
-            var td6 = $("<td/>").css("width", "180px");
-            td6.append(updata).append(look).append(append);
-            tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
-            look.click(function () {
-                location.href = "admin/caseBack/showCaseById.do?rcId=${caseInfo.rcId}";
-            });
-            updata.bind("click", function () {
-                $("tbody tr").removeClass("danger");
-                $(this).parent().parent().addClass("danger");
-                hiddenAll();
-                updataStatus.removeClass("hidden");
-                caseId = "${caseInfo.rcId}";
-                ele.status.get(0).value = "${caseInfo.caseState}";
-                if("${user.userCompany.companyId}"=="1"){
-                    if("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}"){
-                        updataStatus.find("p").removeClass("hidden");
-                        ele.sendToPlatform.get(0).checked = true;
-                        ele.updataBtn.removeAttr("disabled");
-                    }else{
-                        updataStatus.find("p").addClass("hidden");
-                        ele.sendToPlatform.get(0).checked = false;
-                        ele.updataBtn.attr("disabled", true);
-                    }
-                }else{
-                    if("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}"){
-                        updataStatus.find("p").addClass("hidden");
-                        ele.sendToPlatform.get(0).checked = false;
-                        ele.updataBtn.removeAttr("disabled");
-                    }else{
-                        updataStatus.find("p").removeClass("hidden");
-                        ele.sendToPlatform.get(0).checked = true;
-                        ele.updataBtn.attr("disabled", true);
-                    }
+        var tr = $("<tr/>");
+        var td1 = $("<td/>").css("width", "60px").text("${caseInfo.reporter.name}" == "" ? "匿名" : "${caseInfo.reporter.name}");
+        var td2 = $("<td/>").css("width", "180px").text('<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
+        var td3 = $("<td/>").css("width", "80px");
+        switch (${caseInfo.caseState}) {
+            case 1:
+                td3.text("新建");
+                break;
+            case 2:
+                td3.text("已查看");
+                break;
+            case 3:
+                td3.text("处理中");
+                break;
+            case 4:
+                td3.text("处理完毕");
+                break;
+            case 5:
+                td3.text("关闭案件");
+                break;
+        }
+        var td4 = $("<td/>").css("width", "240px").text("${caseInfo.company.companyName}");
+        var td5 = $("<td/>").text("${caseInfo.rtList}");
+        var updata = $("<button/>").addClass("btn btn-link").text("修改");
+        var look = $("<button/>").addClass("btn btn-link").text("查看");
+        var td6 = $("<td/>").css("width", "130px");
+        td6.append(updata).append(look);
+        tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
+        look.click(function () {
+            $("#reprotInfoPanel iframe").attr("src", "admin/caseBack/showCaseById.do?rcId=${caseInfo.rcId}");
+            $("#reprotInfoPanel").modal('show');
+        });
+        updata.bind("click", function () {
+            $("tbody tr").removeClass("danger");
+            $(this).parent().parent().addClass("danger");
+            $("#updataReportStatus").modal('show');
+            caseId = "${caseInfo.rcId}";
+            ele.status.get(0).value = "${caseInfo.caseState}";
+            if ("${user.userCompany.companyId}" == "1") {
+                if ("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}") {
+                    $("#updataReportStatus p").removeClass("hidden");
+                    ele.sendToPlatform.get(0).checked = true;
+                    ele.updataBtn.removeAttr("disabled");
+                } else {
+                    $("#updataReportStatus p").addClass("hidden");
+                    ele.sendToPlatform.get(0).checked = false;
+                    ele.updataBtn.attr("disabled", true);
                 }
-            });
-
-            append.bind("click", function () {
-                $("tbody tr").removeClass("danger");
-                $(this).parent().parent().addClass("danger");
-                hiddenAll();
-                appendInfo.removeClass("hidden");
-                caseId = "${caseInfo.rcId}";
-            });
-            if("${user.userCompany.companyId}" != "${caseInfo.currentHandler.companyId}"){
-                if("${user.userCompany.companyId}" == "1"){
-                    updata.unbind("click").click(function () {
-                        Modal.alert({msg:'案件未交由平台方处理，您目前只能查看'});
-                    });
-                }else{
-                    updata.unbind("click").click(function () {
-                        Modal.alert({msg:'案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
-                    });
+            } else {
+                if ("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}") {
+                    $("#updataReportStatus p").addClass("hidden");
+                    ele.sendToPlatform.get(0).checked = false;
+                    ele.updataBtn.removeAttr("disabled");
+                } else {
+                    $("#updataReportStatus p").removeClass("hidden");
+                    ele.sendToPlatform.get(0).checked = true;
+                    ele.updataBtn.attr("disabled", true);
                 }
             }
-            $("tbody").append(tr);
         });
+
+        if ("${user.userCompany.companyId}" != "${caseInfo.currentHandler.companyId}") {
+            if ("${user.userCompany.companyId}" == "1") {
+                updata.unbind("click").click(function () {
+                    Modal.alert({msg: '案件未交由平台方处理，您目前只能查看'});
+                });
+            } else {
+                updata.unbind("click").click(function () {
+                    Modal.alert({msg: '案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
+                });
+            }
+        }
+        $("tbody").append(tr);
         </c:forEach>
         $(window.parent.document).find(".badge").text("" + i);
 
-        ele.updataCancel.click(function () {
-            updataStatus.addClass("hidden");
+        $("#updataReportStatus .close").click(function () {
             $("tbody tr").removeClass("danger");
         });
-        ele.appendCancel.click(function () {
-            appendInfo.addClass("hidden");
+        ele.updataCancel.click(function () {
             $("tbody tr").removeClass("danger");
+            $("#updataReportStatus").modal('hide');
         });
         ele.updataBtn.click(function () {
             if (ele.status.find("option:selected").val() == "-1") {
@@ -366,13 +354,13 @@
             }
             var data = "rcId=" + caseId + "&state=" + ele.status.find("option:selected").val()
                     + "&sendToPlatform=" + sendToPlatform + "&companyId=" + "${user.userCompany.companyId}";
+            alert(data);
             $.post(url, data, function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
                         Modal.alert({msg: "操作成功!"})
                                 .on(function (e) {
                                     location.href = "admin/caseBack/showCaseByCompany.do";
-                                    updataStatus.addClass("hidden");
                                     $("tbody tr").removeClass("danger");
                                 });
 
@@ -384,28 +372,7 @@
                 }
             });
         });
-        ele.appendBtn.click(function () {
-            if (isEmty(ele.content.val())) {
-                return Modal.alert({msg: "请填写追加的内容!"});
-            }
-            var url = "admin/caseBack/addCaseComment.do";
-            var data = "rcId=" + caseId + "&content=" + ele.content.val();
-            $.post(url, data, function (res, status) {
-                if (status == "success") {
-                    if (res == "success") {
-                        Modal.alert({msg: "操作成功!"})
-                                .on(function (e) {
-                                    appendInfo.addClass("hidden");
-                                    $("tbody tr").removeClass("danger");
-                                });
-                    } else {
-                        Modal.alert({msg: "操作失败!"});
-                    }
-                } else {
-                    Modal.alert({msg: "操作失败!"});
-                }
-            });
-        });
+
         $("#selectStatus").change(function () {
             $("tbody tr td:nth-child(3)").each(function () {
                 if ($(this).text() == $("#selectStatus").find("option:selected").text()) {
@@ -418,19 +385,6 @@
                 }
             });
         });
-
-        function hiddenAll() {
-            updataStatus.addClass("hidden");
-            appendInfo.addClass("hidden");
-        }
-
-        function isEmty(str) {
-            str = $.trim(str);
-            if (str == null || str.length <= 0 || str == "") {
-                return true;
-            }
-            return false;
-        }
     });
 </script>
 

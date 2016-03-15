@@ -143,14 +143,39 @@
                     <c:if test="${comment.isReporter!='1'}">
                         <label class="col-sm-4 control-label">${comment.owner.userName }：</label>
                     </c:if>
-                    <div class="col-sm-7">
+                    <div class="col-sm-8">
                         <textarea rows="3" readonly class="form-control">${comment.content }</textarea>
                     </div>
                 </div>
             </c:forEach>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10 text-right">
+                    <input type="button" id="append" class="btn btn-default" value="追加">
+                </div>
+            </div>
+            <div id="appendPanel" class="hidden">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">${user.userName}：</label>
+
+                <div class="col-sm-8">
+                    <textarea id="appendContent" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-10 text-right">
+                    <input type="button" id="appendCancel" class="btn btn-default" value="取消">
+                    <input type="button" id="appendBtn" class="btn btn-default" value="确定">
+                </div>
+            </div>
+            </div>
         </div>
     </div>
 </div>
+<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
     $(function () {
@@ -158,6 +183,50 @@
         $.get(url, function (res) {
             $("#caseState").text(res);
         });
+        var ele = {
+            appendPanel:$("#appendPanel"),
+            appendContent: $("#appendContent"),
+            append:$("#append"),
+            appendCancel: $("#appendCancel"),
+            appendBtn: $("#appendBtn")
+        }
+        ele.append.click(function(){
+           ele.appendPanel.removeClass("hidden");
+            ele.append.addClass("hidden");
+        });
+        ele.appendCancel.click(function(){
+            ele.appendPanel.addClass("hidden");
+            ele.append.removeClass("hidden");
+        });
+        ele.appendBtn.click(function () {
+            if (isEmty(ele.appendContent.val())) {
+                return Modal.alert({msg: "请填写追加的内容!"});
+            }
+            var url = "admin/caseBack/addCaseComment.do";
+            var data = "rcId=${reportCase.rcId}&content=" + ele.appendContent.val();
+            $.post(url, data, function (res, status) {
+                if (status == "success") {
+                    if (res == "success") {
+                        Modal.alert({msg: "操作成功!"})
+                                .on(function (e) {
+                                    location.reload();
+                                });
+                    } else {
+                        Modal.alert({msg: "操作失败!"});
+                    }
+                } else {
+                    Modal.alert({msg: "操作失败!"});
+                }
+            });
+        });
+
+        function isEmty(str) {
+            str = $.trim(str);
+            if (str == null || str.length <= 0 || str == "") {
+                return true;
+            }
+            return false;
+        }
     });
 </script>
 
