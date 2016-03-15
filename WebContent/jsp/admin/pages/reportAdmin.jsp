@@ -181,7 +181,7 @@
                 <h5 class="modal-title text-center">案件详情</h5>
             </div>
             <div class="modal-body">
-                <iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>
+                <iframe frameborder="0" width="100%" height="650px"></iframe>
             </div>
         </div>
     </div>
