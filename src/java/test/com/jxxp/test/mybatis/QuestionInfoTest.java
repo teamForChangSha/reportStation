@@ -3,6 +3,7 @@ package com.jxxp.test.mybatis;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -55,11 +56,23 @@ public class QuestionInfoTest {
 
 	public static QuestionInfo getQuestion() {
 		QuestionInfo question = new QuestionInfo();
-		// question.setQuestId(100);
-		// question.setIsNeeded(1);
 		question.setQuest("quest");
 		question.setQuestDesc("this is desc xx");
 		question.setQuestKey("NOXY");
 		return question;
+	}
+
+	/**
+	 * 构造问题集合
+	 * 
+	 * @return
+	 */
+	public static List<QuestionInfo> getQuestList() {
+		List<QuestionInfo> qList = new ArrayList<QuestionInfo>();
+		for (int i = 0; i < 2; i++) {
+			QuestionInfo question = getQuestion();
+			qList.add(question);
+		}
+		return qList;
 	}
 }
