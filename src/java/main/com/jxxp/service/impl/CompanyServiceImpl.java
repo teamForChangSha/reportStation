@@ -53,7 +53,6 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean saveWholeCompany(CompanyWholeInfo wholeCompany) {
 		boolean flag1 = saveCompanyInfo(wholeCompany.getCompany());
 		boolean flag2 = companyOtherMapper.insert(wholeCompany.getCompanyOther()) > 0;
-
 		return flag1 && flag2;
 	}
 
@@ -62,6 +61,8 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyMapper.getAllByName(companyName);
 	}
 
+	/* 不需要此方法，因为在获公司本身有公司其他信息对象
+	 */
 	@Override
 	public CompanyWholeInfo getCompanyWhole(String name) {
 		Company company = companyMapper.findByName(name);
