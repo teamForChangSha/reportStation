@@ -187,6 +187,7 @@
             $("input[name=phone]").val("");
             $("input[name=contactor]").val("");
             $("input[name=postCode]").val("");
+            $("html,body").animate({scrollTop:$("#addBranchPanel").offset().top},500);
         });
         $("input[name=cancel]").click(function () {
             $("#addBranchPanel").addClass("hidden");
@@ -258,7 +259,7 @@
         $("input[name=phone]").val($(ele).parent().prev().prev().prev().text());
         $("input[name=contactor]").val($(ele).parent().prev().prev().text());
         $("input[name=postCode]").val($(ele).parent().prev().text());
-
+        $("html,body").animate({scrollTop:$("#addBranchPanel").offset().top},500);
     }
 
     function del(ele, id) {

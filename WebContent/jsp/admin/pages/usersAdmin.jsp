@@ -409,6 +409,7 @@
             addEle.addCompany.val("");
             addEle.addCompanyInput.val("");
             panle.addUser.removeClass("hidden");
+            $("html,body").animate({scrollTop:$("#addUser").offset().top},500);
         });
         search.stopAllUser.click(function () {
             Modal.confirm({
@@ -485,6 +486,7 @@
             upEle.upWorkNo.val("${user.workNo}");
             upEle.upRemark.text("${user.remark}");
             upEle.upStateChanged.text('<fmt:formatDate value="${user.stateChanged}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
+            $("html,body").animate({scrollTop:$("#updataUserInfo").offset().top},500);
         });
         var a3 = $("<a/>").attr("class", "btn btn-link").text("停用");
         if ("${user.userState}" == "4") {
