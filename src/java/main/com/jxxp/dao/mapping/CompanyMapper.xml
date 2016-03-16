@@ -28,7 +28,7 @@
   
   <sql id="Base_Column_List" >
     company_id, company_name, description, company_code, phone, company_type, company_state, 
-    state_changed,industries,stockCode
+    state_changed,industries,stock_code
   </sql>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from company
@@ -49,8 +49,10 @@
   </select>
   
    <select id="getAllByName" resultMap="search" parameterType="String" >
-    select company_id, company_name from company
-    where company_name like concat('%',concat(#{companyName,jdbcType=VARCHAR},'%'))
+    select company_id, company_name from company where 1=1
+    <if test="_parameter!=null and _parameter!=''">
+     and company_name like concat('%',concat(#{companyName,jdbcType=VARCHAR},'%'))
+    </if>
   </select>
   
   <delete id="deleteById" parameterType="java.lang.Integer" >

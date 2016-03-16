@@ -289,7 +289,7 @@ public class CaseTest {
 	 * @param dst
 	 * @return
 	 */
-	public boolean isEqual(Object src, Object dst) {
+	public static boolean isEqual(Object src, Object dst) {
 		Field[] fields = src.getClass().getDeclaredFields();
 		boolean flag = true;
 		for (Field srcField : fields) {
@@ -300,11 +300,11 @@ public class CaseTest {
 				Field dstField = dst.getClass().getDeclaredField(srcField.getName());
 				dstField.setAccessible(true);
 				Object dstFieldData = dstField.get(dst);
-				/*
-				 * System.out.println("fieldName==" + srcField.getName() +
-				 * "----value=" + dstFieldData + "--" + srcFieldData +
-				 * "---isEquals=" + dstFieldData.equals(srcFieldData));
-				 */if (!srcFieldData.equals(dstFieldData)) {
+
+				System.out.println("fieldName==" + srcField.getName() + "----value=" + dstFieldData
+						+ "--src=" + srcFieldData + "---isEquals="
+						+ dstFieldData.equals(srcFieldData));
+				if (!srcFieldData.equals(dstFieldData)) {
 					flag = false;
 					break;
 				}

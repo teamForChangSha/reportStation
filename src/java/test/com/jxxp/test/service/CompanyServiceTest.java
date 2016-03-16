@@ -1,6 +1,7 @@
 package com.jxxp.test.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -18,9 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
+import com.jxxp.dao.CompanyOtherMapper;
 import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyOther;
+import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.CompanyService;
@@ -49,8 +53,10 @@ public class CompanyServiceTest {
 	private ReportTypeMapper reportTypeMapper;
 	@Resource
 	private ReportTypeService reportTypeService;
+	@Resource
+	private CompanyOtherMapper companyOtherMapper;
 
-	@Test
+	@Ignore
 	public void saveCompany() {
 		Company company = getCompany();
 		boolean isSuccess = companyService.saveCompanyInfo(company);
@@ -59,11 +65,88 @@ public class CompanyServiceTest {
 	}
 
 	/**
+	 * 保存Company(公司基本信息)和CompanyOther(其他信息)
+	 */
+	@Ignore
+	public void saveWholeCompany() {
+		Company company = CompanyTest.getCompany();
+		// companyMapper.insert(company);
+		CompanyOther other = getCompanyOther(company);
+		CompanyWholeInfo whole = new CompanyWholeInfo();
+		whole.setCompany(company);
+		whole.setCompanyOther(other);
+
+	}
+
+	/**
+	 * 通过公司名字模糊查询,当名字为空则查询所有,由于公司数量庞大，为了快速搜索，至查询出来对象的 company_id,
+	 * company_name两个属性 因此断言不比较存取对象是否相等
+	 * 
+	 * 1、公司名字中含有该关键字
+	 */
+	@Ignore
+	public void getCompanyByName() {
+		String name = "好办公";
+		Company company = getCompany();
+		company.setCompanyName(name);
+		companyService.saveCompanyInfo(company);
+		List<Company> comList = companyService.getCompanyByName("好");
+		int count = 0;
+		for (int i = 0; i < comList.size(); i++) {
+			Company com = comList.get(i);
+			if (com.getCompanyName().equals(company.getCompanyName())) {
+				count++;
+			}
+		}
+		assertTrue(comList.size() > 0);
+		assertTrue(count == 1);
+		companyMapper.deleteById(company.getCompanyId());
+
+	}
+
+	/**
+	 * 通过公司名字模糊查询
+	 * 
+	 * 2、无关键字，关键字=""，则应该查出所有
+	 */
+	@Ignore
+	public void getCompanyNoName() {
+		String name = "好办公";
+		Company company = getCompany();
+		company.setCompanyName(name);
+		companyService.saveCompanyInfo(company);
+		List<Company> comList = companyService.getCompanyByName("");
+		List<Company> allList = companyMapper.getAllCompany();
+		assertTrue(comList.size() == allList.size());
+		assertTrue(comList.size() > 0);
+		companyMapper.deleteById(company.getCompanyId());
+	}
+
+	/**
+	 * 通过公司名字模糊查询
+	 * 
+	 * 2、无关键字，关键字=null
+	 */
+	@Ignore
+	public void getCompanyNullName() {
+		String name = "好办公";
+		Company company = getCompany();
+		company.setCompanyName(name);
+		companyService.saveCompanyInfo(company);
+		List<Company> comList = companyService.getCompanyByName(null);
+		List<Company> allList = companyMapper.getAllCompany();
+		assertTrue(comList.size() == allList.size());
+		assertTrue(comList.size() > 0);
+		companyMapper.deleteById(company.getCompanyId());
+
+	}
+
+	/**
 	 * 存储公司的同时必须存储分支机构
 	 */
 	@Ignore
 	public void saveCompanyBranch() {
-		Company company = getCompany();
+		Company company = CompanyTest.getCompany();
 		boolean isSuccess = companyService.saveCompanyInfo(company);
 		List<CompanyBranch> branchList = companyBranchMapper
 				.getAllByCompany(company.getCompanyId());
@@ -98,7 +181,7 @@ public class CompanyServiceTest {
 	/**
 	 * 获取公司的问题类型列表
 	 */
-	@Test
+	@Ignore
 	public void testGetCompanyTypes() {
 		List<ReportType> rtList = getRtList();
 		Company company = CompanyTest.getCompany();
@@ -112,7 +195,7 @@ public class CompanyServiceTest {
 	/**
 	 * 获取公司的问题类型列表,company=null,获取默认的列表
 	 */
-	@Test
+	@Ignore
 	public void testGetTypesWithNo() {
 		Company company = new Company();
 		List<ReportType> types = companyService.getCompanyReportType(company);
@@ -124,7 +207,7 @@ public class CompanyServiceTest {
 	/**
 	 * 获取公司的问题类型列表,没有属于该公司的自定义类型
 	 */
-	@Test
+	@Ignore
 	public void testTypesWithNoId() {
 		Company company = new Company();
 		company.setCompanyId(new Long(88));
@@ -134,12 +217,34 @@ public class CompanyServiceTest {
 	}
 
 	/**
-	 * TODO 通过公司对象中含公司其他信息，看是否取的到公司的其他信息
+	 * 通过公司对象中含公司其他信息，看是否取的到公司的其他信息
+	 * 
+	 * 1、有公司其他信息（有CompanyOther）
 	 */
-	// @Test
+	@Test
 	public void getCompanyById() {
-		System.out.println("----"
-				+ companyMapper.getById(new Long(1)).getOtherInfo().getServiceProtocol());
+		Company company = CompanyTest.getCompany();
+		companyMapper.insert(company);
+		CompanyOther other = getCompanyOther(company);
+		companyOtherMapper.insert(other);
+		company.setOtherInfo(other);
+		Company getCompany = companyMapper.getById(company.getCompanyId());
+		assertTrue(TestUtil.isEqual(company, getCompany));
+		assertTrue(TestUtil.isEqual(other, getCompany.getOtherInfo()));
+	}
+
+	/**
+	 * 通过公司对象中含公司其他信息，看是否取的到公司的其他信息
+	 * 
+	 * 2、无 公司其他信息（无CompanyOther）
+	 */
+	@Test
+	public void getCompanyByIdWithNoOther() {
+		Company company = CompanyTest.getCompany();
+		companyMapper.insert(company);
+		Company getCompany = companyMapper.getById(company.getCompanyId());
+		assertTrue(TestUtil.isEqual(company, getCompany));
+		assertNull(getCompany.getOtherInfo());
 	}
 
 	private List<ReportType> getRtList() {
@@ -157,13 +262,17 @@ public class CompanyServiceTest {
 
 	public static Company getCompany() {
 		Company company = new Company();
-		// company.setCompanyId(100000);
-		company.setCompanyCode("ZTX");
 		company.setCompanyName("company name");
-		company.setDescription("规模大");
-		company.setPhone("1234567");
-		company.setCompanyState(1);
-		company.setCompanyType(1);
 		return company;
+	}
+
+	public static CompanyOther getCompanyOther(Company company) {
+		CompanyOther other = new CompanyOther();
+		other.setCompanyId(company.getCompanyId());
+		other.setLogoHeight(400);
+		other.setLogoPath("upload/testImg");
+		other.setLogoWidth(300);
+		other.setServiceProtocol("http");
+		return other;
 	}
 }

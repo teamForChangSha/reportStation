@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jxxp.dao.AreaInfoMapper;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
+import com.jxxp.pojo.AreaInfo;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.test.unit.TestUtil;
@@ -73,6 +74,14 @@ public class CompanyBranchTest {
 		int count = 0;
 		for (int i = 0; i < list.size(); i++) {
 			CompanyBranch branch = getBranch();
+			// 默认设置未知省和市
+			AreaInfo priv = new AreaInfo();
+			priv.setAreaId(9990);
+			AreaInfo city = new AreaInfo();
+			city.setAreaId(9991);
+			branch.setProvince(priv);
+			branch.setCity(city);
+			// 设置所属公司
 			branch.setOwner(list.get(i));
 			int n = companyBranchMapper.insert(branch);
 			count = count + n;

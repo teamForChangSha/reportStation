@@ -25,6 +25,7 @@ import com.jxxp.pojo.ReportType;
 import com.jxxp.service.AreaService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
+import com.jxxp.service.ReportTypeService;
 
 /*
  * auther cj
@@ -40,6 +41,8 @@ public class ReportStationController {
 	private AreaService areaService;
 	@Resource
 	private CaseService caseService;
+	@Resource
+	private ReportTypeService reportTypeService;
 
 	@RequestMapping("/getAllCompany.do")
 	public String getCompany(HttpServletRequest request, HttpServletResponse response,
@@ -160,7 +163,7 @@ public class ReportStationController {
 		List<ReportType> dataList = companyService.getCompanyReportType(companyBranch.getOwner());
 		// 如果该公司未配置举报类型，则使用默认类型
 		if (dataList.size() == 0) {
-			dataList = companyService.getCompanyReportType(new Company());
+			dataList = reportTypeService.getDefaultList();
 		}
 		modelMap.put("reportTypeList", dataList);
 

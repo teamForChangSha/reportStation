@@ -43,7 +43,7 @@ public class reportTypeServiceTest {
 	/**
 	 * 获取默认问题类型列表,isStandard=0标准，isStandard=1非标准
 	 * 
-	 * 1、不添加，获取的默认列表所有类型的值应该为isStandard=0 且company_id=0
+	 * 1、不添加，获取的默认列表所有类型的值应该为isStandard=0
 	 */
 	@Test
 	public void getDefTypes() {
