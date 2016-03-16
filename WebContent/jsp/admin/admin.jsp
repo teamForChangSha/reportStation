@@ -118,7 +118,7 @@
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li><a class="" href="" target="MainIframe">表单布局</a></li>
+                        <li><a class="" href="javascript:;" target="MainIframe">表单布局</a></li>
                     </ul>
                 </li>
                 <li id="dataSetting" class="sub-menu">

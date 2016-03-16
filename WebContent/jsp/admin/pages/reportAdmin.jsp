@@ -354,7 +354,6 @@
             }
             var data = "rcId=" + caseId + "&state=" + ele.status.find("option:selected").val()
                     + "&sendToPlatform=" + sendToPlatform + "&companyId=" + "${user.userCompany.companyId}";
-            alert(data);
             $.post(url, data, function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
