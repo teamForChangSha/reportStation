@@ -88,8 +88,15 @@ public class UserController {
 						String userSessionId = loginUsers.get(user.getLoginName());
 						log.debug("userSessionId:" + userSessionId);
 						log.debug("sessionId:" + sessionId);
-						if (userSessionId.equals(sessionId) || userSessionId != null) {
+						if (userSessionId != null && !sessionId.equals(userSessionId)) {
 							out.print("登录失败，该用户已登录！");
+						} else {
+							loginUsers.put(user.getLoginName(), sessionId);
+							request.getSession().setAttribute("user", user);
+							if (saveOprationLog("登录", user)) {
+								log.debug("用户操作日志记录成功！");
+							}
+							out.print("success");
 						}
 					}
 				}
