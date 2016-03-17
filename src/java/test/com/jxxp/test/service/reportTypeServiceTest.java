@@ -60,7 +60,7 @@ public class reportTypeServiceTest {
 	/**
 	 * 获取默认问题类型列表,isStandard=0标准，isStandard=1非标准
 	 * 
-	 * 2、添加非标准的，获取的默认列表与原来的默认列表相同
+	 * 2、添加非标准的，获取的默认(标准)列表与原来的默认(标准)列表相同
 	 */
 	@Test
 	public void getDefTypesAddNoStandand() {

@@ -78,8 +78,9 @@ public class ReporterTypeTest {
 		for (int i = 0; i < 2; i++) {
 			ReportType addType = getReportType();
 			addType.setOwner(owner);
-			addList.add(addType);
+			addType.setIsStandard(1);
 			reportTypeMapper.insert(addType);
+			addList.add(addType);
 		}
 		List<ReportType> getList = reportTypeMapper.getAllByCompanyId(owner.getCompanyId());
 		assertTrue(getList.size() == 2);
@@ -111,7 +112,7 @@ public class ReporterTypeTest {
 		ReportType type = new ReportType();
 		type.setRtDesc("举报工作态度");
 		type.setRtTitle("title");
-		// 是否为标准类型：0标准，1非标准
+		// 是否为标准类型：0标准，1非标准,默认是标准
 		type.setIsStandard(0);
 		return type;
 	}

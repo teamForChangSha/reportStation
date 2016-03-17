@@ -24,7 +24,9 @@
       #{logoHeight,jdbcType=INTEGER}, #{logoWidth,jdbcType=INTEGER}, #{serviceProtocol,jdbcType=LONGVARCHAR}, 
       #{spHtml,jdbcType=LONGVARCHAR})
   </insert>
-  
+  <delete id="deleteById">
+  delete from companyother where company_id=#{companyId}
+  </delete>
   <update id="update" parameterType="com.jxxp.pojo.CompanyOther" >
     update companyother
     <set >

@@ -19,12 +19,12 @@
   
   <select id="getAllByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select * from reporttype
-    where company_id = #{companyId,jdbcType=BIGINT}
+    where company_id = #{companyId,jdbcType=BIGINT} and is_standard=1
   </select>
   
   <select id="getAllStandard" resultMap="BaseResultMap">
    select * from reporttype
-    where is_standard=0 and (company_id is null or company_id=0)
+    where is_standard=0
   </select>
  
   <delete id="deleteByCompanyId">

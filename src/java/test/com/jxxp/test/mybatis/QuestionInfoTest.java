@@ -71,6 +71,7 @@ public class QuestionInfoTest {
 		List<QuestionInfo> qList = new ArrayList<QuestionInfo>();
 		for (int i = 0; i < 2; i++) {
 			QuestionInfo question = getQuestion();
+			question.setQuestKey(question.getQuestKey() + i);
 			qList.add(question);
 		}
 		return qList;

@@ -61,7 +61,8 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyMapper.getAllByName(companyName);
 	}
 
-	/* 不需要此方法，因为在获公司本身有公司其他信息对象
+	/*
+	 * 不需要此方法，因为在获公司本身有公司其他信息对象
 	 */
 	@Override
 	public CompanyWholeInfo getCompanyWhole(String name) {
@@ -91,6 +92,10 @@ public class CompanyServiceImpl implements CompanyService {
 		List<CompanyQuestion> comQuests = companyQuestionMapper.getAllByCompany(company
 				.getCompanyId());
 		List<QuestionInfo> questions = questionInfoMapper.getAllByCompany(company.getCompanyId());
+		// 如果公司没有选择问题则使用默认问题列表
+		if (questions.size() <= 0) {
+			questions = questionInfoMapper.getQuestionTemlate();
+		}
 		for (QuestionInfo question : questions) {
 			// 装配quesntion对象，把公司自定义的问题规定的是否必填的属性赋值给question
 			for (CompanyQuestion comQuest : comQuests) {
