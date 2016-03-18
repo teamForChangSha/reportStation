@@ -60,7 +60,7 @@ public interface ReportTypeMapper {
 	 * 
 	 * @return 默认问题类型列表
 	 */
-	List<ReportType> getAllStandard();
+	List<ReportType> getAllDefualt();
 
 	/**
 	 * 默认的问题类型列表中，isStandard=0表示主要类型，isStandard=1表示次要类型，默认问题类型中companyId= null

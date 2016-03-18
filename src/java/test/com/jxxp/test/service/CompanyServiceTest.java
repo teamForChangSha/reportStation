@@ -273,25 +273,26 @@ public class CompanyServiceTest {
 	}
 
 	/**
-	 * 获取公司的问题类型列表,company=null,size=0;
+	 * 获取公司的问题类型列表,公司存在，但是没有自定义类型,则应该返回标准列表中（默认列表）的主要类型列表
+	 */
+	@Test
+	public void testTypesWithNoId() {
+		company = CompanyTest.getCompany();
+		companyMapper.insert(company);
+		List<ReportType> comTypes = companyService.getCompanyReportType(company);
+		List<ReportType> mainTypes = reportTypeMapper.getMainDefaultList();
+		assertTrue(TestUtil.isEqual(comTypes, mainTypes));
+	}
+
+	/**
+	 * 获取公司的问题类型列表,company=null,则返回标准类型中的主要类型;
 	 */
 	@Test
 	public void testGetTypesWithNo() {
 		company = new Company();
-		List<ReportType> types = companyService.getCompanyReportType(company);
-		assertTrue(types.size() == 0);
-	}
-
-	/**
-	 * 获取公司的问题类型列表,没有属于该公司的自定义类型
-	 */
-	@Test
-	public void testTypesWithNoId() {
-		company = new Company();
-		company.setCompanyId(new Long(88));
-		List<ReportType> types = companyService.getCompanyReportType(company);
-		assertNotNull(types);
-		assertTrue(types.size() == 0);
+		List<ReportType> comTypes = companyService.getCompanyReportType(company);
+		List<ReportType> mainTypes = reportTypeMapper.getMainDefaultList();
+		assertTrue(TestUtil.isEqual(comTypes, mainTypes));
 	}
 
 	/**

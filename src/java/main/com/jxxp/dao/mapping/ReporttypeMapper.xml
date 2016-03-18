@@ -22,7 +22,7 @@
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
   
-  <select id="getAllStandard" resultMap="BaseResultMap">
+  <select id="getAllDefualt" resultMap="BaseResultMap">
    select * from reporttype
     where company_id is null
   </select>
