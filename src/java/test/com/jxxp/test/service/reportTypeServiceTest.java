@@ -18,7 +18,6 @@ import com.jxxp.dao.ReportTypeMapper;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.service.ReportTypeService;
-import com.jxxp.test.mybatis.CompanyTest;
 import com.jxxp.test.unit.TestUtil;
 
 /**
@@ -41,16 +40,16 @@ public class reportTypeServiceTest {
 	private List<ReportType> types;
 
 	/**
-	 * 获取默认问题类型列表,isStandard=0标准，isStandard=1非标准
+	 * 关于公司自定义问题类型的测试在companyServiceTest中
+	 * 获取默认标准问题类型列表,包括主要（主要类型isStandard=0）的和次要的类型(次要类型isStandard=1)
 	 * 
-	 * 1、不添加，获取的默认列表所有类型的值应该为isStandard=0
+	 * 1、不添加，取出的数据与直接从数据库取出的一致
 	 */
 	@Test
 	public void getDefTypes() {
 		List<ReportType> getTypes = reportTypeService.getDefaultList();
-		List<ReportType> defTypes = reportTypeMapper.getAllStandard();
+		List<ReportType> defTypes = reportTypeMapper.getAllDefualt();
 		for (int i = 0; i < getTypes.size(); i++) {
-			assertTrue(getTypes.get(i).getIsStandard() == 0);
 			assertTrue(getTypes.get(i).getOwner() == null);
 		}
 		assertTrue(getTypes.size() == defTypes.size());
@@ -58,25 +57,28 @@ public class reportTypeServiceTest {
 	}
 
 	/**
-	 * 获取默认问题类型列表,isStandard=0标准，isStandard=1非标准
+	 * 获取默认标准问题类型列表,包括主要（主要类型isStandard=0）的和次要的类型(次要类型isStandard=1)
 	 * 
-	 * 2、添加非标准的，获取的默认列表与原来的默认列表相同
+	 * 2、添加次要的
 	 */
 	@Test
-	public void getDefTypesAddNoStandand() {
+	public void getDefTypesAddDefualt() {
 		List<ReportType> getTypesBeforAdd = reportTypeService.getDefaultList();
 		types = getRtList(1);
 		for (int i = 0; i < types.size(); i++) {
 			reportTypeMapper.insert(types.get(i));
 		}
 		List<ReportType> getTypesAfterAdd = reportTypeService.getDefaultList();
-		assertTrue(TestUtil.isEqual(getTypesBeforAdd, getTypesAfterAdd));
+		List<ReportType> defTypes = reportTypeMapper.getAllDefualt();
+		assertTrue(getTypesBeforAdd.size() + 2 == getTypesAfterAdd.size());
+		assertTrue(getTypesAfterAdd.size() == defTypes.size());
+
 	}
 
 	/**
-	 * 获取默认问题类型列表,isStandard=0标准，isStandard=1非标准
+	 * 获取默认标准问题类型列表,包括主要（主要类型isStandard=0）的和次要的类型(次要类型isStandard=1)
 	 * 
-	 * 3、添加标准的，获取的默认列表的size=原来的默认列表的size+添加的列表size
+	 * 3、添加主要的
 	 */
 	@Test
 	public void getDefTypesAddStandand() {
@@ -86,11 +88,13 @@ public class reportTypeServiceTest {
 			reportTypeMapper.insert(types.get(i));
 		}
 		List<ReportType> getTypesAfterAdd = reportTypeService.getDefaultList();
-		assertTrue(getTypesAfterAdd.size() == (getTypesBeforAdd.size() + types.size()));
+		List<ReportType> defTypes = reportTypeMapper.getAllDefualt();
+		assertTrue(getTypesBeforAdd.size() + 2 == getTypesAfterAdd.size());
+		assertTrue(getTypesAfterAdd.size() == defTypes.size());
 	}
 
 	/**
-	 * 更新标准的
+	 * 更新主要的
 	 * 
 	 * 更新前取出来的和添加的相同，更新后取出和添加的不同
 	 */
@@ -108,7 +112,7 @@ public class reportTypeServiceTest {
 	}
 
 	/**
-	 * 更新非标准的
+	 * 更新次要的
 	 * 
 	 * 更新前取出来的和添加的相同，更新后取出和添加的不同
 	 */
@@ -159,13 +163,7 @@ public class reportTypeServiceTest {
 		ReportType type = new ReportType();
 		type.setRtDesc("举报工作态度");
 		type.setRtTitle("title");
-		// 是否为标准类型：0标准，1非标准
 		type.setIsStandard(isStandard);
-		if (isStandard == 1) {
-			company = CompanyTest.getCompany();
-			companyMapper.insert(company);
-			type.setOwner(company);
-		}
 		return type;
 	}
 

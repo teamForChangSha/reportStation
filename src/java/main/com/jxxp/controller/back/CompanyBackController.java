@@ -122,6 +122,8 @@ public class CompanyBackController {
 			rtList = companyService.getCompanyReportType(company);
 			log.debug("user id=" + user.getUserCompany().getCompanyId());
 		}
+		log.debug("rtList-------------" + rtList.size());
+		log.debug("delfRtList------------" + delfRtList.size());
 		model.put("rtList", rtList);
 		model.put("delfRtList", delfRtList);
 		return "/jsp/admin/pages/settingType";

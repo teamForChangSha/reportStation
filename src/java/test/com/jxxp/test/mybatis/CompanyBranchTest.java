@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -68,7 +67,7 @@ public class CompanyBranchTest {
 	/**
 	 * 用于构造数据，默认将所有公司作为一个分支机构存在
 	 */
-	@Ignore
+	@Test
 	public void importBranches() {
 		List<Company> list = companyMapper.getAllCompany();
 		int count = 0;

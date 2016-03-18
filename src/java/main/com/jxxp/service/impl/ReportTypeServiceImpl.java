@@ -24,8 +24,7 @@ public class ReportTypeServiceImpl implements ReportTypeService {
 
 	@Override
 	public List<ReportType> getDefaultList() {
-		// return reportTypeMapper.getAllByCompanyId(0);
-		return reportTypeMapper.getAllStandard();
+		return reportTypeMapper.getAllDefualt();
 	}
 
 }

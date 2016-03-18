@@ -22,11 +22,14 @@
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
   
-  <select id="getAllStandard" resultMap="BaseResultMap">
+  <select id="getAllDefualt" resultMap="BaseResultMap">
    select * from reporttype
-    where is_standard=0 and (company_id is null or company_id=0)
+    where company_id is null
   </select>
- 
+ <select id="getMainDefaultList" resultMap="BaseResultMap">
+   select * from reporttype
+   where company_id is null and is_standard=0
+ </select>
   <delete id="deleteByCompanyId">
   delete from reporttype where 
   company_id = #{companyId,jdbcType=BIGINT}
