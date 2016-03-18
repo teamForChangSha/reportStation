@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -13,18 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.jxxp.controller.CaseController;
 import com.jxxp.dao.CaseAttachMapper;
 import com.jxxp.dao.CaseCommentMapper;
 import com.jxxp.dao.GenerateKeyMapper;
-import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.dao.ReporterMapper;
 import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
-import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
@@ -33,12 +29,12 @@ import com.jxxp.service.CaseService;
 /**
  * 
  * @author cj
- *
+ * 
  */
 @Service("caseService")
 public class CaseServiceImpl implements CaseService {
 	private static final Logger log = LoggerFactory.getLogger(CaseServiceImpl.class);
-	
+
 	@Resource
 	private ReportCaseMapper reportCaseMapper;
 	@Resource
@@ -51,7 +47,7 @@ public class CaseServiceImpl implements CaseService {
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private CaseAttachMapper caseAttachMapper;
-	
+
 	@Override
 	public boolean saveCaseInfo(ReportCase caseInfo) {
 		return reportCaseMapper.insert(caseInfo) > 0;
@@ -76,14 +72,17 @@ public class CaseServiceImpl implements CaseService {
 
 	@Override
 	public String getNewTrackingNo(Company company) {
-		//生成规则：公司代码+时间戳
+		// 生成规则：公司代码+时间戳
 		String trackingNo = "";
-		trackingNo += company.getCompanyCode();
+		// trackingNo += company.getCompanyCode();
 		trackingNo += new SimpleDateFormat("yyyyMM").format(new Date());
 		trackingNo += generateKeyMapper.getKey();
-		if(generateKeyMapper.updateKey() > 0) {
-			
+		if (generateKeyMapper.updateKey() > 0) {
+
 		}
+		// 客户要求案件编号为6或者5位数
+		int noLength = 6;
+		trackingNo = trackingNo.substring(trackingNo.length() - noLength, trackingNo.length());
 		return trackingNo;
 	}
 
@@ -95,18 +94,18 @@ public class CaseServiceImpl implements CaseService {
 	@Override
 	public boolean saveCase(Reporter reporter, ReportCase reportCase, List<ReportAnswer> answerList) {
 		boolean flag = false;
-		//判断Reporter对象是否存在
-		if(reporter != null) {
-			if(reporter.getReporterId() == 0) {
+		// 判断Reporter对象是否存在
+		if (reporter != null) {
+			if (reporter.getReporterId() == 0) {
 				flag = reporterMapper.insert(reporter) > 0;
-				if(flag) {
+				if (flag) {
 					log.debug(reporter + "添加成功！");
 				} else {
 					log.debug(reporter + "添加成功！");
 					return flag;
 				}
 			} else {
-				if(reporterMapper.update(reporter) > 0) {
+				if (reporterMapper.update(reporter) > 0) {
 					log.debug(reporter + "更新成功！");
 				} else {
 					log.debug(reporter + "更新失败！");
@@ -114,59 +113,61 @@ public class CaseServiceImpl implements CaseService {
 				}
 			}
 		}
-		
-		//保存案例对象
+
+		// 保存案例对象
 		flag = reportCaseMapper.insert(reportCase) > 0;
-		if(flag) {
-    		log.debug(reportCase + "添加成功！");
-    	} else {
-    		log.debug(reportCase + "添加失败！");
-    		return flag;
-    	}
-		
-		//保存案件集合
+		if (flag) {
+			log.debug(reportCase + "添加成功！");
+		} else {
+			log.debug(reportCase + "添加失败！");
+			return flag;
+		}
+
+		// 保存案件集合
 		for (ReportAnswer reportAnswer : answerList) {
 			reportAnswer.setRcId(reportCase.getRcId());
 			flag = reportAnswerMapper.insert(reportAnswer) > 0;
-			if(flag) {
+			if (flag) {
 				log.debug(reportAnswer + "添加成功！");
 			} else {
 				log.debug(reportAnswer + "添加失败！");
 				return flag;
 			}
 		}
-		
-		//更新临时文件信息
-		List<CaseAttach> caseAttachList = caseAttachMapper.getAllByTrackingNo(reportCase.getTrackingNo());
+
+		// 更新临时文件信息
+		List<CaseAttach> caseAttachList = caseAttachMapper.getAllByTrackingNo(reportCase
+				.getTrackingNo());
 		for (CaseAttach caseAttach : caseAttachList) {
 			caseAttach.setAttachPath(caseAttach.getAttachPath().replaceFirst("/temp/", "/file/"));
 			caseAttach.setAttachUrl(caseAttach.getAttachUrl().replaceFirst("/temp/", "/file/"));
 			caseAttach.setState(1);
 			flag = caseAttachMapper.update(caseAttach) > 0;
-			if(flag) {
+			if (flag) {
 				log.debug(caseAttach + "修改成功！");
 			} else {
 				log.debug(caseAttach + "修改失败！");
 				return flag;
 			}
 		}
-		
+
 		return flag;
 	}
 
 	@Override
-	public List<ReportCase> getCaseByCompany(Company company, Map<String,String> map) {
+	public List<ReportCase> getCaseByCompany(Company company, Map<String, String> map) {
 		List<ReportCase> caseList = new ArrayList<ReportCase>();
-		if(company == null) {
+		if (company == null) {
 			return caseList;
 		}
-		
+
 		String rtList = map.get("rtList");
 		String startTime = map.get("startTime");
 		String endTime = map.get("endTime");
 		String keyWord = map.get("keyWord");
-		
-		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), startTime, endTime, keyWord, rtList);
+
+		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), startTime, endTime,
+				keyWord, rtList);
 		return caseList;
 	}
 
@@ -174,5 +175,5 @@ public class CaseServiceImpl implements CaseService {
 	public boolean updateCaseInfo(ReportCase caseInfo) {
 		return reportCaseMapper.update(caseInfo) > 0;
 	}
-	
+
 }
