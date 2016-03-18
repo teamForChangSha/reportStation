@@ -1,5 +1,6 @@
 package com.jxxp.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +132,13 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public List<ReportType> getCompanyReportType(Company company) {
-		return reportTypeMapper.getAllByCompanyId(company.getCompanyId());
+		List<ReportType> dataList = new ArrayList<ReportType>();
+		dataList = reportTypeMapper.getAllByCompanyId(company.getCompanyId());
+		// 如果该公司未选择举报类型，则使用默认的主要类型
+		if (dataList.size() == 0) {
+			dataList = reportTypeMapper.getMainDefaultList();
+		}
+		return dataList;
 	}
 
 	@Override

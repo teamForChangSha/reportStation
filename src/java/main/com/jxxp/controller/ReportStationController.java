@@ -161,10 +161,7 @@ public class ReportStationController {
 		session.setAttribute("companyBranch", companyBranch);
 
 		List<ReportType> dataList = companyService.getCompanyReportType(companyBranch.getOwner());
-		// 如果该公司未配置举报类型，则使用默认类型
-		if (dataList.size() == 0) {
-			dataList = reportTypeService.getDefaultList();
-		}
+
 		modelMap.put("reportTypeList", dataList);
 
 		return "/jsp/pages/reportType";

@@ -5,7 +5,8 @@ import java.util.List;
 import com.jxxp.pojo.ReportType;
 
 /**
- * 举报类型的数据层接口，用户可自定义举报类型自定义，用户不自定义类型则使用标准类型
+ * 举报类型的数据层接口，用户可自定义举报类型自定义，用户自定义的类型companyId不为空，用户不自定义类型则使用标准类型，标准类型包括主要类型和次要类型
+ * (isStandard=0表示主要类型， isStandard=1表示次要类型，标准类型的companyId为空);
  * 
  * @author gcx
  * 
@@ -55,10 +56,17 @@ public interface ReportTypeMapper {
 	List<ReportType> getAllByCompanyId(long companyId);
 
 	/**
-	 * 获取标准（默认）问题类型列表，isStandard=0，由于造数据不够严谨，因此附加条件companyId=0或者为空
+	 * 获取标准（默认）问题类型列表(包含主要类型和次要类型)，此时companyId=null
 	 * 
 	 * @return 默认问题类型列表
 	 */
 	List<ReportType> getAllStandard();
+
+	/**
+	 * 默认的问题类型列表中，isStandard=0表示主要类型，isStandard=1表示次要类型，默认问题类型中companyId= null
+	 * 
+	 * @return 默认问题类型列表中的主要类型
+	 */
+	List<ReportType> getMainDefaultList();
 
 }

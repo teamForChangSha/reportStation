@@ -1,7 +1,7 @@
 package com.jxxp.pojo;
 
 /**
- * 用于表示一个举报类型，网站本身有一个标准的举报类型列表，若客户不定制，则使用标准的类型<br>
+ * 用于表示一个举报类型，网站本身有一个标准的举报类型列表，若客户不定制，则使用标准的类型,标准类型的companyId为空<br>
  * 若客户定制举报类型，则不管是否使用标准的举报类型中的某些部分，都将所定制的举报类型作为客户自定义的举报类型列表
  * 
  * @author pan
@@ -11,8 +11,8 @@ public class ReportType {
 	private long rtId;
 
 	/**
-	 * 用于表示该举报类型是网站标准举报类型还是用户自定义类型<br>
-	 * true为网站标准举报类型
+	 * 规定：标准类型的companyId为空，标准类型包含主要类型和次要类型,isStandard=0表示主要类型，
+	 * isStandard=1表示次要类型
 	 */
 	private int isStandard;
 
