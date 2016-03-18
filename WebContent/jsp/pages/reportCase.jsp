@@ -480,7 +480,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-3"></div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <select name="quest_8_select1" class="form-control">
                                 <option value="-1">请选择</option>
                                 <option>人民币（RMB）</option>
