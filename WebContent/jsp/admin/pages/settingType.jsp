@@ -273,6 +273,7 @@
         ele.addTypeBtn.click(function () {
             ele.addType.removeClass("hidden");
             $(this).addClass("hidden");
+            $("html,body").animate({scrollTop:$("#addType").offset().top},500);
         });
         ele.cancel.click(function () {
             ele.addType.addClass("hidden");
