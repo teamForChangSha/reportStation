@@ -197,7 +197,7 @@ $(function () {
         }
         if (!showRadioError(quest.isAnonymous)) {
             $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top - 80}, 500);
-            return Modal.alert({msg: "请选择是否实名提交!"});
+            return Modal.alert({msg: "请选择是否实名或匿名提交!"});
         }
         if (quest.isAnonymous.filter(':checked').val() == "false") {
             if (!validationUser()) {
@@ -558,27 +558,26 @@ $(function () {
                     if (needed == 1) {
                         if (quest.quest_1_select.find("option:selected").val() == "-1") {
                             bool = false;
+                            questPanle.quest_1.find("strong").addClass("has-error");
+                            $("html,body").animate({scrollTop: $("#quest_1").offset().top - 50}, 500);
+                            Modal.alert({msg: '请选择你与该公司的关系,选择其他请说明!'});
                         }
                         if (quest.quest_1_select.find("option:selected").text() == "其它") {
                             if (isEmty(quest.quest_1_textarea.val())) {
                                 bool = false;
+                                questPanle.quest_1.find("strong").addClass("has-error");
+                                $("html,body").animate({scrollTop: $("#quest_1").offset().top - 50}, 500);
+                                Modal.alert({msg: '您选择了其他请说明!'});
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_1.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_1").offset().top - 50}, 500);
-                            Modal.alert({msg: '请选择你与该公司的关系,选择其他请说明!'});
                         }
                     } else {
                         if (quest.quest_1_select.find("option:selected").text() == "其它") {
                             if (isEmty(quest.quest_1_textarea.val())) {
                                 bool = false;
+                                questPanle.quest_1.find("strong").addClass("has-error");
+                                $("html,body").animate({scrollTop: $("#quest_1").offset().top - 50}, 500);
+                                Modal.alert({msg: '您选择了其他请说明!'});
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_1.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_1").offset().top - 50}, 500);
-                            Modal.alert({msg: '您选择了其他请说明!'});
                         }
                     }
                     return bool;
@@ -637,9 +636,7 @@ $(function () {
                             }
                         }
                         if (!bool) {
-                            questPanle.quest_2.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_2").offset().top}, 500);
-                            Modal.alert({msg: '请说明该事件或违规行为主要相关人的身份,至少一个!'});
+                            showErrorMsg(questPanle.quest_2, '#quest_2', '请说明该事件或违规行为主要相关人的身份,至少一个!');
                         }
                     } else {
                         if (!isEmty(quest.quest_2_input1_department.val())) {
@@ -690,9 +687,7 @@ $(function () {
                             }
                         }
                         if (!bool) {
-                            questPanle.quest_2.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_2").offset().top}, 500);
-                            Modal.alert({msg: '您填写的身份信息有误!'});
+                            showErrorMsg(questPanle.quest_2, '#quest_2', '您填写的身份信息有误!');
                         }
                     }
                     return bool;
@@ -700,78 +695,58 @@ $(function () {
                     if (needed == 1) {
                         if (quest.quest_3_radio.filter(':checked').val() == undefined) {
                             bool = false;
+                            showErrorMsg(questPanle.quest_3, '#quest_3',
+                                '请选择是否怀疑或知道有领导或管理人员与该事件或违规行为有关，如果是请说明是谁!');
                         }
                         if (quest.quest_3_radio.filter(':checked').val() == "是") {
                             if (isEmty(quest.quest_3_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_3, '#quest_3', '您选择了是请说明是谁!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_3.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_3").offset().top}, 500);
-                            Modal.alert({msg: '请选择是否怀疑或知道有领导或管理人员与该事件或违规行为有关，如果是请说明是谁!'});
                         }
                     } else {
                         if (quest.quest_3_radio.filter(':checked').val() == "是") {
                             if (isEmty(quest.quest_3_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_3, '#quest_3', '您选择了是请说明是谁!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_3.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_3").offset().top}, 500);
-                            Modal.alert({msg: '您选择了是请说明是谁!'});
                         }
                     }
                     return bool;
                 case "quest_4":
                     if (needed == 1) {
-                        if (quest.quest_4_radio.filter(':checked').val() == undefined)
+                        if (quest.quest_4_radio.filter(':checked').val() == undefined) {
                             bool = false;
-                    }
-                    if (!bool) {
-                        questPanle.quest_4.find("strong").addClass("has-error");
-                        $("html,body").animate({scrollTop: $("#quest_4").offset().top}, 500);
-                        Modal.alert({msg: '请选择是否有公司高级管理人员注意到该事件或违规行为!'});
+                            showErrorMsg(questPanle.quest_4, '#quest_4', '请选择是否有公司高级管理人员注意到该事件或违规行为!');
+                        }
                     }
                     return bool;
                 case "quest_5":
                     if (needed == 1) {
                         if (isEmty(quest.quest_5_textarea.val())) {
                             bool = false;
+                            showErrorMsg(questPanle.quest_5, '#quest_5', '请说明该事件或违规行为发生的时间!');
                         }
-                    }
-                    if (!bool) {
-                        questPanle.quest_5.find("strong").addClass("has-error");
-                        $("html,body").animate({scrollTop: $("#quest_5").offset().top}, 500);
-                        Modal.alert({msg: '请说明该事件或违规行为发生的时间!'});
                     }
                     return bool;
                 case "quest_6":
                     if (needed == 1) {
                         if (quest.quest_6_select.find("option:selected").val() == "-1") {
                             bool = false;
+                            showErrorMsg(questPanle.quest_6, '#quest_6', '请选择此问题持续了多少时间,如果为其他请说明!');
                         }
                         if (quest.quest_6_select.find("option:selected").text() == "其它") {
                             if (isEmty(quest.quest_6_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_6, '#quest_6', '您选择了其他请说明!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_6.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_6").offset().top}, 500);
-                            Modal.alert({msg: '请选择此问题持续了多少时间,如果为其他请说明!'});
                         }
                     } else {
                         if (quest.quest_6_select.find("option:selected").text() == "其它") {
                             if (isEmty(quest.quest_6_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_6, '#quest_6', '您选择了其他请说明!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_6.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_6").offset().top}, 500);
-                            Modal.alert({msg: '您选择了其他请说明!'});
                         }
                     }
                     return bool;
@@ -779,12 +754,8 @@ $(function () {
                     if (needed == 1) {
                         if (isEmty(quest.quest_7_textarea.val())) {
                             bool = false;
+                            showErrorMsg(questPanle.quest_7, '#quest_7', '请说明该事件或违规行为在哪里发生的!');
                         }
-                    }
-                    if (!bool) {
-                        questPanle.quest_7.find("strong").addClass("has-error");
-                        $("html,body").animate({scrollTop: $("#quest_7").offset().top}, 500);
-                        Modal.alert({msg: '请说明该事件或违规行为在哪里发生的!'});
                     }
                     return bool;
                 case "quest_8":
@@ -796,29 +767,19 @@ $(function () {
                             bool = false;
                         }
                         if (!bool) {
-                            questPanle.quest_8.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_8").offset().top}, 500);
-                            Modal.alert({msg: '请估计该事件或违规行为涉及金额是多少!'});
+                            showErrorMsg(questPanle.quest_8, '#quest_8', '请估计该事件或违规行为涉及金额是多少!');
                         }
                     } else {
                         if (quest.quest_8_select2.find("option:selected").val() != "-1") {
                             if (quest.quest_8_select1.find("option:selected").val() == "-1") {
                                 bool = false;
-                            }
-                            if (!bool) {
-                                questPanle.quest_8.find("strong").addClass("has-error");
-                                $("html,body").animate({scrollTop: $("#quest_8").offset().top}, 500);
-                                Modal.alert({msg: '您选择了金额，请选择货币种类!'});
+                                showErrorMsg(questPanle.quest_8, '#quest_8', '您选择了金额，请选择货币种类!');
                             }
                         }
                         if (quest.quest_8_select1.find("option:selected").val() != "-1") {
                             if (quest.quest_8_select2.find("option:selected").val() == "-1") {
                                 bool = false;
-                            }
-                            if (!bool) {
-                                questPanle.quest_8.find("strong").addClass("has-error");
-                                $("html,body").animate({scrollTop: $("#quest_8").offset().top}, 500);
-                                Modal.alert({msg: '您选择了货币种类，请选择金额!'});
+                                showErrorMsg(questPanle.quest_8, '#quest_8', '您选择了货币种类，请选择金额!');
                             }
                         }
                     }
@@ -827,27 +788,20 @@ $(function () {
                     if (needed == 1) {
                         if (quest.quest_9_select.find("option:selected").val() == "-1") {
                             bool = false;
+                            showErrorMsg(questPanle.quest_9, '#quest_9', '请选择您是如何发现该事件或违规行为的,如果为其他请说明!');
                         }
                         if (quest.quest_9_select.find("option:selected").text() == "其它") {
                             if (isEmty(quest.quest_9_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_9, '#quest_9', '您选择了其他请说明!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_9.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_9").offset().top}, 500);
-                            Modal.alert({msg: '请选择您是如何发现该事件或违规行为的,如果为其他请说明!'});
                         }
                     } else {
                         if (quest.quest_9_select.find("option:selected").text() == "其它") {
                             if (isEmty(quest.quest_9_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_9, '#quest_9', '您选择了其他请说明!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_9.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_9").offset().top}, 500);
-                            Modal.alert({msg: '您选择了其他请说明!'});
                         }
                     }
                     return bool;
@@ -855,27 +809,20 @@ $(function () {
                     if (needed == 1) {
                         if (quest.quest_10_radio.filter(':checked').val() == undefined) {
                             bool = false;
+                            showErrorMsg(questPanle.quest_10, '#quest_10', '请选择您之前是否报告过该事件或违规行为,如果为是请说明!');
                         }
                         if (quest.quest_10_radio.filter(':checked').val() == "是") {
                             if (isEmty(quest.quest_10_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_10, '#quest_10', '您选择了是请说明!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_10.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_10").offset().top}, 500);
-                            Modal.alert({msg: '请选择您之前是否报告过该事件或违规行为,如果为是请说明!'});
                         }
                     } else {
                         if (quest.quest_10_radio.filter(':checked').val() == "是") {
                             if (isEmty(quest.quest_10_textarea.val())) {
                                 bool = false;
+                                showErrorMsg(questPanle.quest_10, '#quest_10', '您选择了是请说明!');
                             }
-                        }
-                        if (!bool) {
-                            questPanle.quest_10.find("strong").addClass("has-error");
-                            $("html,body").animate({scrollTop: $("#quest_10").offset().top}, 500);
-                            Modal.alert({msg: '您选择了是请说明!'});
                         }
                     }
                     return bool;
@@ -883,29 +830,27 @@ $(function () {
                     if (needed == 1) {
                         if (isEmty(quest.quest_11_textarea.val())) {
                             bool = false;
+                            showErrorMsg(questPanle.quest_11, '#quest_11', '请说明试图隐瞒该事件或违规行为的人以及他们的隐瞒方式!');
                         }
-                    }
-                    if (!bool) {
-                        questPanle.quest_11.find("strong").addClass("has-error");
-                        $("html,body").animate({scrollTop: $("#quest_11").offset().top}, 500);
-                        Modal.alert({msg: '请说明试图隐瞒该事件或违规行为的人以及他们的隐瞒方式!'});
                     }
                     return bool;
                 case "quest_12":
                     if (needed == 1) {
                         if (isEmty(quest.quest_12_textarea.val())) {
                             bool = false;
+                            showErrorMsg(questPanle.quest_12, '#quest_12', '请详细阐述该事件或违规行为的完整细节!');
                         }
-                    }
-                    if (!bool) {
-                        questPanle.quest_12.find("strong").addClass("has-error");
-                        $("html,body").animate({scrollTop: $("#quest_12").offset().top}, 500);
-                        Modal.alert({msg: '请详细阐述该事件或违规行为的完整细节!'});
                     }
                     return bool;
             }
         });
         return bool;
+    }
+
+    function showErrorMsg(a, b, c) {
+        a.find("strong").addClass("has-error");
+        $("html,body").animate({scrollTop: $(b).offset().top}, 500);
+        Modal.alert({msg: c});
     }
 
     /**
