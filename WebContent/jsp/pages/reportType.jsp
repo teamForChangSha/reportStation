@@ -73,20 +73,22 @@
 <div class="container">
     <form action="showQuestionPage.do" method="post" class="form-horizontal">
         <div class="row" id="typeList">
-            <p>
-                <strong>请从以下列表中选择您要报告的问题类型：（可多选）</strong>
-            </p>
+            <h1>
+                <small>请从以下列表中选择您要报告的问题类型：（可多选）</small>
+            </h1>
+            <div class="page-header"></div>
             <div class="col-sm-5">
                 <c:forEach items="${reportTypeList}" var="reportType" varStatus="i">
                     <c:if test="${i.index%2==0}">
                         <div class="form-group bg-success">
-
-                            <div class="checkbox" data-toggle="tooltip" data-placement="bottom"
-                                 title="${reportType.rtDesc }">
+                            <div class="checkbox col-sm-10">
                                 <label>
                                     <input type="checkbox" name="reportType"
                                            value="${reportType.rtTitle }"/> ${reportType.rtTitle }
                                 </label>
+                            </div>
+                            <div style="min-height: 27px;padding-top: 7px;">
+                                <a data-toggle="tooltip" data-placement="bottom" title="${reportType.rtDesc }">显示详情</a>
                             </div>
 
                         </div>
@@ -98,13 +100,14 @@
                 <c:forEach items="${reportTypeList}" var="reportType" varStatus="i">
                     <c:if test="${i.index%2!=0}">
                         <div class="form-group bg-success">
-
-                            <div class="checkbox" data-toggle="tooltip" data-placement="bottom"
-                                 title="${reportType.rtDesc }">
+                            <div class="checkbox col-sm-10">
                                 <label>
                                     <input type="checkbox" name="reportType"
                                            value="${reportType.rtTitle }"/> ${reportType.rtTitle }
                                 </label>
+                            </div>
+                            <div style="min-height: 27px;padding-top: 7px;">
+                                <a data-toggle="tooltip" data-placement="bottom" title="${reportType.rtDesc }">显示详情</a>
                             </div>
 
                         </div>
