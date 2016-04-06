@@ -38,7 +38,15 @@ public class CompanyOther {
 	 * logo的高度，预留
 	 */
 	private int logoHeight;
-
+	/**
+	 * email地址
+	 */
+	private String email;
+	/**
+	 * 是否接收举报邮件
+	 */
+	private int isSend;
+	
 	public long getCompanyId() {
 		return companyId;
 	}
@@ -94,4 +102,22 @@ public class CompanyOther {
 	public void setLogoHeight(int logoHeight) {
 		this.logoHeight = logoHeight;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getIsSend() {
+		return isSend;
+	}
+
+	public void setIsSend(int isSend) {
+		this.isSend = isSend;
+	}
+	
+	
 }
