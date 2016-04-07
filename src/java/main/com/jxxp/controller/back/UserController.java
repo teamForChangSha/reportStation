@@ -395,6 +395,13 @@ public class UserController {
 		return oprationLogService.addLog(log);
 	}
 
+	/**
+	 * 获取关于用户最后登录的日志
+	 * 
+	 * @author gcx
+	 * @param user
+	 * @return
+	 */
 	public OprationLog getUserLastLoginTime(User user) {
 		// 登入前获取用户上一次登入时间
 		Map<String, Object> params = new HashMap<String, Object>();
