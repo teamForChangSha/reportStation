@@ -106,10 +106,17 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="admin/caseBack/showCaseByCompany.do" class="" target="MainIframe">
+                    <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
-                        <span>举报管理<span class="badge"></span></span>
+                        <span>举报管理</span>
+                        <span class="arrow"></span>
                     </a>
+                    <ul class="sub">
+                        <li><a class="" href="admin/caseBack/showCaseByCompany.do" target="MainIframe">所有举报<span class="badge"></span></a>
+                        </li>
+                        <li><a class="" href="javascript:;" target="MainIframe">举报统计</a>
+                        </li>
+                    </ul>
                 </li>
                 <li id="statistical" class="sub-menu">
                     <a href="javascript:;" class="">

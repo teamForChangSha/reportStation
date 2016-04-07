@@ -89,6 +89,20 @@
         <div class="row">
             <div class="form-inline">
                 <div class="form-group">
+                    <label class="control-label">快捷时间段：</label>
+                    <input type="button" id="oneMounth" class="btn btn-default" value="最近一个月"/>
+                </div>
+                <div class="form-group">
+                    <input type="button" id="threeMounth" class="btn btn-default" value="最近三个月"/>
+                </div>
+                <div class="form-group">
+                    <input type="button" id="oneYear" class="btn btn-default" value="最近一年"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <div class="form-group">
                     <label class="control-label">所举报类型：</label>
                     <input type='text' name="rtList" style="width: 200px;" class="form-control" placeholder="请输入举报类型"/>
                 </div>
@@ -118,7 +132,33 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                <c:forEach items="${caseList}" var="caseInfo" varStatus="i">
+                    <tr>
+                        <td style="width: 60px">
+                            <c:if test='${caseInfo.reporter.name==null}'>匿名</c:if>
+                            <c:if test='${caseInfo.reporter.name!=null}'>${caseInfo.reporter.name}</c:if>
+                        </td>
+                        <td style="width: 180px"><fmt:formatDate value="${caseInfo.createTime}" type="date"
+                                                                 pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
+                        <td style="width: 80px">
+                            <c:if test='${caseInfo.caseState==1}'>新建</c:if>
+                            <c:if test='${caseInfo.caseState==2}'>已查看</c:if>
+                            <c:if test='${caseInfo.caseState==3}'>处理中</c:if>
+                            <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
+                            <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
+                        </td>
+                        <td style="width: 240px">${caseInfo.company.companyName}</td>
+                        <td>${caseInfo.rtList}</td>
+                        <td style="width: 130px">
+                            <input type="button" class="btn btn-link" value="修改"
+                                   onclick="upState(${caseInfo.rcId},this,${caseInfo.currentHandler.companyId})"/>
+                            <input type="button" class="btn btn-link" value="查看"
+                                   onclick="look(${caseInfo.rcId},${caseInfo.caseState},this)"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
             </table>
         </div>
     </div>
@@ -141,6 +181,7 @@
 
                     <div class="form-group">
                         <label class="col-sm-1 control-label"></label>
+
                         <div class="col-sm-10">
                             <select id="status" class="form-control">
                                 <option value="-1">-请选择-</option>
@@ -247,7 +288,6 @@
 
 
         var caseId;
-
         var ele = {
             status: $("#status"),
             sendToPlatform: $("#sendToPlatform"),
@@ -255,86 +295,66 @@
             updataBtn: $("#updataBtn")
         }
 
-        var i = 0;
-        <c:forEach items="${caseList}" var="caseInfo" varStatus = "i">
-        if ("${caseInfo.caseState}" == "1") {
-            i++;
-        }
-        var tr = $("<tr/>");
-        var td1 = $("<td/>").css("width", "60px").text("${caseInfo.reporter.name}" == "" ? "匿名" : "${caseInfo.reporter.name}");
-        var td2 = $("<td/>").css("width", "180px").text('<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
-        var td3 = $("<td/>").css("width", "80px");
-        switch (${caseInfo.caseState}) {
-            case 1:
-                td3.text("新建");
-                break;
-            case 2:
-                td3.text("已查看");
-                break;
-            case 3:
-                td3.text("处理中");
-                break;
-            case 4:
-                td3.text("处理完毕");
-                break;
-            case 5:
-                td3.text("关闭案件");
-                break;
-        }
-        var td4 = $("<td/>").css("width", "240px").text("${caseInfo.company.companyName}");
-        var td5 = $("<td/>").text("${caseInfo.rtList}");
-        var updata = $("<button/>").addClass("btn btn-link").text("修改");
-        var look = $("<button/>").addClass("btn btn-link").text("查看");
-        var td6 = $("<td/>").css("width", "130px");
-        td6.append(updata).append(look);
-        tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6);
-        look.click(function () {
-            $("#reprotInfoPanel iframe").attr("src", "admin/caseBack/showCaseById.do?rcId=${caseInfo.rcId}");
+        window.look = function (rcId, caseState, ele) {
+            var url = "admin/caseBack/updateCaseState.do";
+            var data = "rcId=" + rcId + "&state=" + 2
+                    + "&sendToPlatform=0&companyId=${user.userCompany.companyId}";
+            if (caseState < 2 && "${user.userType==1}") {
+                $.post(url, data, function (res, status) {
+                    if (status == "success") {
+                        if (res == "success") {
+                            $(ele).parent().prev().prev().prev().text("已查看")
+                        }
+                    }
+                });
+            }
+            $("#reprotInfoPanel iframe").attr("src", "admin/caseBack/showCaseById.do?rcId=" + rcId);
             $("#reprotInfoPanel").modal('show');
-        });
-        updata.bind("click", function () {
-            $("tbody tr").removeClass("danger");
-            $(this).parent().parent().addClass("danger");
-            $("#updataReportStatus").modal('show');
-            caseId = "${caseInfo.rcId}";
-            ele.status.get(0).value = "${caseInfo.caseState}";
-            if ("${user.userCompany.companyId}" == "1") {
-                if ("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}") {
-                    $("#updataReportStatus p").removeClass("hidden");
-                    ele.sendToPlatform.get(0).checked = true;
-                    ele.updataBtn.removeAttr("disabled");
-                } else {
-                    $("#updataReportStatus p").addClass("hidden");
-                    ele.sendToPlatform.get(0).checked = false;
-                    ele.updataBtn.attr("disabled", true);
-                }
-            } else {
-                if ("${user.userCompany.companyId}" == "${caseInfo.currentHandler.companyId}") {
-                    $("#updataReportStatus p").addClass("hidden");
-                    ele.sendToPlatform.get(0).checked = false;
-                    ele.updataBtn.removeAttr("disabled");
-                } else {
-                    $("#updataReportStatus p").removeClass("hidden");
-                    ele.sendToPlatform.get(0).checked = true;
-                    ele.updataBtn.attr("disabled", true);
-                }
-            }
-        });
+        };
 
-        if ("${user.userCompany.companyId}" != "${caseInfo.currentHandler.companyId}") {
-            if ("${user.userCompany.companyId}" == "1") {
-                updata.unbind("click").click(function () {
-                    Modal.alert({msg: '案件未交由平台方处理，您目前只能查看'});
-                });
-            } else {
-                updata.unbind("click").click(function () {
-                    Modal.alert({msg: '案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
-                });
+        window.upState = function (rcId, e, currentCompanyId) {
+            caseId = rcId;
+            if ("${user.userCompany.companyId}" != currentCompanyId) {
+                if ("${user.userCompany.companyId}" == "1") {
+                    return Modal.alert({msg: '案件未交由平台方处理，您目前只能查看'});
+                } else {
+                    return Modal.alert({msg: '案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
+                }
             }
-        }
-        $("tbody").append(tr);
-        </c:forEach>
-        $(window.parent.document).find(".badge").text("" + i);
+
+            $("tbody tr").removeClass("danger");
+            $(e).parent().parent().addClass("danger");
+            $("#updataReportStatus").modal('show');
+            var tempTxt = $.trim($(e).parent().prev().prev().prev().text());
+            for (var i = 0; i < ele.status.get(0).options.length; i++) {
+                if (ele.status.get(0).options[i].text == tempTxt) {
+                    ele.status.get(0).options[i].selected = true;
+                }
+            }
+            if ("${user.userCompany.companyId}" == "1") {
+                if ("${user.userCompany.companyId}" == currentCompanyId) {
+                    $("#updataReportStatus p").removeClass("hidden");
+                    ele.sendToPlatform.get(0).checked = true;
+                    ele.updataBtn.removeAttr("disabled");
+                } else {
+                    $("#updataReportStatus p").addClass("hidden");
+                    ele.sendToPlatform.get(0).checked = false;
+                    ele.updataBtn.attr("disabled", true);
+                }
+            } else {
+                if ("${user.userCompany.companyId}" == currentCompanyId) {
+                    $("#updataReportStatus p").addClass("hidden");
+                    ele.sendToPlatform.get(0).checked = false;
+                    ele.updataBtn.removeAttr("disabled");
+                } else {
+                    $("#updataReportStatus p").removeClass("hidden");
+                    ele.sendToPlatform.get(0).checked = true;
+                    ele.updataBtn.attr("disabled", true);
+                }
+            }
+        };
+
+//        $(window.parent.document).find(".badge").text("" + i);
 
         $("#updataReportStatus .close").click(function () {
             $("tbody tr").removeClass("danger");
@@ -354,9 +374,11 @@
             }
             var data = "rcId=" + caseId + "&state=" + ele.status.find("option:selected").val()
                     + "&sendToPlatform=" + sendToPlatform + "&companyId=" + "${user.userCompany.companyId}";
+            console.log(data);
             $.post(url, data, function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
+                        $("#updataReportStatus").modal('hide');
                         Modal.alert({msg: "操作成功!"})
                                 .on(function (e) {
                                     location.href = "admin/caseBack/showCaseByCompany.do";
@@ -384,6 +406,43 @@
                 }
             });
         });
+
+        var dateBtn = {
+            oneMounth: $("#oneMounth"),
+            threeMounth: $("#threeMounth"),
+            oneYear: $("#oneYear")
+        }
+        dateBtn.oneMounth.click(function () {
+            selectByDate(1);
+        });
+        dateBtn.threeMounth.click(function () {
+            selectByDate(3);
+        });
+        dateBtn.oneYear.click(function () {
+            var cDate = new Date();
+            var year = cDate.getFullYear();
+            var mounth = cDate.getMonth() + 1;
+            var day = cDate.getDate();
+            var cTime = year + "-" + (mounth < 10 ? "0" + mounth : mounth) + "-" + (day < 10 ? "0" + day : day);
+            var nTime = (year - 1) + "-" + (mounth < 10 ? "0" + mounth : mounth) + "-" + (day < 10 ? "0" + day : day);
+            search.startTime.val(nTime);
+            search.endTime.val(cTime);
+            $("#selectForm").submit();
+        });
+
+        function selectByDate(n) {
+            var cDate = new Date();
+            var year = cDate.getFullYear();
+            var mounth = cDate.getMonth() + 1;
+            var day = cDate.getDate();
+            var cTime = year + "-" + (mounth < 10 ? "0" + mounth : mounth) + "-" + (day < 10 ? "0" + day : day);
+            var nTime = year + "-" + (mounth - n < 10 ? "0" + (mounth - n) : mounth - n) + "-" + (day < 10 ? "0" + day : day);
+            search.startTime.val(nTime);
+            search.endTime.val(cTime);
+            $("#selectForm").submit();
+        }
+
+        return look, upState;
     });
 </script>
 

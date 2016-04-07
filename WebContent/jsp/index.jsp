@@ -85,6 +85,10 @@
 			#row-right {
 				padding: 0 15px;
 			}
+
+			.glyphicon-remove{
+				color: #C12E2A;
+			}
 			
 		</style>
 	</head>
@@ -120,6 +124,7 @@
 						</div>
 						<form id="sendCompany" action="showReportType.do" method="post" class="form-horizontal">
 							<div class="input-group form-group">
+								<input type="text" name="companyId" hidden value="-1" />
 								<input type="text" name="companyName" autocomplete="off" class="form-control" placeholder="请选择或输入被举报的企业" />
 								<span class="glyphicon form-control-feedback" aria-hidden="true"></span> 
 								<ul id="companyData" class="dropdown-menu"></ul>

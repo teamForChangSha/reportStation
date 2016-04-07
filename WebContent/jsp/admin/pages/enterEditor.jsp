@@ -32,14 +32,17 @@
         .container {
             padding: 30px 0;
         }
+
         .form-horizontal .form-group {
             margin-right: 0;
             margin-left: 0;
         }
-        .tableTh_tSeach_list{
+
+        .tableTh_tSeach_list {
             background: #595d60;
             color: white;
         }
+
         .table-hover > tbody > tr:hover {
             background-color: inherit;
         }
@@ -111,9 +114,11 @@
 
                 <div class="col-sm-3">
                     <div class="input-group form-group">
-                        <input id="industry" type="text" value="${company.industries}" name="company.industries" class="form-control"/>
+                        <input id="industry" type="text" value="${company.industries}" name="company.industries"
+                               class="form-control"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" data-toggle="modal" data-target="#selectIndustry">
+                            <button class="btn btn-default" type="button" data-toggle="modal"
+                                    data-target="#selectIndustry">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </button>
                         </span>
@@ -157,6 +162,46 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-2 control-label">通过邮件接受举报：</label>
+
+                <div class="col-sm-1 checkbox" style="padding-right: 0px;width: 11%">
+                    <label>
+                        <input value="true" id="isSend" type="checkbox" name="companyOther.isSend"
+                               style="margin-left: -17px"/>是否接收
+                    </label>
+                </div>
+                <div class="col-sm-2" style="width: 14%">
+                    <select name="companyOther.cycle" class="form-control">
+                        <option value="1">单个接收</option>
+                        <option value="2">每周接收一次</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">邮箱地址：</label>
+
+                <div class="col-sm-3">
+                    <input id="email1" type="text" value="<%--${company.otherInfo.email-1}--%>"
+                           name="companyOther.email-1" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-3">
+                    <input id="email2" type="text" value="<%--${company.otherInfo.email-2}--%>"
+                           name="companyOther.email-2" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+
+                <div class="col-sm-3">
+                    <input id="email3" type="text" value="<%--${company.otherInfo.email-3}--%>"
+                           name="companyOther.email-3" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label">最后修改时间：</label>
 
                 <div class="col-sm-3">
@@ -173,7 +218,8 @@
 </div>
 
 <!--选择行业对话框-->
-<div class="modal fade bs-example-modal-lg" id="selectIndustry" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade bs-example-modal-lg" id="selectIndustry" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -359,16 +405,33 @@
         if (imgUrl != "") {
             $("img").attr("src", imgUrl);
         }
+
         /* 设置logo的缩略图 */
         $("input[name=logo]").change(function () {
             if (window.File && window.FileList && window.FileReader) {
                 var oFReader = new FileReader();
                 oFReader.onload = function (file) {
+                    var image = new Image();
+                    image.src = file.target.result;
+                    var h = image.height;
+                    var w = image.width;
+                    var fileSize = $("input[name=logo]").get(0).files[0].size / 1024;
+                    if (h > 200 || w > 200 || fileSize > 1024) {
+                        $("input[name=logo]").val("");
+                        return Modal.alert({msg: "图片宽高不能超过200像素，大小不能超过1M"});
+                    }
                     $("img").attr("src", file.target.result);
                 };
                 oFReader.readAsDataURL($("input[name=logo]").get(0).files[0]);
             }
         });
+
+        var emails = {
+            one: $("#email1"),
+            two: $("#email2"),
+            three: $("#email3")
+        }
+
         /* 更新企业信息 */
         $("input[name=updata]").click(function () {
             if ($("#type").find("option:selected").val() == "0") {
@@ -377,12 +440,17 @@
                 });
                 return;
             }
+            if ($("#isSend").is(':checked')) {
+                if (!regEmail(emails.one) || !regEmail(emails.two) || !regEmail(emails.three)) {
+                    return Modal.alert({msg: "你选择了通过邮件接收举报，请至少填写一个有效邮箱地址"});
+                }
+            }
             $("#enterInfo").submit();
         });
 
         $("td a").click(function () {
             $("#selectIndustry").modal('hide');
-           $("#industry").val($(this).text());
+            $("#industry").val($(this).text());
         });
 
         var masg = "${msg}";
@@ -392,6 +460,29 @@
             }).on(function (e) {
                 location.href = "admin/companyBack/getOwnerCompanyInfo.do";
             });
+        }
+
+        /**
+         * 判断是否为空
+         *
+         * @param str
+         * @returns {Boolean}
+         */
+        function isEmty(str) {
+            str = $.trim(str);
+            if (str == null || str.length <= 0 || str == "") {
+                return true;
+            }
+            return false;
+        }
+
+        var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+
+        function regEmail(ele) {
+            if (!emailReg.test(ele.val())) {
+                return false;
+            }
+            return true;
         }
     });
 </script>

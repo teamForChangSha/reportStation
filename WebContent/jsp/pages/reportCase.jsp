@@ -245,36 +245,32 @@
                     <label class="col-sm-4 control-label">公司名称：</label>
 
                     <div class="col-sm-8">
-                        <span class="form-info"><strong>${companyBranch.owner.companyName}
-                            / ${companyBranch.branchName }</strong></span>
+                        <span class="form-info"><strong>${companyBranch.owner.companyName}</strong></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <%--<div class="form-group">
                     <label class="col-sm-4 control-label">公司地址：</label>
 
                     <div class="col-sm-8">
                         <span class="form-info">${companyBranch.address }</span>
                     </div>
-                </div>
+                </div>--%>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">公司所在省份：</label>
 
-                    <div class="col-sm-8">
-                        <span class="form-info">${companyBranch.province.name }</span>
+                    <div class="col-sm-4">
+                        <select name="province" class="form-control">
+                            <option value="-1">--请选择省份--</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">公司所在城市：</label>
 
-                    <div class="col-sm-8">
-                        <span class="form-info">${companyBranch.city.name }</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">所在地邮编：</label>
-
-                    <div class="col-sm-8">
-                        <span class="form-info">${companyBranch.postCode }</span>
+                    <div class="col-sm-4">
+                        <select name="city" class="form-control">
+                            <option value="-1">--请选择城市--</option>
+                        </select>
                     </div>
                 </div>
             </div>

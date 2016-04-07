@@ -6,14 +6,12 @@
             $("#companyData").find("li").remove();
             $.each(JSON.parse(res), function (i, company) {
                 var li = $("<li/>");
-                var a = $("<a/>").attr("data-id", company.companyId).text(
-                    company.companyName);
+                var a = $("<a/>").text(company.companyName);
                 a.click(function () {
                     hiddenEle();
                     leftEle.companyName.next().next().hide();
-                    leftEle.companyName.val(this.innerHTML);
-                    leftEle.companyName
-                        .attr("data-id", $(this).attr("data-id"));
+                    leftEle.companyName.val(company.companyName);
+                    leftEle.companyId.val(company.companyId);
                 });
                 li.append(a);
                 $("#companyData").append(li);
@@ -26,6 +24,7 @@
         city: $("select[name=city]"),
         institutions: $("select[name=branchId]"),
         companyName: $("input[name=companyName]"),
+        companyId: $("input[name=companyId]"),
         getArea: $("#getArea"),
         next: $("#next"),
         sendCompany: $("#sendCompany")
@@ -122,8 +121,10 @@
      * 获取企业下的机构
      */
     leftEle.getArea.click(function () {
-        showErrorIcon(leftEle.companyName)
-        initProvince();
+        if (!showErrorIcon(leftEle.companyName)) {
+            //initProvince();
+            leftEle.sendCompany.submit();
+        }
     });
 
     leftEle.sendCompany.keydown(function (e) {
@@ -169,7 +170,7 @@
     });
 
     leftEle.companyName.keyup(function () {
-        leftEle.companyName.removeAttr("data-id");
+        leftEle.companyId.val("-1");
         hiddenEle();
         AutoComplete();
     });
@@ -326,7 +327,7 @@
     };
 
     $("#forgetPwd").click(function () {
-        Modal.alert({msg:'请联系管理员重置密码'});
+        Modal.alert({msg: '请联系管理员重置密码'});
     });
 
     /**
@@ -345,6 +346,7 @@
      * 显示错误icon
      */
     function showErrorIcon(ele) {
+        console.log(ele.val());
         if (isEmty(ele.val())) {
             ele.next().addClass("glyphicon-remove");
             return true;

@@ -48,6 +48,9 @@ $(function () {
         getCode: $("#getCode")
     };
 
+    var province = $("select[name=province]");
+    var city = $("select[name=city]");
+
     /**
      * 所有问题面板
      */
@@ -210,6 +213,10 @@ $(function () {
                 return Modal.alert({msg: "匿名请提供一种联系方式!"});
             }
         }
+        if (validationCompanyAddr()) {
+            $("html,body").animate({scrollTop: $("select[name=province]").offset().top - 120}, 500);
+            return Modal.alert({msg: "请选择该公司所在的省和市!"});
+        }
         if (!validationQuest()) {
             return;
         }
@@ -317,8 +324,10 @@ $(function () {
             + quest.isAnonymous.filter(':checked').val();
         var questions = "answers=" + setAnswers();
         var accessCode = "accessCode=" + quest.pass.val();
+        var province = "province=" + province.find("option:selected").text();
+        var city = "city=" + city.find("option:selected").text();
         var data = reporter + "&" + contactWay + "&" + verifyCode + "&"
-            + anonymous + "&" + questions + "&" + trackingNo + "&"
+            + anonymous + "&" + province + "&" + city + "&" + questions + "&" + trackingNo + "&"
             + accessCode + "&" + rtList;
         $.post(url, data, function (res, status) {
             if (status == "success") {
@@ -504,6 +513,23 @@ $(function () {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 验证被举报公司的所在省市
+     */
+    hiddenErrorIcon(province);
+    hiddenErrorIcon(city);
+    function validationCompanyAddr() {
+        if (province.find("option:selected").val() == "-1") {
+            province.parent().addClass("has-error");
+            return true;
+        }
+        if (city.find("option:selected").val() == "-1") {
+            city.parent().addClass("has-error");
+            return true;
+        }
+        return false;
     }
 
     /**
