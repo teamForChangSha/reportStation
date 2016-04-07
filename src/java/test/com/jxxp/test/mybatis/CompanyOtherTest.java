@@ -43,6 +43,8 @@ public class CompanyOtherTest {
 		CompanyOther other2 = companyOtherMapper.getByCompanyId(company.getCompanyId());
 		assertTrue(TestUtil.isEqual(other, other2));
 
+		companyOtherMapper.deleteById(company.getCompanyId());
+		companyMapper.deleteById(company.getCompanyId());
 	}
 
 	@Test
@@ -55,5 +57,8 @@ public class CompanyOtherTest {
 		other2.setContacts1("xiaogu");
 		CompanyOther other3 = companyOtherMapper.getByCompanyId(company.getCompanyId());
 		assertTrue(!TestUtil.isEqual(other, other3));
+
+		companyOtherMapper.deleteById(company.getCompanyId());
+		companyMapper.deleteById(company.getCompanyId());
 	}
 }
