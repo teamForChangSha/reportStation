@@ -15,7 +15,7 @@ import com.jxxp.service.OprationLogService;
 public class OprationLogServiceImpl implements OprationLogService {
 	@Resource
 	private OprationLogMapper oprationLogMapper;
-	
+
 	@Override
 	public boolean addLog(OprationLog oprationLog) {
 		// TODO Auto-generated method stub
@@ -24,9 +24,18 @@ public class OprationLogServiceImpl implements OprationLogService {
 
 	@Override
 	public List<OprationLog> getLogByParams(Map<String, Object> params) {
-		String logDate = (String) params.get("logDate");
-		Long oprator = (Long) params.get("oprator");
-		return oprationLogMapper.getLogByParams(logDate, oprator);
+		String logDate = null;
+		Long oprator = null;
+		String oprationKey = null;
+		if (params.get("logDate") != null) {
+			logDate = (String) params.get("logDate");
+		}
+		if (params.get("oprator") != null) {
+			oprator = (Long) params.get("oprator");
+		}
+		if (params.get("oprationKey") != null) {
+			oprationKey = (String) params.get("oprationKey");
+		}
+		return oprationLogMapper.getLogByParams(logDate, oprator, oprationKey);
 	}
-
 }

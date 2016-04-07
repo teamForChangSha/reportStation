@@ -11,7 +11,7 @@ public interface OprationLogMapper {
 	int insert(OprationLog record);
 
 	List<OprationLog> getLogByParams(@Param("logDate") String logDate,
-			@Param("oprator") Long oprator);
+			@Param("oprator") Long oprator, @Param("oprationKey") String oprationKey);
 
 	int deleteById(Long logId);
 

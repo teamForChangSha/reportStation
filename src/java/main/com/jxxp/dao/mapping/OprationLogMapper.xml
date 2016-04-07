@@ -28,6 +28,9 @@
    <if test="logDate!=null and logDate!=''">
    and log_date like concat(concat('%',#{logDate},'%'))
    </if>
+   <if test="oprationKey!=null and oprationKey!=''">
+   and opration like concat(concat('%',#{oprationKey},'%'))
+   </if>
    order by log_date desc
   </select>
   
