@@ -116,6 +116,7 @@
                            placeholder="可查询问题答案关键字">
                 </div>
                 <input type="button" id="submitSelect" class="btn btn-default" value="搜索"/>
+                <input type="button" id="exportBtn" class="btn btn-default" value="导出"/>
             </div>
         </div>
     </form>
@@ -124,6 +125,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr class="table-info">
+                    <th>选择</th>
                     <th>举报人</th>
                     <th>举报时间</th>
                     <th>举报状态</th>
@@ -135,6 +137,9 @@
                 <tbody>
                 <c:forEach items="${caseList}" var="caseInfo" varStatus="i">
                     <tr>
+                        <td style="width: 50px">
+                            <input type="checkbox" value="true" data-id="${caseInfo.rcId}"/>
+                        </td>
                         <td style="width: 60px">
                             <c:if test='${caseInfo.reporter.name==null}'>匿名</c:if>
                             <c:if test='${caseInfo.reporter.name!=null}'>${caseInfo.reporter.name}</c:if>
@@ -353,6 +358,19 @@
                 }
             }
         };
+
+        /**
+         * 导出操作
+         */
+        $("#exportBtn").click(function () {
+           $('tbody tr td:nth-child(1) input').each(function () {
+               if
+               if($(this).filter(':checked').val()){
+                   console.log($(this).attr("data-id"));
+                   //TODO
+               }
+           });
+        });
 
 //        $(window.parent.document).find(".badge").text("" + i);
 

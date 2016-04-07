@@ -164,41 +164,56 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">通过邮件接受举报：</label>
 
-                <div class="col-sm-1 checkbox" style="padding-right: 0px;width: 11%">
+                <div class="col-sm-2 checkbox">
                     <label>
-                        <input value="true" id="isSend" type="checkbox" name="companyOther.isSend"
-                               style="margin-left: -17px"/>是否接收
+                        <input value="true" id="isSend" type="checkbox" name="companyOther.isSend"/>是否接收
                     </label>
                 </div>
-                <div class="col-sm-2" style="width: 14%">
-                    <select name="companyOther.cycle" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">接收方式：</label>
+
+                <div class="col-sm-2">
+                    <select id="sendType" name="companyOther.sendType" class="form-control">
                         <option value="1">单个接收</option>
                         <option value="2">每周接收一次</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">邮箱地址：</label>
+                <label class="col-sm-2 control-label">邮箱及姓名：</label>
 
+                <div class="col-sm-2">
+                    <input id="contacts1" type="text" value="${company.otherInfo.contacts1}"
+                           name="companyOther.contacts1" class="form-control" placeholder="联系人姓名"/>
+                </div>
                 <div class="col-sm-3">
-                    <input id="email1" type="text" value="<%--${company.otherInfo.email-1}--%>"
-                           name="companyOther.email-1" class="form-control"/>
+                    <input id="email1" type="text" value="${company.otherInfo.email1}"
+                           name="companyOther.email1" class="form-control" placeholder="联系人邮箱"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label"></label>
 
+                <div class="col-sm-2">
+                    <input id="contacts2" type="text" value="${company.otherInfo.contacts2}"
+                           name="companyOther.contacts2" class="form-control" placeholder="联系人姓名"/>
+                </div>
                 <div class="col-sm-3">
-                    <input id="email2" type="text" value="<%--${company.otherInfo.email-2}--%>"
-                           name="companyOther.email-2" class="form-control"/>
+                    <input id="email2" type="text" value="${company.otherInfo.email2}"
+                           name="companyOther.email2" class="form-control" placeholder="联系人邮箱"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label"></label>
 
+                <div class="col-sm-2">
+                    <input id="contacts3" type="text" value="${company.otherInfo.contacts3}"
+                           name="companyOther.contacts3" class="form-control" placeholder="联系人姓名"/>
+                </div>
                 <div class="col-sm-3">
-                    <input id="email3" type="text" value="<%--${company.otherInfo.email-3}--%>"
-                           name="companyOther.email-3" class="form-control"/>
+                    <input id="email3" type="text" value="${company.otherInfo.email3}"
+                           name="companyOther.email3" class="form-control" placeholder="联系人邮箱"/>
                 </div>
             </div>
             <div class="form-group">
@@ -210,7 +225,7 @@
                     </p>
                 </div>
                 <div class="col-sm-2 text-right">
-                    <input type="button" name="updata" class="btn btn-warning form-control" value="修改"/>
+                    <input type="button" id="updata" class="btn btn-warning form-control" value="修改"/>
                 </div>
             </div>
         </form>
@@ -405,6 +420,9 @@
         if (imgUrl != "") {
             $("img").attr("src", imgUrl);
         }
+        $("#isSend").get(0).checked = "${company.otherInfo.isSend}"
+        $("#sendType").get(0).value ="${company.otherInfo.sendType}";
+
 
         /* 设置logo的缩略图 */
         $("input[name=logo]").change(function () {
@@ -426,23 +444,23 @@
             }
         });
 
-        var emails = {
-            one: $("#email1"),
-            two: $("#email2"),
-            three: $("#email3")
-        }
-
         /* 更新企业信息 */
-        $("input[name=updata]").click(function () {
+        $("#updata").click(function () {
             if ($("#type").find("option:selected").val() == "0") {
-                Modal.alert({
-                    msg: '请选择企业类型',
-                });
-                return;
+                return Modal.alert({msg: '请选择企业类型'});
             }
             if ($("#isSend").is(':checked')) {
-                if (!regEmail(emails.one) || !regEmail(emails.two) || !regEmail(emails.three)) {
-                    return Modal.alert({msg: "你选择了通过邮件接收举报，请至少填写一个有效邮箱地址"});
+                for (var i = 1; i < 4; i++) {
+                    if (!isEmty($("#contacts" + i))) {
+                        if (!regEmail($("#email" + i))) {
+                            return Modal.alert({msg: "你选择了通过邮件接收举报，请至少填写一个有效邮箱地址,及对应的用户姓名!"});
+                        }
+                    }
+                }
+            } else {
+                for (var i = 1; i < 4; i++) {
+                    $("#contacts" + i).val("");
+                    $("#email" + i).val("");
                 }
             }
             $("#enterInfo").submit();
@@ -469,7 +487,8 @@
          * @returns {Boolean}
          */
         function isEmty(str) {
-            str = $.trim(str);
+            str = $.trim(str.val());
+            console.log(str);
             if (str == null || str.length <= 0 || str == "") {
                 return true;
             }
@@ -479,6 +498,7 @@
         var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
 
         function regEmail(ele) {
+            console.log(ele.val());
             if (!emailReg.test(ele.val())) {
                 return false;
             }

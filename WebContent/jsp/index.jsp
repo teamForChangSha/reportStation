@@ -91,6 +91,11 @@
 			}
 			
 		</style>
+		<script>
+			//设置当前窗口跳出框架单独显示
+			if (window != top)
+				top.location.href = location.href;
+		</script>
 	</head>
 
 	<body>

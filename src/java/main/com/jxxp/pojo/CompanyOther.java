@@ -75,6 +75,7 @@ public class CompanyOther {
 	 */
 	private int sendType;
 
+
 	public long getCompanyId() {
 		return companyId;
 	}

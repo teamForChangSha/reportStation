@@ -28,24 +28,6 @@
     </style>
 </head>
 <div class="container">
-    <div class="row" style="margin-top: 30px;">
-        <div class="col-sm-3">
-            <h1>
-                <small>当前账号状态：
-                    <c:if test="${user.userState=='1'}">正常</c:if>
-                    <c:if test="${user.userState=='2'}">注销</c:if>
-                    <c:if test="${user.userState=='3'}">待审核</c:if>
-                    <c:if test="${user.userState=='4'}">停用</c:if>
-                </small>
-            </h1>
-        </div>
-        <div class="col-sm-3">
-            <h1>
-                <small>上次登录时间：<fmt:formatDate value="${user.stateChanged}" type="date"
-                                              pattern="yyyy年MM月dd日 HH:mm:ss"/></small>
-            </h1>
-        </div>
-    </div>
     <div class="row">
         <div class="col-sm-8"><h1><small>最近案件简报</small></h1></div>
         <div class="col-sm-10">

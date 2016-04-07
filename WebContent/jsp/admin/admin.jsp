@@ -17,7 +17,7 @@
     <meta http-equiv="cache-control" content="no-cache">
     <title>后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <link href="jsp/css/style.css" rel="stylesheet">
     <style type="text/css">
         .navbar-default {
@@ -63,10 +63,22 @@
         </div>
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown mtop5">
+                <a>上次登录：<fmt:formatDate value="${user.stateChanged}" type="date"
+                                        pattern="yyyy年MM月dd日 HH:mm:ss"/></a>
+            </li>
+            <li class="dropdown mtop5">
                 <a id="date"></a>
             </li>
             <li class="dropdown mtop5">
                 <a class="userName">您好：${user.userName}</a>
+            </li>
+            <li class="dropdown mtop5">
+                <a class="userName">账户状态：
+                    <c:if test="${user.userState=='1'}">正常</c:if>
+                    <c:if test="${user.userState=='2'}">注销</c:if>
+                    <c:if test="${user.userState=='3'}">待审核</c:if>
+                    <c:if test="${user.userState=='4'}">停用</c:if>
+                </a>
             </li>
             <li class="dropdown mtop5">
                 <a href="admin/user/loginOut.do"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>退出</a>
@@ -112,7 +124,8 @@
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li><a class="" href="admin/caseBack/showCaseByCompany.do" target="MainIframe">所有举报<span class="badge"></span></a>
+                        <li><a class="" href="admin/caseBack/showCaseByCompany.do" target="MainIframe">所有举报<span
+                                class="badge"></span></a>
                         </li>
                         <li><a class="" href="javascript:;" target="MainIframe">举报统计</a>
                         </li>
@@ -190,7 +203,7 @@
             var minute = time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();
             var second = time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds();
             var text = time.getFullYear() + "年" + month + "月" + day + "日 " + hour + ":" + minute + ":" + second;
-            $("#date").text(text);
+            $("#date").text("当前时间：" + text);
         };
 
         var ids = {

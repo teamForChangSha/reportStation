@@ -140,7 +140,7 @@ public class UserController {
 		if (saveOprationLog("注销", user)) {
 			log.debug("用户操作日志记录成功！");
 		}
-		return "redirect:/admin.do";
+		return "redirect:/";
 	}
 
 	/*
