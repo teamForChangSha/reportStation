@@ -147,20 +147,36 @@ public class ReportStationController {
 	@RequestMapping("/showReportType.do")
 	public String showReportType(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		long branchId = 0;
-
-		String bId = request.getParameter("branchId");
-
-		if (bId != null) {
-			branchId = Long.parseLong(bId);
+//		long branchId = 0;
+//		String bId = request.getParameter("branchId");
+//
+//		if (bId != null) {
+//			branchId = Long.parseLong(bId);
+//		}
+//
+//		CompanyBranch companyBranch = companyService.getCompanyBranchById(branchId);
+//
+//		HttpSession session = request.getSession();
+//		session.setAttribute("companyBranch", companyBranch);
+		
+		long companyId = 0;
+		String companyName = request.getParameter("companyName");
+		String strId = request.getParameter("companyName");
+		Company company = null;
+		
+		if(strId != null && strId.trim().length() > 0) {
+			if(strId == "-1") {
+				company = new Company();
+				company.setCompanyName(companyName);
+				companyService.saveCompanyInfo(company);
+			} else {
+				companyId = Long.parseLong(strId);
+				company = companyService.getCompanyById(companyId);
+			}
 		}
+		request.getSession().setAttribute("company", company);
 
-		CompanyBranch companyBranch = companyService.getCompanyBranchById(branchId);
-
-		HttpSession session = request.getSession();
-		session.setAttribute("companyBranch", companyBranch);
-
-		List<ReportType> dataList = companyService.getCompanyReportType(companyBranch.getOwner());
+		List<ReportType> dataList = companyService.getCompanyReportType(company);
 
 		modelMap.put("reportTypeList", dataList);
 
