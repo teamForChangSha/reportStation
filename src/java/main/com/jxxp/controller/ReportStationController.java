@@ -161,7 +161,7 @@ public class ReportStationController {
 		
 		long companyId = 0;
 		String companyName = request.getParameter("companyName");
-		String strId = request.getParameter("companyName");
+		String strId = request.getParameter("companyId");
 		Company company = null;
 		
 		if(strId != null && strId.trim().length() > 0) {
