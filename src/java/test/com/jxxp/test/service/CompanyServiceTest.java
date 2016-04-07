@@ -373,6 +373,9 @@ public class CompanyServiceTest {
 		other.setLogoPath("upload/testImg");
 		other.setLogoWidth(300);
 		other.setServiceProtocol("http");
+		other.setIsSend(0);
+		other.setContacts1("guchunxia");
+		other.setEmail1("xx@.com");
 		return other;
 	}
 }

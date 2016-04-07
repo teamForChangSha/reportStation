@@ -35,9 +35,40 @@ public class CompanyOther {
 	private int logoWidth;
 
 	/**
+	 * 是否接受举报邮件（0：不接收；1：接收）
+	 */
+	private int isSend;
+
+	/**
 	 * logo的高度，预留
 	 */
 	private int logoHeight;
+
+	/**
+	 * 第一个联系人
+	 */
+	private String contacts1;
+	/**
+	 * 第一联系人的邮件
+	 */
+	private String email1;
+	/**
+	 * 第二个联系人
+	 */
+	private String contacts2;
+	/**
+	 * 第二联系人的邮件
+	 */
+	private String email2;
+
+	/**
+	 * 第三个联系人
+	 */
+	private String contacts3;
+	/**
+	 * 第三个联系人的邮件
+	 */
+	private String email3;
 
 	public long getCompanyId() {
 		return companyId;
@@ -93,5 +124,61 @@ public class CompanyOther {
 
 	public void setLogoHeight(int logoHeight) {
 		this.logoHeight = logoHeight;
+	}
+
+	public String getContacts1() {
+		return contacts1;
+	}
+
+	public void setContacts1(String contacts1) {
+		this.contacts1 = contacts1;
+	}
+
+	public String getEmail1() {
+		return email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public String getContacts2() {
+		return contacts2;
+	}
+
+	public void setContacts2(String contacts2) {
+		this.contacts2 = contacts2;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
+	public String getContacts3() {
+		return contacts3;
+	}
+
+	public void setContacts3(String contacts3) {
+		this.contacts3 = contacts3;
+	}
+
+	public String getEmail3() {
+		return email3;
+	}
+
+	public void setEmail3(String email3) {
+		this.email3 = email3;
+	}
+
+	public int getIsSend() {
+		return isSend;
+	}
+
+	public void setIsSend(int isSend) {
+		this.isSend = isSend;
 	}
 }
