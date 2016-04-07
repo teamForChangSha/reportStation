@@ -70,6 +70,11 @@ public class CompanyOther {
 	 */
 	private String email3;
 
+	/**
+	 * 发邮件的形式：收到发送/每周发送
+	 */
+	private int sendType;
+
 	public long getCompanyId() {
 		return companyId;
 	}
@@ -180,5 +185,13 @@ public class CompanyOther {
 
 	public void setIsSend(int isSend) {
 		this.isSend = isSend;
+	}
+
+	public int getSendType() {
+		return sendType;
+	}
+
+	public void setSendType(int sendType) {
+		this.sendType = sendType;
 	}
 }
