@@ -2,6 +2,7 @@ package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -244,8 +245,9 @@ public class CaseBackController {
 		// map中的存放的是搜索关键词语，没有key则查询所有，故map不为空，key可以为空。
 		Map<String, String> map = new HashMap<String, String>();
 		User user = (User) request.getSession().getAttribute("user");
-		List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+		List<ReportCase> caseList = new ArrayList<ReportCase>();
+		caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
 		modelMap.put("caseList", caseList);
-		return null;
+		return "jsp/admin/default";
 	}
 }
