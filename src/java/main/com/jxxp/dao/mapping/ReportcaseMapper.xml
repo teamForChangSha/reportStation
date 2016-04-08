@@ -71,6 +71,7 @@
      and b.quest_value like concat(concat('%',#{keyWord,jdbcType=VARCHAR},'%')) 
     </if>
      )
+    order by create_time desc,case_state asc
   </select>
   
   <select id="getCaseByReporter" resultMap="BaseResultMap">
