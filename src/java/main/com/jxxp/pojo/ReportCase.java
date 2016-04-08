@@ -88,9 +88,19 @@ public class ReportCase {
 	 * 本案件的状态改变列表
 	 */
 	private List<CaseChangeLog> changeList;
-	
+	/**
+	 * 联系方式
+	 */
 	private String contactWay;
-
+	/**
+	 * 省份
+	 */
+	private String province;
+	/**
+	 * 城市
+	 */
+	private String city;
+	
 	public long getRcId() {
 		return rcId;
 	}
@@ -219,5 +229,22 @@ public class ReportCase {
 		this.contactWay = contactWay;
 	}
 
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	
 	
 }
