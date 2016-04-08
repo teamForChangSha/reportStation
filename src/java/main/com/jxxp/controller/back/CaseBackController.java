@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.fastjson.JSON;
 import com.jxxp.controller.CaseController;
 import com.jxxp.pojo.CaseChangeLog;
 import com.jxxp.pojo.CaseComment;
@@ -246,17 +245,6 @@ public class CaseBackController {
 		Map<String, String> map = new HashMap<String, String>();
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
-
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out;
-		try {
-			out = response.getWriter();
-			String josnCaseList = JSON.toJSONString(caseList);
-			out.print(josnCaseList);
-			log.debug("caseList==:" + caseList);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		modelMap.put("caseList", caseList);
 		return null;
 	}

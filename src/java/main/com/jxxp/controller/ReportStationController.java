@@ -195,13 +195,15 @@ public class ReportStationController {
 			rtList = rtList.substring(0, rtList.length() - 1);
 		}
 
-		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
-				"companyBranch");
-		Map<String, QuestionInfo> dataMap = companyService.getCompanyQuestions(companyBranch
-				.getOwner());
+//		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
+//				"companyBranch");
+		Company company = (Company) request.getSession().getAttribute("company");
+		
+		
+		Map<String, QuestionInfo> dataMap = companyService.getCompanyQuestions(company);
 		// System.out.println("size======" +
 		// dataMap.get("quest").getQuestDesc());
-		String trackingNo = caseService.getNewTrackingNo(companyBranch.getOwner());
+		String trackingNo = caseService.getNewTrackingNo(company);
 		HttpSession session = request.getSession();
 		session.setAttribute("trackingNo", trackingNo);
 
