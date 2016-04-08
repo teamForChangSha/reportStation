@@ -84,20 +84,21 @@
         </h1>
         <div class="page-header"></div>
         <form action="admin/user/getUsersByParams.do" method="post" class="form-inline">
-                <div class="form-group">
-                    <label class="control-label">所属公司：</label>
+            <div class="form-group">
+                <label class="control-label">所属公司：</label>
 
-                        <div class="input-group">
-                            <input type="text" id="companyId" name="companyId" hidden />
-                            <input type="text" id="selectCompanyInput" class="form-control"
-                                   placeholder="请选择公司"/>
+                <div class="input-group">
+                    <input type="text" id="companyId" name="companyId" hidden/>
+                    <input type="text" id="selectCompanyInput" class="form-control"
+                           placeholder="请选择公司"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#getCompanyPanl">
+                                <button class="btn btn-default" type="button" data-toggle="modal"
+                                        data-target="#getCompanyPanl">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
-                        </div>
                 </div>
+            </div>
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
@@ -134,11 +135,69 @@
                     <th>用户名</th>
                     <th>所属公司</th>
                     <th>用户类型</th>
-                    <th>联系电话</th>
+                    <th>最近登录时间</th>
+                    <th>状态</th>
+                    <th>有效期</th>
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                <c:forEach items="${userList}" var="user" varStatus="i">
+                    <tr>
+                        <td>${user.userName}</td>
+                        <td>${user.userCompany.companyName}</td>
+                        <td>
+                            <c:if test="${user.userType==1}">试用</c:if>
+                            <c:if test="${user.userType==2}">公司用户</c:if>
+                            <c:if test="${user.userType==3}">系统操作员</c:if>
+                            <c:if test="${user.userType==4}">系统管理员</c:if>
+                        </td>
+                        <td>最近登录时间</td>
+                        <td>
+                            <c:if test="${user.userState==1}">新增</c:if>
+                            <c:if test="${user.userState==2}">有效</c:if>
+                            <c:if test="${user.userState==3}">停用</c:if>
+                            <c:if test="${user.userState==4}">注销</c:if>
+                        </td>
+                        <td>有效期至</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                    操作 <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <c:if test="${user.userState==4}">
+                                        <li class="disabled"><a href="javascript:;">重置密码</a></li>
+                                        <li class="disabled"><a href="javascript:;">修改信息</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="disabled"><a href="javascript:;">停用</a></li>
+                                        <li class="disabled"><a href="javascript:;">注销</a></li>
+                                    </c:if>
+                                    <c:if test="${user.userState!=4}">
+                                        <li><a href="javascript:;" onclick="resetPwd(${user.userId})">重置密码</a></li>
+                                        <li><a href="javascript:;"
+                                               onclick="updataInfo(${user.userId},${user.userState},'${user.userName}',${user.userType}
+                                                       ,${user.userCompany.companyId},'${user.userCompany.companyName}',${user.mobile},${user.workNo},'${user.remark}'
+                                                       ,'<fmt:formatDate value='${user.stateChanged}' type='date'
+                                                                         pattern='yyyy年MM月dd日 HH:mm:ss'/>')">修改信息</a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <c:if test="${user.userState==3}">
+                                            <li><a href="javascript:;" onclick="enableUser(${user.userId})">启用</a></li>
+                                        </c:if>
+                                        <c:if test="${user.userState!=3}">
+                                            <li><a href="javascript:;" onclick="disableUser(${user.userId})">停用</a></li>
+                                        </c:if>
+                                        <li><a href="javascript:;" onclick="unRegister(${user.userId})">注销</a></li>
+                                    </c:if>
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
             </table>
         </div>
         <div class="col-sm-10">
@@ -171,9 +230,10 @@
                         <div class="col-sm-8">
                             <select id="upType" name="userType" class="form-control">
                                 <option value="0">-请选择-</option>
-                                <option value="1">公司用户</option>
-                                <option value="2">平台管理员</option>
-                                <option value="3">超级管理员</option>
+                                <option value="1">试用</option>
+                                <option value="2">公司用户</option>
+                                <option value="3">系统操作员</option>
+                                <option value="4">系统管理员</option>
                             </select>
                         </div>
                     </div>
@@ -182,11 +242,12 @@
 
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input type="text" id="upCompany" name="userCompany.companyId" hidden />
+                                <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
                                 <input type="text" id="upCompanyInput" class="form-control"
                                        placeholder="请选择公司"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#getCompanyPanl">
+                                <button class="btn btn-default" type="button" data-toggle="modal"
+                                        data-target="#getCompanyPanl">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
@@ -270,9 +331,10 @@
                         <div class="col-sm-8">
                             <select id="addType" name="userType" class="form-control">
                                 <option value="0">-请选择-</option>
-                                <option value="1">公司用户</option>
-                                <option value="2">平台管理员</option>
-                                <option value="3">超级管理员</option>
+                                <option value="1">试用</option>
+                                <option value="2">公司用户</option>
+                                <option value="3">系统操作员</option>
+                                <option value="4">系统管理员</option>
                             </select>
                         </div>
                     </div>
@@ -281,11 +343,12 @@
 
                         <div class="col-sm-8">
                             <div class="input-group">
-                                <input type="text" id="addCompany" name="userCompany.companyId" hidden />
+                                <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
                                 <input type="text" id="addCompanyInput" class="form-control"
                                        placeholder="请选择公司"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#getCompanyPanl">
+                                <button class="btn btn-default" type="button" data-toggle="modal"
+                                        data-target="#getCompanyPanl">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
@@ -328,7 +391,8 @@
 </div>
 
 <!--选择企业对话框-->
-<div class="modal fade bs-example-modal-md" id="getCompanyPanl" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div class="modal fade bs-example-modal-md" id="getCompanyPanl" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
@@ -409,7 +473,7 @@
             addEle.addCompany.val("");
             addEle.addCompanyInput.val("");
             panle.addUser.removeClass("hidden");
-            $("html,body").animate({scrollTop:$("#addUser").offset().top},500);
+            $("html,body").animate({scrollTop: $("#addUser").offset().top}, 500);
         });
         search.stopAllUser.click(function () {
             Modal.confirm({
@@ -429,130 +493,88 @@
         upEle.upCompanyInput.keyup(function () {
             upEle.upCompanyInput.val("");
             upEle.upCompany.val("");
-            return Modal.alert({msg:'请选择企业'});
+            return Modal.alert({msg: '请选择企业'});
         });
         addEle.addCompanyInput.keyup(function () {
             addEle.addCompanyInput.val("");
             addEle.addCompany.val("");
-            return Modal.alert({msg:'请选择企业'});
+            return Modal.alert({msg: '请选择企业'});
         });
         search.selectCompanyInput.keyup(function () {
             search.selectCompanyInput.val("");
             search.companyId.val("");
             $("#stopAllUser").addClass("hidden");
-            return Modal.alert({msg:'请选择企业'});
+            return Modal.alert({msg: '请选择企业'});
         });
 
-        <c:forEach items="${userList}" var="user" varStatus = "i">
-        var tr = $("<tr/>");
-        var td1 = $("<td/>").text("${user.userName}");
-        var td2 = $("<td/>").text("${user.userCompany.companyName}");
-        var td3 = $("<td/>");
-        if ("${user.userType}" == "1") {
-            td3.text("公司用户");
-        } else if ("${user.userType}" == "2") {
-            td3.text("平台管理员");
-        } else {
-            td3.text("超级管理员");
-        }
-        var td4 = $("<td/>").text("${user.mobile}");
-        var td5 = $("<td/>");
-        var a1 = $("<a/>").attr("class", "btn btn-link").text("重置密码");
-        a1.bind("click", function () {
+        window.resetPwd = function (userId) {
             hiddenPanle();
             Modal.confirm({
                 msg: '重置后默认密码为"123456"',
             }).on(function (e) {
                 if (e) {
                     var url = "admin/user/resetUserPwd.do";
-                    var data = "userId=${user.userId}&userPwd=" + md5("123456");
+                    var data = "userId=" + userId + "&userPwd=" + md5("123456");
                     $.post(url, data, function (res, status) {
+                        console.log("=====");
                         alertMsg(res, status);
                     });
                 }
             });
-        });
-        var a2 = $("<a/>").attr("class", "btn btn-link").text("修改信息");
-        a2.bind("click", function () {
+        };
+
+        window.updataInfo = function (userId, userState, userName, userType, companyId, companyName, mobile, workNo, remark, stateChanged) {
+            console.log(userId + "," + userState + "," + userName + "," + userType + "," + companyId + "," + companyName + "," + mobile + "," + workNo + "," + remark + "," + stateChanged);
             hiddenPanle();
             panle.updataUserInfo.removeClass("hidden");
-            upEle.userId.val("${user.userId}");
-            upEle.userState.val("${user.userState}");
-            upEle.upName.val("${user.userName}");
-            upEle.upType.get(0).value = "${user.userType}";
-            upEle.upCompany.val("${user.userCompany.companyId}");
-            upEle.upCompanyInput.val("${user.userCompany.companyName}");
-            upEle.upMobile.val("${user.mobile}");
-            upEle.upWorkNo.val("${user.workNo}");
-            upEle.upRemark.text("${user.remark}");
-            upEle.upStateChanged.text('<fmt:formatDate value="${user.stateChanged}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>');
-            $("html,body").animate({scrollTop:$("#updataUserInfo").offset().top},500);
-        });
-        var a3 = $("<a/>").attr("class", "btn btn-link").text("停用");
-        if ("${user.userState}" == "4") {
-            a3.text("启用");
-            var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=1";
-            a3.bind("click", function () {
-                $.get(url, function (res, status) {
-                    alertMsg(res, status);
-                });
-            });
-        } else {
-            a3.bind("click", function () {
-                Modal.confirm({
-                    title: '警告',
-                    msg: '你确定要停用该用户吗?',
-                }).on(function (e) {
-                    if (e) {
-                        var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=4";
-                        $.get(url, function (res, status) {
-                            alertMsg(res, status);
-                        });
-                    }
-                });
-            });
-        }
+            upEle.userId.val(userId);
+            upEle.userState.val(userState);
+            upEle.upName.val(userName);
+            upEle.upType.get(0).value = userType;
+            upEle.upCompany.val(companyId);
+            upEle.upCompanyInput.val(companyName);
+            upEle.upMobile.val(mobile);
+            upEle.upWorkNo.val(workNo);
+            upEle.upRemark.text(remark);
+            upEle.upStateChanged.text(stateChanged);
+            $("html,body").animate({scrollTop: $("#updataUserInfo").offset().top}, 500);
+        };
 
-        var a4 = $("<a/>").attr("class", "btn btn-link").text("注销");
-        a4.bind("click", function () {
+        window.disableUser = function (userId) {
             Modal.confirm({
                 title: '警告',
-                msg: '注销后该用将无法再启用，你确定要注销吗?',
+                msg: '你确定要停用该用户吗?',
             }).on(function (e) {
                 if (e) {
-                    var url = "admin/user/changeUserState.do?userId=${user.userId}&userState=2";
+                    var url = "admin/user/changeUserState.do?userId=" + userId + "&userState=3";
                     $.get(url, function (res, status) {
                         alertMsg(res, status);
                     });
                 }
             });
-        });
-        if ("${user.userState}" == "2" || "${user.userState}" == "3") {
-            a1.attr("disabled", true);
-            a2.attr("disabled", true);
-            a3.attr("disabled", true);
-            a4.attr("disabled", true);
-            a1.unbind("click");
-            a2.unbind("click");
-            a3.unbind("click");
-            a4.unbind("click");
-        }
-        /*var a5 = $("<span/>").attr("class", "label").text("已审核");
-         if ("
-        ${user.userState}" == "3") {
-         a5 = $("<a/>").attr("class", "btn btn-link").text("待审核");
-         a5.click(function () {
-         var url = "admin/user/changeUserState.do?userId=
-        ${user.userId}&userState=1";
-         $.get(url, function (res, status) {
-         alertMsg(res, status);
-         });
-         });
-         }*/
-        td5.append(a1).append(a2).append(a3).append(a4);
-        tr.append(td1).append(td2).append(td3).append(td4).append(td5);
-        $("tbody").append(tr);
-        </c:forEach>
+        };
+
+        window.enableUser = function (userId) {
+            var url = "admin/user/changeUserState.do?userId=" + userId + "&userState=2";
+            $.get(url, function (res, status) {
+                alertMsg(res, status);
+            });
+        };
+
+        window.unRegister = function (userId) {
+            Modal.confirm({
+                title: '警告',
+                msg: '注销后该用将无法再启用，你确定要注销吗?',
+            }).on(function (e) {
+                if (e) {
+                    var url = "admin/user/changeUserState.do?userId=" + userId + "&userState=4";
+                    $.get(url, function (res, status) {
+                        alertMsg(res, status);
+                    });
+                }
+            });
+        };
+
 
         /* 更新用户信息 */
         upEle.upBtn.click(function () {
@@ -634,8 +656,10 @@
                 });
             }
         }
+
+        return resetPwd, updataInfo, disableUser, enableUser, unRegister;
     });
-    function hideModal(){
+    function hideModal() {
         $("#getCompanyPanl").modal('hide');
         $("#stopAllUser").removeClass("hidden");
     }

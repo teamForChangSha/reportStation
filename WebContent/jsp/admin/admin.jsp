@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
@@ -63,7 +64,7 @@
         </div>
         <ul class="nav navbar-nav pull-right">
             <li class="dropdown mtop5">
-                <a>上次登录：<fmt:formatDate value="${user.stateChanged}" type="date"
+                <a>上次登录：<fmt:formatDate value="${lastLogin.logDate}" type="date"
                                         pattern="yyyy年MM月dd日 HH:mm:ss"/></a>
             </li>
             <li class="dropdown mtop5">
@@ -99,7 +100,7 @@
                     <ul class="sub">
                         <li><a class="" href="admin/companyBack/getOwnerCompanyInfo.do" target="MainIframe">公司信息设置</a>
                         </li>
-                        <li><a class="" href="admin/companyBack/getCompanyBranches.do" target="MainIframe">分支机构管理</a>
+                        <li class="hide"><a class="" href="admin/companyBack/getCompanyBranches.do" target="MainIframe">分支机构管理</a>
                         </li>
                         <li><a class="" href="admin/companyBack/getAllReportTypes.do" target="MainIframe">举报类型设置</a>
                         </li>
@@ -169,7 +170,7 @@
     </div>
 
     <div id="main-content">
-        <iframe src="jsp/admin/default.jsp" id="MainIframe" name="MainIframe" style="height: 100%;width: 100%"
+        <iframe src="admin/caseBack/showLastCase.do" id="MainIframe" name="MainIframe" style="height: 100%;width: 100%"
                 frameborder="0">
         </iframe>
     </div>

@@ -29,7 +29,11 @@
 </head>
 <div class="container">
     <div class="row">
-        <div class="col-sm-8"><h1><small>最近案件简报</small></h1></div>
+        <div class="col-sm-8">
+            <h1>
+                <small>最近案件简报</small>
+            </h1>
+        </div>
         <div class="col-sm-10">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -41,7 +45,69 @@
                     <td>举报人</td>
                 </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody class="text-center">
+                <c:forEach items="${caseList}" var="caseInfo" varStatus="i">
+                    <tr>
+                        <td>${caseInfo.trackingNo}</td>
+                        <td><fmt:formatDate value="${caseInfo.createTime}" type="date"
+                                            pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
+                        <td>
+                            <c:if test='${caseInfo.caseState==1}'>新建</c:if>
+                            <c:if test='${caseInfo.caseState==2}'>已查看</c:if>
+                            <c:if test='${caseInfo.caseState==3}'>处理中</c:if>
+                            <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
+                            <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
+                        </td>
+                        <td>${caseInfo.rtList}</td>
+                        <td>
+                            <c:if test="${caseInfo.reporter.name==null}">匿名</c:if>
+                            <c:if test="${caseInfo.reporter.name!=null}">${caseInfo.reporter.name}</c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>
+                <small>最近十个用户操作情况简报</small>
+            </h1>
+        </div>
+        <div class="col-sm-10">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="table-info">
+                    <td>登录时间</td>
+                    <td>用户账号</td>
+                    <td>账号状态</td>
+                    <td>停留时间</td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                <c:forEach items="${caseList}" var="caseInfo" varStatus="i">
+                    <tr>
+                        <td>${caseInfo.trackingNo}</td>
+                        <td><fmt:formatDate value="${caseInfo.createTime}" type="date"
+                                            pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
+                        <td>
+                            <c:if test='${caseInfo.caseState==1}'>新建</c:if>
+                            <c:if test='${caseInfo.caseState==2}'>已查看</c:if>
+                            <c:if test='${caseInfo.caseState==3}'>处理中</c:if>
+                            <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
+                            <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
+                        </td>
+                        <td>${caseInfo.rtList}</td>
+                        <td>
+                            <c:if test="${caseInfo.reporter.name==null}">匿名</c:if>
+                            <c:if test="${caseInfo.reporter.name!=null}">${caseInfo.reporter.name}</c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
             </table>
         </div>
     </div>

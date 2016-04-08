@@ -363,14 +363,22 @@
          * 导出操作
          */
         $("#exportBtn").click(function () {
+            var i = 0 ;
+            var ids = [];
            $('tbody tr td:nth-child(1) input').each(function () {
-               if
                if($(this).filter(':checked').val()){
-                   console.log($(this).attr("data-id"));
-                   //TODO
+                   i++;
+                   ids.push($(this).attr("data-id"));
                }
            });
+            if(i>0){
+                location.href = "http://apk-dl.newasp.net/apk/xuxian.market.apk";
+                //TODO
+            }else{
+                Modal.alert({msg:"请选择需要导出的举报信息!"});
+            }
         });
+
 
 //        $(window.parent.document).find(".badge").text("" + i);
 
