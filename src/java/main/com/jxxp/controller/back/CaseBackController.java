@@ -249,7 +249,7 @@ public class CaseBackController {
 		Map<String, String> map = new HashMap<String, String>();
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = new ArrayList<ReportCase>();
-		if (user.getUserType() == 1) {// 客户公司用户
+		if (user.getUserType() <= 3) {// 客户公司用户
 			caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
 			modelMap.put("caseList", caseList);
 		} else {// 管理员和超级管理员
