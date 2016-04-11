@@ -65,7 +65,7 @@ select a.* from oprationlog a right join
 (
 select max(log_id) t from oprationlog where opration= #{opration} group by oprator
 ) 
-as b on b.t = a.log_id limit 0, #{max}
+as b on b.t = a.log_id limit 0,#{max}
  </select>
  
 <select id="getLastOprationLog" resultMap="BaseResultMap">

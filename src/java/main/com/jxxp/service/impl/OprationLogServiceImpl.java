@@ -70,15 +70,14 @@ public class OprationLogServiceImpl implements OprationLogService {
 							.format(oprationLog.getLogDate()), format.format(outLog.getLogDate()),
 							oprationLog.getOprator().getUserId(), null);
 					for (int j = 0; j < allOprations.size(); j++) {
-						oprationsStr = oprationsStr + allOprations.get(i).getOpration();
+						oprationsStr = oprationsStr + allOprations.get(j).getOpration();
 					}
+					System.out.println("操作============" + oprationsStr);
 					logsMap.put("oprationsStr", oprationsStr);
 				}
 			} else {
 				System.out.println("第一次登录，没有上次操作");
 			}
-			System.out.println("logsMap=====" + logsMap);
-
 			logsList.add(logsMap);
 		}
 		System.out.println("logsList=====" + logsList);
