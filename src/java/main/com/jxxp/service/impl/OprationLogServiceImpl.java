@@ -70,9 +70,8 @@ public class OprationLogServiceImpl implements OprationLogService {
 							.format(oprationLog.getLogDate()), format.format(outLog.getLogDate()),
 							oprationLog.getOprator().getUserId(), null);
 					for (int j = 0; j < allOprations.size(); j++) {
-						oprationsStr = oprationsStr + allOprations.get(j).getOpration();
+						oprationsStr = oprationsStr + " " + allOprations.get(j).getOpration();
 					}
-					System.out.println("操作============" + oprationsStr);
 					logsMap.put("oprationsStr", oprationsStr);
 				}
 			} else {
