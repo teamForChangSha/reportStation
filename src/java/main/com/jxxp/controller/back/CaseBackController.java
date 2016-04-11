@@ -255,7 +255,10 @@ public class CaseBackController {
 		} else {// 管理员和超级管理员
 			List<Map<String, Object>> userLogList = oprationLogService.getLastOpration();
 			modelMap.put("userLogList", userLogList);
+			// 最近十个用户登录进行的操作日志
 			caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+
+			// TODO管理员和超级管理查看案件还未处理
 			modelMap.put("caseList", caseList);
 		}
 		return "jsp/admin/default";
