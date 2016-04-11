@@ -92,6 +92,7 @@
                 <label class="col-sm-2 control-label">公司状态：</label>
 
                 <div class="col-sm-3">
+                    <c:if test="${company.companyState }"></c:if>
                     <input type="text" hidden value="${company.companyState }" name="company.companyState"/>
 
                     <p id="state" class="form-control-static"></p>
@@ -166,7 +167,8 @@
 
                 <div class="col-sm-2 checkbox">
                     <label>
-                        <input value="true" id="isSend" type="checkbox" name="companyOther.isSend"/>是否接收
+                        <input id="isSend2" type="text" name="companyOther.isSend" hidden/>
+                        <input value="true" id="isSend" type="checkbox"/>是否接收
                     </label>
                 </div>
             </div>
@@ -420,8 +422,17 @@
         if (imgUrl != "") {
             $("img").attr("src", imgUrl);
         }
-        $("#isSend").get(0).checked = "${company.otherInfo.isSend}"
-        $("#sendType").get(0).value ="${company.otherInfo.sendType}";
+        console.log("${company.otherInfo.isSend}");
+        $("#isSend").get(0).checked = "${company.otherInfo.isSend}"==0?false:true;
+        $("#isSend2").val("${company.otherInfo.isSend}");
+        $("#sendType").get(0).value = "${company.otherInfo.sendType}";
+        $("#isSend").change(function () {
+            if ($("#isSend").is(':checked')) {
+                $("#isSend2").val(1);
+            } else {
+                $("#isSend2").val(0);
+            }
+        });
 
 
         /* 设置logo的缩略图 */
@@ -453,9 +464,27 @@
                 for (var i = 1; i < 4; i++) {
                     if (!isEmty($("#contacts" + i))) {
                         if (!regEmail($("#email" + i))) {
-                            return Modal.alert({msg: "你选择了通过邮件接收举报，请至少填写一个有效邮箱地址,及对应的用户姓名!"});
+                            return Modal.alert({msg: "您填写了姓名，请输入正确的邮箱地址!"});
                         }
                     }
+                    if (!isEmty($("#email" + i))) {
+                        if (regEmail($("#email" + i))) {
+                            if (isEmty($("#contacts" + i))) {
+                                return Modal.alert({msg: "您填写了邮箱地址，请输入对应的姓名!"});
+                            }
+                        } else {
+                            return Modal.alert({msg: "您填写的邮箱地址有误!"});
+                        }
+                    }
+                }
+                var temp = 0;
+                for (var i = 1; i < 4; i++) {
+                    if (!isEmty($("#contacts" + i))) {
+                        temp++;
+                    }
+                }
+                if (temp == 0) {
+                    return Modal.alert({msg: "你选择了通过邮件接收举报，请至少填写一个有效邮箱地址,及对应的用户姓名!"});
                 }
             } else {
                 for (var i = 1; i < 4; i++) {
@@ -463,6 +492,7 @@
                     $("#email" + i).val("");
                 }
             }
+            console.log($("#enterInfo").serialize());
             $("#enterInfo").submit();
         });
 
@@ -488,7 +518,6 @@
          */
         function isEmty(str) {
             str = $.trim(str.val());
-            console.log(str);
             if (str == null || str.length <= 0 || str == "") {
                 return true;
             }
@@ -498,7 +527,6 @@
         var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
 
         function regEmail(ele) {
-            console.log(ele.val());
             if (!emailReg.test(ele.val())) {
                 return false;
             }
