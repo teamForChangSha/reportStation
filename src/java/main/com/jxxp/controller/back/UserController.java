@@ -404,13 +404,16 @@ public class UserController {
 	 */
 	public OprationLog getUserLastLoginTime(User user) {
 		// 登入前获取用户上一次登入时间
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("oprator", user.getUserId());
-		params.put("oprationKey", "登录");
-		List<OprationLog> operatList = oprationLogService.getLogByParams(params);
-		// 由于在数据库中取出来的集合已经是根据时间按降序排序了，因为排在最前面的是随后登入的时间
-		if (operatList.size() > 0) {
-			return operatList.get(0);
+		if (user != null) {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("oprator", user.getUserId());
+			params.put("oprationKey", "登录");
+			List<OprationLog> operatList = oprationLogService.getLogByParams(params);
+			// 由于在数据库中取出来的集合已经是根据时间按降序排序了，因为排在最前面的是随后登入的时间
+			if (operatList.size() > 0) {
+				return operatList.get(0);
+			}
+
 		}
 		return null;
 	}
