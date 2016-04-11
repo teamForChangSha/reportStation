@@ -12,16 +12,18 @@
     <!-- 后续加的字段 -->
      <result column="logo_width" property="logoWidth" jdbcType="INTEGER" />
     <result column="is_send" property="isSend" jdbcType="INTEGER" />
+    <result column="send_type" property="sendType" jdbcType="INTEGER" />
+    
     <result column="contacts_1" property="contacts1" jdbcType="VARCHAR" />
     <result column="email_1" property="email1" jdbcType="VARCHAR" />
     <result column="contacts_2" property="contacts2" jdbcType="VARCHAR" />
     <result column="email_2" property="email2" jdbcType="VARCHAR" />
     <result column="contacts_3" property="contacts3" jdbcType="VARCHAR" />
     <result column="email_3" property="email3" jdbcType="VARCHAR" />
-    
+  
     </resultMap>
   <sql id="Base_Column_List" >
-    company_id, logo_url, logo_path, logo_height, logo_width, service_protocol, sp_html,is_send, contacts_1, email_1, 
+    company_id, logo_url, logo_path, logo_height, logo_width, service_protocol, sp_html,is_send,send_type, contacts_1, email_1, 
     contacts_2, email_2, contacts_3, email_3
   </sql>
   <select id="getByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long">
@@ -29,12 +31,12 @@
   </select>
   <insert id="insert" parameterType="com.jxxp.pojo.CompanyOther" >
     insert into companyother (company_id, logo_url, logo_path, 
-      logo_height, logo_width, is_send, 
+      logo_height, logo_width, is_send, send_type
       contacts_1, email_1, contacts_2, 
       email_2, contacts_3, email_3, 
       service_protocol, sp_html)
     values (#{companyId,jdbcType=BIGINT}, #{logoUrl,jdbcType=VARCHAR}, #{logoPath,jdbcType=VARCHAR}, 
-      #{logoHeight,jdbcType=INTEGER}, #{logoWidth,jdbcType=INTEGER}, #{isSend,jdbcType=INTEGER}, 
+      #{logoHeight,jdbcType=INTEGER}, #{logoWidth,jdbcType=INTEGER}, #{isSend,jdbcType=INTEGER}, #{sendType,jdbcType=INTEGER}.
       #{contacts1,jdbcType=VARCHAR}, #{email1,jdbcType=VARCHAR}, #{contacts2,jdbcType=VARCHAR}, 
       #{email2,jdbcType=VARCHAR}, #{contacts3,jdbcType=VARCHAR}, #{email3,jdbcType=VARCHAR}, 
       #{serviceProtocol,jdbcType=LONGVARCHAR}, #{spHtml,jdbcType=LONGVARCHAR})
@@ -63,10 +65,11 @@
       <if test="spHtml != null" >
         sp_html = #{spHtml,jdbcType=LONGVARCHAR},
       </if>
-      
-      <if test="isSend != null and isSend!='' " >
         is_send = #{isSend,jdbcType=INTEGER},
+      <if test="sendType != null and sendType!=''" >
+        send_type= #{sendType,jdbcType=INTEGER},
       </if>
+      
       <if test="contacts1 != null" >
         contacts_1 = #{contacts1,jdbcType=VARCHAR},
       </if>

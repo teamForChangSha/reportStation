@@ -28,6 +28,7 @@ import com.jxxp.service.CaseChangeLogService;
 import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
 import com.jxxp.service.CompanyService;
+import com.jxxp.service.OprationLogService;
 import com.jxxp.service.QuestionService;
 
 @Controller("caseBackController")
@@ -45,6 +46,8 @@ public class CaseBackController {
 	private CaseCommentService caseCommentService;
 	@Resource
 	private QuestionService questionService;
+	@Resource
+	private OprationLogService oprationLogService;
 
 	/***
 	 * 根据公司以及其他条件获取案件信息列表
@@ -246,8 +249,15 @@ public class CaseBackController {
 		Map<String, String> map = new HashMap<String, String>();
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = new ArrayList<ReportCase>();
-		caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
-		modelMap.put("caseList", caseList);
+		if (user.getUserType() == 1) {// 客户公司用户
+			caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+			modelMap.put("caseList", caseList);
+		} else {// 管理员和超级管理员
+			List<Map<String, Object>> userLogList = oprationLogService.getLastOpration();
+			modelMap.put("userLogList", userLogList);
+			caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+			modelMap.put("caseList", caseList);
+		}
 		return "jsp/admin/default";
 	}
 }

@@ -60,5 +60,44 @@
     </set>
     where log_id = #{logId,jdbcType=BIGINT}
   </update>
+ <select id="getRecentOprationLog" resultMap="BaseResultMap">
+select a.* from oprationlog a right join 
+(
+select max(log_id) t from oprationlog where opration= #{opration} group by oprator
+) 
+as b on b.t = a.log_id limit 0, #{max}
+ </select>
  
+<select id="getLastOprationLog" resultMap="BaseResultMap">
+select * from oprationlog where 1=1
+<if test="opration != null and opration !='' " >
+and opration=#{opration}
+</if> 
+<if test="oprator != null" >
+and oprator=#{oprator} 
+</if>
+order by log_date desc 
+<if test="max != null" >
+limit 0,#{max}
+</if>
+ </select>
+ 
+ 
+ <select id="getLogByKeys" resultMap="BaseResultMap">
+   select <include refid="Base_Column_List"/>
+   from oprationlog where 1=1
+   <if test="oprator!=null">
+   and oprator=#{oprator}
+   </if>
+   <if test="beginDate!=null and beginDate!=''">
+   and log_date &gt;=#{beginDate}
+   </if>
+   <if test="endDate!=null and endDate!=''">
+   and log_date &lt;=#{endDate}
+   </if>
+   <if test="oprationKey!=null and oprationKey!=''">
+   and opration like concat(concat('%',#{oprationKey},'%'))
+   </if>
+   order by log_date desc
+  </select>
 </mapper>

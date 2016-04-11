@@ -71,10 +71,9 @@ public class CompanyOther {
 	private String email3;
 
 	/**
-	 * 发邮件的形式：收到发送/每周发送
+	 * 发邮件的形式：收到发送/ 0收到发一次 1每周发一次
 	 */
 	private int sendType;
-
 
 	public long getCompanyId() {
 		return companyId;
