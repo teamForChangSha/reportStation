@@ -92,10 +92,13 @@
                 <label class="col-sm-2 control-label">公司状态：</label>
 
                 <div class="col-sm-3">
-                    <c:if test="${company.companyState }"></c:if>
+                    <c:if test="${company.companyState==1 }">
+                        <p id="state" class="form-control-static">正常</p>
+                    </c:if>
+                    <c:if test="${company.companyState==2 }">
+                        <p id="state" class="form-control-static">待审核</p>
+                    </c:if>
                     <input type="text" hidden value="${company.companyState }" name="company.companyState"/>
-
-                    <p id="state" class="form-control-static"></p>
                 </div>
             </div>
             <div class="form-group">
@@ -410,11 +413,6 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        /* 获取状态的中文 */
-        var url = "dict/getDictName.do?dictType=company.state&dictValue=${company.companyState }";
-        $.get(url, function (res) {
-            $("#state").text(res);
-        });
         /* 设置select需要选中的状态 */
         $("#type").get(0).value = "${company.companyType}";
         /* 设置LOGO的图片 */
