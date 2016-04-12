@@ -79,7 +79,6 @@ public class OprationLogServiceImpl implements OprationLogService {
 			}
 			logsList.add(logsMap);
 		}
-		System.out.println("logsList=====" + logsList);
-		return null;
+		return logsList;
 	}
 }
