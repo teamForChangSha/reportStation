@@ -85,6 +85,11 @@ public class User {
 	 * 职位
 	 */
 	private String position;
+	/**
+	 * 用户有效期
+	 */
+	private Date expiryDate;
+	
 
 	public long getUserId() {
 		return userId;
@@ -220,6 +225,14 @@ public class User {
 
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 	
 	
