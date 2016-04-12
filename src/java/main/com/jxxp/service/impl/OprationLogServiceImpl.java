@@ -60,10 +60,16 @@ public class OprationLogServiceImpl implements OprationLogService {
 					.getOprator().getUserId());
 			if (lastLogs.size() > 0) {
 				OprationLog outLog = lastLogs.get(0);
-				if (outLog.getLogDate().getTime() > oprationLog.getLogDate().getTime()) {
+				if (outLog.getLogDate().getTime() >= oprationLog.getLogDate().getTime()) {
 					// 2、 获得此次登录停留的时间
-					long times = outLog.getLogDate().getTime() - oprationLog.getLogDate().getTime();
-					logsMap.put("times", times);
+					long times = (outLog.getLogDate().getTime() - oprationLog.getLogDate()
+							.getTime()) / 1000;
+					long day = times / (24 * 3600);
+					long hour = (times - day * (24 * 3600)) / 3600;
+					long minute = (times - day * (24 * 3600) - hour * 3600) / 60;
+					long second = (times - day * (24 * 3600) - hour * 3600 - minute * 60);
+					String timeStr = "" + day + "天" + hour + "小时" + minute + "分" + second + "秒";
+					logsMap.put("times", timeStr);
 					// 3、 获取此次登录所进行的所有操作
 					String oprationsStr = "";
 					List<OprationLog> allOprations = oprationLogMapper.getLogByKeys(format
