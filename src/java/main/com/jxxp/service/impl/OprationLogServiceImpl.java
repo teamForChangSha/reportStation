@@ -8,14 +8,19 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.jxxp.controller.back.UserController;
 import com.jxxp.dao.OprationLogMapper;
 import com.jxxp.pojo.OprationLog;
 import com.jxxp.service.OprationLogService;
 
 @Service("oprationLogService")
 public class OprationLogServiceImpl implements OprationLogService {
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
 	@Resource
 	private OprationLogMapper oprationLogMapper;
 
@@ -81,7 +86,7 @@ public class OprationLogServiceImpl implements OprationLogService {
 					logsMap.put("oprationsStr", oprationsStr);
 				}
 			} else {
-				System.out.println("第一次登录，没有上次操作");
+				log.debug("第一次登录，没有上次操作");
 			}
 			logsList.add(logsMap);
 		}
