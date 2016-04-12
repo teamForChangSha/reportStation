@@ -324,10 +324,10 @@ $(function () {
             + quest.isAnonymous.filter(':checked').val();
         var questions = "answers=" + setAnswers();
         var accessCode = "accessCode=" + quest.pass.val();
-        var province = "province=" + province.find("option:selected").text();
-        var city = "city=" + city.find("option:selected").text();
+        var pro = "province=" + province.find("option:selected").text();
+        var cit = "city=" + city.find("option:selected").text();
         var data = reporter + "&" + contactWay + "&" + verifyCode + "&"
-            + anonymous + "&" + province + "&" + city + "&" + questions + "&" + trackingNo + "&"
+            + anonymous + "&" + pro + "&" + cit + "&" + questions + "&" + trackingNo + "&"
             + accessCode + "&" + rtList;
         $.post(url, data, function (res, status) {
             if (status == "success") {
