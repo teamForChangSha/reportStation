@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.OprationLog;
 import com.jxxp.pojo.User;
@@ -253,6 +254,7 @@ public class UserController {
 	@RequestMapping("/addUser.do")
 	public String addUser(User user, HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
+		System.out.println("user date===-------" + user.getExpiryDate());
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -438,7 +440,10 @@ public class UserController {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("oprator", userId);
 		List<OprationLog> logList = oprationLogService.getLogByParams(params);
-		modelMap.put("logList", logList);
+		PrintWriter out = response.getWriter();
+		String jsonLogList = JSON.toJSONString(logList);
+		out.print(jsonLogList);
+		// modelMap.put("logList", logList);
 		return null;
 	}
 
