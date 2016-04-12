@@ -30,6 +30,7 @@ public class UserLoginListener implements HttpSessionListener {
 		if(user != null) {
 			loginUsers.remove(user.getLoginName());
 			application.setAttribute("loginUsers", loginUsers);
+			
 		}
 		log.debug("session已失效！id:" + session.getId());
 	}
