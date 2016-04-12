@@ -114,12 +114,14 @@
             margin-bottom: 0px;
         }
         .thumbnail{
-            margin-bottom: inherit;
+            margin-bottom: 2px;
             background: inherit;
             border-radius: 50px;
             max-height: 50px;
             max-width: 50px;
-            margin: 2px;
+            height: 50px;
+            width: 50px;
+            margin-top: 2px;
             padding: 0;
         }
         .thumbnail img{
@@ -133,7 +135,7 @@
     <div class="container-fluid">
         <div class="col-sm-1">
             <a href="javascript:;" class="thumbnail">
-                <img src="${company.otherInfo.logoUrl}">
+                <img src="${company.otherInfo.logoUrl}" alt="${company.companyName}">
             </a>
         </div>
         <div class="navbar-header">
