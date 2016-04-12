@@ -181,12 +181,12 @@
                                         <li><a href="javascript:;" onclick="resetPwd(${user.userId})">重置密码</a></li>
                                         <li><a href="javascript:;"
                                                onclick="updataInfo(${user.userId},${user.userState},'${user.userName}',${user.userType}
-                                                       ,${user.userCompany.companyId},'${user.userCompany.companyName}',${user.mobile},${user.phone},'${user.email}'
+                                                       ,${user.userCompany.companyId},'${user.userCompany.companyName}',${user.mobile},'${user.phone}','${user.email}'
                                                        ,'${user.weixin}','${user.department}','${user.position}','${user.workNo}','${user.address}'
                                                        ,'<fmt:formatDate value="${user.expiryDate}" type="date"
-                                                                         pattern="yyyy年MM月dd日 HH:mm:ss"/>','${user.remark}'
-                                                       ,'<fmt:formatDate value='${user.stateChanged}' type='date'
-                                                                         pattern='yyyy年MM月dd日 HH:mm:ss'/>')">修改信息</a>
+                                                                         pattern="yyyy-MM-dd"/>','${user.remark}'
+                                                       ,'<fmt:formatDate value="${user.stateChanged}" type="date"
+                                                                         pattern="yyyy年MM月dd日 HH:mm:ss"/>')">修改信息</a>
                                         </li>
                                         <li role="separator" class="divider"></li>
                                         <c:if test="${user.userState==3}">
@@ -407,7 +407,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <form id="addForm" class="form-horizontal">
+                            <form id="addForm" method="post" action="admin/user/addUser.do" class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">用户名字：</label>
 
@@ -472,7 +472,7 @@
                                     <label class="col-sm-3 control-label">办公电话：</label>
 
                                     <div class="col-sm-8">
-                                        <input type="text" id="addOfficeMobile" name="phone" class="form-control">
+                                        <input type="text" id="addPhone" name="phone" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -631,7 +631,13 @@
             upCompany: $("#upCompany"),
             upCompanyInput: $("#upCompanyInput"),
             upMobile: $("#upMobile"),
+            upPhone:$("#upPhone"),
+            upEmail:$("#upEmail"),
+            upWechat:$("#upWechat"),
+            upDepartment:$("#upDepartment"),
+            upPosition:$("#upPosition"),
             upWorkNo: $("#upWorkNo"),
+            upAddress:$("#upAddress"),
             upToDate: $("#upToDate"),
             upRemark: $("#upRemark"),
             upStateChanged: $("#upStateChanged"),
@@ -645,7 +651,13 @@
             addCompany: $("#addCompany"),
             addCompanyInput: $("#addCompanyInput"),
             addMobile: $("#addMobile"),
+            addPhone:$("#addPhone"),
+            addEmail:$("#addEmail"),
+            addWechat:$("#addWechat"),
+            addDepartment:$("#addDepartment"),
+            addPosition:$("#addPosition"),
             addWorkNo: $("#addWorkNo"),
+            addAddress:$("#addAddress"),
             addToDate: $("#addToDate"),
             addRemark: $("#addRemark"),
             addBtn: $("#addBtn")
@@ -803,9 +815,22 @@
             upEle.upCompany.val(companyId);
             upEle.upCompanyInput.val(companyName);
             upEle.upMobile.val(mobile);
+            upEle.upPhone.val(phone);
+            upEle.upEmail.val(email);
+            upEle.upWechat.val(weixin);
+            upEle.upDepartment.val(department);
+            upEle.upPosition.val(position);
             upEle.upWorkNo.val(workNo);
+            upEle.upAddress.val(address);
             upEle.upRemark.text(remark);
             upEle.upStateChanged.text(stateChanged);
+            var temp = expiryDate.split("-");
+            for(var i=0;i<temp.length;i++){
+                udates.year.get(0).value = (temp[i]*1);
+                udates.mounth.get(0).value = (temp[i]*1);
+                udates.day.get(0).value = (temp[i]*1);
+                console.log(temp[i]*1);
+            }
         };
 
         window.disableUser = function (userId) {
@@ -861,6 +886,7 @@
             }
             upEle.upToDate.val(dates.year.find("option:selected").text() + "-"
                     + dates.mounth.find("option:selected").text() + "-" + dates.day.find("option:selected").text());
+            console.log($("#upForm").serialize());
             $.post("admin/user/updateUser.do", $("#upForm").serialize(), function (res, status) {
                 alertMsg(res, status);
             });
