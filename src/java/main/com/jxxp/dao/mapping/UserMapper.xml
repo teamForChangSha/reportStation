@@ -12,14 +12,23 @@
     <result column="user_state" property="userState" jdbcType="VARCHAR" />
     <result column="user_type" property="userType" jdbcType="VARCHAR" />    
     <result column="state_changed" property="stateChanged" jdbcType="TIMESTAMP" />
-    <association property="userCompany" column="company_id" javaType="com.jxxp.pojo.Company"
+  <!-- 后续加的begin-->
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="expiry_date" property="expiryDate" jdbcType="TIMESTAMP" />
+    <!-- 后续加的end -->
+     <association property="userCompany" column="company_id" javaType="com.jxxp.pojo.Company"
     select="com.jxxp.dao.CompanyMapper.getById">
     </association>
-  
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, user_type, login_name, user_pwd, user_name, company_id, mobile, work_no, 
-    remark, state_changed, user_state
+    remark, state_changed, user_state,email, phone, address, weixin, department, position, 
+    expiry_date
   </sql>
   <select id="login" resultMap="BaseResultMap">
   select * from userinfo where login_name=#{loginName,jdbcType=VARCHAR} and user_pwd=#{userPwd,jdbcType=VARCHAR}
@@ -62,11 +71,13 @@
     insert into userinfo (user_type, login_name, 
       user_pwd, user_name, company_id, 
       mobile, work_no, remark, 
-      state_changed, user_state)
+      state_changed, user_state,
+      email, phone, address, weixin, department, position, expiry_date)
       values (#{userType,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{userPwd,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userCompany.companyId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{workNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{stateChanged,jdbcType=TIMESTAMP}, #{userState,jdbcType=VARCHAR})
+      #{stateChanged,jdbcType=TIMESTAMP}, #{userState,jdbcType=VARCHAR},
+      #{email},  #{phone},  #{address}, #{weixin},  #{department}, #{position},  #{expiryDate})
   </insert>
   
   <update id="stopAllUsersByCompanyId" parameterType="java.lang.Long">
@@ -110,7 +121,29 @@
       <if test="userState != null and userState!=''" >
         user_state = #{userState,jdbcType=VARCHAR},
       </if>
+       <if test="email != null and email!=''" >
+         email=#{email,jdbcType=VARCHAR}, 
+       </if>
+       <if test="phone != null and phone!=''" >
+         phone= #{phone,jdbcType=VARCHAR},  
+       </if>
+       <if test="address != null and address!=''" > 
+         address= #{address,jdbcType=VARCHAR},
+       </if>
+        <if test="weixin != null and weixin!=''" >        
+          weixin= #{weixin,jdbcType=VARCHAR},
+        </if>  
+         <if test="department != null and department!=''" >        
+       department= #{department,jdbcType=VARCHAR},
+        </if>
+       <if test="position != null and position!=''" >        
+        position= #{position,jdbcType=VARCHAR}, 
+       </if>
+       <if test="expiryDate != null" >
+        expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
+    
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   
