@@ -198,7 +198,7 @@
                                         <li><a href="javascript:;" onclick="unRegister(${user.userId})">注销</a></li>
                                     </c:if>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="javascript:;" onclick="lookUseLog('${user}')">查看操作日志</a></li>
+                                    <li><a href="javascript:;" onclick="lookUseLog('${user.userId}')">查看操作日志</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -631,13 +631,13 @@
             upCompany: $("#upCompany"),
             upCompanyInput: $("#upCompanyInput"),
             upMobile: $("#upMobile"),
-            upPhone:$("#upPhone"),
-            upEmail:$("#upEmail"),
-            upWechat:$("#upWechat"),
-            upDepartment:$("#upDepartment"),
-            upPosition:$("#upPosition"),
+            upPhone: $("#upPhone"),
+            upEmail: $("#upEmail"),
+            upWechat: $("#upWechat"),
+            upDepartment: $("#upDepartment"),
+            upPosition: $("#upPosition"),
             upWorkNo: $("#upWorkNo"),
-            upAddress:$("#upAddress"),
+            upAddress: $("#upAddress"),
             upToDate: $("#upToDate"),
             upRemark: $("#upRemark"),
             upStateChanged: $("#upStateChanged"),
@@ -651,13 +651,13 @@
             addCompany: $("#addCompany"),
             addCompanyInput: $("#addCompanyInput"),
             addMobile: $("#addMobile"),
-            addPhone:$("#addPhone"),
-            addEmail:$("#addEmail"),
-            addWechat:$("#addWechat"),
-            addDepartment:$("#addDepartment"),
-            addPosition:$("#addPosition"),
+            addPhone: $("#addPhone"),
+            addEmail: $("#addEmail"),
+            addWechat: $("#addWechat"),
+            addDepartment: $("#addDepartment"),
+            addPosition: $("#addPosition"),
             addWorkNo: $("#addWorkNo"),
-            addAddress:$("#addAddress"),
+            addAddress: $("#addAddress"),
             addToDate: $("#addToDate"),
             addRemark: $("#addRemark"),
             addBtn: $("#addBtn")
@@ -825,11 +825,11 @@
             upEle.upRemark.text(remark);
             upEle.upStateChanged.text(stateChanged);
             var temp = expiryDate.split("-");
-            for(var i=0;i<temp.length;i++){
-                udates.year.get(0).value = (temp[i]*1);
-                udates.mounth.get(0).value = (temp[i]*1);
-                udates.day.get(0).value = (temp[i]*1);
-                console.log(temp[i]*1);
+            for (var i = 0; i < temp.length; i++) {
+                udates.year.get(0).value = (temp[i] * 1);
+                udates.mounth.get(0).value = (temp[i] * 1);
+                udates.day.get(0).value = (temp[i] * 1);
+                console.log(temp[i] * 1);
             }
         };
 
@@ -869,7 +869,14 @@
         };
 
         window.lookUseLog = function (userId) {
-            $("#toViewUseLog").modal("show");
+            $.get("admin/user/getUserLog.do?oprator="+userId, function (res, status) {
+                if (status == "success") {
+                    <c:forEach var="${logList}" items="log">
+                        console.log("${log.opration}");
+                    </c:forEach>
+                }
+            });
+//            $("#toViewUseLog").modal("show");
         }
 
 
