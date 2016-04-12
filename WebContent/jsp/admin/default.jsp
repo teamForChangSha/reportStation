@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row hide" id="byTen">
         <div class="col-sm-8">
             <h1>
                 <small>最近十个用户操作情况简报</small>
@@ -88,23 +88,19 @@
                 </tr>
                 </thead>
                 <tbody class="text-center">
-                <c:forEach items="${caseList}" var="caseInfo" varStatus="i">
+                <c:forEach items="${userLogList}" var="userLog" varStatus="i">
                     <tr>
-                        <td>${caseInfo.trackingNo}</td>
-                        <td><fmt:formatDate value="${caseInfo.createTime}" type="date"
+                        <td><fmt:formatDate value="${userLog.oprationLog.logDate}" type="date"
                                             pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
+                        <td>${userLog.oprationLog.oprator.loginName}</td>
                         <td>
-                            <c:if test='${caseInfo.caseState==1}'>新建</c:if>
-                            <c:if test='${caseInfo.caseState==2}'>已查看</c:if>
-                            <c:if test='${caseInfo.caseState==3}'>处理中</c:if>
-                            <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
-                            <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
+                            <c:if test="${userLog.oprationLog.oprator.userState==1}">新增</c:if>
+                            <c:if test="${userLog.oprationLog.oprator.userState==2}">有效</c:if>
+                            <c:if test="${userLog.oprationLog.oprator.userState==3}">停用</c:if>
+                            <c:if test="${userLog.oprationLog.oprator.userState==4}">注销</c:if>
                         </td>
-                        <td>${caseInfo.rtList}</td>
-                        <td>
-                            <c:if test="${caseInfo.reporter.name==null}">匿名</c:if>
-                            <c:if test="${caseInfo.reporter.name!=null}">${caseInfo.reporter.name}</c:if>
-                        </td>
+                        <td>${userLog.times}</td>
+                        <td>${userLog.oprationsStr}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -116,6 +112,9 @@
 </body>
 <script>
     $(function () {
+        if("${user.userType}"==4){
+            $("#byTen").removeClass("hide");
+        }
     });
 </script>
 </html>

@@ -170,7 +170,7 @@
 
                 <div class="col-sm-2 checkbox">
                     <label>
-                        <input id="isSend2" type="text" name="companyOther.isSend" hidden/>
+                        <input id="isSend2" type="text" value="0" name="companyOther.isSend" hidden/>
                         <input value="true" id="isSend" type="checkbox"/>是否接收
                     </label>
                 </div>
@@ -423,6 +423,7 @@
         console.log("${company.otherInfo.isSend}");
         $("#isSend").get(0).checked = "${company.otherInfo.isSend}"==0?false:true;
         $("#isSend2").val("${company.otherInfo.isSend}");
+        console.log("====${company.otherInfo.sendType}");
         $("#sendType").get(0).value = "${company.otherInfo.sendType}";
         $("#isSend").change(function () {
             if ($("#isSend").is(':checked')) {

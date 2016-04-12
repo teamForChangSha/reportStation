@@ -75,10 +75,10 @@
             </li>
             <li class="dropdown mtop5">
                 <a class="userName">账户状态：
-                    <c:if test="${user.userState=='1'}">正常</c:if>
-                    <c:if test="${user.userState=='2'}">注销</c:if>
-                    <c:if test="${user.userState=='3'}">待审核</c:if>
-                    <c:if test="${user.userState=='4'}">停用</c:if>
+                    <c:if test="${user.userState=='1'}">试用</c:if>
+                    <c:if test="${user.userState=='2'}">正常</c:if>
+                    <c:if test="${user.userState=='3'}">停用</c:if>
+                    <c:if test="${user.userState=='4'}">注销</c:if>
                 </a>
             </li>
             <li class="dropdown mtop5">
@@ -91,7 +91,7 @@
     <div tabindex="5000" style="overflow: auto;" class="sidebar-scroll">
         <div style="height: auto;" id="sidebar" class="nav-collapse in collapse">
             <ul class="sidebar-menu">
-                <li id="enterAdmin" class="sub-menu">
+                <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                         <span>公司设置</span>
@@ -107,17 +107,24 @@
                         <li><a class="" href="admin/companyBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
                     </ul>
                 </li>
-                <li id="userAdmin" class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                        <span>用户管理</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="admin/user/getUsersByParams.do" target="MainIframe">用户设置</a></li>
-                        <li><a class="" href="admin/user/getLogByParams.do" target="MainIframe">操作日志</a></li>
-                    </ul>
-                </li>
+                <c:if test="${user.userType>1}">
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <span>用户管理</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub">
+                            <c:if test="${user.userType==2}">
+                                <li><a class="" href="jsp/admin/pages/updataUserInfo.jsp" target="MainIframe">信息修改</a></li>
+                            </c:if>
+                            <c:if test="${user.userType>=3}">
+                                <li><a class="" href="admin/user/getUsersByParams.do" target="MainIframe">用户设置</a></li>
+                            </c:if>
+                            <li><a class="" href="admin/user/getLogByParams.do" target="MainIframe">操作日志</a></li>
+                        </ul>
+                    </li>
+                </c:if>
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
@@ -132,27 +139,29 @@
                         </li>
                     </ul>
                 </li>
-                <li id="statistical" class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                        <span>统计分析</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="javascript:;" target="MainIframe">表单布局</a></li>
-                    </ul>
-                </li>
-                <li id="dataSetting" class="sub-menu">
-                    <a href="javascript:;" class="">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        <span>数据设计</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub">
-                        <li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">企业数据维护</a></li>
-                        <li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">企业名称合并</a></li>
-                    </ul>
-                </li>
+                <c:if test="${user.userType==4}">
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                            <span>统计分析</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="javascript:;" target="MainIframe">表单布局</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            <span>数据设计</span>
+                            <span class="arrow"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">企业数据维护</a></li>
+                            <li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">企业名称合并</a></li>
+                        </ul>
+                    </li>
+                </c:if>
                 <li id="updataPwd" class="sub-menu">
                     <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -207,15 +216,7 @@
             $("#date").text("当前时间：" + text);
         };
 
-        var ids = {
-            enterAdmin: $("#enterAdmin"),
-            userAdmin: $("#userAdmin"),
-            statistical: $("#statistical"),
-            dataSetting: $("#dataSetting"),
-            updataPwd: $("#updataPwd")
-        }
-
-        ids.updataPwd.click(function () {
+        $("#updataPwd").click(function () {
             Modal.prompt({
                 title: '修改密码',
                 msg: '请输入密码',
@@ -245,16 +246,6 @@
                 }
             });
         });
-
-        if ("${user.userType}" == "2") {
-            ids.statistical.hide();
-            ids.dataSetting.hide();
-        }
-        if ("${user.userType}" == "1") {
-            ids.statistical.hide();
-            ids.dataSetting.hide();
-            ids.userAdmin.hide();
-        }
     });
 </script>
 </body>

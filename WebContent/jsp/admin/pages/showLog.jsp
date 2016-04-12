@@ -63,13 +63,18 @@
         <div class="page-header"></div>
         <form action="admin/user/getLogByParams.do" method="post" class="form-inline">
             <div class="form-group">
-                <label class="control-label">按时间查询</label>
+                <label class="control-label">按条件查询</label>
                 <input type="text" class="datepicker-here form-control" data-position="right top" name="logDate"
                        placeholder="请输入查询时间"/>
+                <c:if test="${user.userType>=3}">
+                    <input type="text" class="form-control" name="userName"
+                           placeholder="请输入操作人姓名"/>
+                </c:if>
                 <input type="submit" class="btn btn-default" value="查询"/>
             </div>
         </form>
         <br>
+
         <div class="col-sm-8">
             <table class="table table-bordered table-hover">
                 <thead>

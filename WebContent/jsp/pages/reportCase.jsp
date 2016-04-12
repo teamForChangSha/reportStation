@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/common_top.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="jsp/js/jquery.cityselect.js"></script>
     <style type="text/css">
         body {
             padding-bottom: 0;
@@ -112,12 +113,29 @@
         .table {
             margin-bottom: 0px;
         }
+        .thumbnail{
+            margin-bottom: inherit;
+            background: inherit;
+            border-radius: 50px;
+            max-height: 50px;
+            max-width: 50px;
+            margin: 2px;
+            padding: 0;
+        }
+        .thumbnail img{
+            border-radius: 50px;
+        }
     </style>
 </head>
 
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top">
     <div class="container-fluid">
+        <div class="col-sm-1">
+            <a href="javascript:;" class="thumbnail">
+                <img src="${company.otherInfo.logoUrl}">
+            </a>
+        </div>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
@@ -177,7 +195,7 @@
                 </div>
                 <form id="userInfo" action="" method="post">
                     <div class="form-group text-center">
-                        <span><strong>如果您希望 ${companyBranch.owner.companyName} 知道您的身份，请完成以下内容：</strong></span>
+                        <span><strong>如果您希望 ${company.companyName} 知道您的身份，请完成以下内容：</strong></span>
                     </div>
                     <div class="form-group">
                         <input name="reporterId" type="text" hidden/>
@@ -245,7 +263,7 @@
                     <label class="col-sm-4 control-label">公司名称：</label>
 
                     <div class="col-sm-8">
-                        <span class="form-info"><strong>${companyBranch.owner.companyName}</strong></span>
+                        <span class="form-info"><strong>${company.companyName}</strong></span>
                     </div>
                 </div>
                 <%--<div class="form-group">
@@ -255,22 +273,22 @@
                         <span class="form-info">${companyBranch.address }</span>
                     </div>
                 </div>--%>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">公司所在省份：</label>
+                <div id="citySelected">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司所在省份：</label>
 
-                    <div class="col-sm-4">
-                        <select name="province" class="form-control">
-                            <option value="-1">--请选择省份--</option>
-                        </select>
+                        <div class="col-sm-4">
+                            <select name="province" class="form-control prov">
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">公司所在城市：</label>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司所在城市：</label>
 
-                    <div class="col-sm-4">
-                        <select name="city" class="form-control">
-                            <option value="-1">--请选择城市--</option>
-                        </select>
+                        <div class="col-sm-4">
+                            <select name="city" class="form-control city" disabled>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -291,7 +309,7 @@
 
                 <%--第一个问题与该公司的关系--%>
                 <div id="quest_1" class="form-group text-center hidden">
-                    <span><strong>您与 ${companyBranch.owner.companyName } 的关系：</strong></span>
+                    <span><strong>您与 ${company.companyName } 的关系：</strong></span>
                     <br/><br/>
 
                     <div class="row">
@@ -688,6 +706,9 @@
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
 <script type="text/javascript">
+    $(function () {
+        $("#citySelected").citySelect({prov: "北京", city: "东城区"});
+    });
     var trackingNo = "trackingNo=${trackingNo }";
     var rtList = "rtList=${rtList }";
     var questionList = [];

@@ -102,10 +102,13 @@
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
-                    <option value="">-请选择-</option>
-                    <option value="1">公司用户</option>
-                    <option value="2">平台管理员</option>
-                    <option value="3">超级管理员</option>
+                    <option value="0">-请选择-</option>
+                    <option value="1">试用</option>
+                    <option value="2">公司用户</option>
+                    <option value="3">系统操作员</option>
+                    <c:if test="${user.userType==4}">
+                        <option value="4">系统管理员</option>
+                    </c:if>
                 </select>
             </div>
             <div class="form-group">
@@ -178,7 +181,10 @@
                                         <li><a href="javascript:;" onclick="resetPwd(${user.userId})">重置密码</a></li>
                                         <li><a href="javascript:;"
                                                onclick="updataInfo(${user.userId},${user.userState},'${user.userName}',${user.userType}
-                                                       ,${user.userCompany.companyId},'${user.userCompany.companyName}',${user.mobile},${user.workNo},'${user.remark}'
+                                                       ,${user.userCompany.companyId},'${user.userCompany.companyName}',${user.mobile},${user.phone},'${user.email}'
+                                                       ,'${user.weixin}','${user.department}','${user.position}','${user.workNo}','${user.address}'
+                                                       ,'<fmt:formatDate value="${user.expiryDate}" type="date"
+                                                                         pattern="yyyy年MM月dd日 HH:mm:ss"/>','${user.remark}'
                                                        ,'<fmt:formatDate value='${user.stateChanged}' type='date'
                                                                          pattern='yyyy年MM月dd日 HH:mm:ss'/>')">修改信息</a>
                                         </li>
@@ -191,7 +197,8 @@
                                         </c:if>
                                         <li><a href="javascript:;" onclick="unRegister(${user.userId})">注销</a></li>
                                     </c:if>
-
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="javascript:;" onclick="lookUseLog('${user}')">查看操作日志</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -206,185 +213,384 @@
     </div>
 
     <!--修改用户信息-->
-    <div class="row hidden" id="updataUserInfo">
-        <div class="col-sm-10">
-            <h1>
-                <small>修改用户信息</small>
-            </h1>
-            <div class="page-header"></div>
-            <div class="col-sm-6">
-                <form id="upForm" class="form-horizontal">
-                    <input type="text" id="userId" hidden name="userId">
-                    <input type="text" id="userState" hidden name="userState">
+    <div class="modal fade bs-example-modal-md" id="updataUserInfo" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title text-center">修改用户信息</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form id="upForm" class="form-horizontal">
+                                <input type="text" id="userId" hidden name="userId">
+                                <input type="text" id="userState" hidden name="userState">
 
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户名字：</label>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户名字：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="upName" name="userName" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户类型：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upName" name="userName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户类型：</label>
 
-                        <div class="col-sm-8">
-                            <select id="upType" name="userType" class="form-control">
-                                <option value="0">-请选择-</option>
-                                <option value="1">试用</option>
-                                <option value="2">公司用户</option>
-                                <option value="3">系统操作员</option>
-                                <option value="4">系统管理员</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">选择公司：</label>
+                                    <div class="col-sm-8">
+                                        <select id="upType" name="userType" class="form-control">
+                                            <option value="0">-请选择-</option>
+                                            <option value="1">试用</option>
+                                            <option value="2">公司用户</option>
+                                            <option value="3">系统操作员</option>
+                                            <c:if test="${user.userType==4}">
+                                                <option value="4">系统管理员</option>
+                                            </c:if>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">选择公司：</label>
 
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
-                                <input type="text" id="upCompanyInput" class="form-control"
-                                       placeholder="请选择公司"/>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
+                                            <input type="text" id="upCompanyInput" class="form-control"
+                                                   placeholder="请选择公司"/>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" data-toggle="modal"
                                         data-target="#getCompanyPanl">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">手机号码：</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">手机号码：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="upMobile" name="mobile" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">员工工号：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upMobile" name="mobile" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">办公电话：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="upWorkNo" name="workNo" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">备注信息：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upPhone" name="phone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">邮箱地址：</label>
 
-                        <div class="col-sm-8">
-                            <textarea rows="3" id="upRemark" name="remark" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">更改日期：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upEmail" name="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">微信号码：</label>
 
-                        <div class="col-sm-8">
-                            <p id="upStateChanged" class="form-control-static"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upWechat" name="weixin" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">所属部门：</label>
 
-                        <div class="col-sm-8">
-                            <input type="button" id="closeUpdataUser" class="btn btn-default col-sm-5" value="取消">
-                            <input type="button" id="upBtn" class="btn btn-default col-sm-5 pull-right" value="提交">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upDepartment" name="department" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">当前职位：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upPosition" name="position" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">员工工号：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upWorkNo" name="workNo" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">联系地址：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="upAddress" name="address" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">有效期至：</label>
+                                    <input type="text" id="upToDate" name="expiryDate" hidden>
+
+                                    <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
+                                        <select id="ufullYear" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <p class="form-control-static">年</p>
+                                    </div>
+                                    <div class="col-sm-1" style="padding: 0;width: 12%">
+                                        <select id="ufullMounth" class="form-control">
+                                            <option value="1">01</option>
+                                            <option value="2">02</option>
+                                            <option value="3">03</option>
+                                            <option value="4">04</option>
+                                            <option value="5">05</option>
+                                            <option value="6">06</option>
+                                            <option value="7">07</option>
+                                            <option value="8">08</option>
+                                            <option value="9">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <p class="form-control-static">月</p>
+                                    </div>
+                                    <div class="col-sm-1" style="padding: 0;width: 12%">
+                                        <select id="ufullDay" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <p class="form-control-static">日</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">备注信息：</label>
+
+                                    <div class="col-sm-8">
+                                            <textarea rows="3" id="upRemark" name="remark"
+                                                      class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">更改日期：</label>
+
+                                    <div class="col-sm-8">
+                                        <p id="upStateChanged" class="form-control-static"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4">
+                                        <input type="button" id="upBtn" class="btn btn-default form-control"
+                                               value="提交">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 
     <!--添加用户-->
-    <div class="row hidden" id="addUser">
-        <div class="col-sm-10">
-            <h1>
-                <small>添加用户</small>
-            </h1>
-            <div class="page-header"></div>
-            <div class="col-sm-6">
-                <form id="addForm" class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户名字：</label>
+    <div class="modal fade bs-example-modal-md" id="addUser" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title text-center">添加用户</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form id="addForm" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户名字：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="addName" name="userName" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户账号：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addName" name="userName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户账号：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="addLoginName" name="loginName" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户密码：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addLoginName" name="loginName" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户密码：</label>
 
-                        <div class="col-sm-8">
-                            <input type="password" id="addUserPwd" name="userPwd" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">用户类型：</label>
+                                    <div class="col-sm-8">
+                                        <input type="password" id="addUserPwd" name="userPwd" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户类型：</label>
 
-                        <div class="col-sm-8">
-                            <select id="addType" name="userType" class="form-control">
-                                <option value="0">-请选择-</option>
-                                <option value="1">试用</option>
-                                <option value="2">公司用户</option>
-                                <option value="3">系统操作员</option>
-                                <option value="4">系统管理员</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">选择公司：</label>
+                                    <div class="col-sm-8">
+                                        <select id="addType" name="userType" class="form-control">
+                                            <option value="0">-请选择-</option>
+                                            <option value="1">试用</option>
+                                            <option value="2">公司用户</option>
+                                            <option value="3">系统操作员</option>
+                                            <c:if test="${user.userType==4}">
+                                                <option value="4">系统管理员</option>
+                                            </c:if>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">选择公司：</label>
 
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
-                                <input type="text" id="addCompanyInput" class="form-control"
-                                       placeholder="请选择公司"/>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
+                                            <input type="text" id="addCompanyInput" class="form-control"
+                                                   placeholder="请选择公司"/>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" data-toggle="modal"
                                         data-target="#getCompanyPanl">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">手机号码：</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">手机号码：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="addMobile" name="mobile" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">员工工号：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addMobile" name="mobile" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">办公电话：</label>
 
-                        <div class="col-sm-8">
-                            <input type="text" id="addWorkNo" name="workNo" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">备注信息：</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addOfficeMobile" name="phone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">邮箱地址：</label>
 
-                        <div class="col-sm-8">
-                            <textarea rows="3" id="addRemark" name="remark" class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addEmail" name="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">微信号码：</label>
 
-                        <div class="col-sm-8">
-                            <input type="button" id="closeAddUser" class="btn btn-default col-sm-5" value="取消">
-                            <input type="button" id="addBtn" class="btn btn-default col-sm-5 pull-right" value="提交">
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addWechat" name="weixin" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">所属部门：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addDepartment" name="department" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">当前职位：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addPosition" name="position" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">员工工号：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addWorkNo" name="workNo" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">联系地址：</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" id="addAddress" name="address" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">有效期至：</label>
+                                    <input type="text" id="addToDate" name="expiryDate" hidden>
+
+                                    <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
+                                        <select id="fullYear" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <p class="form-control-static">年</p>
+                                    </div>
+                                    <div class="col-sm-1" style="padding: 0;width: 12%">
+                                        <select id="fullMounth" class="form-control">
+                                            <option value="1">01</option>
+                                            <option value="2">02</option>
+                                            <option value="3">03</option>
+                                            <option value="4">04</option>
+                                            <option value="5">05</option>
+                                            <option value="6">06</option>
+                                            <option value="7">07</option>
+                                            <option value="8">08</option>
+                                            <option value="9">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <p class="form-control-static">月</p>
+                                    </div>
+                                    <div class="col-sm-1" style="padding: 0;width: 12%">
+                                        <select id="fullDay" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <p class="form-control-static">日</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">备注信息：</label>
+
+                                    <div class="col-sm-8">
+                                            <textarea rows="3" id="addRemark" name="remark"
+                                                      class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 control-label"></div>
+                                    <div class="col-sm-4">
+                                        <input type="button" id="addBtn" class="btn btn-default form-control"
+                                               value="提交">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--查看用户操作日志-->
+<div class="modal fade bs-example-modal-md" id="toViewUseLog" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">用户操作日志</h5>
+            </div>
+            <div class="modal-body">
             </div>
         </div>
     </div>
@@ -399,7 +605,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title" id="exampleModalLabel">选择企业</h5>
+                <h5 class="modal-title text-center">选择企业</h5>
             </div>
             <div class="modal-body">
                 <iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>
@@ -412,10 +618,6 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        var panle = {
-            updataUserInfo: $("#updataUserInfo"),
-            addUser: $("#addUser"),
-        }
         var close = {
             updataUserInfo: $("#closeUpdataUser"),
             addUser: $("#closeAddUser"),
@@ -430,6 +632,7 @@
             upCompanyInput: $("#upCompanyInput"),
             upMobile: $("#upMobile"),
             upWorkNo: $("#upWorkNo"),
+            upToDate: $("#upToDate"),
             upRemark: $("#upRemark"),
             upStateChanged: $("#upStateChanged"),
             upBtn: $("#upBtn")
@@ -443,6 +646,7 @@
             addCompanyInput: $("#addCompanyInput"),
             addMobile: $("#addMobile"),
             addWorkNo: $("#addWorkNo"),
+            addToDate: $("#addToDate"),
             addRemark: $("#addRemark"),
             addBtn: $("#addBtn")
         }
@@ -457,24 +661,91 @@
             selected: $("#selected")
         }
 
-        if ("${user.userType}" != "3") {
-            search.userType.find("option[value=3]").hide();
-            upEle.upType.find("option[value=3]").hide();
-            addEle.addType.find("option[value=3]").hide();
-            search.userType.find("option[value=2]").hide();
-            upEle.upType.find("option[value=2]").hide();
-            addEle.addType.find("option[value=2]").hide();
+        var dates = {
+            year: $("#fullYear"),
+            mounth: $("#fullMounth"),
+            day: $("#fullDay")
+        }
+        var udates = {
+            year: $("#ufullYear"),
+            mounth: $("#ufullMounth"),
+            day: $("#ufullDay")
         }
 
-        close.updataUserInfo.get(0).onclick = hiddenPanle;
-        close.addUser.get(0).onclick = hiddenPanle;
+        /*添加用户日期设置*/
+        var tempDate = new Date();
+        var tempYear = tempDate.getFullYear();
+        for (var i = 10; i > 0; i--) {
+            var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
+            dates.year.append(opt);
+        }
+        for (var i = 0; i < 41; i++) {
+            var opt = $("<option/>").text((tempYear - i)).val((tempYear - i));
+            dates.year.append(opt);
+        }
+        dates.year.get(0).value = tempYear;
+        dates.mounth.get(0).value = (tempDate.getMonth() + 1);
+        changeDay();
+        function changeDay() {
+            dates.day.empty();
+            var y = dates.year.find("option:selected").val();
+            var m = dates.mounth.find("option:selected").val();
+            var max = new Date(y, m, 0).getDate();
+            for (var i = 1; i <= max; i++) {
+                var opt = $("<option/>").text((i < 10 ? "0" + i : i)).val(i);
+                dates.day.append(opt);
+            }
+            dates.day.get(0).value = tempDate.getDate();
+        }
+
+        dates.year.change(function () {
+            changeDay();
+        });
+        dates.mounth.change(function () {
+            changeDay();
+        });
+        /*添加用户日期设置 END*/
+
+        /*修改用户信息日期设置*/
+        for (var i = 10; i > 0; i--) {
+            var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
+            udates.year.append(opt);
+        }
+        for (var i = 0; i < 41; i++) {
+            var opt = $("<option/>").text((tempYear - i)).val((tempYear - i));
+            udates.year.append(opt);
+        }
+        udates.year.get(0).value = tempYear;
+        udates.mounth.get(0).value = (tempDate.getMonth() + 1);
+        uchangeDay();
+        function uchangeDay() {
+            udates.day.empty();
+            var y = udates.year.find("option:selected").val();
+            var m = udates.mounth.find("option:selected").val();
+            var max = new Date(y, m, 0).getDate();
+            for (var i = 1; i <= max; i++) {
+                var opt = $("<option/>").text((i < 10 ? "0" + i : i)).val(i);
+                udates.day.append(opt);
+            }
+            udates.day.get(0).value = tempDate.getDate();
+        }
+
+        udates.year.change(function () {
+            uchangeDay();
+        });
+        udates.mounth.change(function () {
+            uchangeDay();
+        });
+        /*修改用户信息日期设置 END*/
+
+
+        /*添加用户按钮被点击*/
         close.register.click(function () {
-            hiddenPanle();
             addEle.addCompany.val("");
             addEle.addCompanyInput.val("");
-            panle.addUser.removeClass("hidden");
-            $("html,body").animate({scrollTop: $("#addUser").offset().top}, 500);
+            $("#addUser").modal('show');
         });
+
         search.stopAllUser.click(function () {
             Modal.confirm({
                 title: '警告',
@@ -508,7 +779,6 @@
         });
 
         window.resetPwd = function (userId) {
-            hiddenPanle();
             Modal.confirm({
                 msg: '重置后默认密码为"123456"',
             }).on(function (e) {
@@ -523,10 +793,9 @@
             });
         };
 
-        window.updataInfo = function (userId, userState, userName, userType, companyId, companyName, mobile, workNo, remark, stateChanged) {
-            console.log(userId + "," + userState + "," + userName + "," + userType + "," + companyId + "," + companyName + "," + mobile + "," + workNo + "," + remark + "," + stateChanged);
-            hiddenPanle();
-            panle.updataUserInfo.removeClass("hidden");
+        window.updataInfo = function (userId, userState, userName, userType, companyId, companyName, mobile, phone, email
+                , weixin, department, position, workNo, address, expiryDate, remark, stateChanged) {
+            $("#updataUserInfo").modal('show');
             upEle.userId.val(userId);
             upEle.userState.val(userState);
             upEle.upName.val(userName);
@@ -537,7 +806,6 @@
             upEle.upWorkNo.val(workNo);
             upEle.upRemark.text(remark);
             upEle.upStateChanged.text(stateChanged);
-            $("html,body").animate({scrollTop: $("#updataUserInfo").offset().top}, 500);
         };
 
         window.disableUser = function (userId) {
@@ -575,6 +843,10 @@
             });
         };
 
+        window.lookUseLog = function (userId) {
+            $("#toViewUseLog").modal("show");
+        }
+
 
         /* 更新用户信息 */
         upEle.upBtn.click(function () {
@@ -587,6 +859,8 @@
             if (isEmty(upEle.upCompany.val())) {
                 return alr("请选择所属公司");
             }
+            upEle.upToDate.val(dates.year.find("option:selected").text() + "-"
+                    + dates.mounth.find("option:selected").text() + "-" + dates.day.find("option:selected").text());
             $.post("admin/user/updateUser.do", $("#upForm").serialize(), function (res, status) {
                 alertMsg(res, status);
             });
@@ -609,17 +883,13 @@
             if (isEmty(addEle.addCompany.val())) {
                 return alr("请选择所属公司");
             }
+            addEle.upToDate.val(dates.year.find("option:selected").text() + "-"
+                    + dates.mounth.find("option:selected").text() + "-" + dates.day.find("option:selected").text());
             addEle.addUserPwd.val(md5(addEle.addUserPwd.val()));
             $.post("admin/user/addUser.do", $("#addForm").serialize(), function (res, status) {
                 alertMsg(res, status);
             });
         });
-
-        /* 隐藏添加修改用户的面板 */
-        function hiddenPanle() {
-            panle.updataUserInfo.addClass("hidden");
-            panle.addUser.addClass("hidden");
-        }
 
         /* 判断是否为空 */
         function isEmty(str) {

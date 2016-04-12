@@ -107,6 +107,9 @@
         </div>
     </div>
     <div class="row hidden" id="addType">
+        <h1>
+            <small>添加类型</small>
+        </h1>
         <div class="page-header"></div>
         <div class="form-horizontal">
             <div class="form-group">
