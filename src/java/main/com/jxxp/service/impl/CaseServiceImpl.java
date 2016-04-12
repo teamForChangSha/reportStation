@@ -176,4 +176,16 @@ public class CaseServiceImpl implements CaseService {
 		return reportCaseMapper.update(caseInfo) > 0;
 	}
 
+	@Override
+	public List<ReportCase> getClientCase() {
+		List<ReportCase> list = reportCaseMapper.getCaseByIsClient(1);
+		return list;
+	}
+
+	@Override
+	public List<ReportCase> getNotClientCase() {
+		List<ReportCase> list = reportCaseMapper.getCaseByIsClient(0);
+		return list;
+	}
+
 }
