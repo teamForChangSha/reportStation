@@ -334,7 +334,7 @@ public class UserController {
 	}
 
 	/*
-	 * 根据参数列表获取日志信息
+	 * 根据参数列表获取日志信息,参数为日期和用户id,为空则查询所有
 	 * 
 	 * @author cj
 	 */
@@ -421,4 +421,25 @@ public class UserController {
 		}
 		return null;
 	}
+
+	/*
+	 * 获取单个用户日志信息,如果oprator=null则是查询所有
+	 * 
+	 * @author gcx
+	 */
+	@RequestMapping("/getUserLog.do")
+	public String getLogByUser(HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) throws Exception {
+		String strUserId = request.getParameter("oprator");
+		Long userId = null;
+		if (strUserId != null) {
+			userId = Long.valueOf(strUserId);
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("oprator", userId);
+		List<OprationLog> logList = oprationLogService.getLogByParams(params);
+		modelMap.put("logList", logList);
+		return null;
+	}
+
 }
