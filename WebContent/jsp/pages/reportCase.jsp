@@ -133,11 +133,13 @@
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top">
     <div class="container-fluid">
-        <div class="col-sm-1">
-            <a href="javascript:;" class="thumbnail">
-                <img src="${company.otherInfo.logoUrl}" alt="${company.companyName}">
-            </a>
-        </div>
+        <c:if test="${company.otherInfo.logoUrl!=null}">
+            <div class="col-sm-1">
+                <a href="javascript:;" class="thumbnail">
+                    <img src="${company.otherInfo.logoUrl}" alt="${company.companyName}">
+                </a>
+            </div>
+        </c:if>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">

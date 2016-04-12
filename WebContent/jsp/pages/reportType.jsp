@@ -46,7 +46,8 @@
         .tooltip.bottom .tooltip-arrow {
             border-bottom-color: #265a88;
         }
-        .thumbnail{
+
+        .thumbnail {
             margin-bottom: inherit;
             background: inherit;
             border-radius: 50px;
@@ -55,7 +56,8 @@
             margin: 2px;
             padding: 0;
         }
-        .thumbnail img{
+
+        .thumbnail img {
             border-radius: 50px;
         }
     </style>
@@ -64,11 +66,13 @@
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" id="top">
     <div class="container-fluid">
-        <div class="col-sm-1">
-            <a href="javascript:;" class="thumbnail">
-                <img src="jsp/css/img/placeholder.png" alt="...">
-            </a>
-        </div>
+        <c:if test="${company.otherInfo.logoUrl!=null}">
+            <div class="col-sm-1">
+                <a href="javascript:;" class="thumbnail">
+                    <img src="${company.otherInfo.logoUrl}" alt="${company.companyName}">
+                </a>
+            </div>
+        </c:if>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
