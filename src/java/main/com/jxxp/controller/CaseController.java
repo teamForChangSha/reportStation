@@ -29,6 +29,7 @@ import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseChangeLog;
 import com.jxxp.pojo.CaseComment;
+import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
@@ -174,9 +175,10 @@ public class CaseController {
 			flag = trueMobile.equals(reporter.getMobile()) && trueCode.equals(verifyCode);
 		}
 
-		// 获取session中保存的CompanyBranch对象
-		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
-				"companyBranch");
+//		// 获取session中保存的CompanyBranch对象
+//		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
+//				"companyBranch");
+		Company company = (Company) request.getSession().getAttribute("company");
 
 		// 保存ReportCase对象
 		ReportCase reportCase = new ReportCase();
@@ -184,9 +186,9 @@ public class CaseController {
 		reportCase.setAccessCode(accessCode);
 		reportCase.setReporter(reporter);
 		reportCase.setTrackingNo(trackingNo);
-		reportCase.setCompany(companyBranch.getOwner());
-		reportCase.setCurrentHandler(companyBranch.getOwner());
-		reportCase.setBranch(companyBranch);
+		reportCase.setCompany(company);
+		reportCase.setCurrentHandler(company);
+//		reportCase.setBranch(companyBranch);
 		reportCase.setCaseState(ReportCase.CASE_STATE_NEW);
 		reportCase.setCreateTime(new Date());
 		reportCase.setContactWay(contactWay);

@@ -65,8 +65,12 @@ public class UserController {
 		try {
 			out = response.getWriter();
 			if (user != null) {
-				if (user.getUserState() != 1) {
-					out.print("该账号无法使用！");
+				if (user.getUserState() == User.USER_STATE_NEW) {
+					out.print("新建账号无法使用！请联系管理员");
+				} else if(user.getUserState() == User.USER_STATE_OFF){
+					out.print("该账号已注销！请联系管理员");
+				} else if(user.getUserState() == User.USER_STATE_STOP){
+					out.print("该账号已停用！请联系管理员");
 				} else {
 					ServletContext application = request.getSession().getServletContext();
 					@SuppressWarnings("unchecked")

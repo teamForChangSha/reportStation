@@ -9,6 +9,25 @@ import java.util.Date;
  * 
  */
 public class User {
+	//试用
+	public static final int USER_TYPE_TEST = 1;
+	//公司
+	public static final int USER_TYPE_COMPANY = 2;
+	//系统操作员
+	public static final int USER_TYPE_OPRATOR = 3;
+	//超级管理员
+	public static final int USER_TYPE_SUPER = 4;
+
+	//新建用户
+	public static final int USER_STATE_NEW = 1;
+	//有效用户
+	public static final int USER_STATE_ACTIVE = 2;
+	//停用用户
+	public static final int USER_STATE_STOP = 3;
+	//注销用户
+	public static final int USER_STATE_OFF = 4;
+	
+	
 	private long userId;
 
 	/**
