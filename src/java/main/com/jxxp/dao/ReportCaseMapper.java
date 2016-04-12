@@ -105,4 +105,13 @@ public interface ReportCaseMapper {
 	 * @return 被举报公司的案件集合
 	 */
 	List<ReportCase> getAllByCompanyId(long companyId);
+
+	/**
+	 * 获取客户公司的案件
+	 * 
+	 * @param isClient
+	 * @return
+	 */
+	List<ReportCase> getCaseByIsClient(@Param(value = "isClient") int isClient);
+
 }

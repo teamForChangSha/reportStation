@@ -3,10 +3,8 @@ package com.jxxp.service;
 import java.util.List;
 import java.util.Map;
 
-import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
-import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
@@ -65,11 +63,11 @@ public interface CaseService {
 	 * 
 	 * @param rcId
 	 *            案件的编号
-	 *            
+	 * 
 	 * @return 返回匹配的举报信息，若未能匹配，则返回null
 	 */
 	ReportCase getReportCaseById(long rcId);
-	
+
 	/**
 	 * 获得一个跟踪号，跟踪号根据被举报对象的相关信息生成<br>
 	 * 跟踪号不能与系统已有的跟踪号重复
@@ -88,21 +86,20 @@ public interface CaseService {
 	 * @param reportCase
 	 *            案例信息
 	 * @param answerList
-	 *            问题回复集合           
+	 *            问题回复集合
 	 * @return 返回保存结果，保存成功true，失败false
 	 */
-	boolean saveCase(Reporter reporter, ReportCase reportCase,
-			List<ReportAnswer> answerList);
+	boolean saveCase(Reporter reporter, ReportCase reportCase, List<ReportAnswer> answerList);
 
 	/**
 	 * 查询某个公司的举报信息，
 	 * 
 	 * @param Company
-	 *            公司对象           
+	 *            公司对象
 	 * @return 返回ReportCase列表，失败返回的列表长度为0
 	 */
-	List<ReportCase> getCaseByCompany(Company company,Map<String,String> map);
-	
+	List<ReportCase> getCaseByCompany(Company company, Map<String, String> map);
+
 	/**
 	 * 修改一个举报信息<br>
 	 * 
@@ -111,4 +108,18 @@ public interface CaseService {
 	 * @return 保存正常返回true，否则返回false
 	 */
 	boolean updateCaseInfo(ReportCase caseInfo);
+
+	/**
+	 * 客户公司案件
+	 * 
+	 * @return
+	 */
+	List<ReportCase> getClientCase();
+
+	/**
+	 * 非客户公司案件
+	 * 
+	 * @return
+	 */
+	List<ReportCase> getNotClientCase();
 }

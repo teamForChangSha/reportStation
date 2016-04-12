@@ -50,6 +50,7 @@
   <select id="getAllByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.Long">
   select * from reportcase where company_id=#{companyId,jdbcType=BIGINT}
   </select>
+  
   <select id="searchByKeys" resultMap="BaseResultMap">
    select * from reportcase rc  where 1=1
    <if test="companyId!=1 and companyId!=0">
@@ -200,4 +201,19 @@
     
     where rc_id = #{rcId,jdbcType=BIGINT}
   </update>
+  
+  <!--客户公司和非客户公司的案件  -->
+  <select id="getCaseByIsClient" resultMap="BaseResultMap" parameterType="int">
+   select <include refid="Base_Column_List"/> from reportcase 
+   where 1=1
+   <if test="isClient==1">
+   and   
+   company_id in (select company_id from client_company)
+   </if>
+   <if test="isClient==0">
+   and   
+   company_id not in (select company_id from client_company)
+   </if>
+   order by create_time desc ,case_state asc
+  </select>
 </mapper>
