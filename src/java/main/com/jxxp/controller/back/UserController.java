@@ -334,8 +334,8 @@ public class UserController {
 			params.put("userState", new Integer(strUserState));
 		}
 		List<User> userList = userService.getUsersByParams(params);
+		System.out.println("用户日志==========");
 		modelMap.put("userList", userList);
-
 		return "/jsp/admin/pages/usersAdmin";
 	}
 
