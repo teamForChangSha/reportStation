@@ -119,7 +119,7 @@
             var td4 = $("<td/>").text("<fmt:formatDate value="${caseInfo.createTime}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/>");
             tr.append(td1).append(td2).append(td3).append(td4);
             tr.click(function () {
-                location.href = "case/showCaseById.do?rcId=${caseInfo.rcId}";
+                window.open("case/showCaseById.do?rcId=${caseInfo.rcId}");
             });
             $("tbody").append(tr);
         });
