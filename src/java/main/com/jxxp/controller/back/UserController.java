@@ -2,6 +2,7 @@ package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -16,8 +17,11 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
@@ -445,6 +449,13 @@ public class UserController {
 		out.print(jsonLogList);
 		// modelMap.put("logList", logList);
 		return null;
+	}
+
+	@InitBinder
+	public void initBinder(ServletRequestDataBinder bin) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		CustomDateEditor dateEditor = new CustomDateEditor(format, true);
+		bin.registerCustomEditor(Date.class, dateEditor);
 	}
 
 }
