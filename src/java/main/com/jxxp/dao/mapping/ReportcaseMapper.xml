@@ -9,6 +9,12 @@
     <result column="access_code" property="accessCode" jdbcType="VARCHAR" />
     <result column="tracking_no" property="trackingNo" jdbcType="VARCHAR" />
     <result column="rt_list" property="rtList" jdbcType="VARCHAR" />
+    <!-- 后续加的字段begin -->
+    <result column="contact_way" property="contactWay" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <!--后续加的字段end -->
+    
     <association column="company_id" property="company" select="com.jxxp.dao.CompanyMapper.getById">
     </association>
     <association column="branch_id" property="branch" select="com.jxxp.dao.CompanyBranchMapper.getById">
@@ -35,7 +41,7 @@
   </resultMap>
    <sql id="Base_Column_List" >
     rc_id, create_time, company_id, branch_id, report_id, handler_company, rt_list, case_state, 
-    state_changed, access_code, tracking_no
+    state_changed, access_code, tracking_no, contact_way, province, city
   </sql> 
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from reportcase
@@ -126,6 +132,15 @@
       <if test="trackingNo != null" >
         tracking_no,
       </if>
+      <if test="contactWay != null" >
+      contact_way, 
+      </if>
+      <if test="province != null" >
+      province,
+      </if>
+      <if test="city != null" >
+        city
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="rcId != null" >
@@ -160,6 +175,15 @@
       </if>
       <if test="trackingNo != null" >
         #{trackingNo,jdbcType=VARCHAR},
+      </if>
+       <if test="contactWay != null" >
+      #{contactWay,jdbcType=VARCHAR} ,
+      </if>
+      <if test="province != null" >
+      #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+       #{city,jdbcType=VARCHAR}
       </if>
     </trim>
     
@@ -196,6 +220,15 @@
       </if>
       <if test="trackingNo != null" >
         tracking_no = #{trackingNo,jdbcType=VARCHAR},
+      </if>
+       <if test="contactWay != null" >
+      contact_way= #{contactWay,jdbcType=VARCHAR} 
+      </if>
+      <if test="province != null" >
+      province=#{province,jdbcType=VARCHAR}
+      </if>
+      <if test="city != null" >
+       city=#{city,jdbcType=VARCHAR}
       </if>
     </set>
     
