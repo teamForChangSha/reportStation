@@ -136,7 +136,7 @@
         <c:if test="${company.otherInfo.logoUrl!=null}">
             <div class="col-sm-1">
                 <a href="javascript:;" class="thumbnail">
-                    <img src="${company.otherInfo.logoUrl}" alt="${company.companyName}">
+                    <img src="${company.otherInfo.logoUrl}">
                 </a>
             </div>
         </c:if>

@@ -47,17 +47,18 @@
             border-bottom-color: #265a88;
         }
 
-        .thumbnail {
-            margin-bottom: inherit;
+        .thumbnail{
+            margin-bottom: 2px;
             background: inherit;
             border-radius: 50px;
             max-height: 50px;
             max-width: 50px;
-            margin: 2px;
+            height: 50px;
+            width: 50px;
+            margin-top: 2px;
             padding: 0;
         }
-
-        .thumbnail img {
+        .thumbnail img{
             border-radius: 50px;
         }
     </style>
@@ -69,7 +70,7 @@
         <c:if test="${company.otherInfo.logoUrl!=null}">
             <div class="col-sm-1">
                 <a href="javascript:;" class="thumbnail">
-                    <img src="${company.otherInfo.logoUrl}" alt="${company.companyName}">
+                    <img src="${company.otherInfo.logoUrl}">
                 </a>
             </div>
         </c:if>
