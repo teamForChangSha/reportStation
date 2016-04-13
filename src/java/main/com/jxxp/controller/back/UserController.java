@@ -334,7 +334,6 @@ public class UserController {
 			params.put("userState", new Integer(strUserState));
 		}
 		List<User> userList = userService.getUsersByParams(params);
-		System.out.println("用户日志==========");
 		modelMap.put("userList", userList);
 		return "/jsp/admin/pages/usersAdmin";
 	}
@@ -347,6 +346,7 @@ public class UserController {
 	@RequestMapping("/getLogByParams.do")
 	public String getLogByParams(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
 		String logDate = request.getParameter("logDate");
 		String strUserId = request.getParameter("oprator");
 		Long userId = null;
@@ -354,6 +354,11 @@ public class UserController {
 			userId = Long.valueOf(strUserId);
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
+
+		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
+		if (user.getUserType() <= 2) {
+			params.put("companyId", user.getUserCompany().getCompanyId());
+		}
 		params.put("logDate", logDate);
 		params.put("oprator", userId);
 		List<OprationLog> logList = oprationLogService.getLogByParams(params);

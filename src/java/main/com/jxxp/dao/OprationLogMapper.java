@@ -11,16 +11,18 @@ public interface OprationLogMapper {
 	int insert(OprationLog record);
 
 	/**
-	 * 某个时间的日志信息
+	 * 查询日志，没有关键字则是查询所有
 	 * 
 	 * @param logDate
 	 *            时间
 	 * @param oprator
 	 * @param oprationKey
+	 * @param companyId
 	 * @return
 	 */
 	List<OprationLog> getLogByParams(@Param("logDate") String logDate,
-			@Param("oprator") Long oprator, @Param("oprationKey") String oprationKey);
+			@Param("oprator") Long oprator, @Param("oprationKey") String oprationKey,
+			@Param("companyId") Long companyId);
 
 	int deleteById(Long logId);
 

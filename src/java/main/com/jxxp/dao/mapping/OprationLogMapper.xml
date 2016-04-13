@@ -31,6 +31,10 @@
    <if test="oprationKey!=null and oprationKey!=''">
    and opration like concat(concat('%',#{oprationKey},'%'))
    </if>
+   <if test="companyId!=null">
+   and oprator in (select user_id from userinfo where company_id=#{companyId,jdbcType=BIGINT})
+   </if>
+   
    order by log_date desc
   </select>
   
