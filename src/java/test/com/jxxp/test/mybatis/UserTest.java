@@ -76,6 +76,8 @@ public class UserTest {
 		user.setUserPwd("123");
 		user.setUserType(1);
 		user.setUserState(1);
+		user.setWeixin("5555");
+		user.setPosition("职位");
 		return user;
 	}
 
