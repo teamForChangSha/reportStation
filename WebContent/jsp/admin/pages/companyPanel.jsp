@@ -61,30 +61,27 @@
         <input id="company" type="text" placeholder="搜索企业名称" class="form-control"/>
     </div>
 </header>
-<div id="letter"></div>
+<div id="letter">
+</div>
 <div id="sortBox" class="sort_box">
 </div>
 <div class="initials">
     <ul id="initials">
     </ul>
 </div>
+<p id="loadData" style="text-align: center">数据加载中...</p>
 </body>
 <script>
     $(function () {
         $.post("company/getAllByName.do", "companyName=", function (res) {
             if (res == null || res.length < 0)
                 return;
+            $("#loadData").hide();
             $(JSON.parse(res)).each(function () {
                 var part = $("<div/>").addClass("sort_list");
                 var chil = $("<div/>").addClass("num_name").text(this.companyName).attr("data-id", this.companyId);
                 chil.click(function () {
-                    $(window.parent.document).find("#selectCompanyInput").val($(this).text());
-                    $(window.parent.document).find("#companyId").val($(this).attr("data-id"));
-                    $(window.parent.document).find("#upCompanyInput").val($(this).text());
-                    $(window.parent.document).find("#upCompany").val($(this).attr("data-id"));
-                    $(window.parent.document).find("#addCompanyInput").val($(this).text());
-                    $(window.parent.document).find("#addCompany").val($(this).attr("data-id"));
-                    window.parent.window.hideModal();;
+                    window.parent.window.hideModal($(this).text(),$(this).attr("data-id"));
                 });
                 part.append(chil);
                 $("#sortBox").append(part);

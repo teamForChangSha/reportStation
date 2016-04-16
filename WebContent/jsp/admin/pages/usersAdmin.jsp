@@ -92,8 +92,7 @@
                     <input type="text" id="selectCompanyInput" class="form-control"
                            placeholder="请选择公司"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" data-toggle="modal"
-                                        data-target="#getCompanyPanl">
+                                <button class="btn btn-default" id="selectedPanel" type="button">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
@@ -162,7 +161,8 @@
                             <c:if test="${user.userState==3}">停用</c:if>
                             <c:if test="${user.userState==4}">注销</c:if>
                         </td>
-                        <td>有效期至</td>
+                        <td><fmt:formatDate value="${user.expiryDate}" type="date"
+                                            pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
                         <td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
@@ -218,365 +218,366 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" onclick="upDismiss()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h5 class="modal-title text-center">修改用户信息</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <form id="upForm" class="form-horizontal">
-                                <input type="text" id="userId" hidden name="userId">
-                                <input type="text" id="userState" hidden name="userState">
+                <div class="modal-body" id="upHtml"/>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form id="upForm" class="form-horizontal">
+                            <input type="text" id="userId" hidden name="userId">
+                            <input type="text" id="userState" hidden name="userState">
 
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">用户名字：</label>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户名字：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upName" name="userName" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upName" name="userName" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">用户类型：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户类型：</label>
 
-                                    <div class="col-sm-8">
-                                        <select id="upType" name="userType" class="form-control">
-                                            <option value="0">-请选择-</option>
-                                            <option value="1">试用</option>
-                                            <option value="2">公司用户</option>
-                                            <option value="3">系统操作员</option>
-                                            <c:if test="${user.userType==4}">
-                                                <option value="4">系统管理员</option>
-                                            </c:if>
-                                        </select>
-                                    </div>
+                                <div class="col-sm-8">
+                                    <select id="upType" name="userType" class="form-control">
+                                        <option value="0">-请选择-</option>
+                                        <option value="1">试用</option>
+                                        <option value="2">公司用户</option>
+                                        <option value="3">系统操作员</option>
+                                        <c:if test="${user.userType==4}">
+                                            <option value="4">系统管理员</option>
+                                        </c:if>
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">选择公司：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">选择公司：</label>
 
-                                    <div class="col-sm-8">
-                                        <div class="input-group">
-                                            <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
-                                            <input type="text" id="upCompanyInput" class="form-control"
-                                                   placeholder="请选择公司"/>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
+                                        <input type="text" id="upCompanyInput" class="form-control"
+                                               onkeyup="upInputKeyup()"
+                                               placeholder="请选择公司"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" data-toggle="modal"
-                                        data-target="#getCompanyPanl">
+                                <button class="btn btn-default" onclick="upCompanPanel()" type="button">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">手机号码：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">手机号码：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upMobile" name="mobile" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upMobile" name="mobile" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">办公电话：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">办公电话：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upPhone" name="phone" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upPhone" name="phone" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">邮箱地址：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">邮箱地址：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upEmail" name="email" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upEmail" name="email" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">微信号码：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">微信号码：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upWechat" name="weixin" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upWechat" name="weixin" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">所属部门：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">所属部门：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upDepartment" name="department" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upDepartment" name="department" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">当前职位：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">当前职位：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upPosition" name="position" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upPosition" name="position" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">员工工号：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">员工工号：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upWorkNo" name="workNo" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upWorkNo" name="workNo" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">联系地址：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">联系地址：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="upAddress" name="address" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="upAddress" name="address" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">有效期至：</label>
-                                    <input type="text" id="upToDate" name="expiryDate" hidden>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">有效期至：</label>
+                                <input type="text" id="upToDate" name="expiryDate" hidden>
 
-                                    <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
-                                        <select id="ufullYear" class="form-control">
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <p class="form-control-static">年</p>
-                                    </div>
-                                    <div class="col-sm-1" style="padding: 0;width: 12%">
-                                        <select id="ufullMounth" class="form-control">
-                                            <option value="1">01</option>
-                                            <option value="2">02</option>
-                                            <option value="3">03</option>
-                                            <option value="4">04</option>
-                                            <option value="5">05</option>
-                                            <option value="6">06</option>
-                                            <option value="7">07</option>
-                                            <option value="8">08</option>
-                                            <option value="9">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <p class="form-control-static">月</p>
-                                    </div>
-                                    <div class="col-sm-1" style="padding: 0;width: 12%">
-                                        <select id="ufullDay" class="form-control">
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <p class="form-control-static">日</p>
-                                    </div>
+                                <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
+                                    <select id="ufullYear" class="form-control" onchange="uchangeDay()">
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">备注信息：</label>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">年</p>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;width: 12%">
+                                    <select id="ufullMounth" class="form-control" onchange="uchangeDay()">
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
+                                        <option value="5">05</option>
+                                        <option value="6">06</option>
+                                        <option value="7">07</option>
+                                        <option value="8">08</option>
+                                        <option value="9">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">月</p>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;width: 12%">
+                                    <select id="ufullDay" class="form-control">
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">日</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">备注信息：</label>
 
-                                    <div class="col-sm-8">
+                                <div class="col-sm-8">
                                             <textarea rows="3" id="upRemark" name="remark"
                                                       class="form-control"></textarea>
-                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">更改日期：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">更改日期：</label>
 
-                                    <div class="col-sm-8">
-                                        <p id="upStateChanged" class="form-control-static"></p>
-                                    </div>
+                                <div class="col-sm-8">
+                                    <p id="upStateChanged" class="form-control-static"></p>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-4"></div>
-                                    <div class="col-sm-4">
-                                        <input type="button" id="upBtn" class="btn btn-default form-control"
-                                               value="提交">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <input type="button" onclick="sendUp()" class="btn btn-default form-control"
+                                           value="提交">
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!--添加用户-->
-    <div class="modal fade bs-example-modal-md" id="addUser" tabindex="-1" role="dialog"
-         aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h5 class="modal-title text-center">添加用户</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <form id="addForm" method="post" action="admin/user/addUser.do" class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">用户名字：</label>
+<!--添加用户-->
+<div class="modal fade bs-example-modal-md" id="addUser" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="addDismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title text-center">添加用户</h5>
+            </div>
+            <div class="modal-body" id="addHtml">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form id="addForm" method="post" action="admin/user/addUser.do" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户名字：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addName" name="userName" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addName" name="userName" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">用户账号：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户账号：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addLoginName" name="loginName" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addLoginName" name="loginName" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">用户密码：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户密码：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="password" id="addUserPwd" name="userPwd" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="password" id="addUserPwd" name="userPwd" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">用户类型：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">用户类型：</label>
 
-                                    <div class="col-sm-8">
-                                        <select id="addType" name="userType" class="form-control">
-                                            <option value="0">-请选择-</option>
-                                            <option value="1">试用</option>
-                                            <option value="2">公司用户</option>
-                                            <option value="3">系统操作员</option>
-                                            <c:if test="${user.userType==4}">
-                                                <option value="4">系统管理员</option>
-                                            </c:if>
-                                        </select>
-                                    </div>
+                                <div class="col-sm-8">
+                                    <select id="addType" name="userType" class="form-control">
+                                        <option value="0">-请选择-</option>
+                                        <option value="1">试用</option>
+                                        <option value="2">公司用户</option>
+                                        <option value="3">系统操作员</option>
+                                        <c:if test="${user.userType==4}">
+                                            <option value="4">系统管理员</option>
+                                        </c:if>
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">选择公司：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">选择公司：</label>
 
-                                    <div class="col-sm-8">
-                                        <div class="input-group">
-                                            <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
-                                            <input type="text" id="addCompanyInput" class="form-control"
-                                                   placeholder="请选择公司"/>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
+                                        <input type="text" id="addCompanyInput" class="form-control"
+                                               onkeyup="addInputKeyup()"
+                                               placeholder="请选择公司"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" data-toggle="modal"
-                                        data-target="#getCompanyPanl">
+                                <button class="btn btn-default" onclick="addCompanPanel()" type="button">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                 </button>
                             </span>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">手机号码：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">手机号码：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addMobile" name="mobile" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addMobile" name="mobile" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">办公电话：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">办公电话：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addPhone" name="phone" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addPhone" name="phone" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">邮箱地址：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">邮箱地址：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addEmail" name="email" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addEmail" name="email" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">微信号码：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">微信号码：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addWechat" name="weixin" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addWechat" name="weixin" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">所属部门：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">所属部门：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addDepartment" name="department" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addDepartment" name="department" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">当前职位：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">当前职位：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addPosition" name="position" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addPosition" name="position" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">员工工号：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">员工工号：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addWorkNo" name="workNo" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addWorkNo" name="workNo" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">联系地址：</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">联系地址：</label>
 
-                                    <div class="col-sm-8">
-                                        <input type="text" id="addAddress" name="address" class="form-control">
-                                    </div>
+                                <div class="col-sm-8">
+                                    <input type="text" id="addAddress" name="address" class="form-control">
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">有效期至：</label>
-                                    <input type="text" id="addToDate" name="expiryDate" hidden>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">有效期至：</label>
+                                <input type="text" id="addToDate" name="expiryDate" hidden>
 
-                                    <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
-                                        <select id="fullYear" class="form-control">
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <p class="form-control-static">年</p>
-                                    </div>
-                                    <div class="col-sm-1" style="padding: 0;width: 12%">
-                                        <select id="fullMounth" class="form-control">
-                                            <option value="1">01</option>
-                                            <option value="2">02</option>
-                                            <option value="3">03</option>
-                                            <option value="4">04</option>
-                                            <option value="5">05</option>
-                                            <option value="6">06</option>
-                                            <option value="7">07</option>
-                                            <option value="8">08</option>
-                                            <option value="9">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <p class="form-control-static">月</p>
-                                    </div>
-                                    <div class="col-sm-1" style="padding: 0;width: 12%">
-                                        <select id="fullDay" class="form-control">
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <p class="form-control-static">日</p>
-                                    </div>
+                                <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
+                                    <select id="fullYear" class="form-control" onchange="changeDay()">
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">备注信息：</label>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">年</p>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;width: 12%">
+                                    <select id="fullMounth" class="form-control" onchange="changeDay()">
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
+                                        <option value="5">05</option>
+                                        <option value="6">06</option>
+                                        <option value="7">07</option>
+                                        <option value="8">08</option>
+                                        <option value="9">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">月</p>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;width: 12%">
+                                    <select id="fullDay" class="form-control">
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">日</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">备注信息：</label>
 
-                                    <div class="col-sm-8">
+                                <div class="col-sm-8">
                                             <textarea rows="3" id="addRemark" name="remark"
                                                       class="form-control"></textarea>
-                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-4 control-label"></div>
-                                    <div class="col-sm-4">
-                                        <input type="button" id="addBtn" class="btn btn-default form-control"
-                                               value="提交">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 control-label"></div>
+                                <div class="col-sm-4">
+                                    <input type="button" id="addBtn" onclick="sendAdd()"
+                                           class="btn btn-default form-control"
+                                           value="提交">
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!--查看用户操作日志-->
@@ -588,9 +589,24 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title">用户操作日志</h5>
+                <h5 class="modal-title text-center">用户操作日志</h5>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr class="table-info">
+                                <th>操作日期</th>
+                                <th>操作内容</th>
+                                <th>操作人</th>
+                            </tr>
+                            </thead>
+                            <tbody id="logTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -607,8 +623,7 @@
                 </button>
                 <h5 class="modal-title text-center">选择企业</h5>
             </div>
-            <div class="modal-body">
-                <iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>
+            <div class="modal-body" id="selectedHtml">
             </div>
         </div>
     </div>
@@ -618,51 +633,6 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        var close = {
-            updataUserInfo: $("#closeUpdataUser"),
-            addUser: $("#closeAddUser"),
-            register: $("#register"),
-        }
-        var upEle = {
-            userId: $("#userId"),
-            userState: $("#userState"),
-            upName: $("#upName"),
-            upType: $("#upType"),
-            upCompany: $("#upCompany"),
-            upCompanyInput: $("#upCompanyInput"),
-            upMobile: $("#upMobile"),
-            upPhone: $("#upPhone"),
-            upEmail: $("#upEmail"),
-            upWechat: $("#upWechat"),
-            upDepartment: $("#upDepartment"),
-            upPosition: $("#upPosition"),
-            upWorkNo: $("#upWorkNo"),
-            upAddress: $("#upAddress"),
-            upToDate: $("#upToDate"),
-            upRemark: $("#upRemark"),
-            upStateChanged: $("#upStateChanged"),
-            upBtn: $("#upBtn")
-        }
-        var addEle = {
-            addName: $("#addName"),
-            addLoginName: $("#addLoginName"),
-            addUserPwd: $("#addUserPwd"),
-            addType: $("#addType"),
-            addCompany: $("#addCompany"),
-            addCompanyInput: $("#addCompanyInput"),
-            addMobile: $("#addMobile"),
-            addPhone: $("#addPhone"),
-            addEmail: $("#addEmail"),
-            addWechat: $("#addWechat"),
-            addDepartment: $("#addDepartment"),
-            addPosition: $("#addPosition"),
-            addWorkNo: $("#addWorkNo"),
-            addAddress: $("#addAddress"),
-            addToDate: $("#addToDate"),
-            addRemark: $("#addRemark"),
-            addBtn: $("#addBtn")
-        }
-
         var search = {
             companyId: $("#companyId"),
             selectCompanyInput: $("#selectCompanyInput"),
@@ -673,88 +643,63 @@
             selected: $("#selected")
         }
 
-        var dates = {
-            year: $("#fullYear"),
-            mounth: $("#fullMounth"),
-            day: $("#fullDay")
-        }
-        var udates = {
-            year: $("#ufullYear"),
-            mounth: $("#ufullMounth"),
-            day: $("#ufullDay")
-        }
-
         /*添加用户日期设置*/
         var tempDate = new Date();
         var tempYear = tempDate.getFullYear();
         for (var i = 10; i > 0; i--) {
             var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
-            dates.year.append(opt);
+            $("#fullYear").append(opt);
         }
         for (var i = 0; i < 41; i++) {
             var opt = $("<option/>").text((tempYear - i)).val((tempYear - i));
-            dates.year.append(opt);
+            $("#fullYear").append(opt);
         }
-        dates.year.get(0).value = tempYear;
-        dates.mounth.get(0).value = (tempDate.getMonth() + 1);
-        changeDay();
-        function changeDay() {
-            dates.day.empty();
-            var y = dates.year.find("option:selected").val();
-            var m = dates.mounth.find("option:selected").val();
+        $("#fullYear").get(0).value = tempYear;
+        $("#fullMounth").get(0).value = (tempDate.getMonth() + 1);
+        window.changeDay = function () {
+            $("#fullDay").empty();
+            var y = $("#fullYear").find("option:selected").val();
+            var m = $("#fullMounth").find("option:selected").val();
             var max = new Date(y, m, 0).getDate();
             for (var i = 1; i <= max; i++) {
                 var opt = $("<option/>").text((i < 10 ? "0" + i : i)).val(i);
-                dates.day.append(opt);
+                $("#fullDay").append(opt);
             }
-            dates.day.get(0).value = tempDate.getDate();
+            $("#fullDay").get(0).value = tempDate.getDate();
         }
-
-        dates.year.change(function () {
-            changeDay();
-        });
-        dates.mounth.change(function () {
-            changeDay();
-        });
+        changeDay();
         /*添加用户日期设置 END*/
 
         /*修改用户信息日期设置*/
         for (var i = 10; i > 0; i--) {
             var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
-            udates.year.append(opt);
+            $("#ufullYear").append(opt);
         }
         for (var i = 0; i < 41; i++) {
             var opt = $("<option/>").text((tempYear - i)).val((tempYear - i));
-            udates.year.append(opt);
+            $("#ufullYear").append(opt);
         }
-        udates.year.get(0).value = tempYear;
-        udates.mounth.get(0).value = (tempDate.getMonth() + 1);
-        uchangeDay();
-        function uchangeDay() {
-            udates.day.empty();
-            var y = udates.year.find("option:selected").val();
-            var m = udates.mounth.find("option:selected").val();
+        $("#ufullYear").get(0).value = tempYear;
+        $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
+        window.uchangeDay = function () {
+            $("#ufullDay").empty();
+            var y = $("#ufullYear").find("option:selected").val();
+            var m = $("#ufullMounth").find("option:selected").val();
             var max = new Date(y, m, 0).getDate();
             for (var i = 1; i <= max; i++) {
                 var opt = $("<option/>").text((i < 10 ? "0" + i : i)).val(i);
-                udates.day.append(opt);
+                $("#ufullDay").append(opt);
             }
-            udates.day.get(0).value = tempDate.getDate();
+            $("#ufullDay").get(0).value = tempDate.getDate();
         }
-
-        udates.year.change(function () {
-            uchangeDay();
-        });
-        udates.mounth.change(function () {
-            uchangeDay();
-        });
+        uchangeDay();
         /*修改用户信息日期设置 END*/
 
 
         /*添加用户按钮被点击*/
-        close.register.click(function () {
-            addEle.addCompany.val("");
-            addEle.addCompanyInput.val("");
+        $("#register").click(function () {
+            $("#addCompany").val("");
+            $("#addCompanyInput").val("");
             $("#addUser").modal('show');
         });
 
@@ -773,23 +718,24 @@
             });
         });
 
-        upEle.upCompanyInput.keyup(function () {
-            upEle.upCompanyInput.val("");
-            upEle.upCompany.val("");
-            return Modal.alert({msg: '请选择企业'});
-        });
-        addEle.addCompanyInput.keyup(function () {
-            addEle.addCompanyInput.val("");
-            addEle.addCompany.val("");
-            return Modal.alert({msg: '请选择企业'});
-        });
+        window.upInputKeyup = function () {
+            $("#upCompanyInput").val("");
+            $("#upCompany").val("");
+            return alr('请选择企业');
+        };
+        window.addInputKeyup = function () {
+            $("#addCompanyInput").val("");
+            $("#addCompany").val("");
+            return alr('请选择企业');
+        };
         search.selectCompanyInput.keyup(function () {
             search.selectCompanyInput.val("");
             search.companyId.val("");
             $("#stopAllUser").addClass("hidden");
-            return Modal.alert({msg: '请选择企业'});
+            return alr('请选择企业');
         });
 
+        /*重置密码*/
         window.resetPwd = function (userId) {
             Modal.confirm({
                 msg: '重置后默认密码为"123456"',
@@ -798,41 +744,47 @@
                     var url = "admin/user/resetUserPwd.do";
                     var data = "userId=" + userId + "&userPwd=" + md5("123456");
                     $.post(url, data, function (res, status) {
-                        console.log("=====");
                         alertMsg(res, status);
                     });
                 }
             });
         };
 
+        /*更新用户信息*/
         window.updataInfo = function (userId, userState, userName, userType, companyId, companyName, mobile, phone, email
                 , weixin, department, position, workNo, address, expiryDate, remark, stateChanged) {
             $("#updataUserInfo").modal('show');
-            upEle.userId.val(userId);
-            upEle.userState.val(userState);
-            upEle.upName.val(userName);
-            upEle.upType.get(0).value = userType;
-            upEle.upCompany.val(companyId);
-            upEle.upCompanyInput.val(companyName);
-            upEle.upMobile.val(mobile);
-            upEle.upPhone.val(phone);
-            upEle.upEmail.val(email);
-            upEle.upWechat.val(weixin);
-            upEle.upDepartment.val(department);
-            upEle.upPosition.val(position);
-            upEle.upWorkNo.val(workNo);
-            upEle.upAddress.val(address);
-            upEle.upRemark.text(remark);
-            upEle.upStateChanged.text(stateChanged);
-            var temp = expiryDate.split("-");
-            for (var i = 0; i < temp.length; i++) {
-                udates.year.get(0).value = (temp[i] * 1);
-                udates.mounth.get(0).value = (temp[i] * 1);
-                udates.day.get(0).value = (temp[i] * 1);
-                console.log(temp[i] * 1);
+            $("#userId").val(userId);
+            $("#userState").val(userState);
+            $("#upName").val(userName);
+            $("#upType").get(0).value = userType;
+            $("#upCompany").val(companyId);
+            $("#upCompanyInput").val(companyName);
+            $("#upMobile").val(mobile);
+            $("#upPhone").val(phone);
+            $("#upEmail").val(email);
+            $("#upWechat").val(weixin);
+            $("#upDepartment").val(department);
+            $("#upPosition").val(position);
+            $("#upWorkNo").val(workNo);
+            $("#upAddress").val(address);
+            $("#upRemark").text(remark);
+            $("#upStateChanged").text(stateChanged);
+            if (expiryDate != "") {
+                var temp = expiryDate.split("-");
+                for (var i = 0; i < temp.length; i++) {
+                    $("#ufullYear").get(0).value = (temp[i] * 1);
+                    $("#ufullMounth").get(0).value = (temp[i] * 1);
+                    $("#ufullDay").get(0).value = (temp[i] * 1);
+                }
+            } else {
+                $("#ufullYear").get(0).value = tempYear;
+                $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
+                $("#ufullDay").get(0).value = tempDate.getDate();
             }
         };
 
+        /*停用该用户*/
         window.disableUser = function (userId) {
             Modal.confirm({
                 title: '警告',
@@ -847,6 +799,7 @@
             });
         };
 
+        /*启用该用户*/
         window.enableUser = function (userId) {
             var url = "admin/user/changeUserState.do?userId=" + userId + "&userState=2";
             $.get(url, function (res, status) {
@@ -854,6 +807,7 @@
             });
         };
 
+        /*注销该用户*/
         window.unRegister = function (userId) {
             Modal.confirm({
                 title: '警告',
@@ -868,61 +822,74 @@
             });
         };
 
+        /*查看该用户操作日志*/
         window.lookUseLog = function (userId) {
-            $.get("admin/user/getUserLog.do?oprator="+userId, function (res, status) {
+            $("#logTable").empty();
+            $.get("admin/user/getUserLog.do?oprator=" + userId, function (res, status) {
                 if (status == "success") {
-                    <c:forEach var="${logList}" items="log">
-                        console.log("${log.opration}");
-                    </c:forEach>
+                    $.each(JSON.parse(res), function (i, log) {
+                        var tr = $("<tr/>");
+                        var date = new Date(log.logDate);
+                        var mounth = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth();
+                        var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                        var h = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                        var m = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                        var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+                        var td1 = $("<td/>").text(date.getFullYear() + "-" + mounth + "-" + day + " " + h + ":" + m + ":" + s);
+                        var td2 = $("<td/>").text(log.opration);
+                        var td3 = $("<td/>").text(log.oprator.userName);
+                        tr.append(td1).append(td2).append(td3);
+                        $("#logTable").append(tr);
+                    });
                 }
             });
-//            $("#toViewUseLog").modal("show");
+            $("#toViewUseLog").modal("show");
         }
 
 
         /* 更新用户信息 */
-        upEle.upBtn.click(function () {
-            if (isEmty(upEle.upName.val())) {
+        window.sendUp = function () {
+            if (isEmty($("#upName").val())) {
                 return alr("请输入用户名称");
             }
-            if (upEle.upType.find("option:selected").val() == "0") {
+            if ($("#upType").find("option:selected").val() == "0") {
                 return alr("请选择用户类型");
             }
-            if (isEmty(upEle.upCompany.val())) {
+            if (isEmty($("#upCompany").val())) {
                 return alr("请选择所属公司");
             }
-            upEle.upToDate.val(dates.year.find("option:selected").text() + "-"
-                    + dates.mounth.find("option:selected").text() + "-" + dates.day.find("option:selected").text());
-            console.log($("#upForm").serialize());
+            $("#upToDate").val($("#ufullYear").find("option:selected").text() + "-"
+                    + $("#ufullMounth").find("option:selected").text() + "-" + $("#ufullDay").find("option:selected").text());
             $.post("admin/user/updateUser.do", $("#upForm").serialize(), function (res, status) {
                 alertMsg(res, status);
             });
-        });
+        };
 
         /* 添加企业用户 */
-        addEle.addBtn.click(function () {
-            if (isEmty(addEle.addName.val())) {
-                return alr("请输入用户名称");
+        window.sendAdd = function () {
+            if (isEmty($("#addName").val())) {
+                return alr("请输入用户名字");
             }
-            if (isEmty(addEle.addLoginName.val())) {
-                return alr("请输入登录名");
+            if (isEmty($("#addLoginName").val())) {
+                return alr("请输入登录账号");
             }
-            if (isEmty(addEle.addUserPwd.val())) {
+            if (isEmty($("#addUserPwd").val())) {
                 return alr("请输入密码");
             }
-            if (addEle.addType.find("option:selected").val() == "0") {
+            if ($("#addType").find("option:selected").val() == "0") {
                 return alr("请选择用户类型");
             }
-            if (isEmty(addEle.addCompany.val())) {
+            if (isEmty($("#addCompany").val())) {
                 return alr("请选择所属公司");
             }
-            addEle.upToDate.val(dates.year.find("option:selected").text() + "-"
-                    + dates.mounth.find("option:selected").text() + "-" + dates.day.find("option:selected").text());
-            addEle.addUserPwd.val(md5(addEle.addUserPwd.val()));
+            $("#addToDate").val($("#fullYear").find("option:selected").text() + "-"
+                    + $("#fullMounth").find("option:selected").text() + "-" + $("#fullDay").find("option:selected").text());
+            $("#addUserPwd").val(md5($("#addUserPwd").val()));
+            console.log($("#addForm").serialize());
             $.post("admin/user/addUser.do", $("#addForm").serialize(), function (res, status) {
                 alertMsg(res, status);
             });
-        });
+        };
 
         /* 判断是否为空 */
         function isEmty(str) {
@@ -934,9 +901,7 @@
         }
 
         function alr(masg) {
-            Modal.alert({
-                msg: masg,
-            });
+            alert(masg);
         }
 
         /* 弹出操作消息 */
@@ -960,12 +925,167 @@
             }
         }
 
-        return resetPwd, updataInfo, disableUser, enableUser, unRegister;
+        /*点击添加用户面板选择企业按钮操作*/
+        var addBool = true, upBool = true;
+        var t = 0;
+        var addTemp;
+        var str = '<iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>';
+        window.addCompanPanel = function () {
+            addBool = false;
+            t = 1;
+            addTemp = $('#addHtml').html();
+            saveAddUserInfo();
+            $('#addHtml').html(str);
+        };
+        window.addDismiss = function () {
+            if (addBool) {
+                $("#addUser").modal('hide');
+            } else {
+                $('#addHtml').html(addTemp);
+                addBool = true;
+                getAddUserInfo();
+            }
+        };
+        function saveAddUserInfo() {
+            localStorage.setItem("addName", $("#addName").val());
+            localStorage.setItem("addLoginName", $("#addLoginName").val());
+            localStorage.setItem("addUserPwd", $("#addUserPwd").val());
+            localStorage.setItem("addType", $("#addType").find("option:selected").val());
+            localStorage.setItem("addCompany", $("#addCompany").val());
+            localStorage.setItem("addCompanyInput", $("#addCompanyInput").val());
+            localStorage.setItem("addMobile", $("#addMobile").val());
+            localStorage.setItem("addPhone", $("#addPhone").val());
+            localStorage.setItem("addEmail", $("#addEmail").val());
+            localStorage.setItem("addWechat", $("#addWechat").val());
+            localStorage.setItem("addDepartment", $("#addDepartment").val());
+            localStorage.setItem("addPosition", $("#addPosition").val());
+            localStorage.setItem("addWorkNo", $("#addWorkNo").val());
+            localStorage.setItem("addAddress", $("#addAddress").val());
+            localStorage.setItem("addRemark", $("#addRemark").val());
+            localStorage.setItem("fullYear", $("#fullYear").find("option:selected").val());
+            localStorage.setItem("fullMounth", $("#fullMounth").find("option:selected").val());
+            localStorage.setItem("fullDay", $("#fullDay").find("option:selected").val());
+        }
+
+        function getAddUserInfo() {
+            $("#addName").val(localStorage.getItem("addName"));
+            $("#addLoginName").val(localStorage.getItem("addLoginName"));
+            $("#addUserPwd").val(localStorage.getItem("addUserPwd"));
+            $("#addType").get(0).value = localStorage.getItem("addType");
+            $("#addCompany").val(localStorage.getItem("addCompany"));
+            $("#addCompanyInput").val(localStorage.getItem("addCompanyInput"));
+            $("#addMobile").val(localStorage.getItem("addMobile"));
+            $("#addPhone").val(localStorage.getItem("addPhone"));
+            $("#addEmail").val(localStorage.getItem("addEmail"));
+            $("#addWechat").val(localStorage.getItem("addWechat"));
+            $("#addDepartment").val(localStorage.getItem("addDepartment"));
+            $("#addPosition").val(localStorage.getItem("addPosition"));
+            $("#addWorkNo").val(localStorage.getItem("addWorkNo"));
+            $("#addAddress").val(localStorage.getItem("addAddress"));
+            $("#addRemark").val(localStorage.getItem("addRemark"));
+            $("#fullYear").get(0).value = localStorage.getItem("fullYear");
+            $("#fullMounth").get(0).value = localStorage.getItem("fullMounth");
+            $("#fullDay").get(0).value = localStorage.getItem("fullDay");
+        }
+        /*点击添加用户面板选择企业按钮操作 END*/
+
+        /*点击更新用户面板选择企业按钮操作*/
+        var upTemp;
+        window.upCompanPanel = function () {
+            upBool = false;
+            t = 2;
+            upTemp = $('#upHtml').html();
+            saveUpUserInfo();
+            $('#upHtml').html(str);
+        };
+        window.upDismiss = function () {
+            if (upBool) {
+                $("#updataUserInfo").modal('hide');
+            } else {
+                $('#upHtml').html(upTemp);
+                upBool = true;
+                getUpUserInfo();
+            }
+        };
+        function saveUpUserInfo() {
+            localStorage.setItem("userId", $("#userId").val());
+            localStorage.setItem("userState", $("#userState").val());
+            localStorage.setItem("upName", $("#upName").val());
+            localStorage.setItem("upType", $("#upType").find("option:selected").val());
+            localStorage.setItem("upCompany", $("#upCompany").val());
+            localStorage.setItem("upCompanyInput", $("#upCompanyInput").val());
+            localStorage.setItem("upMobile", $("#upMobile").val());
+            localStorage.setItem("upPhone", $("#upPhone").val());
+            localStorage.setItem("upEmail", $("#upEmail").val());
+            localStorage.setItem("upWechat", $("#upWechat").val());
+            localStorage.setItem("upDepartment", $("#upDepartment").val());
+            localStorage.setItem("upPosition", $("#upPosition").val());
+            localStorage.setItem("upWorkNo", $("#upWorkNo").val());
+            localStorage.setItem("upAddress", $("#upAddress").val());
+            localStorage.setItem("upRemark", $("#upRemark").val());
+            localStorage.setItem("upStateChanged", $("#upStateChanged").val());
+            localStorage.setItem("ufullYear", $("#ufullYear").find("option:selected").val());
+            localStorage.setItem("ufullMounth", $("#ufullMounth").find("option:selected").val());
+            localStorage.setItem("ufullDay", $("#ufullDay").find("option:selected").val());
+        }
+
+        function getUpUserInfo() {
+            $("#userId").val(localStorage.getItem("userId"));
+            $("#userState").val(localStorage.getItem("userState"));
+            $("#upName").val(localStorage.getItem("upName"));
+            $("#upType").get(0).value = localStorage.getItem("upType");
+            $("#upCompany").val(localStorage.getItem("upCompany"));
+            $("#upCompanyInput").val(localStorage.getItem("upCompanyInput"));
+            $("#upMobile").val(localStorage.getItem("upMobile"));
+            $("#upPhone").val(localStorage.getItem("upPhone"));
+            $("#upEmail").val(localStorage.getItem("upEmail"));
+            $("#upWechat").val(localStorage.getItem("upWechat"));
+            $("#upDepartment").val(localStorage.getItem("upDepartment"));
+            $("#upPosition").val(localStorage.getItem("upPosition"));
+            $("#upWorkNo").val(localStorage.getItem("upWorkNo"));
+            $("#upAddress").val(localStorage.getItem("upAddress"));
+            $("#upRemark").val(localStorage.getItem("upRemark"));
+            $("#upStateChanged").val(localStorage.getItem("upStateChanged"));
+            $("#ufullYear").get(0).value = localStorage.getItem("ufullYear");
+            $("#ufullMounth").get(0).value = localStorage.getItem("ufullMounth");
+            $("#ufullDay").get(0).value = localStorage.getItem("ufullDay");
+        }
+
+        /*点击更新用户面板选择企业按钮操作 END*/
+
+        /*搜索按钮点击选择企业*/
+        $("#selectedPanel").click(function () {
+            t = 0;
+            $("#selectedHtml").html(str);
+            $("#getCompanyPanl").modal("show");
+        });
+
+        /*点击完选择某个企业后根据不同操作设置企业并关闭面板*/
+        window.hideModal = function (str, id) {
+            if (t == 0) {
+                $("#selectCompanyInput").val(str);
+                $("#companyId").val(id);
+                $("#stopAllUser").removeClass("hidden");
+                $("#getCompanyPanl").modal("hide");
+            }
+            if (t == 1) {
+                addBool = true;
+                $('#addHtml').html(addTemp);
+                getAddUserInfo();
+                $("#addCompanyInput").val(str);
+                $("#addCompany").val(id);
+            }
+            if (t == 2) {
+                upBool = true;
+                $('#upHtml').html(upTemp);
+                getUpUserInfo();
+                $("#upCompanyInput").val(str);
+                $("#upCompany").val(id);
+            }
+        }
+
+        return hideModal;
     });
-    function hideModal() {
-        $("#getCompanyPanl").modal('hide');
-        $("#stopAllUser").removeClass("hidden");
-    }
 </script>
 
 </html>
