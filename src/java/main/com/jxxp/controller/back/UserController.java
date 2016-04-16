@@ -345,10 +345,7 @@ public class UserController {
 			userAndLogMap.put("lastLoginLog", lastLoginLog);
 			userAndLogList.add(userAndLogMap);
 		}
-		PrintWriter out = response.getWriter();
-		out.print(JSON.toJSON(userAndLogList));
 		modelMap.put("userAndLogList", userAndLogList);
-		System.out.println("-----------" + userAndLogList);
 		return "/jsp/admin/pages/usersAdmin";
 	}
 
