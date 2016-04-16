@@ -44,7 +44,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean addUser(User user) {
-		// TODO Auto-generated method stub
+		// 用户初始状态是新增
+		user.setUserState(1);
 		return userMapper.insert(user) > 0;
 	}
 
