@@ -3,6 +3,7 @@ package com.jxxp.controller.back;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -306,9 +307,10 @@ public class UserController {
 	}
 
 	/*
-	 * 根据参数列表获取用户信息
+	 * 根据参数列表获取用户信息，由于存在有用户信息但是没有登入（没有日志）返回所有用户最后登入的日志集合不合适，因此把集合的对象改为List<Map<
+	 * String, Object>>,key= user表用户，key=lastLoginLog表示最近登录日志，为空则是没有登入；
 	 * 
-	 * @author cj
+	 * @author gcx
 	 */
 	@RequestMapping("/getUsersByParams.do")
 	public String getUsersByParams(HttpServletRequest request, HttpServletResponse response,
@@ -334,14 +336,26 @@ public class UserController {
 			params.put("userState", new Integer(strUserState));
 		}
 		List<User> userList = userService.getUsersByParams(params);
-		modelMap.put("userList", userList);
+		List<Map<String, Object>> userAndLogList = new ArrayList<Map<String, Object>>();
+		// 获取用户的最后登入日志
+		for (int i = 0; i < userList.size(); i++) {
+			Map<String, Object> userAndLogMap = new HashMap<String, Object>();
+			OprationLog lastLoginLog = getUserLastLoginTime(userList.get(i));
+			userAndLogMap.put("user", userList.get(i));
+			userAndLogMap.put("lastLoginLog", lastLoginLog);
+			userAndLogList.add(userAndLogMap);
+		}
+		PrintWriter out = response.getWriter();
+		out.print(JSON.toJSON(userAndLogList));
+		modelMap.put("userAndLogList", userAndLogList);
+		System.out.println("-----------" + userAndLogList);
 		return "/jsp/admin/pages/usersAdmin";
 	}
 
 	/*
 	 * 根据参数列表获取日志信息,参数为日期和用户id,为空则查询所有
 	 * 
-	 * @author cj
+	 * @author gcx
 	 */
 	@RequestMapping("/getLogByParams.do")
 	public String getLogByParams(HttpServletRequest request, HttpServletResponse response,
@@ -418,13 +432,13 @@ public class UserController {
 	 * @return
 	 */
 	public OprationLog getUserLastLoginTime(User user) {
-		// 登入前获取用户上一次登入时间
+		// 登入前获取用户上一次（最新一次）登入时间
 		if (user != null) {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("oprator", user.getUserId());
 			params.put("oprationKey", "登录");
 			List<OprationLog> operatList = oprationLogService.getLogByParams(params);
-			// 由于在数据库中取出来的集合已经是根据时间按降序排序了，因为排在最前面的是随后登入的时间
+			// 由于在数据库中取出来的集合已经是根据时间按降序排序了，因为排在最前面的是最后登入的时间
 			if (operatList.size() > 0) {
 				return operatList.get(0);
 			}
@@ -434,7 +448,7 @@ public class UserController {
 	}
 
 	/*
-	 * 获取单个用户日志信息,如果oprator=null则是查询所有
+	 * 获取单个用户所有日志信息,如果oprator=null则是查询所有
 	 * 
 	 * @author gcx
 	 */
