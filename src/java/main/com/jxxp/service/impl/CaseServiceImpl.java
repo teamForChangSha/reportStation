@@ -12,9 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.jxxp.comms.util.PDFUtil;
+import com.jxxp.comms.util.ZipUtil;
+import com.jxxp.controller.CaseController;
 import com.jxxp.dao.CaseAttachMapper;
 import com.jxxp.dao.CaseCommentMapper;
 import com.jxxp.dao.GenerateKeyMapper;
+import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportAnswerMapper;
 import com.jxxp.dao.ReportCaseMapper;
 import com.jxxp.dao.ReporterMapper;
@@ -47,6 +51,8 @@ public class CaseServiceImpl implements CaseService {
 	private ReportAnswerMapper reportAnswerMapper;
 	@Resource
 	private CaseAttachMapper caseAttachMapper;
+	@Resource
+	private QuestionInfoMapper questionInfoMapper;
 
 	@Override
 	public boolean saveCaseInfo(ReportCase caseInfo) {
@@ -186,6 +192,25 @@ public class CaseServiceImpl implements CaseService {
 	public List<ReportCase> getNotClientCase() {
 		List<ReportCase> list = reportCaseMapper.getCaseByIsClient(0);
 		return list;
+	}
+
+	@Override
+	public String downloadCases(String[] cases, String webPath) throws Exception {
+		for (int i = 0; i < cases.length; i++) {
+			long rcId = Long.parseLong(cases[i]);
+			ReportCase reportCase = reportCaseMapper.getById(rcId);
+			List<Map<String, String>> questAnswerList = CaseController.getQuestionAnswerList(reportCase, questionInfoMapper.getQuestionTemlate());
+			PDFUtil.createReportPDF(reportCase, questAnswerList, webPath);
+		}
+		String resPath = webPath.substring(0, webPath.lastIndexOf("/")) + ".zip";
+		ZipUtil zipUril = new ZipUtil(resPath);
+		zipUril.compress(webPath);
+		return resPath;
+	}
+
+	public static void main(String[] args) {
+		String path = "/54389403/";
+		System.out.println(path.substring(0, path.lastIndexOf("/")) + ".zip");
 	}
 
 }

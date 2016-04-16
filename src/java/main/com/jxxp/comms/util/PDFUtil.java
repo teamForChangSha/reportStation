@@ -140,7 +140,7 @@ public class PDFUtil {
 		document.close();
 	}
 	
-	public void createReportPDF(ReportCase reportCase,List<Map<String, String>> questAnswerList,String filePath) throws Exception {
+	public static void createReportPDF(ReportCase reportCase,List<Map<String, String>> questAnswerList,String filePath) throws Exception {
 		Document document = new Document(PageSize.A4, 80, 79, 20, 45); // A4纸大小 左、右、上、下                /* 使用中文字体 */                
 		BaseFont bfChinese = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
 		
@@ -172,8 +172,6 @@ public class PDFUtil {
 		table.setTotalWidth(500);// 设置表格的宽度   
 		table.setWidthPercentage(100);//设置表格宽度为%100   
 		          
-		
-		
 		int rowCount=1; //行计数器   
 		PdfPCell cell = null;  
 		//---表头   
@@ -248,7 +246,7 @@ public class PDFUtil {
 		cell.setBorder(Rectangle.NO_BORDER);  
 		hiddenTable.addCell(cell);  
 		document.add(hiddenTable);  
-		log.debug("拼装起租通知书结束...");  
+		log.debug(reportCase.getTrackingNo() + "拼装结束...");  
 		document.close();
 	}
 	

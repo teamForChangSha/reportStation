@@ -2,6 +2,7 @@ package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -262,5 +263,40 @@ public class CaseBackController {
 			modelMap.put("notClientCaseList", notClientCaseList);
 		}
 		return "jsp/admin/default";
+	}
+	
+	/**
+	 * 下载案件
+	 * 
+	 * @author cj
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/downloadCases.do")
+	public String downloadCases(HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) throws Exception {
+		String paramsId = request.getParameter("case");
+		String[] cases = paramsId.split(",");
+		
+		String webPath = request.getSession().getServletContext().getContextPath()
+				+ "/download/" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
+		
+		log.debug("webPath:" + webPath);
+		String resPath = caseService.downloadCases(cases, webPath);
+		log.debug("resPath:" + resPath);
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		out = response.getWriter();
+		out.print(resPath);
+		
+		return null;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("342432".split(",").length);
 	}
 }
