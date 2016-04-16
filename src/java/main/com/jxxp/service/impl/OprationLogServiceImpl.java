@@ -35,6 +35,7 @@ public class OprationLogServiceImpl implements OprationLogService {
 		String logDate = null;
 		Long oprator = null;
 		String oprationKey = null;
+		Long companyId = null;
 		if (params.get("logDate") != null) {
 			logDate = (String) params.get("logDate");
 		}
@@ -44,7 +45,10 @@ public class OprationLogServiceImpl implements OprationLogService {
 		if (params.get("oprationKey") != null) {
 			oprationKey = (String) params.get("oprationKey");
 		}
-		return oprationLogMapper.getLogByParams(logDate, oprator, oprationKey);
+		if (params.get("companyId") != null) {
+			companyId = (Long) params.get("companyId");
+		}
+		return oprationLogMapper.getLogByParams(logDate, oprator, oprationKey, companyId);
 	}
 
 	@Override

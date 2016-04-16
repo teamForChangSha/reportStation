@@ -257,11 +257,10 @@ public class CaseBackController {
 			modelMap.put("userLogList", userLogList);
 			// 最近十个用户登录进行的操作日志
 			List<ReportCase> clientCaseList = caseService.getClientCase();
-			List<ReportCase> notClientCaseList = caseService.getClientCase();
+			List<ReportCase> notClientCaseList = caseService.getNotClientCase();
 			modelMap.put("clientCaseList", clientCaseList);
 			modelMap.put("notClientCaseList", notClientCaseList);
 		}
 		return "jsp/admin/default";
 	}
-
 }

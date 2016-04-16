@@ -255,9 +255,9 @@ public class CaseTest {
 		caseInfo.setAccessCode(accessCode);
 		caseInfo.setTrackingNo(trackingNo);
 		caseInfo.setCreateTime(new Date(new Timestamp(new Date().getTime() / 1000 * 1000).getTime()));
-		// caseInfo.setCompany(CompanyTest.getCompany());
-		// caseInfo.setBranch(getBranch());
-		// caseInfo.setReporter(ReporterTest.getReporter());
+		caseInfo.setProvince("湖南省");
+		caseInfo.setCity("长沙市");
+		caseInfo.setContactWay("123456789");
 		caseInfo.setRtList("举报类型1，举报类型2");
 		caseInfo.setCaseState(1);
 		return caseInfo;
@@ -280,6 +280,15 @@ public class CaseTest {
 		branch.setCity(null);
 		branch.setProvince(null);
 		return branch;
+	}
+
+	@Test
+	public void getClientCase() {
+		List<ReportCase> list = reportCaseMapper.getCaseByIsClient(0);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println("rcId==" + list.get(i).getRcId() + "--createTime--"
+					+ list.get(i).getCreateTime() + "--state--" + list.get(i).getCaseState());
+		}
 	}
 
 	/**

@@ -122,8 +122,6 @@ public class CompanyBackController {
 			rtList = companyService.getCompanyReportType(company);
 			log.debug("user id=" + user.getUserCompany().getCompanyId());
 		}
-		log.debug("rtList-------------" + rtList.size());
-		log.debug("delfRtList------------" + delfRtList.size());
 		model.put("rtList", rtList);
 		model.put("delfRtList", delfRtList);
 		return "/jsp/admin/pages/settingType";
@@ -179,33 +177,11 @@ public class CompanyBackController {
 	@RequestMapping("/updateCompanyWholeInfo.do")
 	public String updateCompanyWholeInfo(CompanyWholeInfo wholeCompany, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws Exception {
-		Company company = wholeCompany.getCompany();
 		// 获取文件
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("logo");
-		String dirPath = request.getSession().getServletContext().getRealPath("/")
-				+ "fileupload/logo/" + company.getCompanyId();
-		if (file != null && !file.isEmpty()) {
-			// 保存文件
-			saveLogo(file, dirPath);
-
-			// 完善公司其他信息 CompanyOther
-			CompanyOther other = wholeCompany.getCompanyOther();
-			if (other != null) {
-				// 获取文件的高度和宽度
-				String webPath = request.getSession().getServletContext().getContextPath();
-				String accessPath = webPath + "/fileupload/logo/" + company.getCompanyId();
-				FileInputStream fis = new FileInputStream(new File(dirPath + "/"
-						+ file.getOriginalFilename()));
-				BufferedImage image = ImageIO.read(fis);
-				int width = image.getWidth();
-				int height = image.getHeight();
-				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
-				other.setLogoPath(accessPath);
-				other.setLogoWidth(width);
-				other.setLogoHeight(height);
-			}
-		}
+		// 设置公司其他信息
+		setCompanyOtherInfo(file, wholeCompany, request);
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
 		if (flag) {
@@ -368,4 +344,65 @@ public class CompanyBackController {
 		model.put("company", company);
 		return "/jsp/admin/pages/enterEditor";
 	}
+
+	/**
+	 * 添加公司基本信息(Company)
+	 * 
+	 * @param company
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/addWholeCompany.do")
+	public String addWholeCompany(CompanyWholeInfo wholeCompany, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) throws Exception {
+		// 获取文件
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile file = multipartRequest.getFile("logo");
+		// 设置公司其他信息
+		setCompanyOtherInfo(file, wholeCompany, request);
+		// 调用service,存储公司所有信息
+		boolean flag = companyService.saveWholeCompany(wholeCompany);
+		if (flag) {
+			model.put("msg", "操作成功");
+		} else {
+			model.put("msg", "操作失败");
+
+		}
+
+		return null;
+
+	}
+
+	private void setCompanyOtherInfo(MultipartFile file, CompanyWholeInfo wholeCompany,
+			HttpServletRequest request) throws Exception {
+		if (file != null && !file.isEmpty()) {
+			Company company = wholeCompany.getCompany();
+			String dirPath = request.getSession().getServletContext().getRealPath("/")
+					+ "fileupload/logo/" + company.getCompanyId();
+			// 保存文件
+			saveLogo(file, dirPath);
+			// 完善公司其他信息 CompanyOther
+			CompanyOther other = wholeCompany.getCompanyOther();
+			if (other != null) {
+				// 获取文件的高度和宽度
+				String webPath = request.getSession().getServletContext().getContextPath();
+				String accessPath = webPath + "/fileupload/logo/" + company.getCompanyId();
+				FileInputStream fis = new FileInputStream(new File(dirPath + "/"
+						+ file.getOriginalFilename()));
+				BufferedImage image = ImageIO.read(fis);
+				int width = image.getWidth();
+				int height = image.getHeight();
+				other.setLogoUrl(accessPath + "/" + file.getOriginalFilename());
+				other.setLogoPath(accessPath);
+				other.setLogoWidth(width);
+				other.setLogoHeight(height);
+
+			}
+		}
+
+	}
+
 }
