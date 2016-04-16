@@ -221,9 +221,7 @@
         });
 
         function alr(masg) {
-            Modal.alert({
-                msg: masg,
-            });
+            alert(masg);
         }
     });
 

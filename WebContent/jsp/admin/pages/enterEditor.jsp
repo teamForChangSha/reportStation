@@ -19,16 +19,6 @@
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
-        .form-info {
-            display: block;
-            width: 100%;
-            height: 34px;
-            padding: 5px 0;
-            font-size: 14px;
-            line-height: 1.42857;
-            color: #555;
-        }
-
         .container {
             padding: 30px 0;
         }
@@ -157,7 +147,7 @@
                 <label class="col-sm-2 control-label">公司LOGO：</label>
 
                 <div class="col-sm-3">
-                    <input type="file" name="logo" accept="image/*" class="form-info"/>
+                    <input type="file" name="logo" accept="image/*" class="form-control-static"/>
                 </div>
                 <div class="col-sm-2">
                     <p class="thumbnail">
@@ -446,7 +436,7 @@
                     var fileSize = $("input[name=logo]").get(0).files[0].size / 1024;
                     if (h > 200 || w > 200 || fileSize > 1024) {
                         $("input[name=logo]").val("");
-                        return Modal.alert({msg: "图片宽高不能超过200像素，大小不能超过1M"});
+                        return alert("图片宽高不能超过200像素，大小不能超过1M");
                     }
                     $("img").attr("src", file.target.result);
                 };
@@ -457,22 +447,22 @@
         /* 更新企业信息 */
         $("#updata").click(function () {
             if ($("#type").find("option:selected").val() == "0") {
-                return Modal.alert({msg: '请选择企业类型'});
+                return alert('请选择企业类型');
             }
             if ($("#isSend").is(':checked')) {
                 for (var i = 1; i < 4; i++) {
                     if (!isEmty($("#contacts" + i))) {
                         if (!regEmail($("#email" + i))) {
-                            return Modal.alert({msg: "您填写了姓名，请输入正确的邮箱地址!"});
+                            return alert("您填写了姓名，请输入正确的邮箱地址!");
                         }
                     }
                     if (!isEmty($("#email" + i))) {
                         if (regEmail($("#email" + i))) {
                             if (isEmty($("#contacts" + i))) {
-                                return Modal.alert({msg: "您填写了邮箱地址，请输入对应的姓名!"});
+                                return alert("您填写了邮箱地址，请输入对应的姓名!");
                             }
                         } else {
-                            return Modal.alert({msg: "您填写的邮箱地址有误!"});
+                            return alert("您填写的邮箱地址有误!");
                         }
                     }
                 }
@@ -483,7 +473,7 @@
                     }
                 }
                 if (temp == 0) {
-                    return Modal.alert({msg: "你选择了通过邮件接收举报，请至少填写一个有效邮箱地址,及对应的用户姓名!"});
+                    return alert("你选择了通过邮件接收举报，请至少填写一个有效邮箱地址,及对应的用户姓名!");
                 }
             } else {
                 for (var i = 1; i < 4; i++) {
@@ -491,7 +481,6 @@
                     $("#email" + i).val("");
                 }
             }
-            console.log($("#enterInfo").serialize());
             $("#enterInfo").submit();
         });
 

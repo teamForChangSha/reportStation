@@ -260,13 +260,13 @@
         search.endTime.blur(function () {
             if (new Date(search.endTime.val()) < new Date(search.startTime.val())) {
                 search.endTime.val("");
-                return Modal.alert({msg: "结束时间应大于开始时间!"});
+                return alert("结束时间应大于开始时间!");
             }
         });
         search.startTime.blur(function () {
             if (new Date(search.endTime.val()) < new Date(search.startTime.val())) {
                 search.startTime.val("");
-                return Modal.alert({msg: "开始时间应小于结束时间!"});
+                return alert("开始时间应小于结束时间!");
             }
         });
 
@@ -280,12 +280,12 @@
         $("#submitSelect").click(function () {
             if (search.startTime.val() != "") {
                 if (search.endTime.val() == "") {
-                    return Modal.alert({msg: "请选择结束时间"});
+                    return alert("请选择结束时间");
                 }
             }
             if (search.endTime.val() != "") {
                 if (search.startTime.val() == "") {
-                    return Modal.alert({msg: "请选择起始时间"});
+                    return alert("请选择起始时间");
                 }
             }
             $("#selectForm").submit();
@@ -321,9 +321,9 @@
             caseId = rcId;
             if ("${user.userCompany.companyId}" != currentCompanyId) {
                 if ("${user.userCompany.companyId}" == "1") {
-                    return Modal.alert({msg: '案件未交由平台方处理，您目前只能查看'});
+                    return alert('案件未交由平台方处理，您目前只能查看');
                 } else {
-                    return Modal.alert({msg: '案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
+                    return alert('案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方');
                 }
             }
 
@@ -372,10 +372,16 @@
                }
            });
             if(i>0){
-                location.href = "http://apk-dl.newasp.net/apk/xuxian.market.apk";
+                $.get("admin/caseBack/downloadCases.do?case="+ids,function(res,state){
+                    if(state=="success"){
+                        location.href = res;
+                    }else{
+                        alert('导出失败!');
+                    }
+                });
                 //TODO
             }else{
-                Modal.alert({msg:"请选择需要导出的举报信息!"});
+                alert("请选择需要导出的举报信息!");
             }
         });
 
@@ -391,7 +397,7 @@
         });
         ele.updataBtn.click(function () {
             if (ele.status.find("option:selected").val() == "-1") {
-                return Modal.alert({msg: "请选择需要改变的状态!"});
+                return alert("请选择需要改变的状态!");
             }
             var url = "admin/caseBack/updateCaseState.do";
             var sendToPlatform = "0";
@@ -412,10 +418,10 @@
                                 });
 
                     } else {
-                        Modal.alert({msg: "操作失败!"});
+                        alert("操作失败!");
                     }
                 } else {
-                    Modal.alert({msg: "操作失败!"});
+                    alert("操作失败!");
                 }
             });
         });

@@ -144,24 +144,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${userList}" var="user" varStatus="i">
+                <c:forEach items="${userAndLogList}" var="userAndLog" varStatus="i">
                     <tr>
-                        <td>${user.userName}</td>
-                        <td>${user.userCompany.companyName}</td>
+                        <td>${userAndLog.user.userName}</td>
+                        <td>${userAndLog.user.userCompany.companyName}</td>
                         <td>
-                            <c:if test="${user.userType==1}">试用</c:if>
-                            <c:if test="${user.userType==2}">公司用户</c:if>
-                            <c:if test="${user.userType==3}">系统操作员</c:if>
-                            <c:if test="${user.userType==4}">系统管理员</c:if>
+                            <c:if test="${userAndLog.user.userType==1}">试用</c:if>
+                            <c:if test="${userAndLog.user.userType==2}">公司用户</c:if>
+                            <c:if test="${userAndLog.user.userType==3}">系统操作员</c:if>
+                            <c:if test="${userAndLog.user.userType==4}">系统管理员</c:if>
                         </td>
-                        <td>最近登录时间</td>
                         <td>
-                            <c:if test="${user.userState==1}">新增</c:if>
-                            <c:if test="${user.userState==2}">有效</c:if>
-                            <c:if test="${user.userState==3}">停用</c:if>
-                            <c:if test="${user.userState==4}">注销</c:if>
+                            <c:if test="${userAndLog.lastLoginLog.logDate==null}">最近无操作</c:if>
+                            <c:if test="${userAndLog.lastLoginLog.logDate!=null}">
+                                <fmt:formatDate value="${userAndLog.lastLoginLog.logDate}" type="date"
+                                                pattern="yyyy年MM月dd日 HH:mm:ss"/>
+                            </c:if>
                         </td>
-                        <td><fmt:formatDate value="${user.expiryDate}" type="date"
+                        <td>
+                            <c:if test="${userAndLog.user.userState==1}">新增</c:if>
+                            <c:if test="${userAndLog.user.userState==2}">有效</c:if>
+                            <c:if test="${userAndLog.user.userState==3}">停用</c:if>
+                            <c:if test="${userAndLog.user.userState==4}">注销</c:if>
+                        </td>
+                        <td><fmt:formatDate value="${userAndLog.user.expiryDate}" type="date"
                                             pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
                         <td>
                             <div class="btn-group">
@@ -170,35 +176,35 @@
                                     操作 <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <c:if test="${user.userState==4}">
+                                    <c:if test="${userAndLog.user.userState==4}">
                                         <li class="disabled"><a href="javascript:;">重置密码</a></li>
                                         <li class="disabled"><a href="javascript:;">修改信息</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li class="disabled"><a href="javascript:;">停用</a></li>
                                         <li class="disabled"><a href="javascript:;">注销</a></li>
                                     </c:if>
-                                    <c:if test="${user.userState!=4}">
-                                        <li><a href="javascript:;" onclick="resetPwd(${user.userId})">重置密码</a></li>
+                                    <c:if test="${userAndLog.user.userState!=4}">
+                                        <li><a href="javascript:;" onclick="resetPwd(${userAndLog.user.userId})">重置密码</a></li>
                                         <li><a href="javascript:;"
-                                               onclick="updataInfo(${user.userId},${user.userState},'${user.userName}',${user.userType}
-                                                       ,${user.userCompany.companyId},'${user.userCompany.companyName}',${user.mobile},'${user.phone}','${user.email}'
-                                                       ,'${user.weixin}','${user.department}','${user.position}','${user.workNo}','${user.address}'
-                                                       ,'<fmt:formatDate value="${user.expiryDate}" type="date"
-                                                                         pattern="yyyy-MM-dd"/>','${user.remark}'
-                                                       ,'<fmt:formatDate value="${user.stateChanged}" type="date"
+                                               onclick="updataInfo(${userAndLog.user.userId},${userAndLog.user.userState},'${userAndLog.user.userName}',${userAndLog.user.userType}
+                                                       ,${userAndLog.user.userCompany.companyId},'${userAndLog.user.userCompany.companyName}',${userAndLog.user.mobile},'${userAndLog.user.phone}','${userAndLog.user.email}'
+                                                       ,'${userAndLog.user.weixin}','${userAndLog.user.department}','${userAndLog.user.position}','${userAndLog.user.workNo}','${userAndLog.user.address}'
+                                                       ,'<fmt:formatDate value="${userAndLog.user.expiryDate}" type="date"
+                                                                         pattern="yyyy-MM-dd"/>','${userAndLog.user.remark}'
+                                                       ,'<fmt:formatDate value="${userAndLog.user.stateChanged}" type="date"
                                                                          pattern="yyyy年MM月dd日 HH:mm:ss"/>')">修改信息</a>
                                         </li>
                                         <li role="separator" class="divider"></li>
-                                        <c:if test="${user.userState==3}">
-                                            <li><a href="javascript:;" onclick="enableUser(${user.userId})">启用</a></li>
+                                        <c:if test="${userAndLog.user.userState==3}">
+                                            <li><a href="javascript:;" onclick="enableUser(${userAndLog.user.userId})">启用</a></li>
                                         </c:if>
-                                        <c:if test="${user.userState!=3}">
-                                            <li><a href="javascript:;" onclick="disableUser(${user.userId})">停用</a></li>
+                                        <c:if test="${userAndLog.user.userState!=3}">
+                                            <li><a href="javascript:;" onclick="disableUser(${userAndLog.user.userId})">停用</a></li>
                                         </c:if>
-                                        <li><a href="javascript:;" onclick="unRegister(${user.userId})">注销</a></li>
+                                        <li><a href="javascript:;" onclick="unRegister(${userAndLog.user.userId})">注销</a></li>
                                     </c:if>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="javascript:;" onclick="lookUseLog('${user.userId}')">查看操作日志</a></li>
+                                    <li><a href="javascript:;" onclick="lookUseLog('${userAndLog.user.userId}')">查看操作日志</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -407,7 +413,7 @@
             <div class="modal-body" id="addHtml">
                 <div class="row">
                     <div class="col-sm-12">
-                        <form id="addForm" method="post" action="admin/user/addUser.do" class="form-horizontal">
+                        <form id="addForm" class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">用户名字：</label>
 
@@ -987,6 +993,7 @@
             $("#fullMounth").get(0).value = localStorage.getItem("fullMounth");
             $("#fullDay").get(0).value = localStorage.getItem("fullDay");
         }
+
         /*点击添加用户面板选择企业按钮操作 END*/
 
         /*点击更新用户面板选择企业按钮操作*/

@@ -262,14 +262,10 @@
                             location.reload();
                         });
                     } else {
-                        Modal.alert({
-                            msg: '操作失败！',
-                        });
+                        alert('操作失败！');
                     }
                 } else {
-                    Modal.alert({
-                        msg: '操作失败！',
-                    });
+                    alert('操作失败！');
                 }
             });
         });

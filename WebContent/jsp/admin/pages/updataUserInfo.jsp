@@ -160,12 +160,12 @@
             var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
             if (!phoneReg.test($("input[name=mobile]").val())) {
                 $("html,body").animate({scrollTop: $("input[name=mobile]").offset().top}, 500);
-                return Modal.alert({msg: '请输入正确的手机号!'});
+                return alert('请输入正确的手机号!');
             }
             if ($.trim($("input[name=email]").val()) != '') {
                 if (!emailReg.test($("input[name=email]"))) {
                     $("html,body").animate({scrollTop: $("input[name=email]").offset().top}, 500);
-                    return Modal.alert({msg: '请输入正确的邮箱地址!'});
+                    return alert('请输入正确的邮箱地址!');
                 }
             }
             $("#upForm").submit();

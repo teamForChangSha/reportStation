@@ -138,7 +138,6 @@
                 var data = {};
                 var id = $(this).find("td:nth-child(3) input").filter(':checked').val();
                 var isNeeded = $(this).find("td:nth-child(4) input").is(':checked');
-                console.log(isNeeded);
                 if (id == null) return;
                 data['questId'] = id;
                 data['isNeeded'] = isNeeded == true ? 1 : 0;
@@ -155,14 +154,10 @@
                                     location.reload();
                                 });
                             } else {
-                                Modal.alert({
-                                    msg: '操作失败！',
-                                });
+                                alert('操作失败！');
                             }
                         } else {
-                            Modal.alert({
-                                msg: '操作失败！',
-                            });
+                            alert('操作失败！');
                         }
                     });
         }
