@@ -122,4 +122,14 @@ public interface CaseService {
 	 * @return
 	 */
 	List<ReportCase> getNotClientCase();
+	
+	/**
+	 * 获取所选案件打包后的路径
+	 * @param cases	需要获取的案件编号
+	 * @param resPath 服务器资源路径
+	 * @return 压缩文件的资源路径
+	 * @throws Exception 
+	 */
+	String downloadCases(String[] cases,String webPath) throws Exception;
+
 }
