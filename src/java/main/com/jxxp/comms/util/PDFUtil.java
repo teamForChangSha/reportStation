@@ -32,7 +32,8 @@ public class PDFUtil {
 	public void toPDF() throws Exception {
 		Document document = new Document(PageSize.A4, 80, 79, 20, 45); // A4纸大小 左、右、上、下                /* 使用中文字体 */                
 //	    BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED); // 中文处理   
-		BaseFont bfChinese = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
+//		BaseFont bfChinese = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
+	    BaseFont bfChinese = BaseFont.createFont("/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
 		
 		Font FontChinese = new Font(bfChinese, 14, Font.NORMAL); // 其他所有文字字体        
 		Font BoldChinese = new Font(bfChinese, 14, Font.BOLD); // 粗体        
