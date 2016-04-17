@@ -263,7 +263,7 @@
                 <h5 class="modal-title text-center">添加企业</h5>
             </div>
             <div class="modal-body" id="addCompanHtml">
-                <form id="addForm" class="form-horizontal">
+                <form id="addForm" class="form-horizontal" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">公司名字：</label>
 
@@ -362,7 +362,7 @@
                 <h5 class="modal-title text-center">修改企业</h5>
             </div>
             <div class="modal-body" id="upCompanHtml">
-                <form id="upForm" class="form-horizontal">
+                <form id="upForm" class="form-horizontal" enctype="multipart/form-data">
                     <input type="text" id="upCompanyId" name="company.companyId" hidden/>
 
                     <div class="form-group">
