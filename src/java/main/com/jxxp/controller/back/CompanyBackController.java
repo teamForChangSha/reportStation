@@ -348,6 +348,7 @@ public class CompanyBackController {
 	/**
 	 * 添加公司基本信息(Company)
 	 * 
+	 * @author gcx
 	 * @param company
 	 * @param request
 	 * @param response
@@ -366,9 +367,9 @@ public class CompanyBackController {
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.saveWholeCompany(wholeCompany);
 		if (flag) {
-			model.put("msg", "操作成功");
+			model.put("msg", "success");
 		} else {
-			model.put("msg", "操作失败");
+			model.put("msg", "error");
 
 		}
 
