@@ -1,6 +1,7 @@
 package com.jxxp.comms.util;
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,6 +150,10 @@ public class PDFUtil {
 		Font titleChinese = new Font(bfChinese, 20, Font.BOLD); // 模板抬头的字体      
 		Font moneyFontChinese = new Font(bfChinese, 8, Font.NORMAL);       
 		Font subBoldFontChinese = new Font(bfChinese, 8, Font.BOLD); 
+		File file = new File(filePath);
+		if(!file.exists()) {
+			file.mkdirs();
+		}
 		PdfWriter.getInstance(document,new FileOutputStream(filePath + reportCase.getTrackingNo() + ".pdf"));
 		document.open(); //打开文档   
 		//------------开始写数据-------------------   

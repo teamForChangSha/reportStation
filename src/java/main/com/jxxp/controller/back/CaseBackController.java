@@ -281,11 +281,15 @@ public class CaseBackController {
 		String paramsId = request.getParameter("case");
 		String[] cases = paramsId.split(",");
 		
+		String rootPath = request.getSession().getServletContext().getRealPath("/")
+				+ "download/" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
 		String webPath = request.getSession().getServletContext().getContextPath()
 				+ "/download/" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
 		
 		log.debug("webPath:" + webPath);
-		String resPath = caseService.downloadCases(cases, webPath);
+		log.debug("rootPath:" + rootPath);
+		String resPath = caseService.downloadCases(cases, rootPath);
+		resPath = resPath.substring(resPath.indexOf("reportStation") - 1);
 		log.debug("resPath:" + resPath);
 		
 		response.setCharacterEncoding("UTF-8");
@@ -297,6 +301,8 @@ public class CaseBackController {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("342432".split(",").length);
+		String str = "C:\\software\\mydata\\catt\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\reportStation\\download/20160417031602.zip";
+		
+		System.out.println(str.substring(str.indexOf("reportStation")));
 	}
 }
