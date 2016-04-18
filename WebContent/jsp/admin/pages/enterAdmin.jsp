@@ -52,6 +52,9 @@
         .table-hover > tbody > tr:hover {
             cursor: pointer;
         }
+        .form-control-static{
+            width: 200px;
+        }
     </style>
 </head>
 
@@ -263,7 +266,7 @@
                 <h5 class="modal-title text-center">添加企业</h5>
             </div>
             <div class="modal-body" id="addCompanHtml">
-                <form id="addForm" class="form-horizontal" enctype="multipart/form-data">
+                <form id="addForm" action="admin/companyBack/addWholeCompany.do" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="col-sm-4 control-label">公司名字：</label>
 
@@ -338,6 +341,34 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-4 control-label">服务协议文本：</label>
+
+                        <div class="col-sm-5">
+                    <textarea rows="5" id="addServiceProtocol" name="companyOther.serviceProtocol"
+                              class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">服务协议HTML：</label>
+
+                        <div class="col-sm-5">
+                    <textarea rows="5" id="addSpHtml" name="companyOther.spHtml"
+                              class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司LOGO：</label>
+
+                        <div class="col-sm-3" id="addFileSave">
+                            <input type="file" onchange="addLogoChange(this)" id="addLogo" name="logo" accept="image/*" class="form-control-static"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="thumbnail">
+                                <img id="addImg" src="jsp/css/img/placeholder.png"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-4"></div>
 
                         <div class="col-sm-5 text-center">
@@ -362,7 +393,7 @@
                 <h5 class="modal-title text-center">修改企业</h5>
             </div>
             <div class="modal-body" id="upCompanHtml">
-                <form id="upForm" class="form-horizontal" enctype="multipart/form-data">
+                <form id="upForm" action="admin/companyBack/updateCompanyWholeInfo.do" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <input type="text" id="upCompanyId" name="company.companyId" hidden/>
 
                     <div class="form-group">
@@ -439,6 +470,34 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-4 control-label">服务协议文本：</label>
+
+                        <div class="col-sm-5">
+                    <textarea rows="5" id="upServiceProtocol" name="companyOther.serviceProtocol"
+                              class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">服务协议HTML：</label>
+
+                        <div class="col-sm-5">
+                    <textarea rows="5" id="upSpHtml" name="companyOther.spHtml"
+                              class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司LOGO：</label>
+
+                        <div class="col-sm-3">
+                            <input type="file" onchange="upLogoChange(this)" id="upLogo" name="logo" accept="image/*" class="form-control-static"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="thumbnail">
+                                <img id="upImg" src="jsp/css/img/placeholder.png"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-4"></div>
 
                         <div class="col-sm-5 text-center">
@@ -478,136 +537,115 @@
 //            $("tbody").append(tr);
         }
 
+
+        var t = 0;
+        var addBool = true, upBool = true;
+        var temp = $("#hangye");
         /*添加企业*/
         $("input[name=addCompany]").click(function () {
             $("#addCompanPanel").modal("show");
         });
-
-        /*发送添加企业请求*/
-        window.sendAdd = function () {
-            console.log($("#addForm").serialize());
-            $.post("admin/companyBack/addWholeCompany.do",$("#addForm").serialize(),function(res,state){
-                alertMsg(res,state);
-            });
-        };
-
-        /*添加选择企业*/
-        var t = 0;
-        var addBool = true, upBool = true;
-        var addTemp;
         window.addSelctedIndustry = function () {
-            addTemp = $("#addCompanHtml").html();
+            $("#addForm").hide();
             t = 1;
             addBool = false;
-            saveAddInfo();
-            $("#addCompanHtml").html($("#hangye").html());
+            $("#addCompanHtml").append(temp);
+            temp.removeClass("hide");
         };
         window.addClose = function () {
             if (addBool) {
                 $("#addCompanPanel").modal("hide");
             } else {
-                $("#addCompanHtml").html(addTemp);
+                $("#addCompanHtml").children("#hangye").remove();
+                $("#addForm").show();
                 addBool = true;
-                getAddInfo();
             }
         };
-        function saveAddInfo(){
-            localStorage.setItem("addCompanyName",$("#addCompanyName").val());
-            localStorage.setItem("addCompanyCode",$("#addCompanyCode").val());
-            localStorage.setItem("addStockCode",$("#addStockCode").val());
-            localStorage.setItem("addPhone",$("#addPhone").val());
-            localStorage.setItem("addCompanyState",$("#addCompanyState").find("option:selected").val());
-            localStorage.setItem("addCompanyType",$("#addCompanyType").find("option:selected").val());
-            localStorage.setItem("addIndustry",$("#addIndustry").val());
-            localStorage.setItem("addDescription",$("#addDescription").val());
-        }
-        function getAddInfo(){
-            $("#addCompanyName").val(localStorage.getItem("addCompanyName"));
-            $("#addCompanyCode").val(localStorage.getItem("addCompanyCode"));
-            $("#addStockCode").val(localStorage.getItem("addStockCode"));
-            $("#addPhone").val(localStorage.getItem("addPhone"));
-            $("#addCompanyState").get(0).value = localStorage.getItem("addCompanyState");
-            $("#addCompanyType").get(0).value = localStorage.getItem("addCompanyType");
-            $("#addIndustry").val(localStorage.getItem("addIndustry"));
-            $("#addDescription").val(localStorage.getItem("addDescription"));
-        }
-        /*添加选择企业 END*/
+        window.addLogoChange = function(ele){
+            if (window.File && window.FileList && window.FileReader) {
+                var oFReader = new FileReader();
+                oFReader.onload = function (file) {
+                    var image = new Image();
+                    image.src = file.target.result;
+                    var h = image.height;
+                    var w = image.width;
+                    var fileSize = $(ele).get(0).files[0].size / 1024;
+                    if (h > 200 || w > 200 || fileSize > 1024) {
+                        $("#addLogo").val("");
+                        return alert("图片宽高不能超过200像素，大小不能超过1M");
+                    }
+                    $("#addImg").attr("src", file.target.result);
+                };
+                oFReader.readAsDataURL($(ele).get(0).files[0]);
+            }
+        };
+        window.sendAdd = function () {
+            $("#addForm").submit();
+        };
+        /*添加企业 END*/
 
-        /*更新选择企业*/
-        var upTemp;
+        /*更新企业*/
+        $("input[name=import]").click(function () {
+            $("#upCompanPanel").modal("show");
+        });
+        window.updataCompany = function (id) {
+            //TODO
+            $("#upCompanPanel").modal("show");
+        };
         window.upSelctedIndustry = function () {
-            upTemp = $("#upCompanHtml").html();
+            $("#upForm").hide();
             t = 2;
             upBool = false;
-            saveUpInfo();
-            $("#upCompanHtml").html($("#hangye").html());
+            $("#upCompanHtml").append(temp);
+            temp.removeClass("hide");
         };
         window.upClose = function () {
             if (upBool) {
                 $("#upCompanPanel").modal("hide");
             } else {
-                $("#upCompanHtml").html(upTemp);
+                $("#upCompanHtml").children("#hangye").remove();
+                $("#upForm").show();
                 upBool = true;
-                getUpInfo();
             }
         };
-        function saveUpInfo(){
-            localStorage.setItem("upCompanyId",$("#upCompanyId").val());
-            localStorage.setItem("upCompanyName",$("#upCompanyName").val());
-            localStorage.setItem("upCompanyCode",$("#upCompanyCode").val());
-            localStorage.setItem("upStockCode",$("#upStockCode").val());
-            localStorage.setItem("upPhone",$("#upPhone").val());
-            localStorage.setItem("upCompanyState",$("#upCompanyState").find("option:selected").val());
-            localStorage.setItem("upCompanyType",$("#upCompanyType").find("option:selected").val());
-            localStorage.setItem("upIndustry",$("#upIndustry").val());
-            localStorage.setItem("upDescription",$("#upDescription").val());
-        }
-        function getUpInfo(){
-            $("#upCompanyId").val(localStorage.getItem("upCompanyId"));
-            $("#upCompanyName").val(localStorage.getItem("upCompanyName"));
-            $("#upCompanyCode").val(localStorage.getItem("upCompanyCode"));
-            $("#upStockCode").val(localStorage.getItem("upStockCode"));
-            $("#upPhone").val(localStorage.getItem("upPhone"));
-            $("#upCompanyState").get(0).value = localStorage.getItem("upCompanyState");
-            $("#upCompanyType").get(0).value = localStorage.getItem("upCompanyType");
-            $("#upIndustry").val(localStorage.getItem("upIndustry"));
-            $("#upDescription").val(localStorage.getItem("upDescription"));
-        }
-        /*更新选择企业 END*/
+        window.upLogoChange = function(ele){
+            if (window.File && window.FileList && window.FileReader) {
+                var oFReader = new FileReader();
+                oFReader.onload = function (file) {
+                    var image = new Image();
+                    image.src = file.target.result;
+                    var h = image.height;
+                    var w = image.width;
+                    var fileSize = $(ele).get(0).files[0].size / 1024;
+                    if (h > 200 || w > 200 || fileSize > 1024) {
+                        $("#upLogo").val("");
+                        return alert("图片宽高不能超过200像素，大小不能超过1M");
+                    }
+                    $("#upImg").attr("src", file.target.result);
+                };
+                oFReader.readAsDataURL($(ele).get(0).files[0]);
+            }
+        };
+        window.sendUp = function(){
+            $("#upForm").submit();
+        };
+        /*更新企业 END*/
 
         /*行业表格每一项被点击事件*/
         window.getInd = function (ele) {
             if (t == 1) {
-                $("#addCompanHtml").html(addTemp);
-                addBool = true;
-                getAddInfo();
                 $("#addIndustry").val($(ele).text());
+                $("#addCompanHtml").children("#hangye").remove();
+                $("#addForm").show();
+                addBool = true;
             }
             if (t == 2) {
-                $("#upCompanHtml").html(upTemp);
-                upBool = true;
-                getUpInfo();
                 $("#upIndustry").val($(ele).text());
+                $("#upCompanHtml").children("#hangye").remove();
+                $("#upForm").show();
+                upBool = true;
             }
         };
-
-
-        /*更新企业*/
-        window.updataCompany = function (id) {
-            //TODO
-            $("#upCompanPanel").modal("show");
-        };
-        /*发送更新请求*/
-        window.sendUp = function(){
-            console.log($("#upForm").serialize());
-            //TODO
-            $.post("admin/companyBack/addWholeCompany.do",$("#upForm").serialize(),function(res,state){
-                alertMsg(res,state);
-            });
-        };
-        $("input[name=import]").click(function () {
-            $("#upCompanPanel").modal("show");
-        });
 
         /*删除企业*/
         window.delCompany = function (id) {
