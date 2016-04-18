@@ -192,7 +192,7 @@ public class CompanyBackController {
 
 		}
 
-		return "/jsp/admin/pages/enterEditor";
+		return "/jsp/admin/pages/enterAdmin";
 
 	}
 
@@ -373,7 +373,6 @@ public class CompanyBackController {
 		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.saveWholeCompany(wholeCompany);
-		System.out.println("flag===================" + flag);
 		if (flag) {
 			model.put("msg", "success");
 		} else {
@@ -381,7 +380,7 @@ public class CompanyBackController {
 
 		}
 
-		return null;
+		return "/jsp/admin/pages/enterAdmin";
 
 	}
 
