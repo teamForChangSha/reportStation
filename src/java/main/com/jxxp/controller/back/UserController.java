@@ -259,7 +259,6 @@ public class UserController {
 	@RequestMapping("/addUser.do")
 	public String addUser(User user, HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		System.out.println("user date===-------" + user.getExpiryDate());
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {

@@ -33,6 +33,11 @@
   <select id="login" resultMap="BaseResultMap">
   select * from userinfo where login_name=#{loginName,jdbcType=VARCHAR} and user_pwd=#{userPwd,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getUserByLoginName" resultMap="BaseResultMap">
+  select * from userinfo where login_name=#{loginName,jdbcType=VARCHAR}
+  </select>
+  
   <select id="getUsersByParams" resultMap="BaseResultMap">
   select * from userinfo where 1=1
   <if test="companyId!=null and companyId!=0">
