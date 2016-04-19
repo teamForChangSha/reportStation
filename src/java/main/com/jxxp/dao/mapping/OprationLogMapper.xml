@@ -23,11 +23,17 @@
    select <include refid="Base_Column_List"/>
    from oprationlog where 1=1
    <if test="oprator!=null">
-   and oprator=#{oprator}
+   and oprator in (select user_id from userinfo where user_name like concat(concat('%',#{oprator},'%')))
    </if>
-   <if test="logDate!=null and logDate!=''">
-   and log_date like concat(concat('%',#{logDate},'%'))
+   <if test="beginTime!=null and beginTime!=''">
+   and log_date &gt;=#{beginTime}
    </if>
+   <if test="endTime!=null and endTime!=''">
+   <![CDATA[
+   and DATE_FORMAT(log_date,'%Y_%m_%d') <= DATE_FORMAT(#{endTime},'%Y_%m_%d')
+   ]]>
+   </if>
+   
    <if test="oprationKey!=null and oprationKey!=''">
    and opration like concat(concat('%',#{oprationKey},'%'))
    </if>
@@ -69,7 +75,7 @@ select a.* from oprationlog a right join
 (
 select max(log_id) t from oprationlog where opration= #{opration} group by oprator
 ) 
-as b on b.t = a.log_id limit 0,#{max}
+as b on b.t = a.log_id order by a.log_date desc limit 0,#{max} 
  </select>
  
 <select id="getLastOprationLog" resultMap="BaseResultMap">

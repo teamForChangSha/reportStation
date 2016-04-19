@@ -264,7 +264,7 @@ public class CaseBackController {
 		}
 		return "jsp/admin/default";
 	}
-	
+
 	/**
 	 * 下载案件
 	 * 
@@ -273,36 +273,36 @@ public class CaseBackController {
 	 * @param response
 	 * @param modelMap
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping("/downloadCases.do")
 	public String downloadCases(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
 		String paramsId = request.getParameter("case");
 		String[] cases = paramsId.split(",");
-		
-		String rootPath = request.getSession().getServletContext().getRealPath("/")
-				+ "download/" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
-		String webPath = request.getSession().getServletContext().getContextPath()
-				+ "/download/" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
-		
+
+		String rootPath = request.getSession().getServletContext().getRealPath("/") + "download/"
+				+ new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
+		String webPath = request.getSession().getServletContext().getContextPath() + "/download/"
+				+ new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "/";
+
 		log.debug("webPath:" + webPath);
 		log.debug("rootPath:" + rootPath);
 		String resPath = caseService.downloadCases(cases, rootPath);
 		resPath = resPath.substring(resPath.indexOf("reportStation") - 1);
 		log.debug("resPath:" + resPath);
-		
+
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		out = response.getWriter();
 		out.print(resPath);
-		
+
 		return null;
 	}
-	
+
 	public static void main(String[] args) {
 		String str = "C:\\software\\mydata\\catt\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\reportStation\\download/20160417031602.zip";
-		
+
 		System.out.println(str.substring(str.indexOf("reportStation")));
 	}
 }
