@@ -52,8 +52,15 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Transactional
 	public boolean saveWholeCompany(CompanyWholeInfo wholeCompany) {
-		boolean flag1 = saveCompanyInfo(wholeCompany.getCompany());
-		boolean flag2 = companyOtherMapper.insert(wholeCompany.getCompanyOther()) > 0;
+		Company company = wholeCompany.getCompany();
+		boolean flag1 = saveCompanyInfo(company);
+		boolean flag2 = true;
+		if (wholeCompany.getCompanyOther() != null) {
+			CompanyOther other = wholeCompany.getCompanyOther();
+			System.out.println("-------------" + other.getCompanyId());
+			other.setCompanyId(company.getCompanyId());
+			flag2 = companyOtherMapper.insert(other) > 0;
+		}
 		return flag1 && flag2;
 	}
 

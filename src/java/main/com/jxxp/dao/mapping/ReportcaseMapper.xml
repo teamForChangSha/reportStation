@@ -222,10 +222,10 @@
         tracking_no = #{trackingNo,jdbcType=VARCHAR},
       </if>
        <if test="contactWay != null" >
-      contact_way= #{contactWay,jdbcType=VARCHAR} 
+      contact_way= #{contactWay,jdbcType=VARCHAR} ,
       </if>
       <if test="province != null" >
-      province=#{province,jdbcType=VARCHAR}
+      province=#{province,jdbcType=VARCHAR},
       </if>
       <if test="city != null" >
        city=#{city,jdbcType=VARCHAR}

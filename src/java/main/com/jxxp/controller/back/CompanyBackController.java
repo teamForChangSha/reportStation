@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.jxxp.pojo.Company;
@@ -191,7 +192,7 @@ public class CompanyBackController {
 
 		}
 
-		return "/jsp/admin/pages/enterEditor";
+		return "/jsp/admin/pages/enterAdmin";
 
 	}
 
@@ -359,11 +360,17 @@ public class CompanyBackController {
 	@RequestMapping("/addWholeCompany.do")
 	public String addWholeCompany(CompanyWholeInfo wholeCompany, HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws Exception {
-		// 获取文件
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultipartFile file = multipartRequest.getFile("logo");
-		// 设置公司其他信息
-		setCompanyOtherInfo(file, wholeCompany, request);
+		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request
+				.getSession().getServletContext());
+		// 设置编码
+		commonsMultipartResolver.setDefaultEncoding("utf-8");
+		if (commonsMultipartResolver.isMultipart(request)) {
+			// 获取文件
+			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+			MultipartFile file = multipartRequest.getFile("logo");
+			// 设置公司其他信息
+			setCompanyOtherInfo(file, wholeCompany, request);
+		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.saveWholeCompany(wholeCompany);
 		if (flag) {
@@ -373,7 +380,7 @@ public class CompanyBackController {
 
 		}
 
-		return null;
+		return "/jsp/admin/pages/enterAdmin";
 
 	}
 
