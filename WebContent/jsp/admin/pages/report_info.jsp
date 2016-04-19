@@ -52,35 +52,21 @@
 
                 <div class="col-sm-8">
                     <span class="form-info"
-                          id="organization"><strong>${reportCase.branch.owner.companyName }/ ${reportCase.branch.branchName }</strong></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">发生事故的地址：</label>
-
-                <div class="col-sm-8">
-                    <span class="form-info" id="caseAddr">${reportCase.branch.address }</span>
+                          id="organization"><strong>${reportCase.company.companyName }</strong></span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">省份：</label>
 
                 <div class="col-sm-8">
-                    <span class="form-info" id="caseProvince">${reportCase.branch.province.name }</span>
+                    <span class="form-info" id="caseProvince">${reportCase.province }</span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">城市：</label>
 
                 <div class="col-sm-8">
-                    <span class="form-info" id="caseCity">${reportCase.branch.city.name }</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">邮编：</label>
-
-                <div class="col-sm-8">
-                    <span class="form-info">${reportCase.branch.postCode }</span>
+                    <span class="form-info" id="caseCity">${reportCase.city }</span>
                 </div>
             </div>
             <c:forEach items="${questionAnswerList}" var="quest" varStatus="i">
@@ -89,7 +75,7 @@
                 </c:if>
                 <div class="form-group">
                     <c:if test="${quest.questKey=='quest_1'}">
-                        <label class="col-sm-6 control-label">您是${reportCase.branch.owner.companyName }员工吗：</label>
+                        <label class="col-sm-6 control-label">您是${reportCase.company.companyName }员工吗：</label>
                     </c:if>
                     <c:if test="${quest.questKey!='quest_1'}">
                         <label class="col-sm-6 control-label">${quest.question }</label>

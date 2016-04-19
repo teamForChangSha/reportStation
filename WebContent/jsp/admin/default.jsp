@@ -127,13 +127,14 @@
                         <td>案件编号</td>
                         <td>举报时间</td>
                         <td>状态</td>
+                        <td>被举报公司</td>
                         <td>举报类型</td>
                         <td>举报人</td>
                     </tr>
                     </thead>
                     <tbody class="text-center">
                     <c:forEach items="${clientCaseList}" var="caseInfo" varStatus="i">
-                        <tr>
+                        <tr onclick="look(${caseInfo.rcId},${caseInfo.caseState},this,${caseInfo.company.companyId})">
                             <td>${caseInfo.trackingNo}</td>
                             <td><fmt:formatDate value="${caseInfo.createTime}" type="date"
                                                 pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
@@ -144,6 +145,7 @@
                                 <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
                                 <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
                             </td>
+                            <td>${caseInfo.company.companyName}</td>
                             <td>${caseInfo.rtList}</td>
                             <td>
                                 <c:if test="${caseInfo.reporter.name==null}">匿名</c:if>
@@ -169,13 +171,14 @@
                         <td>案件编号</td>
                         <td>举报时间</td>
                         <td>状态</td>
+                        <td>被举报公司</td>
                         <td>举报类型</td>
                         <td>举报人</td>
                     </tr>
                     </thead>
                     <tbody class="text-center">
                     <c:forEach items="${notClientCaseList}" var="caseInfo" varStatus="i">
-                        <tr>
+                        <tr onclick="look(${caseInfo.rcId},${caseInfo.caseState},this,${caseInfo.company.companyId})">
                             <td>${caseInfo.trackingNo}</td>
                             <td><fmt:formatDate value="${caseInfo.createTime}" type="date"
                                                 pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
@@ -186,6 +189,7 @@
                                 <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
                                 <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
                             </td>
+                            <td>${caseInfo.company.companyName}</td>
                             <td>${caseInfo.rtList}</td>
                             <td>
                                 <c:if test="${caseInfo.reporter.name==null}">匿名</c:if>
@@ -200,4 +204,42 @@
     </c:if>
 </div>
 </body>
+<!--查看案件信息对话框-->
+<div class="modal fade bs-example-modal-lg" id="reprotInfoPanel" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title text-center">案件详情</h5>
+            </div>
+            <div class="modal-body">
+                <iframe frameborder="0" width="100%" height="650px"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 </html>
+
+<script>
+    $(function(){
+        window.look = function (rcId, caseState, ele,companyId) {
+            var url = "admin/caseBack/updateCaseState.do";
+            var data = "rcId=" + rcId + "&state=" + 2
+                    + "&sendToPlatform=0&companyId="+companyId;
+            if (caseState < 2 && "${user.userType==1}") {
+                $.post(url, data, function (res, status) {
+                    if (status == "success") {
+                        if (res == "success") {
+                            $(ele).find("td:nth-child(2)").text("已查看");
+                        }
+                    }
+                });
+            }
+            $("#reprotInfoPanel iframe").attr("src", "admin/caseBack/showCaseById.do?rcId=" + rcId);
+            $("#reprotInfoPanel").modal('show');
+        };
+    })
+</script>

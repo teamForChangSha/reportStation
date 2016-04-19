@@ -103,6 +103,14 @@
         <div class="row">
             <div class="form-inline">
                 <div class="form-group">
+                    <label class="control-label">案件号查询：</label>
+                    <input type='text' name="rcId" style="width: 200px;" class="form-control" placeholder="请输入案件编号"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <div class="form-group">
                     <label class="control-label">所举报类型：</label>
                     <input type='text' name="rtList" style="width: 200px;" class="form-control" placeholder="请输入举报类型"/>
                 </div>
@@ -127,6 +135,7 @@
                 <tr class="table-info">
                     <th>选择</th>
                     <th>举报人</th>
+                    <th>案件编号</th>
                     <th>举报时间</th>
                     <th>举报状态</th>
                     <th>举报对象</th>
@@ -144,6 +153,7 @@
                             <c:if test='${caseInfo.reporter.name==null}'>匿名</c:if>
                             <c:if test='${caseInfo.reporter.name!=null}'>${caseInfo.reporter.name}</c:if>
                         </td>
+                        <td>${caseInfo.trackingNo}</td>
                         <td style="width: 180px"><fmt:formatDate value="${caseInfo.createTime}" type="date"
                                                                  pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
                         <td style="width: 80px">
@@ -374,6 +384,7 @@
             if(i>0){
                 $.get("admin/caseBack/downloadCases.do?case="+ids,function(res,state){
                     if(state=="success"){
+                        console.log(res);
                         location.href = res;
                     }else{
                         alert('导出失败!');
@@ -426,7 +437,7 @@
             });
         });
 
-        $("#selectStatus").change(function () {
+        /*$("#selectStatus").change(function () {
             $("tbody tr td:nth-child(3)").each(function () {
                 if ($(this).text() == $("#selectStatus").find("option:selected").text()) {
                     $(this).parent().removeClass("hidden");
@@ -437,7 +448,7 @@
                     $(this).parent().removeClass("hidden");
                 }
             });
-        });
+        });*/
 
         var dateBtn = {
             oneMounth: $("#oneMounth"),

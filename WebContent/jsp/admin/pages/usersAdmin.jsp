@@ -66,12 +66,29 @@
         }
 
         .form-inline .form-group {
-            display: inherit;
             margin-bottom: 15px;
         }
 
         .form-inline .form-control {
-            width: 200px;
+            width: 148px;
+        }
+
+        .dropdown-menu {
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .dropdown-menu > li {
+            cursor: pointer;
+        }
+
+        #searchCompanyMenu {
+            margin-left: 100px;
+            margin-top: -370px;
+        }
+
+        #upCompanyMenu, #addCompanyMenu {
+            margin-left: 15px;
         }
     </style>
 </head>
@@ -83,21 +100,7 @@
             <small>用户管理</small>
         </h1>
         <div class="page-header"></div>
-        <form action="admin/user/getUsersByParams.do" method="post" class="form-inline">
-            <div class="form-group">
-                <label class="control-label">所属公司：</label>
-
-                <div class="input-group">
-                    <input type="text" id="companyId" name="companyId" hidden/>
-                    <input type="text" id="selectCompanyInput" class="form-control"
-                           placeholder="请选择公司"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" id="selectedPanel" type="button">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                </div>
-            </div>
+        <form id="selectForm" action="admin/user/getUsersByParams.do" method="post" class="form-inline">
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
@@ -114,21 +117,37 @@
                 <label class="control-label">用户状态：</label>
                 <select id="userStatus" name="userState" class="form-control">
                     <option value="">-请选择-</option>
-                    <option value="1">正常</option>
-                    <option value="2">注销</option>
-                    <option value="3">待审核</option>
-                    <option value="4">停用</option>
+                    <option value="1">新增</option>
+                    <option value="2">有效</option>
+                    <option value="3">停用</option>
+                    <option value="4">注销</option>
                 </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label class="control-label">所属公司：</label>
+
+                <input type="text" id="companyId" name="companyId" hidden/>
+                <input type="text" id="selectCompanyInput" class="form-control"
+                       placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"
+                       onfocus="searchCompanyFoucs(this)"/>
+                <ul id="searchCompanyMenu" class="dropdown-menu"></ul>
             </div>
             <div class="form-group">
                 <label class="control-label">搜关键字：</label>
-                <input type="text" id="keyWord" name="keyWord" placeholder="按电话或用户名称搜索" class="form-control"/>
+                <input type="text" id="keyWord" name="keyWord" autocomplete="on"
+                       class="form-control"/>
                 <input type="submit" id="selected" class="btn btn-default" value="搜索"/>
-                <input type="button" id="stopAllUser" class="btn btn-warning hidden" value="停用该公司所有用户"/>
             </div>
         </form>
     </div>
-
+<script>
+    $(function(){
+        $("#selected").click(function () {
+            console.log($("#selectForm").serialize());
+        });
+    })
+</script>
     <div class="row">
         <div class="col-sm-10">
             <table class="table table-bordered table-hover">
@@ -184,27 +203,34 @@
                                         <li class="disabled"><a href="javascript:;">注销</a></li>
                                     </c:if>
                                     <c:if test="${userAndLog.user.userState!=4}">
-                                        <li><a href="javascript:;" onclick="resetPwd(${userAndLog.user.userId})">重置密码</a></li>
                                         <li><a href="javascript:;"
+                                               onclick="resetPwd(${userAndLog.user.userId})">重置密码</a></li>
+                                        <li><a href="javascript:;" data-toggle="modal" data-target="#updataUserInfo"
                                                onclick="updataInfo(${userAndLog.user.userId},${userAndLog.user.userState},'${userAndLog.user.userName}',${userAndLog.user.userType}
                                                        ,${userAndLog.user.userCompany.companyId},'${userAndLog.user.userCompany.companyName}',${userAndLog.user.mobile},'${userAndLog.user.phone}','${userAndLog.user.email}'
                                                        ,'${userAndLog.user.weixin}','${userAndLog.user.department}','${userAndLog.user.position}','${userAndLog.user.workNo}','${userAndLog.user.address}'
-                                                       ,'<fmt:formatDate value="${userAndLog.user.expiryDate}" type="date"
+                                                       ,'<fmt:formatDate value="${userAndLog.user.expiryDate}"
+                                                                         type="date"
                                                                          pattern="yyyy-MM-dd"/>','${userAndLog.user.remark}'
-                                                       ,'<fmt:formatDate value="${userAndLog.user.stateChanged}" type="date"
+                                                       ,'<fmt:formatDate value="${userAndLog.user.stateChanged}"
+                                                                         type="date"
                                                                          pattern="yyyy年MM月dd日 HH:mm:ss"/>')">修改信息</a>
                                         </li>
                                         <li role="separator" class="divider"></li>
                                         <c:if test="${userAndLog.user.userState==3}">
-                                            <li><a href="javascript:;" onclick="enableUser(${userAndLog.user.userId})">启用</a></li>
+                                            <li><a href="javascript:;" onclick="enableUser(${userAndLog.user.userId})">启用</a>
+                                            </li>
                                         </c:if>
                                         <c:if test="${userAndLog.user.userState!=3}">
-                                            <li><a href="javascript:;" onclick="disableUser(${userAndLog.user.userId})">停用</a></li>
+                                            <li><a href="javascript:;" onclick="disableUser(${userAndLog.user.userId})">停用</a>
+                                            </li>
                                         </c:if>
-                                        <li><a href="javascript:;" onclick="unRegister(${userAndLog.user.userId})">注销</a></li>
+                                        <li><a href="javascript:;"
+                                               onclick="unRegister(${userAndLog.user.userId})">注销</a></li>
                                     </c:if>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="javascript:;" onclick="lookUseLog('${userAndLog.user.userId}')">查看操作日志</a></li>
+                                    <li><a href="javascript:;" data-toggle="modal" data-target="#toViewUseLog"
+                                           onclick="lookUseLog('${userAndLog.user.userId}')">查看操作日志</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -214,7 +240,9 @@
             </table>
         </div>
         <div class="col-sm-10">
-            <input type="button" id="register" class="btn btn-default" value="添加用户"/>
+            <input type="button" data-toggle="modal" data-target="#addUser" class="btn btn-default" value="添加用户"/>
+            <input type="button" id="stopAllUsers" onclick="stopAllUser()" class="btn btn-warning hide"
+                   value="停用该公司所有用户"/>
         </div>
     </div>
 
@@ -224,7 +252,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" onclick="upDismiss()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h5 class="modal-title text-center">修改用户信息</h5>
@@ -259,20 +287,26 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">用户状态：</label>
+
+                                <div class="col-sm-8">
+                                    <select id="upStae" name="userState" class="form-control">
+                                        <option value="1">新增</option>
+                                        <option value="2">有效</option>
+                                        <option value="3">停用</option>
+                                        <option value="4">注销</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">选择公司：</label>
 
                                 <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
-                                        <input type="text" id="upCompanyInput" class="form-control"
-                                               onkeyup="upInputKeyup()"
-                                               placeholder="请选择公司"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" onclick="upCompanPanel()" type="button">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                                    </div>
+                                    <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
+                                    <input type="text" id="upCompanyInput" class="form-control"
+                                           placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"
+                                           onfocus="searchCompanyFoucs(this)"/>
+                                    <ul id="upCompanyMenu" class="dropdown-menu"></ul>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -405,7 +439,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="addDismiss()">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h5 class="modal-title text-center">添加用户</h5>
@@ -451,20 +485,26 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">用户状态：</label>
+
+                                <div class="col-sm-8">
+                                    <select id="addStae" name="userState" class="form-control">
+                                        <option value="1">新增</option>
+                                        <option value="2">有效</option>
+                                        <option value="3">停用</option>
+                                        <option value="4">注销</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label">选择公司：</label>
 
                                 <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
-                                        <input type="text" id="addCompanyInput" class="form-control"
-                                               onkeyup="addInputKeyup()"
-                                               placeholder="请选择公司"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" onclick="addCompanPanel()" type="button">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                </button>
-                            </span>
-                                    </div>
+                                    <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
+                                    <input type="text" id="addCompanyInput" class="form-control"
+                                           placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"
+                                           onfocus="searchCompanyFoucs(this)"/>
+                                    <ul id="addCompanyMenu" class="dropdown-menu"></ul>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -639,16 +679,9 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        var search = {
-            companyId: $("#companyId"),
-            selectCompanyInput: $("#selectCompanyInput"),
-            stopAllUser: $("#stopAllUser"),
-            userType: $("#userType"),
-            userStatus: $("#userStatus"),
-            keyWord: $("#keyWord"),
-            selected: $("#selected")
-        }
-
+        var phoneReg = /(1[3-9]\d{9}$)/;
+        var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        var userNameReg = /^[A-Za-z0-9]+$/;
         /*添加用户日期设置*/
         var tempDate = new Date();
         var tempYear = tempDate.getFullYear();
@@ -701,45 +734,60 @@
         uchangeDay();
         /*修改用户信息日期设置 END*/
 
-
-        /*添加用户按钮被点击*/
-        $("#register").click(function () {
-            $("#addCompany").val("");
-            $("#addCompanyInput").val("");
-            $("#addUser").modal('show');
-        });
-
-        search.stopAllUser.click(function () {
+        /*停用某公司所有用户*/
+        window.stopAllUser = function () {
             Modal.confirm({
                 title: '警告',
                 msg: '你确定要停用该公司所有用户吗?',
             }).on(function (e) {
                 if (e) {
                     var url = "admin/user/stopCompanyAllUsers.do";
-                    var data = "companyId=" + search.companyId.val();
+                    var data = "companyId=" + $("#companyId").val();
                     $.post(url, data, function (res, status) {
                         alertMsg(res, status);
                     });
                 }
             });
-        });
+        };
 
-        window.upInputKeyup = function () {
-            $("#upCompanyInput").val("");
-            $("#upCompany").val("");
-            return alr('请选择企业');
+        /*搜索公司*/
+        window.searchCompany = function (ele) {
+            if ($(ele).get(0).id == $("#selectCompanyInput").get(0).id) {
+                $("#stopAllUsers").addClass("hide");
+            }
+            $(ele).prev().val('');
+            AutoComple(ele);
         };
-        window.addInputKeyup = function () {
-            $("#addCompanyInput").val("");
-            $("#addCompany").val("");
-            return alr('请选择企业');
+        window.searchCompanyFoucs = function (ele) {
+            AutoComple(ele);
         };
-        search.selectCompanyInput.keyup(function () {
-            search.selectCompanyInput.val("");
-            search.companyId.val("");
-            $("#stopAllUser").addClass("hidden");
-            return alr('请选择企业');
-        });
+        function AutoComple(ele) {
+            $(ele).next().hide();
+            $(ele).next().empty();
+            var data = "companyName=" + $(ele).val();
+            $.post("company/getAllByName.do", data, function (res) {
+                if (res == null || res.length < 0)
+                    return;
+                $.each(JSON.parse(res), function (i, company) {
+                    var li = $("<li/>");
+                    var a = $("<a/>").attr("data-id", company.companyId).text(
+                            company.companyName);
+                    a.click(function () {
+                        $(ele).val(this.innerHTML);
+                        $(ele).prev().val($(this).attr("data-id"));
+                        $(ele).next().hide();
+                        if ($(ele).get(0).id == $("#selectCompanyInput").get(0).id) {
+                            $("#stopAllUsers").removeClass("hide");
+                        }
+                    });
+                    li.append(a);
+                    $(ele).next().append(li);
+                    $(ele).next().show();
+                });
+            });
+        }
+
+        /*搜索公司END*/
 
         /*重置密码*/
         window.resetPwd = function (userId) {
@@ -759,9 +807,8 @@
         /*更新用户信息*/
         window.updataInfo = function (userId, userState, userName, userType, companyId, companyName, mobile, phone, email
                 , weixin, department, position, workNo, address, expiryDate, remark, stateChanged) {
-            $("#updataUserInfo").modal('show');
             $("#userId").val(userId);
-            $("#userState").val(userState);
+            $("#upStae").get(0).value = userState;
             $("#upName").val(userName);
             $("#upType").get(0).value = userType;
             $("#upCompany").val(companyId);
@@ -849,20 +896,25 @@
                     });
                 }
             });
-            $("#toViewUseLog").modal("show");
         }
 
 
         /* 更新用户信息 */
         window.sendUp = function () {
             if (isEmty($("#upName").val())) {
-                return alr("请输入用户名称");
+                return alr("请输入用户名字");
             }
             if ($("#upType").find("option:selected").val() == "0") {
                 return alr("请选择用户类型");
             }
             if (isEmty($("#upCompany").val())) {
                 return alr("请选择所属公司");
+            }
+            if (!rePhone($("#upMobile").val())) {
+                return alr("请输入正确的手机号");
+            }
+            if (!reEmail($("#upEmail").val())) {
+                return alr("请输入正确的E-Mail");
             }
             $("#upToDate").val($("#ufullYear").find("option:selected").text() + "-"
                     + $("#ufullMounth").find("option:selected").text() + "-" + $("#ufullDay").find("option:selected").text());
@@ -878,6 +930,10 @@
             }
             if (isEmty($("#addLoginName").val())) {
                 return alr("请输入登录账号");
+            } else if (!reUserName($("#addLoginName").val())) {
+                return alr("登录账号只能输入字母或数字");
+            } else if ($("#addLoginName").val().length < 6 || $("#addLoginName").val().length > 12) {
+                return alr("登录账号长度必须在6-12位之间");
             }
             if (isEmty($("#addUserPwd").val())) {
                 return alr("请输入密码");
@@ -888,6 +944,12 @@
             if (isEmty($("#addCompany").val())) {
                 return alr("请选择所属公司");
             }
+            if (!rePhone($("#addMobile").val())) {
+                return alr("请输入正确的手机号");
+            }
+            if (!reEmail($("#addEmail").val())) {
+                return alr("请输入正确的E-Mail");
+            }
             $("#addToDate").val($("#fullYear").find("option:selected").text() + "-"
                     + $("#fullMounth").find("option:selected").text() + "-" + $("#fullDay").find("option:selected").text());
             $("#addUserPwd").val(md5($("#addUserPwd").val()));
@@ -897,6 +959,14 @@
             });
         };
 
+        $(document).bind('click', function (e) {
+            console.log($(e.target).get(0).id);
+            if ($(e.target).get(0).id!=$("#selectCompanyInput").get(0).id||$(e.target).get(0).id!=$("#searchCompanyMenu").get(0).id
+            )
+                return;
+            leftEle.companyName.next().next().hide();
+        });
+
         /* 判断是否为空 */
         function isEmty(str) {
             str = $.trim(str);
@@ -904,6 +974,27 @@
                 return true;
             }
             return false;
+        }
+
+        function rePhone(str) {
+            if (!phoneReg.test(str)) {
+                return false;
+            }
+            return true;
+        }
+
+        function reEmail(str) {
+            if (!emailReg.test(str)) {
+                return false;
+            }
+            return true;
+        }
+
+        function reUserName(str) {
+            if (!userNameReg.test(str)) {
+                return false;
+            }
+            return true;
         }
 
         function alr(masg) {
@@ -930,168 +1021,6 @@
                 });
             }
         }
-
-        /*点击添加用户面板选择企业按钮操作*/
-        var addBool = true, upBool = true;
-        var t = 0;
-        var addTemp;
-        var str = '<iframe src="jsp/admin/pages/companyPanel.jsp" frameborder="0" width="100%" height="650px"></iframe>';
-        window.addCompanPanel = function () {
-            addBool = false;
-            t = 1;
-            addTemp = $('#addHtml').html();
-            saveAddUserInfo();
-            $('#addHtml').html(str);
-        };
-        window.addDismiss = function () {
-            if (addBool) {
-                $("#addUser").modal('hide');
-            } else {
-                $('#addHtml').html(addTemp);
-                addBool = true;
-                getAddUserInfo();
-            }
-        };
-        function saveAddUserInfo() {
-            localStorage.setItem("addName", $("#addName").val());
-            localStorage.setItem("addLoginName", $("#addLoginName").val());
-            localStorage.setItem("addUserPwd", $("#addUserPwd").val());
-            localStorage.setItem("addType", $("#addType").find("option:selected").val());
-            localStorage.setItem("addCompany", $("#addCompany").val());
-            localStorage.setItem("addCompanyInput", $("#addCompanyInput").val());
-            localStorage.setItem("addMobile", $("#addMobile").val());
-            localStorage.setItem("addPhone", $("#addPhone").val());
-            localStorage.setItem("addEmail", $("#addEmail").val());
-            localStorage.setItem("addWechat", $("#addWechat").val());
-            localStorage.setItem("addDepartment", $("#addDepartment").val());
-            localStorage.setItem("addPosition", $("#addPosition").val());
-            localStorage.setItem("addWorkNo", $("#addWorkNo").val());
-            localStorage.setItem("addAddress", $("#addAddress").val());
-            localStorage.setItem("addRemark", $("#addRemark").val());
-            localStorage.setItem("fullYear", $("#fullYear").find("option:selected").val());
-            localStorage.setItem("fullMounth", $("#fullMounth").find("option:selected").val());
-            localStorage.setItem("fullDay", $("#fullDay").find("option:selected").val());
-        }
-
-        function getAddUserInfo() {
-            $("#addName").val(localStorage.getItem("addName"));
-            $("#addLoginName").val(localStorage.getItem("addLoginName"));
-            $("#addUserPwd").val(localStorage.getItem("addUserPwd"));
-            $("#addType").get(0).value = localStorage.getItem("addType");
-            $("#addCompany").val(localStorage.getItem("addCompany"));
-            $("#addCompanyInput").val(localStorage.getItem("addCompanyInput"));
-            $("#addMobile").val(localStorage.getItem("addMobile"));
-            $("#addPhone").val(localStorage.getItem("addPhone"));
-            $("#addEmail").val(localStorage.getItem("addEmail"));
-            $("#addWechat").val(localStorage.getItem("addWechat"));
-            $("#addDepartment").val(localStorage.getItem("addDepartment"));
-            $("#addPosition").val(localStorage.getItem("addPosition"));
-            $("#addWorkNo").val(localStorage.getItem("addWorkNo"));
-            $("#addAddress").val(localStorage.getItem("addAddress"));
-            $("#addRemark").val(localStorage.getItem("addRemark"));
-            $("#fullYear").get(0).value = localStorage.getItem("fullYear");
-            $("#fullMounth").get(0).value = localStorage.getItem("fullMounth");
-            $("#fullDay").get(0).value = localStorage.getItem("fullDay");
-        }
-
-        /*点击添加用户面板选择企业按钮操作 END*/
-
-        /*点击更新用户面板选择企业按钮操作*/
-        var upTemp;
-        window.upCompanPanel = function () {
-            upBool = false;
-            t = 2;
-            upTemp = $('#upHtml').html();
-            saveUpUserInfo();
-            $('#upHtml').html(str);
-        };
-        window.upDismiss = function () {
-            if (upBool) {
-                $("#updataUserInfo").modal('hide');
-            } else {
-                $('#upHtml').html(upTemp);
-                upBool = true;
-                getUpUserInfo();
-            }
-        };
-        function saveUpUserInfo() {
-            localStorage.setItem("userId", $("#userId").val());
-            localStorage.setItem("userState", $("#userState").val());
-            localStorage.setItem("upName", $("#upName").val());
-            localStorage.setItem("upType", $("#upType").find("option:selected").val());
-            localStorage.setItem("upCompany", $("#upCompany").val());
-            localStorage.setItem("upCompanyInput", $("#upCompanyInput").val());
-            localStorage.setItem("upMobile", $("#upMobile").val());
-            localStorage.setItem("upPhone", $("#upPhone").val());
-            localStorage.setItem("upEmail", $("#upEmail").val());
-            localStorage.setItem("upWechat", $("#upWechat").val());
-            localStorage.setItem("upDepartment", $("#upDepartment").val());
-            localStorage.setItem("upPosition", $("#upPosition").val());
-            localStorage.setItem("upWorkNo", $("#upWorkNo").val());
-            localStorage.setItem("upAddress", $("#upAddress").val());
-            localStorage.setItem("upRemark", $("#upRemark").val());
-            localStorage.setItem("upStateChanged", $("#upStateChanged").val());
-            localStorage.setItem("ufullYear", $("#ufullYear").find("option:selected").val());
-            localStorage.setItem("ufullMounth", $("#ufullMounth").find("option:selected").val());
-            localStorage.setItem("ufullDay", $("#ufullDay").find("option:selected").val());
-        }
-
-        function getUpUserInfo() {
-            $("#userId").val(localStorage.getItem("userId"));
-            $("#userState").val(localStorage.getItem("userState"));
-            $("#upName").val(localStorage.getItem("upName"));
-            $("#upType").get(0).value = localStorage.getItem("upType");
-            $("#upCompany").val(localStorage.getItem("upCompany"));
-            $("#upCompanyInput").val(localStorage.getItem("upCompanyInput"));
-            $("#upMobile").val(localStorage.getItem("upMobile"));
-            $("#upPhone").val(localStorage.getItem("upPhone"));
-            $("#upEmail").val(localStorage.getItem("upEmail"));
-            $("#upWechat").val(localStorage.getItem("upWechat"));
-            $("#upDepartment").val(localStorage.getItem("upDepartment"));
-            $("#upPosition").val(localStorage.getItem("upPosition"));
-            $("#upWorkNo").val(localStorage.getItem("upWorkNo"));
-            $("#upAddress").val(localStorage.getItem("upAddress"));
-            $("#upRemark").val(localStorage.getItem("upRemark"));
-            $("#upStateChanged").val(localStorage.getItem("upStateChanged"));
-            $("#ufullYear").get(0).value = localStorage.getItem("ufullYear");
-            $("#ufullMounth").get(0).value = localStorage.getItem("ufullMounth");
-            $("#ufullDay").get(0).value = localStorage.getItem("ufullDay");
-        }
-
-        /*点击更新用户面板选择企业按钮操作 END*/
-
-        /*搜索按钮点击选择企业*/
-        $("#selectedPanel").click(function () {
-            t = 0;
-            $("#selectedHtml").html(str);
-            $("#getCompanyPanl").modal("show");
-        });
-
-        /*点击完选择某个企业后根据不同操作设置企业并关闭面板*/
-        window.hideModal = function (str, id) {
-            if (t == 0) {
-                $("#selectCompanyInput").val(str);
-                $("#companyId").val(id);
-                $("#stopAllUser").removeClass("hidden");
-                $("#getCompanyPanl").modal("hide");
-            }
-            if (t == 1) {
-                addBool = true;
-                $('#addHtml').html(addTemp);
-                getAddUserInfo();
-                $("#addCompanyInput").val(str);
-                $("#addCompany").val(id);
-            }
-            if (t == 2) {
-                upBool = true;
-                $('#upHtml').html(upTemp);
-                getUpUserInfo();
-                $("#upCompanyInput").val(str);
-                $("#upCompany").val(id);
-            }
-        }
-
-        return hideModal;
     });
 </script>
 

@@ -92,6 +92,12 @@
         <div style="height: auto;" id="sidebar" class="nav-collapse in collapse">
             <ul class="sidebar-menu">
                 <li class="sub-menu">
+                    <a href="admin/caseBack/showLastCase.do" target="MainIframe">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span>后台首页</span>
+                    </a>
+                </li>
+                <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                         <span>公司设置</span>
@@ -116,10 +122,11 @@
                         </a>
                         <ul class="sub">
                             <c:if test="${user.userType==2}">
-                                <li><a class="" href="jsp/admin/pages/updataUserInfo.jsp" target="MainIframe">信息修改</a></li>
+                                <li><a class="" href="jsp/admin/pages/updataUserInfo.jsp" target="MainIframe">信息修改</a>
+                                </li>
                             </c:if>
                             <c:if test="${user.userType>=3}">
-                                <li><a class="" href="admin/user/getUsersByParams.do" target="MainIframe">用户设置</a></li>
+                                <li><a class="" href="admin/user/getUsersByParams.do" target="MainIframe">用户管理</a></li>
                             </c:if>
                             <li><a class="" href="admin/user/getLogByParams.do" target="MainIframe">操作日志</a></li>
                         </ul>
@@ -162,8 +169,8 @@
                         </ul>
                     </li>
                 </c:if>
-                <li id="updataPwd" class="sub-menu">
-                    <a href="javascript:;" class="">
+                <li class="sub-menu">
+                    <a href="javascript:;" class="" data-toggle="modal" data-target="#updatePwd">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         <span>修改密码</span>
                     </a>
@@ -186,6 +193,37 @@
 </div>
 <div id="footer">
     Copyright © 2016-2018 51report.com
+</div>
+
+<!--修改密码-->
+<div style="margin-top: 100px" class="modal fade bs-example-modal-sm" id="updatePwd" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="exampleModalLabel">修改密码</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input type="password" id="oldPwd" class="form-control" placeholder="旧密码">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="newPwd" class="form-control" placeholder="新密码">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="reNewPwd" class="form-control" placeholder="重复密码">
+                    </div>
+                    <div class="form-group">
+                        <input type="button" id="loginBtn" value="登陆" class="btn btn-primary form-control"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -216,36 +254,49 @@
             $("#date").text("当前时间：" + text);
         };
 
-        $("#updataPwd").click(function () {
-            Modal.prompt({
-                title: '修改密码',
-                msg: '请输入密码',
-            }).on(function (e, res) {
-                if (e) {
-                    if ($.trim(res) == null || $.trim(res) == "" || $.trim(res).length > 0) {
-                        return Modal.alert({msg: '未填写密码'});
-                    }
-                    var url = "admin/user/updatePwd.do?userPwd=" + md5(res);
-                    $.get(url, function (res, status) {
-                        if (status == "success") {
-                            if (res == "success") {
-                                Modal.alert({
-                                    msg: '操作成功！',
-                                });
-                            } else {
-                                Modal.alert({
-                                    msg: '操作失败！',
-                                });
+        $("#loginBtn").click(function () {
+            var oldPwd = $("#oldPwd").val();
+            var newPwd = $("#newPwd").val();
+            var reNewPwd = $("#reNewPwd").val();
+            if (isEmty(oldPwd)) {
+                return alert("请输入旧密码");
+            }
+            if (isEmty(newPwd)) {
+                return alert("请输入新密码");
+            }
+            if (newPwd != reNewPwd) {
+                return alert("两次新密码不一致");
+            }
+            var url = "admin/user/updatePwd.do?userPwd=" + md5(newPwd) + "oldPwd=" + md5(oldPwd);
+            $.get(url, function (res, status) {
+                if (status == "success") {
+                    if (res == "success") {
+                        Modal.prompt({
+                            msg: '操作成功,请用新密码重新登陆',
+                        }).on(function (e, res) {
+                            if (e) {
+                                location.href = "admin/user/loginOut.do";
                             }
-                        } else {
-                            Modal.alert({
-                                msg: '操作失败！',
-                            });
-                        }
+                        });
+                    } else {
+                        Modal.alert({
+                            msg: '操作失败！',
+                        });
+                    }
+                } else {
+                    Modal.alert({
+                        msg: '操作失败！',
                     });
                 }
             });
         });
+        /* 判断是否为空 */
+        function isEmty(str) {
+            if (str == null || str == "") {
+                return true;
+            }
+            return false;
+        }
     });
 </script>
 </body>
