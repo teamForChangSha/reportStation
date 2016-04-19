@@ -259,7 +259,6 @@ public class UserController {
 	@RequestMapping("/addUser.do")
 	public String addUser(User user, HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		System.out.println("user date===-------" + user.getExpiryDate());
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -345,6 +344,8 @@ public class UserController {
 			userAndLogMap.put("lastLoginLog", lastLoginLog);
 			userAndLogList.add(userAndLogMap);
 		}
+		log.debug("userType=============" + strUserType + "----keyWord==" + keyWord
+				+ "---userState=" + strUserState);
 		modelMap.put("userAndLogList", userAndLogList);
 		return "/jsp/admin/pages/usersAdmin";
 	}
@@ -358,23 +359,26 @@ public class UserController {
 	public String getLogByParams(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
-		String logDate = request.getParameter("logDate");
-		String strUserId = request.getParameter("oprator");
+		String beginTime = request.getParameter("beginTime");
+		String endTime = request.getParameter("endTime");
+		String strUserId = null;
+		String oprator = request.getParameter("oprator");
 		Long userId = null;
-		if (strUserId != null) {
-			userId = Long.valueOf(strUserId);
-		}
+		// if (oprator != null) {
+		// userId = Long.valueOf(strUserId);
+		// }
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
 		if (user.getUserType() <= 2) {
 			params.put("companyId", user.getUserCompany().getCompanyId());
 		}
-		params.put("logDate", logDate);
-		params.put("oprator", userId);
+		params.put("beginTime", beginTime);
+		params.put("endTime", endTime);
+		params.put("oprator", oprator);
 		List<OprationLog> logList = oprationLogService.getLogByParams(params);
 		modelMap.put("logList", logList);
-
+		System.out.println("end time------------" + endTime);
 		return "/jsp/admin/pages/showLog";
 	}
 
@@ -432,7 +436,7 @@ public class UserController {
 		// 登入前获取用户上一次（最新一次）登入时间
 		if (user != null) {
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("oprator", user.getUserId());
+			params.put("oprator", user.getUserName());
 			params.put("oprationKey", "登录");
 			List<OprationLog> operatList = oprationLogService.getLogByParams(params);
 			// 由于在数据库中取出来的集合已经是根据时间按降序排序了，因为排在最前面的是最后登入的时间

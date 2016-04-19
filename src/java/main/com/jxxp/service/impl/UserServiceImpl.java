@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean addUser(User user) {
+		// 判断登入名是否存在
+		List<User> isExist = userMapper.getUserByLoginName(user);
+		if (isExist.size() > 0) {
+			return false;
+		}
 		// 用户初始状态是新增
 		user.setUserState(1);
 		return userMapper.insert(user) > 0;

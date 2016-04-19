@@ -15,6 +15,7 @@ public interface OprationLogMapper {
 	 * 
 	 * @param logDate
 	 *            操作日期
+	 * @param endTime
 	 * @param oprator
 	 *            操作人
 	 * @param oprationKey
@@ -23,9 +24,9 @@ public interface OprationLogMapper {
 	 *            客户公司id
 	 * @return
 	 */
-	List<OprationLog> getLogByParams(@Param("logDate") String logDate,
-			@Param("oprator") Long oprator, @Param("oprationKey") String oprationKey,
-			@Param("companyId") Long companyId);
+	List<OprationLog> getLogByParams(@Param("beginTime") String beginTime,
+			@Param("endTime") String endTime, @Param("oprator") String oprator,
+			@Param("oprationKey") String oprationKey, @Param("companyId") Long companyId);
 
 	int deleteById(Long logId);
 

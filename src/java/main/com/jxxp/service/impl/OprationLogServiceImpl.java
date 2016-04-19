@@ -32,15 +32,20 @@ public class OprationLogServiceImpl implements OprationLogService {
 
 	@Override
 	public List<OprationLog> getLogByParams(Map<String, Object> params) {
-		String logDate = null;
-		Long oprator = null;
+		String beginTime = null;
+		String endTime = null;
+		String oprator = null;
 		String oprationKey = null;
 		Long companyId = null;
-		if (params.get("logDate") != null) {
-			logDate = (String) params.get("logDate");
+		if (params.get("beginTime") != null) {
+			beginTime = (String) params.get("beginTime");
+		}
+
+		if (params.get("endTime") != null) {
+			endTime = (String) params.get("endTime");
 		}
 		if (params.get("oprator") != null) {
-			oprator = (Long) params.get("oprator");
+			oprator = (String) params.get("oprator");
 		}
 		if (params.get("oprationKey") != null) {
 			oprationKey = (String) params.get("oprationKey");
@@ -48,7 +53,8 @@ public class OprationLogServiceImpl implements OprationLogService {
 		if (params.get("companyId") != null) {
 			companyId = (Long) params.get("companyId");
 		}
-		return oprationLogMapper.getLogByParams(logDate, oprator, oprationKey, companyId);
+		return oprationLogMapper
+				.getLogByParams(beginTime, endTime, oprator, oprationKey, companyId);
 	}
 
 	@Override

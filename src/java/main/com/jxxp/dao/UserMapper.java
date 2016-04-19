@@ -43,6 +43,7 @@ public interface UserMapper {
 	 * 用户查询
 	 * 
 	 * @param user
+	 *            在搜索中暂时没有用该关键字
 	 * 
 	 * @param keyWord
 	 *            关键字匹配用户名和手机号
@@ -65,5 +66,7 @@ public interface UserMapper {
 	List<User> getAllUers();
 
 	int stopAllUsersByCompanyId(Long companyId);
+
+	List<User> getUserByLoginName(User user);
 
 }

@@ -62,9 +62,14 @@
    <if test="companyId!=1 and companyId!=0">
    and rc.company_id=#{companyId,jdbcType=BIGINT}
    </if>
-   <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
-   and rc.create_time &gt;=#{startTime} and rc.create_time &lt;=#{endTime} 
+   <if test="startTime!=null and startTime!=''">
+   and rc.create_time &gt;=#{startTime} 
    </if> 
+   <!-- 末尾日期范围 （取年月日）-->
+  <if test="endTime!=null and endTime!=''">
+   <![CDATA[  and DATE_FORMAT(rc.create_time,'%Y-%m-%d')<=DATE_FORMAT(#{endTime} ,'%Y-%m-%d')  ]]>
+  </if> 
+   
     <if test="rtList!=null and rtList!=''">
    and rc.rt_list like concat(concat('%',#{rtList,jdbcType=VARCHAR},'%'))  
     </if>  
