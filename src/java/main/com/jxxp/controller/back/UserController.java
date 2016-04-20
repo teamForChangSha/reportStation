@@ -361,12 +361,7 @@ public class UserController {
 		User user = (User) request.getSession().getAttribute("user");
 		String beginTime = request.getParameter("beginTime");
 		String endTime = request.getParameter("endTime");
-		String strUserId = null;
 		String oprator = request.getParameter("oprator");
-		Long userId = null;
-		// if (oprator != null) {
-		// userId = Long.valueOf(strUserId);
-		// }
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
