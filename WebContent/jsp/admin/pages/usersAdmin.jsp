@@ -104,7 +104,7 @@
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
-                    <option value="0">-请选择-</option>
+                    <option>-请选择-</option>
                     <option value="1">试用</option>
                     <option value="2">公司用户</option>
                     <option value="3">系统操作员</option>
@@ -116,7 +116,7 @@
             <div class="form-group">
                 <label class="control-label">用户状态：</label>
                 <select id="userStatus" name="userState" class="form-control">
-                    <option value="">-请选择-</option>
+                    <option>-请选择-</option>
                     <option value="1">新增</option>
                     <option value="2">有效</option>
                     <option value="3">停用</option>
@@ -136,7 +136,7 @@
             <div class="form-group">
                 <label class="control-label">搜关键字：</label>
                 <input type="text" id="keyWord" name="keyWord" autocomplete="on"
-                       class="form-control"/>
+                       placeholder="用户名"  class="form-control"/>
                 <input type="submit" id="selected" class="btn btn-default" value="搜索"/>
             </div>
         </form>
