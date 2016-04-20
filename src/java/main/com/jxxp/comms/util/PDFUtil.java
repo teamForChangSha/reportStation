@@ -34,7 +34,7 @@ public class PDFUtil {
 //	    BaseFont bfChinese = BaseFont.createFont("STSongStd-Light","UniGB-UCS2-H", BaseFont.NOT_EMBEDDED); // 中文处理   
 //		BaseFont bfChinese = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
 	    BaseFont bfChinese = BaseFont.createFont("/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
-		
+		log.debug("bfChinese:" + bfChinese);
 		Font FontChinese = new Font(bfChinese, 14, Font.NORMAL); // 其他所有文字字体        
 		Font BoldChinese = new Font(bfChinese, 14, Font.BOLD); // 粗体        
 		Font titleChinese = new Font(bfChinese, 20, Font.BOLD); // 模板抬头的字体      
@@ -102,7 +102,7 @@ public class PDFUtil {
 		}  
 		document.add(table);  
 		
-		title = new Paragraph("案件编号为：31112，查看详情请登录：http://120.24.97.214:8080/reportStation/", FontChinese);  
+		title = new Paragraph("案件编号为：31112，查看详情请登录  http://120.24.97.214:8080/reportStation/", FontChinese);  
 		title.setLeading(22f);//设置行间距   
 		document.add(title);  
 		
@@ -143,8 +143,9 @@ public class PDFUtil {
 	}
 	
 	public static void createReportPDF(ReportCase reportCase,List<Map<String, String>> questAnswerList,String filePath) throws Exception {
-		Document document = new Document(PageSize.A4, 80, 79, 20, 45); // A4纸大小 左、右、上、下                /* 使用中文字体 */                
-		BaseFont bfChinese = BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);	
+		Document document = new Document(PageSize.A4, 80, 79, 20, 45); // A4纸大小 左、右、上、下                /* 使用中文字体 */     
+	    BaseFont bfChinese = BaseFont.createFont(PDFUtil.class.getResource("/") + "/simsun.ttc,1",BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+		log.debug("bfChinese:" + bfChinese);
 		
 		Font FontChinese = new Font(bfChinese, 14, Font.NORMAL); // 其他所有文字字体        
 		Font BoldChinese = new Font(bfChinese, 14, Font.BOLD); // 粗体        
@@ -206,7 +207,9 @@ public class PDFUtil {
 			table.addCell(cell);  
 			rowCount++;  
 
-			cell = new PdfPCell(new Paragraph(map.get("question"), moneyFontChinese));//描述   
+			String question = map.get("question");
+			question.replaceAll("${companyBranch.owner.companyName }", reportCase.getCompany().getCompanyName());
+			cell = new PdfPCell(new Paragraph(question, moneyFontChinese));//描述   
 			cell.setFixedHeight(20);  
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);// 设置内容水平居中显示   
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);  // 设置垂直居中   
@@ -220,7 +223,7 @@ public class PDFUtil {
 		}
 		document.add(table);  
 		
-		title = new Paragraph("案件编号为：" + reportCase.getTrackingNo() + "，查看详情请登录：http://120.24.97.214:8080/reportStation/", FontChinese);  
+		title = new Paragraph("案件编号为：" + reportCase.getTrackingNo() + "，查看详情请登录   http://120.24.97.214:8080/reportStation/", FontChinese);  
 		title.setLeading(22f);//设置行间距   
 		document.add(title);  
 		
