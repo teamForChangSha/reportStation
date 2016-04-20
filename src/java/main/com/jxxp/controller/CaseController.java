@@ -407,6 +407,8 @@ public class CaseController {
 			return "/jsp/pages/error";
 		}
 
+		request.getSession().setAttribute("auth", "yes");
+		
 		modelMap.put("reportCase", reportCase);
 		modelMap.put("questionAnswerList", getQuestionAnswerList(reportCase,questionService.getAllQuestions()));
 		return "/jsp/pages/report_info";
