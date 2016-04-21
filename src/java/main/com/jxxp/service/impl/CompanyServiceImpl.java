@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyOtherMapper;
@@ -198,6 +199,22 @@ public class CompanyServiceImpl implements CompanyService {
 	public Company getPlatformCompany() {
 		// TODO Auto-generated method stub
 		return companyMapper.getPlatformCompany();
+	}
+
+	@Override
+	public boolean delCompanyByIds(Long[] company_ids) {
+		if (company_ids.length > 0) {
+			int count = companyMapper.deleteByIds(company_ids);
+			if (count == company_ids.length) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public List<Company> getCompanyPaging(Page page, String companyName) {
+		return companyMapper.getCompanyPaging(page, companyName);
 	}
 
 }

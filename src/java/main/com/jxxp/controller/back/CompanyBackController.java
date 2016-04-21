@@ -20,11 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
@@ -413,4 +415,99 @@ public class CompanyBackController {
 
 	}
 
+	/**
+	 * 批量删除企业
+	 * 
+	 * @param companyIds
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/delCompanyById.do")
+	public String delCompanyById(Long companyId, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) {
+		Long companyIds[] = { companyId };
+		boolean flag = companyService.delCompanyByIds(companyIds);
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
+	 * 批量删除企业
+	 * 
+	 * @param companyIds
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/delCompanyByIds.do")
+	public String delCompanyByIds(@RequestParam(value = "companyIds[]") Long[] companyIds,
+			HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+		boolean flag = companyService.delCompanyByIds(companyIds);
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
+	 * 根据公司用户名模糊查询匹配的公司，如果用户名为空，则是所有公司
+	 * 
+	 * @author gcx
+	 * @param companyName
+	 *            公司名字
+	 * @return 公司
+	 */
+
+	@RequestMapping("/getCompanyPage.do")
+	public String getCompanyPage(String companyName, Integer pageNow, HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) throws Exception {
+		Page page = null;
+		List<Company> companyList = new ArrayList<Company>();
+		int totalCount = companyService.getAllCompanyList().size();
+		if (pageNow != null) {
+			page = new Page(totalCount, pageNow);
+			companyList = companyService.getCompanyPaging(page, companyName);
+		} else {
+			page = new Page(totalCount, 1);
+			companyList = companyService.getCompanyPaging(page, companyName);
+		}
+		// model.addAttribute("page", page);
+		String companyJson = JSON.toJSONString(companyList);
+		String pageJosn = JSON.toJSONString(page);
+
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(pageJosn);
+			out.print(companyJson);
+		} catch (IOException e) {
+			log.error("add company failed", e);
+		}
+		return null;
+
+	}
 }

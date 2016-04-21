@@ -3,6 +3,7 @@ package com.jxxp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
@@ -163,4 +164,25 @@ public interface CompanyService {
 	 * @return 返回查询到的公司基本信息
 	 */
 	Company getPlatformCompany();
+
+	/**
+	 * 删除公司信息
+	 * 
+	 * @author gcx
+	 * @param companyIds
+	 *            公司id集合
+	 */
+	boolean delCompanyByIds(Long[] companyIds);
+
+	/**
+	 * 公司名称为搜索关键字进行分页显示，公司名称为空是查询所有进行分页
+	 * 
+	 * @author gcx
+	 * @param page
+	 *            分页对象
+	 * @param companyName
+	 *            公司名称（查询关键字）
+	 * @return
+	 */
+	List<Company> getCompanyPaging(Page page, String companyName);
 }

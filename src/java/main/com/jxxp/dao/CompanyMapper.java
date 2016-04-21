@@ -2,6 +2,9 @@ package com.jxxp.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.Company;
 
 /**
@@ -48,5 +51,10 @@ public interface CompanyMapper {
 	List<Company> getAllCompany();
 
 	int deleteById(long CompanyId);
+
+	int deleteByIds(@Param("companyIds") Long[] ids);
+
+	List<Company> getCompanyPaging(@Param("page") Page page,
+			@Param("companyName") String companyName);
 
 }

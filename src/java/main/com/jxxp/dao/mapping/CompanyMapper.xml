@@ -160,4 +160,20 @@
     </set>
     where company_id = #{companyId,jdbcType=INTEGER}
   </update>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteByIds" >
+   delete from company where company_id in
+   <foreach collection="companyIds" index="index" item="item" open="(" separator="," close=")">   
+        #{item}   
+   </foreach> 
+  </delete>
+  
+  <select id="getCompanyPaging" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List"/> from company where 1=1
+  <if test="companyName!=null and companyName!=''">
+     and company_name like concat('%',concat(#{companyName,jdbcType=VARCHAR},'%'))
+  </if>
+  limit #{page.startPos},#{page.pageSize};
+  </select>
 </mapper>
