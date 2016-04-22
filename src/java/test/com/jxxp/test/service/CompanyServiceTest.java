@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyOtherMapper;
@@ -68,6 +69,7 @@ public class CompanyServiceTest {
 	private List<QuestionInfo> questList;
 	private Company company;
 	private CompanyOther other;
+	private List<Company> addList;
 
 	@Test
 	public void saveCompany() {
@@ -326,6 +328,72 @@ public class CompanyServiceTest {
 		assertNull(getCompany.getOtherInfo());
 	}
 
+	/**
+	 * 公司信息分页测试 1、没有传递参数（初始页面）
+	 */
+	@Test
+	public void getPageWithNoParam() {
+		List<Company> list = new ArrayList<Company>();
+		List<Company> getList = new ArrayList<Company>();
+		Page page = null;
+		int totalCount = companyMapper.getAllByName(null).size();
+		page = new Page(totalCount, 1);
+		getList = companyService.getCompanyPaging(page, null);
+
+		// 初始情况下取的是前两条
+		List<Company> all = companyMapper.getAllCompany();
+		for (int i = 0; i < getList.size(); i++) {
+			list.add(all.get(i));
+			System.out.println(getList.get(i).getCompanyName());
+		}
+		assertTrue(TestUtil.isEqual(list, getList));
+	}
+
+	/**
+	 * 公司信息分页测试
+	 * 
+	 * 2、有页码
+	 */
+	@Test
+	public void getPageWithNoPageNow() {
+		Integer pageNow = 2;
+		List<Company> list = new ArrayList<Company>();
+		List<Company> getList = new ArrayList<Company>();
+		Page page = null;
+		int totalCount = companyMapper.getAllByName(null).size();
+		page = new Page(totalCount, pageNow);
+		getList = companyService.getCompanyPaging(page, null);
+		// 初始情况下取的是前两条
+		List<Company> all = companyMapper.getAllCompany();
+		int begin = (pageNow - 1) * page.getPageSize();
+		for (int i = begin; i < getList.size() + begin; i++) {
+			list.add(all.get(i));
+		}
+		assertTrue(TestUtil.isEqual(list, getList));
+	}
+
+	/**
+	 * 公司信息分页测试
+	 * 
+	 * 3、传递参数：公司名字
+	 */
+	@Test
+	public void getPageWithCompanyName() {
+		addList = new ArrayList<Company>();
+		Company addCompany = null;
+		for (int i = 0; i < 2; i++) {
+			addCompany = getCompany();
+			companyMapper.insert(addCompany);
+			addList.add(addCompany);
+		}
+		List<Company> getList = new ArrayList<Company>();
+		Page page = null;
+		int totalCount = companyMapper.getAllByName(addCompany.getCompanyName()).size();
+		page = new Page(totalCount, 1);
+		getList = companyService.getCompanyPaging(page, addCompany.getCompanyName());
+		assertTrue(TestUtil.isEqual(addList, getList));
+	}
+
 	@After
 	public void clear() {
 
@@ -343,6 +411,13 @@ public class CompanyServiceTest {
 				questionInfoMapper.deleteById(questList.get(i).getQuestId());
 			}
 
+		}
+
+		if (addList != null) {
+			for (int i = 0; i < addList.size(); i++) {
+				companyMapper.deleteById(addList.get(i).getCompanyId());
+
+			}
 		}
 
 	}

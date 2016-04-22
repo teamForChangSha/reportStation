@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.UserMapper;
 import com.jxxp.pojo.Company;
@@ -218,7 +219,8 @@ public class UserServiceTest {
 	@Test
 	public void getUsersWithNoParam() {
 		userMapper.insert(user1);
-		List<User> usersList1 = userService.getUsersByParams(new HashMap<String, Object>());
+		List<User> usersList1 = userService.getUsersByParams((Page) null,
+				new HashMap<String, Object>());
 		assertTrue(usersList1.size() > 0);
 		List<User> usersList2 = userMapper.getAllUers();
 		assertTrue(TestUtil.isEqual(usersList1, usersList2));
@@ -238,7 +240,7 @@ public class UserServiceTest {
 		params.put("companyId", user1.getUserCompany().getCompanyId());
 		params.put("userType", user1.getUserType());
 		params.put("userState", user1.getUserState());
-		List<User> usersList1 = userService.getUsersByParams(params);
+		List<User> usersList1 = userService.getUsersByParams((Page) null, params);
 		assertTrue(usersList1.size() == 1);
 	}
 
@@ -255,7 +257,7 @@ public class UserServiceTest {
 		params.put("companyId", user1.getUserCompany().getCompanyId());
 		params.put("userType", user1.getUserType());
 		params.put("userState", user1.getUserState());
-		List<User> usersList1 = userService.getUsersByParams(params);
+		List<User> usersList1 = userService.getUsersByParams((Page) null, params);
 		assertTrue(usersList1.size() == 1);
 	}
 
@@ -269,7 +271,7 @@ public class UserServiceTest {
 		List<User> users = getUsers();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("keyWord", "Name");
-		List<User> users1 = userService.getUsersByParams(params);
+		List<User> users1 = userService.getUsersByParams((Page) null, params);
 		assertTrue(users1.size() >= 2);
 		assertTrue(users1.size() >= users.size());
 		for (int i = 0; i < users.size(); i++) {
@@ -287,7 +289,7 @@ public class UserServiceTest {
 		List<User> users = getUsers();
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("keyWord", "134");
-		List<User> users1 = userService.getUsersByParams(params);
+		List<User> users1 = userService.getUsersByParams((Page) null, params);
 		assertTrue(users1.size() >= 2);
 		assertTrue(users1.size() >= users.size());
 		for (int i = 0; i < users.size(); i++) {

@@ -104,6 +104,21 @@ public class CompanyTest {
 		assertNotNull(company);
 	}
 
+	/**
+	 * 批量删除公司
+	 */
+	@Test
+	public void delCompanyByIds() {
+		Company company1 = getCompany();
+		Company company2 = getCompany();
+		companyMapper.insert(company1);
+		companyMapper.insert(company2);
+		Long[] ids = new Long[2];
+		ids[0] = company1.getCompanyId();
+		ids[1] = company2.getCompanyId();
+		companyMapper.deleteByIds(ids);
+	}
+
 	@After
 	public void clear() {
 		companyMapper.deleteById(company1.getCompanyId());
