@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.controller.back.UserController;
 import com.jxxp.dao.OprationLogMapper;
 import com.jxxp.pojo.OprationLog;
@@ -31,7 +32,7 @@ public class OprationLogServiceImpl implements OprationLogService {
 	}
 
 	@Override
-	public List<OprationLog> getLogByParams(Map<String, Object> params) {
+	public List<OprationLog> getLogByParams(Page page, Map<String, Object> params) {
 		String beginTime = null;
 		String endTime = null;
 		String oprator = null;
@@ -53,8 +54,8 @@ public class OprationLogServiceImpl implements OprationLogService {
 		if (params.get("companyId") != null) {
 			companyId = (Long) params.get("companyId");
 		}
-		return oprationLogMapper
-				.getLogByParams(beginTime, endTime, oprator, oprationKey, companyId);
+		return oprationLogMapper.getLogByParams(page, beginTime, endTime, oprator, oprationKey,
+				companyId);
 	}
 
 	@Override
@@ -102,4 +103,5 @@ public class OprationLogServiceImpl implements OprationLogService {
 		}
 		return logsList;
 	}
+
 }

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.dao.UserMapper;
 import com.jxxp.pojo.User;
 import com.jxxp.service.UserService;
@@ -28,13 +29,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsersByParams(Map<String, Object> params) {
+	public List<User> getUsersByParams(Page page, Map<String, Object> params) {
 		String keyWord = (String) params.get("keyWord");
 		Long companyId = (Long) params.get("companyId");
 		Integer userType = (Integer) params.get("userType");
 		Integer userState = (Integer) params.get("userState");
 		User user = (User) params.get("user");
-		return userMapper.getUsersByParams(user, keyWord, companyId, userType, userState);
+		return userMapper.getUsersByParams(page, user, keyWord, companyId, userType, userState);
 	}
 
 	@Override

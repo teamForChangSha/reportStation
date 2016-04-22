@@ -171,9 +171,13 @@ public class CaseServiceImpl implements CaseService {
 		String startTime = map.get("startTime");
 		String endTime = map.get("endTime");
 		String keyWord = map.get("keyWord");
-
+		Integer caseState = null;
+		if (map.get("caseState") != null && map.get("caseState").length() > 0
+				&& map.get("caseState").matches("^[0-9]*$")) {
+			caseState = Integer.valueOf(map.get("caseState"));
+		}
 		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), startTime, endTime,
-				keyWord, rtList);
+				keyWord, rtList, caseState);
 		return caseList;
 	}
 
@@ -199,7 +203,8 @@ public class CaseServiceImpl implements CaseService {
 		for (int i = 0; i < cases.length; i++) {
 			long rcId = Long.parseLong(cases[i]);
 			ReportCase reportCase = reportCaseMapper.getById(rcId);
-			List<Map<String, String>> questAnswerList = CaseController.getQuestionAnswerList(reportCase, questionInfoMapper.getQuestionTemlate());
+			List<Map<String, String>> questAnswerList = CaseController.getQuestionAnswerList(
+					reportCase, questionInfoMapper.getQuestionTemlate());
 			PDFUtil.createReportPDF(reportCase, questAnswerList, webPath);
 		}
 		String resPath = webPath.substring(0, webPath.lastIndexOf("/")) + ".zip";
