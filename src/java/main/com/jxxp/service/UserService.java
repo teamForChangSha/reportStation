@@ -3,6 +3,7 @@ package com.jxxp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.User;
 
 public interface UserService {
@@ -27,11 +28,14 @@ public interface UserService {
 	/**
 	 * 根据参数集合获取符合条件的用户信息
 	 * 
+	 * @param page
+	 *            分页对象
+	 * 
 	 * @param params
 	 *            条件集合对象
 	 * @return 更新成功返回为用户集合,否则返回空列表
 	 */
-	List<User> getUsersByParams(Map<String, Object> params);
+	List<User> getUsersByParams(Page page, Map<String, Object> params);
 
 	/**
 	 * 根据用户ID获取该用户信息

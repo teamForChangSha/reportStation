@@ -3,6 +3,7 @@ package com.jxxp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.OprationLog;
 
 /**
@@ -23,11 +24,14 @@ public interface OprationLogService {
 	/**
 	 * 根据参数集合查询日志的方法
 	 * 
+	 * @param page
+	 *            分页对象，如果为空则不分页
+	 * 
 	 * @param params
 	 *            参数集合
 	 * @return 成功返回用户日志信息列表，失败则返回空列表
 	 */
-	public List<OprationLog> getLogByParams(Map<String, Object> params);
+	public List<OprationLog> getLogByParams(Page page, Map<String, Object> params);
 
 	/**
 	 * 最近十个用户上次登录时间及查看/处理的情况简报。
