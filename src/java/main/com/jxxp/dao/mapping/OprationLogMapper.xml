@@ -40,8 +40,10 @@
    <if test="companyId!=null">
    and oprator in (select user_id from userinfo where company_id=#{companyId,jdbcType=BIGINT})
    </if>
-   
    order by log_date desc
+   <if test="page!=null">
+  limit #{page.startPos},#{page.pageSize}
+  </if>
   </select>
   
   <insert id="insert" parameterType="com.jxxp.pojo.OprationLog" >

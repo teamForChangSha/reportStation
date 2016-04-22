@@ -64,11 +64,15 @@ public class CaseBackController {
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
 		String keyWord = request.getParameter("keyWord");
+		String caseState = request.getParameter("caseState");
+
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("rtList", rtList);
 		map.put("startTime", startTime);
 		map.put("endTime", endTime);
 		map.put("keyWord", keyWord);
+		map.put("caseState", caseState);
+
 		log.debug("Map:" + map);
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);

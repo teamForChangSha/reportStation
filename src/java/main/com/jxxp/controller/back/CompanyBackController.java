@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -486,7 +487,7 @@ public class CompanyBackController {
 			HttpServletResponse response, ModelMap model) throws Exception {
 		Page page = null;
 		List<Company> companyList = new ArrayList<Company>();
-		int totalCount = companyService.getAllCompanyList().size();
+		int totalCount = companyService.getCompanyByName(companyName).size();
 		if (pageNow != null) {
 			page = new Page(totalCount, pageNow);
 			companyList = companyService.getCompanyPaging(page, companyName);
@@ -494,16 +495,17 @@ public class CompanyBackController {
 			page = new Page(totalCount, 1);
 			companyList = companyService.getCompanyPaging(page, companyName);
 		}
-		// model.addAttribute("page", page);
-		String companyJson = JSON.toJSONString(companyList);
-		String pageJosn = JSON.toJSONString(page);
-
+		Map<String, Object> companyResultMap = new HashMap<String, Object>();
+		companyResultMap.put("page", page);
+		companyResultMap.put("companyList", companyList);
+		// 将公司信息集合和page组装成map，返回给前台
+		String companyMapJson = JSON.toJSONString(companyResultMap);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			out.print(pageJosn);
-			out.print(companyJson);
+			// out.print(pageJosn);
+			out.print(companyMapJson);
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}

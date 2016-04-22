@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.User;
 
 /**
@@ -42,6 +43,8 @@ public interface UserMapper {
 	/**
 	 * 用户查询
 	 * 
+	 * @param page
+	 * 
 	 * @param user
 	 *            在搜索中暂时没有用该关键字
 	 * 
@@ -55,9 +58,9 @@ public interface UserMapper {
 	 *            用户状态
 	 * @return
 	 */
-	List<User> getUsersByParams(@Param("user") User user, @Param("keyWord") String keyWord,
-			@Param("companyId") Long companyId, @Param("userType") Integer userType,
-			@Param("userState") Integer userState);
+	List<User> getUsersByParams(@Param("page") Page page, @Param("user") User user,
+			@Param("keyWord") String keyWord, @Param("companyId") Long companyId,
+			@Param("userType") Integer userType, @Param("userState") Integer userState);
 
 	User getById(long userId);
 

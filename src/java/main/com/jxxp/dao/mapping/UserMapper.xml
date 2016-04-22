@@ -58,11 +58,12 @@
   <if test="user!=null">
     and user_type &lt;=#{user.userType}
   </if>
-   
   <if test="userState!=null">
   and user_state=#{userState} 
   </if>
-  
+   <if test="page!=null">
+  limit #{page.startPos},#{page.pageSize}
+  </if>
   </select>
   <select id="getAllUers" resultMap="BaseResultMap">
    select * from userinfo

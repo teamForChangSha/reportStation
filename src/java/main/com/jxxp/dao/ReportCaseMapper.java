@@ -93,11 +93,13 @@ public interface ReportCaseMapper {
 	 *            关键字，答案中含有的关键字
 	 * @param rtList
 	 *            问题类型
+	 * @param caseState
 	 * @return
 	 */
 	List<ReportCase> searchByKeys(@Param("companyId") long companyId,
 			@Param("startTime") String startTime, @Param("endTime") String endTime,
-			@Param("keyWord") String keyWord, @Param("rtList") String rtList);
+			@Param("keyWord") String keyWord, @Param("rtList") String rtList,
+			@Param("caseState") Integer caseState);
 
 	/**
 	 * @param companyId

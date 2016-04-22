@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.OprationLog;
 
 public interface OprationLogMapper {
@@ -11,7 +12,10 @@ public interface OprationLogMapper {
 	int insert(OprationLog record);
 
 	/**
-	 * 查询日志，没有关键字则是查询所有
+	 * 查询日志，没有关键字则是查询所有，page为空则不分页
+	 * 
+	 * @param page
+	 *            分页对象
 	 * 
 	 * @param logDate
 	 *            操作日期
@@ -24,9 +28,10 @@ public interface OprationLogMapper {
 	 *            客户公司id
 	 * @return
 	 */
-	List<OprationLog> getLogByParams(@Param("beginTime") String beginTime,
-			@Param("endTime") String endTime, @Param("oprator") String oprator,
-			@Param("oprationKey") String oprationKey, @Param("companyId") Long companyId);
+	List<OprationLog> getLogByParams(@Param("page") Page page,
+			@Param("beginTime") String beginTime, @Param("endTime") String endTime,
+			@Param("oprator") String oprator, @Param("oprationKey") String oprationKey,
+			@Param("companyId") Long companyId);
 
 	int deleteById(Long logId);
 

@@ -72,6 +72,9 @@
    
     <if test="rtList!=null and rtList!=''">
    and rc.rt_list like concat(concat('%',#{rtList,jdbcType=VARCHAR},'%'))  
+    </if>
+    <if test="caseState!=null">
+   and rc.case_state= #{caseState,jdbcType=INTEGER}
     </if>  
    and rc.rc_id in
     (select d.rc_id from reportanswer b,reportcase d 

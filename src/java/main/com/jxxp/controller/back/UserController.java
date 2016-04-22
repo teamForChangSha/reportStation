@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.OprationLog;
 import com.jxxp.pojo.User;
@@ -162,21 +163,26 @@ public class UserController {
 	@RequestMapping("/updatePwd.do")
 	public String updatePwd(HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		String userPwd = request.getParameter("userPwd");
+		String oldPwd = request.getParameter("oldPwd");
+		String newPwd = request.getParameter("newPwd");
 		User user = (User) request.getSession().getAttribute("user");
-		user.setUserPwd(userPwd);
 
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			if (userService.update(user)) {
-				if (saveOprationLog("修改密码", user)) {
-					log.debug("用户操作日志记录成功！");
-				}
-				out.print("success");
+			if (!user.getUserPwd().equals(oldPwd)) {
+				out.print("fail");
 			} else {
-				out.print("error");
+				user.setUserPwd(newPwd);
+				if (userService.update(user)) {
+					if (saveOprationLog("修改密码", user)) {
+						log.debug("用户操作日志记录成功！");
+					}
+					out.print("success");
+				} else {
+					out.print("error");
+				}
 			}
 		} catch (IOException e) {
 			log.error("流获取失败！", e);
@@ -318,7 +324,8 @@ public class UserController {
 		String strCompanyId = request.getParameter("companyId");
 		String strUserType = request.getParameter("userType");
 		String strUserState = request.getParameter("userState");
-
+		// 当前页
+		String pageNow = request.getParameter("pageNow");
 		Map<String, Object> params = new HashMap<String, Object>();
 		// 用户级别判断
 		User user = (User) request.getSession().getAttribute("user");
@@ -334,7 +341,17 @@ public class UserController {
 				&& strUserState.matches("^[0-9]*$")) {
 			params.put("userState", new Integer(strUserState));
 		}
-		List<User> userList = userService.getUsersByParams(params);
+		// 分页查询用户
+		List<User> userList = new ArrayList<User>();
+		Page page = null;
+		userList = userService.getUsersByParams(page, params);
+		int totalCount = userList.size();
+		if (pageNow != null && !pageNow.equals("")) {
+			page = new Page(totalCount, Integer.valueOf(pageNow));
+		} else {
+			page = new Page(totalCount, 1);
+		}
+		userList = userService.getUsersByParams(page, params);
 		List<Map<String, Object>> userAndLogList = new ArrayList<Map<String, Object>>();
 		// 获取用户的最后登入日志
 		for (int i = 0; i < userList.size(); i++) {
@@ -344,10 +361,24 @@ public class UserController {
 			userAndLogMap.put("lastLoginLog", lastLoginLog);
 			userAndLogList.add(userAndLogMap);
 		}
-		log.debug("userType=============" + strUserType + "----keyWord==" + keyWord
-				+ "---userState=" + strUserState);
-		modelMap.put("userAndLogList", userAndLogList);
-		return "/jsp/admin/pages/usersAdmin";
+		// 将userAndLogList和page组装成map返回给前台
+		Map<String, Object> userAndLogMap = new HashMap<String, Object>();
+		userAndLogMap.put("page", page);
+		userAndLogMap.put("userAndLogList", userAndLogList);
+		String userJson = JSON.toJSONString(userAndLogMap);
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(userJson);
+		} catch (IOException e) {
+			log.error("add company failed", e);
+		}
+		log.debug("user总记录数------------------=" + totalCount);
+		// modelMap.put("userAndLogList", userAndLogList);
+
+		// return "/jsp/admin/pages/usersAdmin";
+		return null;
 	}
 
 	/*
@@ -362,8 +393,10 @@ public class UserController {
 		String beginTime = request.getParameter("beginTime");
 		String endTime = request.getParameter("endTime");
 		String oprator = request.getParameter("oprator");
+		// 当前页
+		String pageNow = request.getParameter("pageNow");
+		// 查询参数设置
 		Map<String, Object> params = new HashMap<String, Object>();
-
 		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
 		if (user.getUserType() <= 2) {
 			params.put("companyId", user.getUserCompany().getCompanyId());
@@ -371,10 +404,34 @@ public class UserController {
 		params.put("beginTime", beginTime);
 		params.put("endTime", endTime);
 		params.put("oprator", oprator);
-		List<OprationLog> logList = oprationLogService.getLogByParams(params);
-		modelMap.put("logList", logList);
-		System.out.println("end time------------" + endTime);
-		return "/jsp/admin/pages/showLog";
+
+		// 分页查询
+		List<OprationLog> logList = new ArrayList<OprationLog>();
+		Page page = null;
+		logList = oprationLogService.getLogByParams(page, params);
+		int totalCount = logList.size();
+		// 初始化page
+		if (pageNow != null && !pageNow.equals("")) {
+			page = new Page(totalCount, Integer.valueOf(pageNow));
+		} else {
+			page = new Page(totalCount, 1);
+		}
+		logList = oprationLogService.getLogByParams(page, params);
+		// 将日志信息集合和page组装成map，返回给前台
+		Map<String, Object> logResultMap = new HashMap<String, Object>();
+		logResultMap.put("page", page);
+		logResultMap.put("logList", logList);
+		String logMapJson = JSON.toJSONString(logResultMap);
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(logMapJson);
+		} catch (IOException e) {
+			log.error("add company failed", e);
+		}
+		// modelMap.put("logList", logList);
+		return null;
 	}
 
 	/**
@@ -433,7 +490,8 @@ public class UserController {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("oprator", user.getUserName());
 			params.put("oprationKey", "登录");
-			List<OprationLog> operatList = oprationLogService.getLogByParams(params);
+			Page page = null;
+			List<OprationLog> operatList = oprationLogService.getLogByParams(page, params);
 			// 由于在数据库中取出来的集合已经是根据时间按降序排序了，因为排在最前面的是最后登入的时间
 			if (operatList.size() > 0) {
 				return operatList.get(0);
@@ -458,7 +516,8 @@ public class UserController {
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("oprator", userId);
-		List<OprationLog> logList = oprationLogService.getLogByParams(params);
+		Page page = null;
+		List<OprationLog> logList = oprationLogService.getLogByParams(page, params);
 		PrintWriter out = response.getWriter();
 		String jsonLogList = JSON.toJSONString(logList);
 		out.print(jsonLogList);
