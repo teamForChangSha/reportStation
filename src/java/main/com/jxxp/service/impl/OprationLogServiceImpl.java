@@ -38,6 +38,8 @@ public class OprationLogServiceImpl implements OprationLogService {
 		String oprator = null;
 		String oprationKey = null;
 		Long companyId = null;
+		Long opratorId = null;
+
 		if (params.get("beginTime") != null) {
 			beginTime = (String) params.get("beginTime");
 		}
@@ -54,8 +56,11 @@ public class OprationLogServiceImpl implements OprationLogService {
 		if (params.get("companyId") != null) {
 			companyId = (Long) params.get("companyId");
 		}
+		if (params.get("opratorId") != null) {
+			opratorId = (Long) params.get("opratorId");
+		}
 		return oprationLogMapper.getLogByParams(page, beginTime, endTime, oprator, oprationKey,
-				companyId);
+				companyId, opratorId);
 	}
 
 	@Override

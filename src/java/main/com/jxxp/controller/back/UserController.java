@@ -521,12 +521,13 @@ public class UserController {
 			userId = Long.valueOf(strUserId);
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("oprator", userId);
+		params.put("opratorId", userId);
 		Page page = null;
 		List<OprationLog> logList = oprationLogService.getLogByParams(page, params);
 		PrintWriter out = response.getWriter();
 		String jsonLogList = JSON.toJSONString(logList);
 		out.print(jsonLogList);
+		System.out.println("-------------------" + jsonLogList);
 		// modelMap.put("logList", logList);
 		return null;
 	}

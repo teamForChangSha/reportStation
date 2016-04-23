@@ -22,8 +22,13 @@
   <select id="getLogByParams" resultMap="BaseResultMap">
    select <include refid="Base_Column_List"/>
    from oprationlog where 1=1
+    <!-- 操作人姓名 -->
    <if test="oprator!=null">
    and oprator in (select user_id from userinfo where user_name like concat(concat('%',#{oprator},'%')))
+   </if>
+    <!-- 操作人id -->
+   <if test="opratorId!=null">
+   and oprator=#{opratorId,jdbcType=BIGINT}
    </if>
    <if test="beginTime!=null and beginTime!=''">
    and log_date &gt;=#{beginTime}

@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group" style="margin-left: 10px;">
                     <label class="control-label">审批状态</label>
-                    <select id="selectStatus" class="form-control">
+                    <select id="selectStatus" class="form-control" name="caseState">
                         <option value="-1">-请选择-</option>
                         <option value="1">新建</option>
                         <option value="2">已查看</option>
@@ -104,7 +104,7 @@
             <div class="form-inline">
                 <div class="form-group">
                     <label class="control-label">案件号查询：</label>
-                    <input type='text' name="rcId" style="width: 200px;" class="form-control" placeholder="请输入案件编号"/>
+                    <input type='text' name="trackingNo" style="width: 200px;" class="form-control" placeholder="请输入案件编号"/>
                 </div>
             </div>
         </div>
