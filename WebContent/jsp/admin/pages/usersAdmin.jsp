@@ -90,7 +90,8 @@
         #upCompanyMenu, #addCompanyMenu {
             margin-left: 15px;
         }
-        .pagination li a{
+
+        .pagination li a {
             cursor: default;
         }
     </style>
@@ -103,11 +104,11 @@
             <small>用户管理</small>
         </h1>
         <div class="page-header"></div>
-        <form id="selectForm" action="admin/user/getUsersByParams.do" method="post" class="form-inline">
+        <form id="selectForm" class="form-inline">
             <div class="form-group">
                 <label class="control-label">用户类型：</label>
                 <select id="userType" name="userType" class="form-control">
-                    <option>-请选择-</option>
+                    <option value="">-请选择-</option>
                     <option value="1">试用</option>
                     <option value="2">公司用户</option>
                     <option value="3">系统操作员</option>
@@ -119,7 +120,7 @@
             <div class="form-group">
                 <label class="control-label">用户状态：</label>
                 <select id="userStatus" name="userState" class="form-control">
-                    <option>-请选择-</option>
+                    <option value="">-请选择-</option>
                     <option value="1">新增</option>
                     <option value="2">有效</option>
                     <option value="3">停用</option>
@@ -141,20 +142,13 @@
                 <label class="control-label">搜关键字：</label>
                 <input type="text" id="keyWord" name="keyWord" autocomplete="on"
                        placeholder="用户名" class="form-control"/>
-                <input type="submit" id="selected" class="btn btn-default" value="搜索"/>
+                <input type="button" id="selected" class="btn btn-default" value="搜索"/>
                 <input type="button" data-toggle="modal" data-target="#addUser" class="btn btn-default" value="添加用户"/>
                 <input type="button" id="stopAllUsers" onclick="stopAllUser()" class="btn btn-warning hide"
                        value="停用该公司所有用户"/>
             </div>
         </form>
     </div>
-    <script>
-        $(function () {
-            $("#selected").click(function () {
-                console.log($("#selectForm").serialize());
-            });
-        })
-    </script>
     <div class="row">
         <div class="col-sm-10">
             <table class="table table-bordered table-hover">
@@ -832,15 +826,15 @@
             var prevLi1 = $("<li/>");
             var nextLi1 = $("<li/>");
             var prevA1 = $("<a/>").text("上一页");
-            if(str.hasPre){
+            if (str.hasPre) {
                 prevA1.click(function () {
-                    getUserList(str.pageNow-1);
+                    getUserList(str.pageNow - 1);
                 });
             }
             var nextA1 = $("<a/>").text("下一页");
-            if(str.hasNext){
+            if (str.hasNext) {
                 nextA1.click(function () {
-                    getUserList(str.pageNow+1);
+                    getUserList(str.pageNow + 1);
                 });
             }
             prevLi.append(prevA);
@@ -850,7 +844,7 @@
             pageBar.append(prevLi);
             pageBar.append(prevLi1);
             var t = 1;
-            if(str.totalPageCount>5){
+            if (str.totalPageCount > 5) {
 //                t =
             }
             for (var i = 1; i <= str.totalPageCount; i++) {
@@ -954,6 +948,22 @@
                 }
             });
         };
+
+        /*按条件搜索用户*/
+        $("#selected").click(function () {
+            console.log($("#selectForm").serialize());
+            $.post("admin/user/getUsersByParams.do", $("#selectForm").serialize(), function (res, state) {
+                if (state == "success") {
+                    var json = JSON.parse(res);
+                    setUserListData(json);
+                    setPageBar(json.page);
+                } else {
+                    Modal.alert({
+                        msg: '操作失败！',
+                    });
+                }
+            });
+        });
 
         /*搜索公司*/
         window.searchCompany = function (ele) {
@@ -1095,7 +1105,7 @@
                         $("#addUser").modal("hide");
                         Modal.alert({
                             msg: '操作成功！',
-                        }).on(function(){
+                        }).on(function () {
                             getUserList(0);
                         });
                     } else {
