@@ -121,7 +121,7 @@
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="userCompany != null" >
-        company_id = #{userCompany.companyId,jdbcType=INTEGER},
+        company_id =#{userCompany.companyId,jdbcType=BIGINT},
       </if>
       <if test="mobile != null and mobile!=''" >
         mobile = #{mobile,jdbcType=VARCHAR},
