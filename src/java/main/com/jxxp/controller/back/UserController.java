@@ -527,7 +527,6 @@ public class UserController {
 		PrintWriter out = response.getWriter();
 		String jsonLogList = JSON.toJSONString(logList);
 		out.print(jsonLogList);
-		System.out.println("-------------------" + jsonLogList);
 		// modelMap.put("logList", logList);
 		return null;
 	}
