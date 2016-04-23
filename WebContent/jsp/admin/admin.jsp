@@ -126,7 +126,7 @@
                                 </li>
                             </c:if>
                             <c:if test="${user.userType>=3}">
-                                <li><a class="" href="admin/user/getUsersByParams.do" target="MainIframe">用户管理</a></li>
+                                <li><a class="" href="jsp/admin/pages/usersAdmin.jsp" target="MainIframe">用户管理</a></li>
                             </c:if>
                             <li><a class="" href="admin/user/getLogByParams.do" target="MainIframe">操作日志</a></li>
                         </ul>
@@ -160,7 +160,7 @@
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            <span>数据设计</span>
+                            <span>企业管理</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
@@ -218,7 +218,7 @@
                         <input type="password" id="reNewPwd" class="form-control" placeholder="重复密码">
                     </div>
                     <div class="form-group">
-                        <input type="button" id="loginBtn" value="登陆" class="btn btn-primary form-control"/>
+                        <input type="button" id="loginBtn" value="确定" class="btn btn-primary form-control"/>
                     </div>
                 </form>
             </div>
@@ -264,19 +264,19 @@
             if (isEmty(newPwd)) {
                 return alert("请输入新密码");
             }
+            if(newPwd.length<6){
+                return alert("新密码长度不能少于6位!");
+            }
             if (newPwd != reNewPwd) {
                 return alert("两次新密码不一致");
             }
-            var url = "admin/user/updatePwd.do?userPwd=" + md5(newPwd) + "oldPwd=" + md5(oldPwd);
+            var url = "admin/user/updatePwd.do?newPwd=" + md5(newPwd) + "&oldPwd=" + md5(oldPwd);
             $.get(url, function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
-                        Modal.prompt({
-                            msg: '操作成功,请用新密码重新登陆',
-                        }).on(function (e, res) {
-                            if (e) {
-                                location.href = "admin/user/loginOut.do";
-                            }
+                        $("#updatePwd").modal("hide");
+                        Modal.alert({
+                            msg: '操作成功!',
                         });
                     } else {
                         Modal.alert({
