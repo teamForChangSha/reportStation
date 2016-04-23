@@ -56,11 +56,13 @@ public interface UserMapper {
 	 *            用户类型
 	 * @param userState
 	 *            用户状态
+	 * @param companyName
 	 * @return
 	 */
 	List<User> getUsersByParams(@Param("page") Page page, @Param("user") User user,
 			@Param("keyWord") String keyWord, @Param("companyId") Long companyId,
-			@Param("userType") Integer userType, @Param("userState") Integer userState);
+			@Param("userType") Integer userType, @Param("userState") Integer userState,
+			@Param("companyName") String companyName);
 
 	User getById(long userId);
 

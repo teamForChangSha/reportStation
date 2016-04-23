@@ -39,7 +39,12 @@
   </select>
   
   <select id="getUsersByParams" resultMap="BaseResultMap">
-  select * from userinfo where 1=1
+  select u.* from userinfo u
+  <if test="companyName!=null and companyName!=''">
+  join (select company_id from company where company_name like concat(concat('%',#{companyName},'%'))) as c 
+  on c.company_id=u.company_id 
+  </if>
+  where 1=1
   <if test="companyId!=null and companyId!=0">
   and company_id=#{companyId}
   </if>

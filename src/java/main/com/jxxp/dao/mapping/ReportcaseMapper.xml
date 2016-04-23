@@ -76,6 +76,10 @@
     <if test="caseState!=null">
    and rc.case_state= #{caseState,jdbcType=INTEGER}
     </if>  
+     <!-- 案件跟踪号模糊查询 --> 
+    <if test="trackingNo!=null and trackingNo!=''">
+     and rc.tracking_no like concat(concat('%',#{trackingNo,jdbcType=VARCHAR},'%'))
+    </if> 
    and rc.rc_id in
     (select d.rc_id from reportanswer b,reportcase d 
      where b.rc_id = d.rc_id 
