@@ -176,6 +176,7 @@ public class CaseTest {
 	 */
 	@Ignore
 	public void testGetCaseById() {
+
 		ReportCase case1 = getReportCase();
 		reportCaseMapper.insert(case1);
 		ReportCase caseInfo = reportCaseMapper.getById(case1.getRcId());
