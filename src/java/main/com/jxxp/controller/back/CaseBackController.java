@@ -65,6 +65,7 @@ public class CaseBackController {
 		String endTime = request.getParameter("endTime");
 		String keyWord = request.getParameter("keyWord");
 		String caseState = request.getParameter("caseState");
+		String trackingNo = request.getParameter("trackingNo");
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("rtList", rtList);
@@ -72,7 +73,7 @@ public class CaseBackController {
 		map.put("endTime", endTime);
 		map.put("keyWord", keyWord);
 		map.put("caseState", caseState);
-
+		map.put("trackingNo", trackingNo);
 		log.debug("Map:" + map);
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);

@@ -94,12 +94,13 @@ public interface ReportCaseMapper {
 	 * @param rtList
 	 *            问题类型
 	 * @param caseState
+	 * @param rcId
 	 * @return
 	 */
 	List<ReportCase> searchByKeys(@Param("companyId") long companyId,
 			@Param("startTime") String startTime, @Param("endTime") String endTime,
 			@Param("keyWord") String keyWord, @Param("rtList") String rtList,
-			@Param("caseState") Integer caseState);
+			@Param("caseState") Integer caseState, @Param("trackingNo") String trackingNo);
 
 	/**
 	 * @param companyId

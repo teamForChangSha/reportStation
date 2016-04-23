@@ -72,6 +72,7 @@
     </set>
     where log_id = #{logId,jdbcType=BIGINT}
   </update>
+  <!-- 最近max不同用户做某个操作的日志记录 -->
  <select id="getRecentOprationLog" resultMap="BaseResultMap">
 select a.* from oprationlog a right join 
 (
@@ -79,7 +80,7 @@ select max(log_id) t from oprationlog where opration= #{opration} group by oprat
 ) 
 as b on b.t = a.log_id order by a.log_date desc limit 0,#{max} 
  </select>
- 
+   <!-- 最近max个关于某个操作的日志记录 -->
 <select id="getLastOprationLog" resultMap="BaseResultMap">
 select * from oprationlog where 1=1
 <if test="opration != null and opration !='' " >

@@ -171,13 +171,15 @@ public class CaseServiceImpl implements CaseService {
 		String startTime = map.get("startTime");
 		String endTime = map.get("endTime");
 		String keyWord = map.get("keyWord");
+		String trackingNo = map.get("trackingNo");
 		Integer caseState = null;
+
 		if (map.get("caseState") != null && map.get("caseState").length() > 0
 				&& map.get("caseState").matches("^[0-9]*$")) {
 			caseState = Integer.valueOf(map.get("caseState"));
 		}
 		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), startTime, endTime,
-				keyWord, rtList, caseState);
+				keyWord, rtList, caseState, trackingNo);
 		return caseList;
 	}
 

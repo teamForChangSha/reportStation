@@ -324,6 +324,8 @@ public class UserController {
 		String strCompanyId = request.getParameter("companyId");
 		String strUserType = request.getParameter("userType");
 		String strUserState = request.getParameter("userState");
+		String companyName = request.getParameter("companyName");
+
 		// 当前页
 		String pageNow = request.getParameter("pageNow");
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -331,15 +333,20 @@ public class UserController {
 		User user = (User) request.getSession().getAttribute("user");
 		params.put("user", user);
 		params.put("keyWord", keyWord);
-		if (strCompanyId != null && strCompanyId.length() > 0 && strCompanyId.matches("^[0-9]*$")) {
-			params.put("companyId", new Long(strCompanyId));
-		}
+		params.put("companyName", companyName);
 		if (strUserType != null && strUserType.length() > 0 && strUserType.matches("^[0-9]*$")) {
 			params.put("userType", new Integer(strUserType));
 		}
 		if (strUserState != null && !strUserState.equals("") && strUserState.length() > 0
 				&& strUserState.matches("^[0-9]*$")) {
 			params.put("userState", new Integer(strUserState));
+		}
+		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
+		if (user.getUserType() <= 2) {
+			params.put("companyId", user.getUserCompany().getCompanyId());
+		} else if (strCompanyId != null && strCompanyId.length() > 0
+				&& strCompanyId.matches("^[0-9]*$")) {
+			params.put("companyId", new Long(strCompanyId));
 		}
 		// 分页查询用户
 		List<User> userList = new ArrayList<User>();
@@ -374,9 +381,8 @@ public class UserController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		log.debug("user总记录数------------------=" + totalCount);
+		// log.debug("user总记录数------------------=" + totalCount);
 		// modelMap.put("userAndLogList", userAndLogList);
-
 		// return "/jsp/admin/pages/usersAdmin";
 		return null;
 	}

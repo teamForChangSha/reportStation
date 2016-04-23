@@ -35,7 +35,9 @@ public class UserServiceImpl implements UserService {
 		Integer userType = (Integer) params.get("userType");
 		Integer userState = (Integer) params.get("userState");
 		User user = (User) params.get("user");
-		return userMapper.getUsersByParams(page, user, keyWord, companyId, userType, userState);
+		String companyName = (String) params.get("companyName");
+		return userMapper.getUsersByParams(page, user, keyWord, companyId, userType, userState,
+				companyName);
 	}
 
 	@Override
