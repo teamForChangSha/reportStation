@@ -63,6 +63,11 @@ public class Company {
 	private String stockCode;
 
 	/**
+	 * 公司客户信息，是客户公司，则clientCompany不为null，这里设计一个公司客户对象，便于后期扩展
+	 */
+	private ClientCompany clientCompany;
+
+	/**
 	 * 该公司所选取的问题列表
 	 */
 	private List<QuestionInfo> questList;
@@ -161,5 +166,13 @@ public class Company {
 
 	public void setStockCode(String stockCode) {
 		this.stockCode = stockCode;
+	}
+
+	public ClientCompany getClientCompany() {
+		return clientCompany;
+	}
+
+	public void setClientCompany(ClientCompany clientCompany) {
+		this.clientCompany = clientCompany;
 	}
 }

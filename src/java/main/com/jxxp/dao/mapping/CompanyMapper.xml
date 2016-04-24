@@ -16,6 +16,9 @@
    
     <association column="company_id" property="otherInfo" select="com.jxxp.dao.CompanyOtherMapper.getByCompanyId">
     </association> 
+    <!-- 是否属于客户公司，不属于则clientCompany为null -->
+    <association column="company_id" property="clientCompany" select="com.jxxp.dao.ClientCompanyMapper.getClientCompanyById">
+    </association> 
     <collection property="questList" column="company_id" ofType="com.jxxp.pojo.QuestionInfo"
     select="com.jxxp.dao.QuestionInfoMapper.getAllByCompany">
     </collection>
