@@ -63,7 +63,7 @@ public class Company {
 	private String stockCode;
 
 	/**
-	 * 公司客户信息，是客户公司，则clientCompany不为null
+	 * 公司客户信息，是客户公司，则clientCompany不为null，这里设计一个公司客户对象，便于后期扩展
 	 */
 	private ClientCompany clientCompany;
 
