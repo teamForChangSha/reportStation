@@ -373,7 +373,8 @@ public class UserController {
 		Map<String, Object> userAndLogMap = new HashMap<String, Object>();
 		userAndLogMap.put("page", page);
 		userAndLogMap.put("userAndLogList", userAndLogList);
-		String userJson = JSON.toJSONString(userAndLogMap);
+		String userJson = JSON.toJSONString(userAndLogMap,
+				SerializerFeature.DisableCircularReferenceDetect);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -382,9 +383,8 @@ public class UserController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		// log.debug("user总记录数------------------=" + totalCount);
-		// modelMap.put("userAndLogList", userAndLogList);
-		// return "/jsp/admin/pages/usersAdmin";
+		log.debug("user总记录数------------------=" + userJson);
+
 		return null;
 	}
 
