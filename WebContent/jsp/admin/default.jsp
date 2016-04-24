@@ -287,6 +287,7 @@
             $("#logTable").empty();
             $.get("admin/user/getUserLog.do?oprator=" + userId, function (res, status) {
                 if (status == "success") {
+                    console.log(res);
                     $.each(JSON.parse(res), function (i, log) {
                         var tr = $("<tr/>");
                         var date = new Date(log.logDate);

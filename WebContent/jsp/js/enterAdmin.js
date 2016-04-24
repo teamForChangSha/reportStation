@@ -8,7 +8,7 @@ $(function () {
         }
     });
     function getCompanyList(pageNum,companyName) {
-        $.get("admin/companyBack/getCompanyPage.do?pageNow=" + pageNum+"&companyName="+companyName, function (res, state) {
+        $.post("admin/companyBack/getCompanyPage.do","pageNow=" + pageNum+"&companyName="+companyName, function (res, state) {
             if (state == "success") {
                 var json = JSON.parse(res);
                 setCompanyListData(json.companyList);

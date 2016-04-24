@@ -1,5 +1,7 @@
 $(function () {
-    /*获取用户列表*/
+    /**
+     * 获取用户列表
+     */
     $.get("admin/user/getUsersByParams.do", function (res, state) {
         if (state == "success") {
             var json = JSON.parse(res);
@@ -7,6 +9,10 @@ $(function () {
             setPageBar(json.page);
         }
     });
+    /**
+     * 更具分页获取数据
+     * @param pageNum
+     */
     function getUserList(pageNum) {
         $.get("admin/user/getUsersByParams.do?pageNow=" + pageNum, function (res, state) {
             if (state == "success") {
@@ -16,6 +22,10 @@ $(function () {
         });
     }
 
+    /**
+     * 设置用户列表数据
+     * @param str
+     */
     function setUserListData(str) {
         $("#userList").empty();
         $.each(str.userAndLogList, function (i, userAndLogList) {
@@ -213,7 +223,11 @@ $(function () {
         $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
     }
 
-    /*格式化时间*/
+    /**
+     * 格式化时间
+     * @param str
+     * @returns {string}
+     */
     function formatDate(str) {
         if (str == null) return;
         var date = new Date(str);
@@ -280,7 +294,9 @@ $(function () {
     uchangeDay();
     /*修改用户信息日期设置 END*/
 
-    /*停用某公司所有用户*/
+    /**
+     * 停用某公司所有用户
+     */
     window.stopAllUser = function () {
         Modal.confirm({
             title: '警告',
@@ -296,7 +312,9 @@ $(function () {
         });
     };
 
-    /*按条件搜索用户*/
+    /**
+     * 按条件搜索用户
+     */
     $("#selected").click(function () {
         console.log($("#selectForm").serialize());
         $.post("admin/user/getUsersByParams.do", $("#selectForm").serialize(), function (res, state) {
@@ -312,7 +330,10 @@ $(function () {
         });
     });
 
-    /*搜索公司*/
+    /**
+     * 搜索公司
+     * @param ele
+     */
     window.searchCompany = function (ele) {
         if ($(ele).get(0).id == $("#selectCompanyInput").get(0).id) {
             $("#stopAllUsers").addClass("hide");
@@ -323,6 +344,11 @@ $(function () {
     window.searchCompanyFoucs = function (ele) {
         AutoComple(ele);
     };
+    /**
+     * 自动完成
+     * @param ele
+     * @constructor
+     */
     function AutoComple(ele) {
         $(ele).next().hide();
         $(ele).next().empty();
@@ -349,9 +375,10 @@ $(function () {
         });
     }
 
-    /*搜索公司END*/
-
-    /*查看该用户操作日志*/
+    /**
+     * 查看该用户操作日志
+     * @param userId
+     */
     window.lookUseLog = function (userId) {
         $("#logTable").empty();
         $.get("admin/user/getUserLog.do?oprator=" + userId, function (res, status) {
@@ -375,7 +402,10 @@ $(function () {
     }
 
 
-    /* 更新用户信息 */
+    /**
+     * 更新用户信息
+     * @returns {*}
+     */
     window.sendUp = function () {
         if (isEmty($("#upName").val())) {
             return alr("请输入用户名字");
@@ -395,13 +425,16 @@ $(function () {
         $("#upToDate").val($("#ufullYear").find("option:selected").text() + "-"
             + $("#ufullMounth").find("option:selected").text() + "-" + $("#ufullDay").find("option:selected").text());
         console.log($("#upForm").serialize());
+        $("#updataUserInfo").modal("hide");
         $.post("admin/user/updateUser.do", $("#upForm").serialize(), function (res, status) {
             if (status == "success") {
                 if (res == "success") {
-                    $("#updataUserInfo").modal("hide");
                     Modal.alert({
                         msg: '操作成功！',
-                    });
+                    }).on(function(){
+                        var pageNum = parseInt($("#pageBar li.active").children().text());
+                        getUserList(pageNum);
+                    });;
                 } else {
                     Modal.alert({
                         msg: '操作失败！',
@@ -415,7 +448,10 @@ $(function () {
         });
     };
 
-    /* 添加企业用户 */
+    /**
+     * 添加企业用户
+     * @returns {*}
+     */
     window.sendAdd = function () {
         if (isEmty($("#addName").val())) {
             return alr("请输入用户名字");
@@ -452,8 +488,6 @@ $(function () {
                     $("#addUser").modal("hide");
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function () {
-                        getUserList(0);
                     });
                 } else {
                     Modal.alert({
