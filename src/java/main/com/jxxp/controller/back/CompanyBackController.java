@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
@@ -499,12 +500,12 @@ public class CompanyBackController {
 		companyResultMap.put("page", page);
 		companyResultMap.put("companyList", companyList);
 		// 将公司信息集合和page组装成map，返回给前台
-		String companyMapJson = JSON.toJSONString(companyResultMap);
+		String companyMapJson = JSON.toJSONString(companyResultMap,
+				SerializerFeature.WriteMapNullValue);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
-			// out.print(pageJosn);
 			out.print(companyMapJson);
 		} catch (IOException e) {
 			log.error("add company failed", e);
