@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.OprationLog;
@@ -524,8 +525,10 @@ public class UserController {
 		params.put("opratorId", userId);
 		Page page = null;
 		List<OprationLog> logList = oprationLogService.getLogByParams(page, params);
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		String jsonLogList = JSON.toJSONString(logList);
+		String jsonLogList = JSON.toJSONString(logList,
+				SerializerFeature.DisableCircularReferenceDetect);
 		out.print(jsonLogList);
 		// modelMap.put("logList", logList);
 		return null;
