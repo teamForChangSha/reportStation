@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jxxp.comms.web.Page;
+import com.jxxp.dao.ClientCompanyMapper;
 import com.jxxp.dao.CompanyBranchMapper;
 import com.jxxp.dao.CompanyMapper;
 import com.jxxp.dao.CompanyOtherMapper;
 import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportTypeMapper;
+import com.jxxp.pojo.ClientCompany;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
@@ -45,6 +47,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private CompanyBranchMapper companyBranchMapper;
 	@Resource
 	private CompanyQuestionMapper companyQuestionMapper;
+	@Resource
+	private ClientCompanyMapper clientCompanyMapper;
 
 	@Override
 	public boolean saveCompanyInfo(Company company) {
@@ -56,12 +60,19 @@ public class CompanyServiceImpl implements CompanyService {
 		Company company = wholeCompany.getCompany();
 		boolean flag1 = saveCompanyInfo(company);
 		boolean flag2 = true;
+		// 存储公司其他信息
 		if (wholeCompany.getCompanyOther() != null) {
 			CompanyOther other = wholeCompany.getCompanyOther();
-			System.out.println("-------------" + other.getCompanyId());
 			other.setCompanyId(company.getCompanyId());
 			flag2 = companyOtherMapper.insert(other) > 0;
 		}
+		// 记录是否为客户公司
+		if (company != null && company.getClientCompany() != null) {
+			ClientCompany client = company.getClientCompany();
+			client.setCompanyId(company.getCompanyId());
+			clientCompanyMapper.insert(client);
+		}
+		// 存储是否为客户公司
 		return flag1 && flag2;
 	}
 
