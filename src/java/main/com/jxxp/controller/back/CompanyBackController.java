@@ -189,14 +189,18 @@ public class CompanyBackController {
 		setCompanyOtherInfo(file, wholeCompany, request);
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.updateCompanyWholeInfo(wholeCompany);
-		if (flag) {
-			model.put("msg", "操作成功");
-		} else {
-			model.put("msg", "操作失败");
-
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.debug("更新公司信息");
 		}
-
-		return "/jsp/admin/pages/enterAdmin";
+		return null;
 
 	}
 
