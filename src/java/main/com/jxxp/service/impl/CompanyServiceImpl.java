@@ -69,6 +69,7 @@ public class CompanyServiceImpl implements CompanyService {
 		// 记录是否为客户公司
 		if (company != null && company.getClientCompany() != null) {
 			ClientCompany client = company.getClientCompany();
+			client.setCompanyId(company.getCompanyId());
 			clientCompanyMapper.insert(client);
 		}
 		// 存储是否为客户公司
