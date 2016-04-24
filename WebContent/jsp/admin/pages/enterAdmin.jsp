@@ -55,6 +55,9 @@
         .form-control-static{
             width: 200px;
         }
+        .pagination li a {
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -68,9 +71,11 @@
         <div class="form-inline">
             <div class="form-group">
                 <label class="control-label">搜索关键字：</label>
-                <input type="text" class="form-control" style="width: 300px;" placeholder="可模糊搜索企业名称、手机号等">
+                <input type="text" id="companyName" class="form-control" style="width: 300px;" placeholder="可模糊搜索企业名称、手机号等">
             </div>
-            <input type="button" class="btn btn-default" value="搜索"/>
+            <input type="button" id="selected" class="btn btn-default" value="搜索"/>
+            <input type="button" data-toggle="modal" data-target="#addCompanPanel" style="margin-left: 10px;margin-right: 10px" class="btn btn-default" value="添加企业"/>
+            <input type="button" name="import" class="btn btn-default" value="批量导入单位信息"/>
         </div>
     </div>
     <div class="row">
@@ -78,20 +83,27 @@
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr class="table-info">
-                    <th>添加时间</th>
                     <th>单位名称</th>
+                    <th>添加时间</th>
+                    <th>是否为客户</th>
+                    <th>状态</th>
+                    <th>有效期</th>
                     <th>联系电话</th>
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="companyList"></tbody>
             </table>
         </div>
     </div>
-
-    <div class="row">
-        <input type="button" name="addCompany" class="btn btn-default" value="添加企业"/>
-        <input type="button" name="import" style="margin-left: 10px;" class="btn btn-default" value="导入单位信息"/>
+    <div class="col-sm-12">
+        <div class="row text-center">
+            <nav>
+                <ul class="pagination pagination-sm" id="pageBar">
+                </ul>
+            </nav>
+            <span id="pageText"></span>
+        </div>
     </div>
 
     <%--行业数据--%>
@@ -260,7 +272,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="addClose()">
+                <button type="button" class="close" id="addClose">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h5 class="modal-title text-center">添加企业</h5>
@@ -325,7 +337,7 @@
                                 <input id="addIndustry" type="text" name="company.industries"
                                        class="form-control"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="addSelctedIndustry()">
+                            <button class="btn btn-default" type="button" id="addSelctedIndustry">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </button>
                         </span>
@@ -360,7 +372,7 @@
                         <label class="col-sm-4 control-label">公司LOGO：</label>
 
                         <div class="col-sm-3" id="addFileSave">
-                            <input type="file" onchange="addLogoChange(this)" id="addLogo" name="logo" accept="image/*" class="form-control-static"/>
+                            <input type="file" id="addLogoChange" id="addLogo" name="logo" accept="image/*" class="form-control-static"/>
                         </div>
                         <div class="col-sm-2">
                             <p class="thumbnail">
@@ -387,7 +399,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="upClose()">
+                <button type="button" class="close" id="upClose">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h5 class="modal-title text-center">修改企业</h5>
@@ -454,7 +466,7 @@
                                 <input id="upIndustry" type="text" name="company.industries"
                                        class="form-control"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="upSelctedIndustry()">
+                            <button class="btn btn-default" type="button" id="upSelctedIndustry">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </button>
                         </span>
@@ -489,7 +501,7 @@
                         <label class="col-sm-4 control-label">公司LOGO：</label>
 
                         <div class="col-sm-3">
-                            <input type="file" onchange="upLogoChange(this)" id="upLogo" name="logo" accept="image/*" class="form-control-static"/>
+                            <input type="file" id="upLogoChange" name="logo" accept="image/*" class="form-control-static"/>
                         </div>
                         <div class="col-sm-2">
                             <p class="thumbnail">
@@ -512,180 +524,7 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
-<script type="text/javascript">
-    $(function () {
-        for (var i = 0; i < 3; i++) {
-            var tr = $("<tr/>");
-            var td1 = $("<td/>").text("2015-12-01 14:20:30");
-            var td2 = $("<td/>").text("苹果中国");
-            var td3 = $("<td/>").text("18600000000");
-            var td4 = $("<td/>");
-            var a1 = $("<a/>").attr("class", "btn btn-link").text("修改信息");
-            a1.click(function () {
-                hiddenPanle();
-                panle.updataPwd.removeClass("hidden");
-                //TODO
-            });
-            var a2 = $("<a/>").attr("class", "btn btn-link").text("停用");
-            a2.click(function () {
-                hiddenPanle();
-                panle.updataUserInfo.removeClass("hidden");
-                //TODO
-            });
-            td4.append(a1).append(a2);
-            tr.append(td1).append(td2).append(td3).append(td4);
-//            $("tbody").append(tr);
-        }
-
-
-        var t = 0;
-        var addBool = true, upBool = true;
-        var temp = $("#hangye");
-        /*添加企业*/
-        $("input[name=addCompany]").click(function () {
-            $("#addCompanPanel").modal("show");
-        });
-        window.addSelctedIndustry = function () {
-            $("#addForm").hide();
-            t = 1;
-            addBool = false;
-            $("#addCompanHtml").append(temp);
-            temp.removeClass("hide");
-        };
-        window.addClose = function () {
-            if (addBool) {
-                $("#addCompanPanel").modal("hide");
-            } else {
-                $("#addCompanHtml").children("#hangye").remove();
-                $("#addForm").show();
-                addBool = true;
-            }
-        };
-        window.addLogoChange = function(ele){
-            if (window.File && window.FileList && window.FileReader) {
-                var oFReader = new FileReader();
-                oFReader.onload = function (file) {
-                    var image = new Image();
-                    image.src = file.target.result;
-                    var h = image.height;
-                    var w = image.width;
-                    var fileSize = $(ele).get(0).files[0].size / 1024;
-                    if (h > 200 || w > 200 || fileSize > 1024) {
-                        $("#addLogo").val("");
-                        return alert("图片宽高不能超过200像素，大小不能超过1M");
-                    }
-                    $("#addImg").attr("src", file.target.result);
-                };
-                oFReader.readAsDataURL($(ele).get(0).files[0]);
-            }
-        };
-        window.sendAdd = function () {
-            $("#addForm").submit();
-        };
-        /*添加企业 END*/
-
-        /*更新企业*/
-        $("input[name=import]").click(function () {
-            $("#upCompanPanel").modal("show");
-        });
-        window.updataCompany = function (id) {
-            //TODO
-            $("#upCompanPanel").modal("show");
-        };
-        window.upSelctedIndustry = function () {
-            $("#upForm").hide();
-            t = 2;
-            upBool = false;
-            $("#upCompanHtml").append(temp);
-            temp.removeClass("hide");
-        };
-        window.upClose = function () {
-            if (upBool) {
-                $("#upCompanPanel").modal("hide");
-            } else {
-                $("#upCompanHtml").children("#hangye").remove();
-                $("#upForm").show();
-                upBool = true;
-            }
-        };
-        window.upLogoChange = function(ele){
-            if (window.File && window.FileList && window.FileReader) {
-                var oFReader = new FileReader();
-                oFReader.onload = function (file) {
-                    var image = new Image();
-                    image.src = file.target.result;
-                    var h = image.height;
-                    var w = image.width;
-                    var fileSize = $(ele).get(0).files[0].size / 1024;
-                    if (h > 200 || w > 200 || fileSize > 1024) {
-                        $("#upLogo").val("");
-                        return alert("图片宽高不能超过200像素，大小不能超过1M");
-                    }
-                    $("#upImg").attr("src", file.target.result);
-                };
-                oFReader.readAsDataURL($(ele).get(0).files[0]);
-            }
-        };
-        window.sendUp = function(){
-            $("#upForm").submit();
-        };
-        /*更新企业 END*/
-
-        /*行业表格每一项被点击事件*/
-        window.getInd = function (ele) {
-            if (t == 1) {
-                $("#addIndustry").val($(ele).text());
-                $("#addCompanHtml").children("#hangye").remove();
-                $("#addForm").show();
-                addBool = true;
-            }
-            if (t == 2) {
-                $("#upIndustry").val($(ele).text());
-                $("#upCompanHtml").children("#hangye").remove();
-                $("#upForm").show();
-                upBool = true;
-            }
-        };
-
-        /*删除企业*/
-        window.delCompany = function (id) {
-            Modal.confirm({
-                title: '警告',
-                msg: '你确定要删除吗?',
-            }).on(function (e) {
-                if (e) {
-                    $.get("admin/companyBack/deleteCompanyBranch.do?branchId=" + id, function (res, status) {
-                        alertMsg(res, status);
-                    });
-                }
-            });
-        };
-
-        function alr(masg) {
-            alert(masg);
-        }
-
-        /* 弹出操作消息 */
-        function alertMsg(res, status) {
-            if (status == "success") {
-                if (res == "success") {
-                    Modal.alert({
-                        msg: '操作成功！',
-                    }).on(function (e) {
-                        location.reload();
-                    });
-                } else {
-                    Modal.alert({
-                        msg: '操作失败！',
-                    });
-                }
-            } else {
-                Modal.alert({
-                    msg: '操作失败！',
-                });
-            }
-        }
-    });
-</script>
-
+<script type="text/javascript" src="jsp/js/jquery.page.js"></script>
+<script type="text/javascript" src="jsp/js/enterAdmin.js"></script>
+<script type="text/javascript" src="jsp/js/jquery.form.js"></script>
 </html>
