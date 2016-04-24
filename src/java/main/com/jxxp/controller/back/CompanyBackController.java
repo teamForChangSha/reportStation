@@ -198,7 +198,7 @@ public class CompanyBackController {
 				out.print("error");
 			}
 		} catch (IOException e) {
-			log.debug("更新公司信息");
+			log.debug("更新公司信息异常");
 		}
 		return null;
 
@@ -381,14 +381,19 @@ public class CompanyBackController {
 		}
 		// 调用service,存储公司所有信息
 		boolean flag = companyService.saveWholeCompany(wholeCompany);
-		if (flag) {
-			model.put("msg", "success");
-		} else {
-			model.put("msg", "error");
-
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.debug("添加公司信息异常");
 		}
 
-		return "/jsp/admin/pages/enterAdmin";
+		return null;
 
 	}
 
