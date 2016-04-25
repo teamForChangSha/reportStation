@@ -44,9 +44,7 @@ public class LoginFilter implements Filter {
         } 
         if (!flag) { 
             User user = (User) request.getSession().getAttribute("user");
-            if (user != null) {
-            	flag = true; 
-            } else {
+            if (user == null) {
             	response.sendRedirect("../../admin.do");
             }
         }

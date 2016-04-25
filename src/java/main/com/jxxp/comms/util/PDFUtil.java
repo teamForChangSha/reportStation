@@ -208,7 +208,14 @@ public class PDFUtil {
 			rowCount++;  
 
 			String question = map.get("question");
-			question.replaceAll("${companyBranch.owner.companyName }", reportCase.getCompany().getCompanyName());
+			if(question.indexOf("companyBranch.owner.companyName ") > 0) {
+				question = question.replaceAll("companyBranch.owner.companyName ", reportCase.getCompany().getCompanyName());
+				question = question.replace('$', ' ');
+				question = question.replace('{', ' ');
+				question = question.replace('}', ' ');
+				question = question.replaceAll("  ", " ");
+			}
+
 			cell = new PdfPCell(new Paragraph(question, moneyFontChinese));//描述   
 			cell.setFixedHeight(20);  
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);// 设置内容水平居中显示   
@@ -283,6 +290,14 @@ public class PDFUtil {
 	}
 	
 	public static void main(String[] args) {
-		new PDFUtil().test();
+//		new PDFUtil().test();
+		String str = "fdsfdsfdsfds${companyBranch.owner.companyName }fjdslkjfdsfds";
+		System.out.println(str.indexOf("companyBranch.owner.companyName "));
+		str = str.replaceAll("companyBranch.owner.companyName ", "111111111111111");
+		str = str.replace('$', ' ');
+		str = str.replace('{', ' ');
+		str = str.replace('}', ' ');
+		str = str.replaceAll("  ", " ");
+		System.out.println(str);
 	}
 }
