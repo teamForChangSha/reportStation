@@ -434,7 +434,7 @@ $(function () {
                     }).on(function(){
                         var pageNum = parseInt($("#pageBar li.active").children().text());
                         getUserList(pageNum);
-                    });;
+                    });
                 } else {
                     Modal.alert({
                         msg: '操作失败！',
@@ -488,6 +488,9 @@ $(function () {
                     $("#addUser").modal("hide");
                     Modal.alert({
                         msg: '操作成功！',
+                    }).on(function(){
+                        var pageNum = parseInt($("#pageBar li.active").children().text());
+                        getUserList(pageNum);
                     });
                 } else {
                     Modal.alert({

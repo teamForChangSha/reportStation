@@ -66,13 +66,13 @@
                 <label class="control-label">按条件查询</label>
                 <input type="text" class="datepicker-here form-control" data-position="right top" name="beginTime"
                        placeholder="请输入开始时间"/>
-                 <input type="text" class="datepicker-here form-control" data-position="right top" name="endTime"
+                <input type="text" class="datepicker-here form-control" data-position="right top" name="endTime"
                        placeholder="请输入结束时间"/>
                 <c:if test="${user.userType>=3}">
                     <input type="text" class="form-control" name="oprator"
                            placeholder="请输入操作人姓名"/>
                 </c:if>
-                <input type="submit" class="btn btn-default" value="查询"/>
+                <input type="button" id="selected" class="btn btn-default" value="查询"/>
             </div>
         </form>
         <br>
@@ -86,20 +86,26 @@
                     <th>操作人</th>
                 </tr>
                 </thead>
-                <tbody>
-                <c:forEach items="${logList}" var="log" varStatus="i">
-                    <tr>
-                        <td><fmt:formatDate value="${log.logDate}" type="date" pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
-                        <td>${log.opration}</td>
-                        <td>${log.oprator.userName}</td>
-                    </tr>
-                </c:forEach>
+                <tbody id="logList">
                 </tbody>
             </table>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-8  text-center">
+            <nav>
+                <ul class="pagination pagination-sm" id="pageBar">
+                </ul>
+            </nav>
+            <span id="pageText"></span>
+        </div>
+    </div>
 </div>
+<script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
+<script type="text/javascript" src="jsp/js/jquery.page.js"></script>
+<script type="text/javascript" src="jsp/js/jquery.form.js"></script>
 <script>
     $(function () {
         var logDate = $("input[name=beginTime]");
@@ -118,6 +124,85 @@
                 days: '<h6>当前日期:yyyy年mm月dd日</h6> '
             }
         });
+
+        $.get("admin/user/getLogByParams.do", function (res, state) {
+            if (state == "success") {
+                var json = JSON.parse(res);
+                setLogListData(json.logList);
+                setPageBar(json.page);
+            }
+        });
+
+        /**
+         * 获取日志列表
+         */
+        function getLogList(a, b, c, d) {
+            var data = "beginTime=" + a + "&endTime=" + b + "&oprator=" + c + "&pageNow" + d;
+            $.post("admin/user/getLogByParams.do", data, function (res, state) {
+                if (state == "success") {
+                    var json = JSON.parse(res);
+                    setLogListData(json.logList);
+                }
+            });
+        }
+
+        /**
+         * 设置log列表数据
+         */
+        function setLogListData(logs) {
+            var tr = $("<tr/>");
+            var td1 = $("<td/>").text(formatDate(logs.logDate));
+            var td2 = $("<td/>").text(logs.opration);
+            var td3 = $("<td/>").text(logs.oprator.userName);
+            tr.append(td1).append(td2).append(td3);
+            $("#logList").append(tr);
+        }
+
+        /**
+         * 设置分页
+         * @param str
+         */
+        function setPageBar(str) {
+            $("#pageBar").createPage({
+                pageCount: str.totalPageCount,
+                current: str.pageNow,
+                backFn: function (p) {
+                    getLogList("", "", "", p);
+                }
+            });
+            $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
+        }
+
+        /**
+         * 搜索操作
+         */
+        $("#selected").click(function(){
+            $("form").ajaxSubmit(function(res,state){
+                if (state == "success") {
+                    var json = JSON.parse(res);
+                    setLogListData(json.logList);
+                    setPageBar(json.page);
+                }else{
+                    Modal.alert({msg:"操作失败!"});
+                }
+            });
+        });
+
+        /**
+         * 格式化时间
+         * @param str
+         * @returns {string}
+         */
+        function formatDate(str) {
+            if (str == null) return;
+            var date = new Date(str);
+            var mounth = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth();
+            var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            var h = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+            var m = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+            var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+            return date.getFullYear() + "-" + mounth + "-" + day + " " + h + ":" + m + ":" + s;
+        }
     });
 </script>
 </html>

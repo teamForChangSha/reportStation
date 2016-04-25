@@ -71,7 +71,7 @@
         <div class="form-inline">
             <div class="form-group">
                 <label class="control-label">搜索关键字：</label>
-                <input type="text" id="companyName" class="form-control" style="width: 300px;" placeholder="可模糊搜索企业名称、手机号等">
+                <input type="text" id="companyName" class="form-control" style="width: 300px;" placeholder="可模糊搜索企业名称">
             </div>
             <input type="button" id="selected" class="btn btn-default" value="搜索"/>
             <input type="button" data-toggle="modal" data-target="#addCompanPanel" style="margin-left: 10px;margin-right: 10px" class="btn btn-default" value="添加企业"/>
