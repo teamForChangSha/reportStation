@@ -1,5 +1,7 @@
 package com.jxxp.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class ClientCompanyServiceImpl implements ClientCompanyService {
 
 	@Override
 	public boolean addClientCompany(ClientCompany client) {
+		if (client != null) {
+			client.setCreateTime(new Date());
+		}
 		int count = clientCompanyMapper.insert(client);
 		boolean flag = false;
 		if (count > 0) {
