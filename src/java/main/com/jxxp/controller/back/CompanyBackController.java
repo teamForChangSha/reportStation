@@ -29,6 +29,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jxxp.comms.web.Page;
+import com.jxxp.pojo.ClientCompany;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
 import com.jxxp.pojo.CompanyOther;
@@ -36,6 +37,7 @@ import com.jxxp.pojo.CompanyQuestion;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.ReportType;
 import com.jxxp.pojo.User;
+import com.jxxp.service.ClientCompanyService;
 import com.jxxp.service.CompanyBranchService;
 import com.jxxp.service.CompanyService;
 import com.jxxp.service.QuestionService;
@@ -43,7 +45,7 @@ import com.jxxp.service.ReportTypeService;
 
 @Controller("companyBackController")
 @RequestMapping("/admin/companyBack")
-public class CompanyBackController {
+public class CompanyBackController extends BaseController {
 	private static final Logger log = LoggerFactory.getLogger(CompanyBackController.class);
 
 	@Resource
@@ -54,6 +56,8 @@ public class CompanyBackController {
 	private QuestionService questionService;
 	@Resource
 	private CompanyBranchService companyBranchService;
+	@Resource
+	private ClientCompanyService clientCompanyService;
 
 	/**
 	 * @author gcx 获取问题模版
@@ -427,8 +431,9 @@ public class CompanyBackController {
 	}
 
 	/**
-	 * 批量删除企业
+	 * 删除单个企业
 	 * 
+	 * @author gcx
 	 * @param companyIds
 	 * @param request
 	 * @param response
@@ -521,5 +526,45 @@ public class CompanyBackController {
 		}
 		return null;
 
+	}
+
+	@RequestMapping("/addClientCompany.do")
+	public String addClientCompany(ClientCompany clientCompany, Integer pageNow,
+			HttpServletRequest request, HttpServletResponse response, ModelMap model)
+			throws Exception {
+		// 调用service,存储客户公司公司所有信息
+		boolean flag = clientCompanyService.addClientCompany(clientCompany);
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.debug("添加客户公司信息异常");
+		}
+		return null;
+	}
+
+	@RequestMapping("/updateClientCompany.do")
+	public String updateClientCompany(ClientCompany clientCompany, Integer pageNow,
+			HttpServletRequest request, HttpServletResponse response, ModelMap model)
+			throws Exception {
+		// 调用service,存储客户公司公司所有信息
+		boolean flag = clientCompanyService.updateClientCompany(clientCompany);
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			if (flag) {
+				out.print("success");
+			} else {
+				out.print("error");
+			}
+		} catch (IOException e) {
+			log.debug("修改客户公司信息异常");
+		}
+		return null;
 	}
 }

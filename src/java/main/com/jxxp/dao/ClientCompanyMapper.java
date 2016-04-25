@@ -12,4 +12,8 @@ public interface ClientCompanyMapper {
 	 * @return
 	 */
 	ClientCompany getClientCompanyById(Long companyId);
+
+	int delClientCompany(Long companyId);
+
+	int update(ClientCompany client);
 }

@@ -20,7 +20,9 @@ import com.jxxp.pojo.Company;
 import com.jxxp.service.CompanyService;
 
 /**
- * @author gcx 公司信息管理，客户的增删该查
+ * 公司信息管理
+ * 
+ * @author gcx
  * 
  */
 @Controller("companyController")

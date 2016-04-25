@@ -1,6 +1,7 @@
 package com.jxxp.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,23 +58,26 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Transactional
 	public boolean saveWholeCompany(CompanyWholeInfo wholeCompany) {
+		boolean flag = false;
 		Company company = wholeCompany.getCompany();
-		boolean flag1 = saveCompanyInfo(company);
-		boolean flag2 = true;
+		if (company != null) {
+			company.setCreateTime(new Date());
+			flag = saveCompanyInfo(company);
+		}
 		// 存储公司其他信息
 		if (wholeCompany.getCompanyOther() != null) {
 			CompanyOther other = wholeCompany.getCompanyOther();
 			other.setCompanyId(company.getCompanyId());
-			flag2 = companyOtherMapper.insert(other) > 0;
+			flag = companyOtherMapper.insert(other) > 0;
 		}
 		// 记录是否为客户公司
 		if (company != null && company.getClientCompany() != null) {
 			ClientCompany client = company.getClientCompany();
 			client.setCompanyId(company.getCompanyId());
-			clientCompanyMapper.insert(client);
+			flag = clientCompanyMapper.insert(client) > 0;
 		}
 		// 存储是否为客户公司
-		return flag1 && flag2;
+		return flag;
 	}
 
 	@Override

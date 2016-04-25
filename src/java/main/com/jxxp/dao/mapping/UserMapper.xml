@@ -19,7 +19,7 @@
     <result column="weixin" property="weixin" jdbcType="VARCHAR" />
     <result column="department" property="department" jdbcType="VARCHAR" />
     <result column="position" property="position" jdbcType="VARCHAR" />
-    <result column="expiry_date" property="expiryDate" jdbcType="TIMESTAMP" />
+    <result column="expiry_date" property="expiryDate" jdbcType="DATE" />
     <!-- 后续加的end -->
      <association property="userCompany" column="company_id" javaType="com.jxxp.pojo.Company"
     select="com.jxxp.dao.CompanyMapper.getById">

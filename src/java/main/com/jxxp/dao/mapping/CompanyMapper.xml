@@ -13,6 +13,7 @@
     <!-- 增加连个字段，industries表示行业，stockCode表示股票代码 -->
     <result column="industries" property="industries" jdbcType="VARCHAR" />
     <result column="stock_code" property="stockCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
    
     <association column="company_id" property="otherInfo" select="com.jxxp.dao.CompanyOtherMapper.getByCompanyId">
     </association> 
@@ -31,14 +32,14 @@
   
   <sql id="Base_Column_List" >
     company_id, company_name, description, company_code, phone, company_type, company_state, 
-    state_changed,industries,stock_code
+    state_changed,industries,stock_code,create_time
   </sql>
   <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select * from company
+    select <include refid="Base_Column_List"/> from company
     where company_id = #{companyId,jdbcType=BIGINT}
   </select>
   <select id="getPlatformCompany" resultMap="BaseResultMap" >
-    select * from company
+    select <include refid="Base_Column_List"/> from company
     where company_type =0 limit 0,1
   </select>
   
@@ -47,7 +48,7 @@
   </select>
   
   <select id="findByName" resultMap="BaseResultMap" parameterType="String" >
-    select * from company
+    select <include refid="Base_Column_List"/> from company
     where company_name = #{companyName,jdbcType=VARCHAR}
   </select>
   
@@ -94,7 +95,10 @@
       industries,
       </if>
       <if test="stockCode != null and stockCode!=''" >
-      stock_code
+      stock_code,
+      </if>
+       <if test="createTime != null" >
+        create_time
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -127,6 +131,9 @@
       </if>
       <if test="stockCode != null and stockCode!=''" >
         #{stockCode,jdbcType=VARCHAR},
+      </if>
+       <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>

@@ -67,6 +67,8 @@ public class Company {
 	 */
 	private ClientCompany clientCompany;
 
+	private Date createTime;
+
 	/**
 	 * 该公司所选取的问题列表
 	 */
@@ -174,5 +176,13 @@ public class Company {
 
 	public void setClientCompany(ClientCompany clientCompany) {
 		this.clientCompany = clientCompany;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 }

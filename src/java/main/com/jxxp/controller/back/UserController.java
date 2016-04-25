@@ -2,7 +2,6 @@ package com.jxxp.controller.back;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -18,11 +17,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
@@ -41,7 +37,7 @@ import com.jxxp.service.UserService;
  */
 @Controller("userController")
 @RequestMapping("/admin/user")
-public class UserController {
+public class UserController extends BaseController {
 	private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@Resource
@@ -374,7 +370,8 @@ public class UserController {
 		userAndLogMap.put("page", page);
 		userAndLogMap.put("userAndLogList", userAndLogList);
 		String userJson = JSON.toJSONString(userAndLogMap,
-				SerializerFeature.DisableCircularReferenceDetect);
+				SerializerFeature.DisableCircularReferenceDetect,
+				SerializerFeature.WriteMapNullValue);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -534,11 +531,11 @@ public class UserController {
 		return null;
 	}
 
-	@InitBinder
-	public void initBinder(ServletRequestDataBinder bin) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		CustomDateEditor dateEditor = new CustomDateEditor(format, true);
-		bin.registerCustomEditor(Date.class, dateEditor);
-	}
+	/*
+	 * @InitBinder public void initBinder(ServletRequestDataBinder bin) {
+	 * SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	 * CustomDateEditor dateEditor = new CustomDateEditor(format, true);
+	 * bin.registerCustomEditor(Date.class, dateEditor); }
+	 */
 
 }

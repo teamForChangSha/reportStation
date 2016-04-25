@@ -3,7 +3,9 @@ package com.jxxp.test.mybatis;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -134,6 +136,7 @@ public class CompanyTest {
 		company.setCompanyType(1);
 		company.setIndustries("某某行业");
 		company.setStockCode("股票代码");
+		company.setCreateTime(new Date(new Timestamp(new Date().getTime() / 1000 * 1000).getTime()));
 		return company;
 	}
 }
