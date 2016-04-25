@@ -26,11 +26,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
+import com.jxxp.comms.util.MailBean;
+import com.jxxp.comms.util.MailUtil;
 import com.jxxp.pojo.CaseAttach;
 import com.jxxp.pojo.CaseChangeLog;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
+import com.jxxp.pojo.CompanyOther;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportAnswer;
 import com.jxxp.pojo.ReportCase;
@@ -66,6 +69,8 @@ public class CaseController {
 	private CaseChangeLogService caseChangeLogService;
 	@Resource
 	private QuestionService questionService;
+	@Resource
+	private MailUtil mailUtil;
 
 	/***
 	 * 根据所输入的手机号，获取验证码
@@ -216,6 +221,19 @@ public class CaseController {
 			if (flag) {
 				if (caseService.saveCase(reporter, reportCase, answerList)) {
 					log.debug(reportCase.getTrackingNo() + "案件提交成功！");
+					if(reportCase.getCompany().getOtherInfo().getIsSend() == CompanyOther.IS_SEND_YES && reportCase.getCompany().getOtherInfo().getSendType() == CompanyOther.SEND_TYPE_ONCE) {
+						MailBean mailBean = new MailBean();
+						mailBean.setFrom("15364060309@163.com");
+						mailBean.setSubject("hello world");
+						mailBean.setToEmails(new String[]{"9466672@qq.com"});
+						mailBean.setTemplate("hello ${userName} !<a href='www.baidu.com' >baidu</a>");
+						Map map = new HashMap();
+						map.put("userName", "Jian Cui");
+						mailBean.setData(map);
+						
+						mailUtil.send(mailBean);
+					}
+					
 					out.print(reportCase.getTrackingNo());
 				} else {
 					out.print("saveError");

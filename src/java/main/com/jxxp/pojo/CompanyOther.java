@@ -7,6 +7,12 @@ package com.jxxp.pojo;
  * 
  */
 public class CompanyOther {
+	public static final int IS_SEND_YES = 1;
+	public static final int IS_SEND_NO = 0;
+	
+	public static final int SEND_TYPE_ONCE = 1;
+	public static final int SEND_TYPE_WEEK = 0;
+	
 	private long companyId;
 
 	/**
