@@ -45,15 +45,10 @@
             <div class="form-inline">
                 <div class="form-group">
                     <label class="control-label">名称：</label>
-                    <input type="text" class="form-control">
+                    <input type="text" onkeyup="onCompanyKeyup(this)" class="form-control">
                 </div>
             </div>
             <select name="enters" multiple class="form-control">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
             </select>
         </div>
         <div class="col-sm-2" style="padding-top: 60px;">
@@ -70,31 +65,62 @@
         <div class="col-sm-3" style="padding-top: 100px;">
             <div class="form-group">
                 <label class="control-label">公司主要名称：</label>
-                <input type="text" class="form-control">
+                <input type="text" id="name" class="form-control">
             </div>
         </div>
     </div>
     <div class="row">
-        <button class="btn btn-warning" style="margin-left: 20px;">确定</button>
+        <button class="btn btn-warning" onclick="sendMerges()" style="margin-left: 20px;">确定</button>
     </div>
 </div>
 </body>
 <script type="text/javascript">
     $(function () {
+
+        getAllCompanyByName('');
+
+        function getAllCompanyByName(a) {
+            $("select[name=enters]").empty();
+            var data = "companyName=" + a;
+            $.post("company/getAllByName.do", data, function (res) {
+                $.each(JSON.parse(res), function (i, company) {
+                    var opt = $("<option/>").val(company.companyId).text(company.companyName);
+                    $("select[name=enters]").append(opt);
+                });
+            });
+        }
+
+        window.onCompanyKeyup = function (a) {
+            getAllCompanyByName($(a).val());
+        }
+
         $("#mergeBtn").click(function () {
             $("select[name=enters] option:selected").each(function () {
                 $("select[name=enters] option:selected").remove();
-                var opt = $("<option/>").text($(this).text());
+                var opt = $("<option/>").val($(this).val()).text($(this).text());
                 $("select[name=merges]").append(opt);
             });
         });
         $("#removeBtn").click(function () {
             $("select[name=merges] option:selected").each(function () {
                 $("select[name=merges] option:selected").remove();
-                var opt = $("<option/>").text($(this).text());
+                var opt = $("<option/>").val($(this).val()).text($(this).text());
                 $("select[name=enters]").append(opt);
             });
         });
+
+        $("select[name=merges]").change(function () {
+            $("#name").val($("select[name=merges] option:selected").text());
+        });
+
+        window.sendMerges = function () {
+            var companys = new Array();
+            $("select[name=merges] option").each(function () {
+                companys.push($(this).val());
+            });
+            //TODO 不知道发送到哪个action明天确定再添加
+        };
+
     });
 </script>
 
