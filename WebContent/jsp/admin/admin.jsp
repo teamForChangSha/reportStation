@@ -128,7 +128,7 @@
                             <c:if test="${user.userType>=3}">
                                 <li><a class="" href="jsp/admin/pages/usersAdmin.jsp" target="MainIframe">用户管理</a></li>
                             </c:if>
-                            <li><a class="" href="admin/user/getLogByParams.do" target="MainIframe">操作日志</a></li>
+                            <li><a class="" href="jsp/admin/pages/showLog.jsp" target="MainIframe">操作日志</a></li>
                         </ul>
                     </li>
                 </c:if>

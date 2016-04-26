@@ -50,6 +50,9 @@
         .col-sm-8 {
             padding-left: 0;
         }
+        .pagination li a {
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -137,7 +140,7 @@
          * 获取日志列表
          */
         function getLogList(a, b, c, d) {
-            var data = "beginTime=" + a + "&endTime=" + b + "&oprator=" + c + "&pageNow" + d;
+            var data = "beginTime=" + a + "&endTime=" + b + "&oprator=" + c + "&pageNow=" + d;
             $.post("admin/user/getLogByParams.do", data, function (res, state) {
                 if (state == "success") {
                     var json = JSON.parse(res);
@@ -150,12 +153,15 @@
          * 设置log列表数据
          */
         function setLogListData(logs) {
-            var tr = $("<tr/>");
-            var td1 = $("<td/>").text(formatDate(logs.logDate));
-            var td2 = $("<td/>").text(logs.opration);
-            var td3 = $("<td/>").text(logs.oprator.userName);
-            tr.append(td1).append(td2).append(td3);
-            $("#logList").append(tr);
+            $("#logList").empty();
+            $.each(logs,function(i,log){
+                var tr = $("<tr/>");
+                var td1 = $("<td/>").text(formatDate(log.logDate));
+                var td2 = $("<td/>").text(log.opration);
+                var td3 = $("<td/>").text(log.oprator.userName);
+                tr.append(td1).append(td2).append(td3);
+                $("#logList").append(tr);
+            });
         }
 
         /**
