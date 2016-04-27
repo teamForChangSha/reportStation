@@ -425,7 +425,8 @@ public class UserController extends BaseController {
 		Map<String, Object> logResultMap = new HashMap<String, Object>();
 		logResultMap.put("page", page);
 		logResultMap.put("logList", logList);
-		String logMapJson = JSON.toJSONString(logResultMap);
+		String logMapJson = JSON.toJSONString(logResultMap,
+				SerializerFeature.DisableCircularReferenceDetect);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
@@ -434,7 +435,8 @@ public class UserController extends BaseController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		// modelMap.put("logList", logList);
+		log.debug("看前台传递的参数是否每次都带过来了beginTime=" + beginTime + "--endTime=" + endTime + "--oprator="
+				+ oprator + "--pageNow=" + pageNow);
 		return null;
 	}
 
@@ -530,12 +532,5 @@ public class UserController extends BaseController {
 		// modelMap.put("logList", logList);
 		return null;
 	}
-
-	/*
-	 * @InitBinder public void initBinder(ServletRequestDataBinder bin) {
-	 * SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	 * CustomDateEditor dateEditor = new CustomDateEditor(format, true);
-	 * bin.registerCustomEditor(Date.class, dateEditor); }
-	 */
 
 }
