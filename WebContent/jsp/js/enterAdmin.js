@@ -22,7 +22,7 @@ $(function () {
         $.each(a, function (i, company) {
             var tr = $("<tr/>");
             var td1 = $("<td/>").text(company.companyName);
-            var td2 = $("<td/>").text(formatDate(company.clientCompany.createTime));
+            var td2 = $("<td/>").text(company.clientCompany==null?'':formatDate(company.clientCompany.createTime));
             var td3 = $("<td/>").text(company.clientCompany == null ? "否" : "是");
             var td4 = $("<td/>");
             switch (company.companyState) {
@@ -33,7 +33,7 @@ $(function () {
                     td4.text("待审核");
                     break;
             }
-            var td5 = $("<td/>").text(formatDate(company.clientCompany.expiryDate));
+            var td5 = $("<td/>").text(company.clientCompany==null?'':formatDate(company.clientCompany.expiryDate));
             var td6 = $("<td/>").text(company.phone == null ? "" : company.phone);
             var td7 = $("<td/>");
             var div = $("<div/>").addClass("btn-group");

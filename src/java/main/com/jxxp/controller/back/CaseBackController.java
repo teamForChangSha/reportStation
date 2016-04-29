@@ -127,25 +127,26 @@ public class CaseBackController {
 
 		long rcId = Long.parseLong(strId);
 		int afterState = Integer.parseInt(strState);
-		int sendToPlatform = Integer.parseInt(strSendToPlatform);
+		Integer sendToPlatform = (strSendToPlatform != null && !strSendToPlatform.equals("")) ? Integer
+				.parseInt(strSendToPlatform) : null;
 		long afterCompanyId = Long.parseLong(strCompanyId);
 		Company afterHandler = null;
 
 		ReportCase reportCase = caseService.getReportCaseById(rcId);
 		User user = (User) request.getSession().getAttribute("user");
-		// 判断是否交由平台方处理
-		if (sendToPlatform == 1) {
-			afterHandler = companyService.getPlatformCompany();
-			// afterCompanyId = afterHandler.getCompanyId();
+		// 判断是否要更改处理的公司
+		if (sendToPlatform != null) {
+			if (sendToPlatform == 1) {
+				afterHandler = companyService.getPlatformCompany();
+			} else {
+				// 不是交给平台方处理，则是案件所属公司处理
+				afterHandler = reportCase.getCompany();
+			}
 		} else {
-			// 不是交给平台方处理，则是案件所属公司处理
-			// afterHandler = companyService.getCompanyById(afterCompanyId);
-			afterHandler = reportCase.getCompany();
+			afterHandler = companyService.getCompanyById(afterCompanyId);
 		}
-
 		int beforeState = reportCase.getCaseState();
 		Company beforeCompany = reportCase.getCurrentHandler();
-
 		reportCase.setCaseState(afterState);
 		reportCase.setCurrentHandler(afterHandler);
 
@@ -172,6 +173,7 @@ public class CaseBackController {
 		} catch (IOException e) {
 			log.error("流获取失败！", e);
 		}
+
 		return null;
 	}
 
