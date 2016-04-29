@@ -75,7 +75,8 @@
             </div>
             <input type="button" id="selected" class="btn btn-default" value="搜索"/>
             <input type="button" data-toggle="modal" data-target="#addCompanPanel" style="margin-left: 10px;margin-right: 10px" class="btn btn-default" value="添加企业"/>
-            <input type="button" name="import" class="btn btn-default" value="批量导入单位信息"/>
+            <input type="button" id="import" class="btn btn-default" value="批量导入单位信息"/>
+            <input type="button" onclick="delAll()" class="btn btn-default" value="批量删除"/>
         </div>
     </div>
     <div class="row">
@@ -83,6 +84,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr class="table-info">
+                    <th>选择</th>
                     <th>单位名称</th>
                     <th>添加时间</th>
                     <th>是否为客户</th>

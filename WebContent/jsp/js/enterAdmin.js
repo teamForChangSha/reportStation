@@ -1,4 +1,6 @@
 $(function () {
+    var companyName = $("#companyName");
+
     /*获取企业列表*/
     $.get("admin/companyBack/getCompanyPage.do", function (res, state) {
         if (state == "success") {
@@ -7,8 +9,8 @@ $(function () {
             setPageBar(json.page);
         }
     });
-    function getCompanyList(pageNum,companyName) {
-        $.post("admin/companyBack/getCompanyPage.do","pageNow=" + pageNum+"&companyName="+companyName, function (res, state) {
+    function getCompanyList(pageNum, companyName) {
+        $.post("admin/companyBack/getCompanyPage.do", "pageNow=" + pageNum + "&companyName=" + companyName, function (res, state) {
             if (state == "success") {
                 var json = JSON.parse(res);
                 setCompanyListData(json.companyList);
@@ -21,8 +23,11 @@ $(function () {
         $("#companyList").empty();
         $.each(a, function (i, company) {
             var tr = $("<tr/>");
+            var td = $("<td/>");
+            var checkbox = $("<input/>").attr("type", "checkbox").attr("data-id", company.companyId);
+            td.append(checkbox);
             var td1 = $("<td/>").text(company.companyName);
-            var td2 = $("<td/>").text(company.clientCompany==null?'':formatDate(company.clientCompany.createTime));
+            var td2 = $("<td/>").text(company.clientCompany == null ? '' : formatDate(company.clientCompany.createTime));
             var td3 = $("<td/>").text(company.clientCompany == null ? "否" : "是");
             var td4 = $("<td/>");
             switch (company.companyState) {
@@ -33,7 +38,7 @@ $(function () {
                     td4.text("待审核");
                     break;
             }
-            var td5 = $("<td/>").text(company.clientCompany==null?'':formatDate(company.clientCompany.expiryDate));
+            var td5 = $("<td/>").text(company.clientCompany == null ? '' : formatDate(company.clientCompany.expiryDate));
             var td6 = $("<td/>").text(company.phone == null ? "" : company.phone);
             var td7 = $("<td/>");
             var div = $("<div/>").addClass("btn-group");
@@ -45,7 +50,7 @@ $(function () {
             var li1 = $("<li/>");
             var a1 = $("<a/>").text("修改信息").attr("data-toggle", "modal").attr("data-target", "#upCompanPanel");
             a1.click(function () {
-                setUpFormData(company.companyId,company.companyName, company.companyCode, company.stockCode, company.phone, company.companyState
+                setUpFormData(company.companyId, company.companyName, company.companyCode, company.stockCode, company.phone, company.companyState
                     , company.companyType, company.industries, company.description
                     , company.otherInfo == null ? "" : company.otherInfo.serviceProtocol, company.otherInfo == null ? "" : company.otherInfo.spHtml
                     , company.otherInfo == null ? "" : company.otherInfo.logoUrl);
@@ -53,12 +58,15 @@ $(function () {
             li1.append(a1);
             var li2 = $("<li/>");
             var a2 = $("<a/>").text("删除");
+            a2.click(function () {
+                delCompany(company.companyId);
+            });
             li2.append(a2);
             menu.append(li1).append(li2);
             btn.append(span);
             div.append(btn).append(menu);
             td7.append(div);
-            tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7);
+            tr.append(td).append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7);
             $("#companyList").append(tr);
         });
     }
@@ -66,7 +74,7 @@ $(function () {
     /**
      * 设置更新表单数据
      */
-    function setUpFormData(id,name, code, stockCode, phone, state, type, industry, desc, spr, spHtml, path) {
+    function setUpFormData(id, name, code, stockCode, phone, state, type, industry, desc, spr, spHtml, path) {
         $("#upCompanyId").val(id);
         $("#upCompanyName").val(name);
         $("#upCompanyCode").val(code);
@@ -78,7 +86,7 @@ $(function () {
         $("#upDescription").val(desc);
         $("#upServiceProtocol").val(spr);
         $("#upSpHtml").val(spHtml);
-        if(path!=null&&path!=""){
+        if (path != null && path != "") {
             $("#upImg").attr("src", path);
         }
     }
@@ -89,7 +97,7 @@ $(function () {
             pageCount: str.totalPageCount,
             current: str.pageNow,
             backFn: function (p) {
-                getCompanyList(p,"");
+                getCompanyList(p, companyName.val());
             }
         });
         $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
@@ -173,27 +181,27 @@ $(function () {
         logoChange($("#addImg"), this);
     });
     window.sendAdd = function () {
-        if(isEmty($("#addCompanyName").val())){
+        if (isEmty($("#addCompanyName").val())) {
             return alert("请输入公司名称");
         }
-        if(!rePhone($("#addPhone").val())){
+        if (!rePhone($("#addPhone").val())) {
             return alert("请输入正确的联系电话");
         }
-        if($("#addCompanyType").find("option:selected").val()=="0"){
+        if ($("#addCompanyType").find("option:selected").val() == "0") {
             return alert("请选择公司类型");
         }
-        if(isEmty($("#addIndustry").val())){
+        if (isEmty($("#addIndustry").val())) {
             return alert("请选择所属行业");
         }
         $("#addCompanPanel").modal("hide");
-        $("#addForm").ajaxSubmit(function(res,state){
+        $("#addForm").ajaxSubmit(function (res, state) {
             if (state == "success") {
                 if (res == "success") {
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function(){
+                    }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getCompanyList(pageNum,"");
+                        getCompanyList(pageNum, companyName.val());
                     });
                 } else {
                     Modal.alert({
@@ -218,27 +226,27 @@ $(function () {
         logoChange($("#upImg"), this);
     });
     window.sendUp = function () {
-        if(isEmty($("#upCompanyName").val())){
+        if (isEmty($("#upCompanyName").val())) {
             return alert("请输入公司名称");
         }
-        if(!rePhone($("#upPhone").val())){
+        if (!rePhone($("#upPhone").val())) {
             return alert("请输入正确的联系电话");
         }
-        if($("#upCompanyType").find("option:selected").val()=="0"){
+        if ($("#upCompanyType").find("option:selected").val() == "0") {
             return alert("请选择公司类型");
         }
-        if(isEmty($("#upIndustry").val())){
+        if (isEmty($("#upIndustry").val())) {
             return alert("请选择所属行业");
         }
         $("#upCompanPanel").modal("hide");
-        $("#upForm").ajaxSubmit(function(res,state){
+        $("#upForm").ajaxSubmit(function (res, state) {
             if (state == "success") {
                 if (res == "success") {
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function(){
+                    }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getCompanyList(pageNum,"");
+                        getCompanyList(pageNum, companyName.val());
                     });
                 } else {
                     Modal.alert({
@@ -269,25 +277,75 @@ $(function () {
         }
     };
 
-    $("#selected").click(function(){
-       var companyName = $("#companyName").val();
-        getCompanyList(1,companyName);
-        //TODO 后台未返回数据，原因未知
+    $("#selected").click(function () {
+        getCompanyList(1, companyName.val());
     });
 
-    /*删除企业*/
-    window.delCompany = function (id) {
+    /**
+     * 删除企业
+     */
+    function delCompany(id) {
         Modal.confirm({
             title: '警告',
             msg: '你确定要删除吗?',
         }).on(function (e) {
             if (e) {
-                $.get("admin/companyBack/deleteCompanyBranch.do?branchId=" + id, function (res, status) {
-                    alertMsg(res, status);
+                $.post("admin/companyBack/delCompanyByIds.do", "companyId=" + id, function (res, state) {
+                    if (state == "success") {
+                        if (res == "success") {
+                            Modal.alert({
+                                msg: '操作成功！',
+                            }).on(function () {
+                                var pageNum = parseInt($("#pageBar li.active").children().text());
+                                getCompanyList(pageNum, companyName.val());
+                            });
+                        } else {
+                            Modal.alert({
+                                msg: '操作失败！',
+                            });
+                        }
+                    } else {
+                        Modal.alert({
+                            msg: '操作失败！',
+                        });
+                    }
                 });
             }
         });
     };
+
+    /**
+     * 批量删除企业
+     */
+    window.delAll = function () {
+        var i = 0;
+        var ids = [];
+        $('tbody tr td:nth-child(1) input').each(function () {
+            if ($(this).filter(':checked').val()) {
+                i++;
+                ids.push($(this).attr("data-id"));
+            }
+        });
+        if (i > 0) {
+            alert(ids)
+            $.get("admin/companyBack/delCompanyByIds.do?companyIds=" + ids, function (res, state) {
+                if (state == "success") {
+                    if (res == "success") {
+                        Modal.alert({msg: '操作成功!'}).on(function () {
+                            var pageNum = parseInt($("#pageBar li.active").children().text());
+                            getCompanyList(pageNum, companyName.val());
+                        });
+                    } else {
+                        Modal.alert({msg: '操作失败!'});
+                    }
+                } else {
+                    Modal.alert({msg: '操作失败!'});
+                }
+            });
+        } else {
+            Modal.alert({msg: '请选择需要删除的企业!'});
+        }
+    }
 
     /* 判断是否为空 */
     function isEmty(str) {
@@ -298,7 +356,8 @@ $(function () {
         return false;
     }
 
-    var phoneReg = /^((0?1[358]\d{9})|((0(10|2[1-3]|[3-9]\d{2}))?[1-9]\d{6,7}))$/ ;
+    var phoneReg = /^((0?1[358]\d{9})|((0(10|2[1-3]|[3-9]\d{2}))?[1-9]\d{6,7}))$/;
+
     function rePhone(str) {
         if (!phoneReg.test(str)) {
             return false;

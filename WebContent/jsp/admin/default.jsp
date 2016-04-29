@@ -267,7 +267,7 @@
         window.look = function (rcId, caseState, ele,companyId,currentCompanyId) {
             var url = "admin/caseBack/updateCaseState.do";
             var data = "rcId=" + rcId + "&state=" + 2
-                    + "&sendToPlatform=0&companyId="+companyId;
+                    + "&companyId="+companyId;
             if (caseState < 2 && "${user.userCompany.companyId}"==currentCompanyId) {
                 $.post(url, data, function (res, status) {
                     if (status == "success") {
