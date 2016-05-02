@@ -1,6 +1,4 @@
 $(function () {
-    var companyName = $("#companyName");
-
     /*获取企业列表*/
     $.get("admin/companyBack/getCompanyPage.do", function (res, state) {
         if (state == "success") {
@@ -9,8 +7,10 @@ $(function () {
             setPageBar(json.page);
         }
     });
-    function getCompanyList(pageNum, companyName) {
-        $.post("admin/companyBack/getCompanyPage.do", "pageNow=" + pageNum + "&companyName=" + companyName, function (res, state) {
+    function getCompanyList(pageNum) {
+        var name = $("#companyName").val();
+        var data = "companyName=" + name + "&pageNow=" + pageNum;
+        $.post("admin/companyBack/getCompanyPage.do", data, function (res, state) {
             if (state == "success") {
                 var json = JSON.parse(res);
                 setCompanyListData(json.companyList);
@@ -97,7 +97,7 @@ $(function () {
             pageCount: str.totalPageCount,
             current: str.pageNow,
             backFn: function (p) {
-                getCompanyList(p, companyName.val());
+                getCompanyList(p);
             }
         });
         $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
@@ -180,6 +180,10 @@ $(function () {
     $("#addLogoChange").change(function () {
         logoChange($("#addImg"), this);
     });
+
+    /**
+     * 添加企业
+     */
     window.sendAdd = function () {
         if (isEmty($("#addCompanyName").val())) {
             return alert("请输入公司名称");
@@ -200,8 +204,9 @@ $(function () {
                     Modal.alert({
                         msg: '操作成功！',
                     }).on(function () {
-                        var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getCompanyList(pageNum, companyName.val());
+                        //var pageNum = parseInt($("#pageBar li.active").children().text());
+                        //getCompanyList(pageNum, companyName.val());
+                        location.reload();
                     });
                 } else {
                     Modal.alert({
@@ -225,6 +230,10 @@ $(function () {
     $("#upLogoChange").change(function () {
         logoChange($("#upImg"), this);
     });
+
+    /**
+     * 更新企业信息
+     */
     window.sendUp = function () {
         if (isEmty($("#upCompanyName").val())) {
             return alert("请输入公司名称");
@@ -246,7 +255,12 @@ $(function () {
                         msg: '操作成功！',
                     }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getCompanyList(pageNum, companyName.val());
+                        $.get("admin/companyBack/getCompanyPage.do?pageNow" + pageNum, data, function (res, state) {
+                            if (state == "success") {
+                                var json = JSON.parse(res);
+                                setCompanyListData(json.companyList);
+                            }
+                        });
                     });
                 } else {
                     Modal.alert({
@@ -278,7 +292,7 @@ $(function () {
     };
 
     $("#selected").click(function () {
-        getCompanyList(1, companyName.val());
+        getCompanyList(1);
     });
 
     /**
@@ -296,8 +310,9 @@ $(function () {
                             Modal.alert({
                                 msg: '操作成功！',
                             }).on(function () {
-                                var pageNum = parseInt($("#pageBar li.active").children().text());
-                                getCompanyList(pageNum, companyName.val());
+                                //var pageNum = parseInt($("#pageBar li.active").children().text());
+                                //getCompanyList(pageNum, companyName.val());
+                                location.reload();
                             });
                         } else {
                             Modal.alert({
@@ -332,8 +347,9 @@ $(function () {
                 if (state == "success") {
                     if (res == "success") {
                         Modal.alert({msg: '操作成功!'}).on(function () {
-                            var pageNum = parseInt($("#pageBar li.active").children().text());
-                            getCompanyList(pageNum, companyName.val());
+                            //var pageNum = parseInt($("#pageBar li.active").children().text());
+                            //getCompanyList(pageNum, companyName.val());
+                            location.reload();
                         });
                     } else {
                         Modal.alert({msg: '操作失败!'});
