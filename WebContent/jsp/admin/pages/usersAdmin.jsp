@@ -82,17 +82,12 @@
             cursor: pointer;
         }
 
-        #searchCompanyMenu {
-            margin-left: 100px;
-            margin-top: -370px;
-        }
-
-        #upCompanyMenu, #addCompanyMenu {
-            margin-left: 15px;
-        }
-
         .pagination li a {
             cursor: default;
+        }
+
+        .btn-group{
+            display: inline;
         }
     </style>
 </head>
@@ -132,11 +127,12 @@
             <div class="form-group">
                 <label class="control-label">所属公司：</label>
 
-                <input type="text" id="companyId" name="companyId" hidden/>
-                <input type="text" id="selectCompanyInput" class="form-control"
-                       placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"
-                       onfocus="searchCompanyFoucs(this)"/>
-                <ul id="searchCompanyMenu" class="dropdown-menu"></ul>
+                <div class="btn-group">
+                    <input type="text" id="companyId" name="companyId" hidden/>
+                    <input type="text" id="selectCompanyInput" class="form-control"
+                           placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"/>
+                    <ul id="searchCompanyMenu" class="dropdown-menu"></ul>
+                </div>
             </div>
             <div class="form-group">
                 <label class="control-label">搜关键字：</label>
@@ -233,11 +229,12 @@
                                 <label class="col-sm-3 control-label">选择公司：</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
-                                    <input type="text" id="upCompanyInput" class="form-control"
-                                           placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"
-                                           onfocus="searchCompanyFoucs(this)"/>
-                                    <ul id="upCompanyMenu" class="dropdown-menu"></ul>
+                                    <div class="btn-group">
+                                        <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
+                                        <input type="text" id="upCompanyInput" class="form-control"
+                                               placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"/>
+                                        <ul id="upCompanyMenu" class="dropdown-menu"></ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -431,11 +428,12 @@
                                 <label class="col-sm-3 control-label">选择公司：</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
-                                    <input type="text" id="addCompanyInput" class="form-control"
-                                           placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"
-                                           onfocus="searchCompanyFoucs(this)"/>
-                                    <ul id="addCompanyMenu" class="dropdown-menu"></ul>
+                                    <div class="btn-group">
+                                        <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
+                                        <input type="text" id="addCompanyInput" class="form-control"
+                                               placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"/>
+                                        <ul id="addCompanyMenu" class="dropdown-menu"></ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">

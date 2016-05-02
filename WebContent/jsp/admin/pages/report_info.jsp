@@ -142,21 +142,21 @@
                 </div>
             </div>
             <div id="appendPanel" class="hidden">
-            <div class="form-group">
-                <label class="col-sm-4 control-label">${user.userName}：</label>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">${user.userName}：</label>
 
-                <div class="col-sm-8">
-                    <textarea id="appendContent" class="form-control" rows="5"></textarea>
+                    <div class="col-sm-8">
+                        <textarea id="appendContent" class="form-control" rows="5"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"></label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
 
-                <div class="col-sm-10 text-right">
-                    <input type="button" id="appendCancel" class="btn btn-default" value="取消">
-                    <input type="button" id="appendBtn" class="btn btn-default" value="确定">
+                    <div class="col-sm-10 text-right">
+                        <input type="button" id="appendCancel" class="btn btn-default" value="取消">
+                        <input type="button" id="appendBtn" class="btn btn-default" value="确定">
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -170,17 +170,20 @@
             $("#caseState").text(res);
         });
         var ele = {
-            appendPanel:$("#appendPanel"),
+            appendPanel: $("#appendPanel"),
             appendContent: $("#appendContent"),
-            append:$("#append"),
+            append: $("#append"),
             appendCancel: $("#appendCancel"),
             appendBtn: $("#appendBtn")
         }
-        ele.append.click(function(){
-           ele.appendPanel.removeClass("hidden");
+        ele.append.click(function () {
+            if (${user.userCompany.companyId!=reportCase.currentHandler.companyId}) {
+                return alert("案件未交由平台方处理，您目前只能查看!");
+            }
+            ele.appendPanel.removeClass("hidden");
             ele.append.addClass("hidden");
         });
-        ele.appendCancel.click(function(){
+        ele.appendCancel.click(function () {
             ele.appendPanel.addClass("hidden");
             ele.append.removeClass("hidden");
         });
