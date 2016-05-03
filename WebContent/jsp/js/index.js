@@ -43,79 +43,79 @@
     var regStr = /(1[3-9]\d{9}$)/;
     var t, i = 60;
 
-    /**
-     * 初始化省份
-     */
-    function initProvince() {
-        var url = "getProvinceByCompany.do?companyId="
-            + leftEle.companyName.attr("data-id");
-        $.getJSON(url, function (result) {
-            if (result == null || result.length <= 0) {
-                return;
-            }
-            leftEle.province.empty();
-            var opt = $("<option/>").text("--请选择--").attr("value", "-1");
-            leftEle.province.append(opt);
-            $(result).each(
-                function () {
-                    var opt = $("<option/>").text(this.name).attr("value",
-                        this.areaId);
-                    leftEle.province.append(opt);
-                });
-            leftEle.province.parent().removeClass("hidden");
-        });
-    }
-    ;
-
-    /**
-     * 初始化市
-     */
-    function initCity() {
-        var url = "getCityByCompany.do?companyId="
-            + leftEle.companyName.attr("data-id") + "&parentId="
-            + leftEle.province.find("option:selected").val();
-        $.getJSON(url, function (result) {
-            if (result == null || result.length <= 0) {
-                return;
-            }
-            leftEle.city.empty();
-            var opt = $("<option/>").text("--请选择--").attr("value", "-1");
-            leftEle.city.append(opt);
-            $(result).each(
-                function () {
-                    var opt = $("<option/>").text(this.name).attr("value",
-                        this.areaId);
-                    leftEle.city.append(opt);
-                });
-            leftEle.city.parent().removeClass("hidden");
-        });
-    }
-    ;
-
-    /**
-     * 初始化机构
-     */
-    function initInstitutions() {
-        var url = "getCompanyBranch.do?companyId="
-            + leftEle.companyName.attr("data-id") + "&areaId="
-            + leftEle.city.find("option:selected").val();
-        $.getJSON(url, function (result) {
-            if (result == null || result.length <= 0) {
-                return;
-            }
-            leftEle.institutions.empty();
-            var opt = $("<option/>").text("--请选择--").attr("value", "-1");
-            leftEle.institutions.append(opt);
-            $(result).each(
-                function () {
-                    var opt = $("<option/>").text(this.branchName).attr(
-                        "value", this.branchId);
-                    leftEle.institutions.append(opt);
-                });
-            leftEle.institutions.parent().removeClass("hidden");
-        });
-    }
-    ;
+    ///**
+    // * 初始化省份
+    // */
+    //function initProvince() {
+    //    var url = "getProvinceByCompany.do?companyId="
+    //        + leftEle.companyName.attr("data-id");
+    //    $.getJSON(url, function (result) {
+    //        if (result == null || result.length <= 0) {
+    //            return;
+    //        }
+    //        leftEle.province.empty();
+    //        var opt = $("<option/>").text("--请选择--").attr("value", "-1");
+    //        leftEle.province.append(opt);
+    //        $(result).each(
+    //            function () {
+    //                var opt = $("<option/>").text(this.name).attr("value",
+    //                    this.areaId);
+    //                leftEle.province.append(opt);
+    //            });
+    //        leftEle.province.parent().removeClass("hidden");
+    //    });
+    //}
+    //;
+    //
+    ///**
+    // * 初始化市
+    // */
+    //function initCity() {
+    //    var url = "getCityByCompany.do?companyId="
+    //        + leftEle.companyName.attr("data-id") + "&parentId="
+    //        + leftEle.province.find("option:selected").val();
+    //    $.getJSON(url, function (result) {
+    //        if (result == null || result.length <= 0) {
+    //            return;
+    //        }
+    //        leftEle.city.empty();
+    //        var opt = $("<option/>").text("--请选择--").attr("value", "-1");
+    //        leftEle.city.append(opt);
+    //        $(result).each(
+    //            function () {
+    //                var opt = $("<option/>").text(this.name).attr("value",
+    //                    this.areaId);
+    //                leftEle.city.append(opt);
+    //            });
+    //        leftEle.city.parent().removeClass("hidden");
+    //    });
+    //}
+    //;
+    //
+    ///**
+    // * 初始化机构
+    // */
+    //function initInstitutions() {
+    //    var url = "getCompanyBranch.do?companyId="
+    //        + leftEle.companyName.attr("data-id") + "&areaId="
+    //        + leftEle.city.find("option:selected").val();
+    //    $.getJSON(url, function (result) {
+    //        if (result == null || result.length <= 0) {
+    //            return;
+    //        }
+    //        leftEle.institutions.empty();
+    //        var opt = $("<option/>").text("--请选择--").attr("value", "-1");
+    //        leftEle.institutions.append(opt);
+    //        $(result).each(
+    //            function () {
+    //                var opt = $("<option/>").text(this.branchName).attr(
+    //                    "value", this.branchId);
+    //                leftEle.institutions.append(opt);
+    //            });
+    //        leftEle.institutions.parent().removeClass("hidden");
+    //    });
+    //}
+    //;
 
     /**
      * 获取企业下的机构
@@ -140,34 +140,34 @@
         leftEle.sendCompany.submit();
     });
 
-    leftEle.province.change(function () {
-        leftEle.city.parent().addClass("hidden");
-        leftEle.institutions.parent().addClass("hidden");
-        leftEle.next.parent().addClass("hidden");
-        if ($(this).find("option:selected").val() != "-1") {
-            initCity();
-        }
-    });
+    //leftEle.province.change(function () {
+    //    leftEle.city.parent().addClass("hidden");
+    //    leftEle.institutions.parent().addClass("hidden");
+    //    leftEle.next.parent().addClass("hidden");
+    //    if ($(this).find("option:selected").val() != "-1") {
+    //        initCity();
+    //    }
+    //});
+    //
+    //leftEle.city.change(function () {
+    //    leftEle.institutions.parent().addClass("hidden");
+    //    leftEle.next.parent().addClass("hidden");
+    //    if ($(this).find("option:selected").val() != "-1") {
+    //        initInstitutions();
+    //    }
+    //});
+    //
+    //leftEle.institutions.change(function () {
+    //    leftEle.next.parent().addClass("hidden");
+    //    if ($(this).find("option:selected").val() != "-1") {
+    //        leftEle.next.parent().removeClass("hidden");
+    //    }
+    //});
 
-    leftEle.city.change(function () {
-        leftEle.institutions.parent().addClass("hidden");
-        leftEle.next.parent().addClass("hidden");
-        if ($(this).find("option:selected").val() != "-1") {
-            initInstitutions();
-        }
-    });
-
-    leftEle.institutions.change(function () {
-        leftEle.next.parent().addClass("hidden");
-        if ($(this).find("option:selected").val() != "-1") {
-            leftEle.next.parent().removeClass("hidden");
-        }
-    });
-
-    leftEle.companyName.focus(function () {
-        hiddenErrorIcon(leftEle.companyName);
-        leftEle.companyName.next().next().css("display", "block");
-    });
+    //leftEle.companyName.focus(function () {
+    //    hiddenErrorIcon(leftEle.companyName);
+    //    leftEle.companyName.next().next().css("display", "block");
+    //});
 
     leftEle.companyName.keyup(function () {
         leftEle.companyId.val("-1");

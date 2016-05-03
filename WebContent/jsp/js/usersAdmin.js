@@ -5,7 +5,7 @@ $(function () {
     $.get("admin/user/getUsersByParams.do", function (res, state) {
         if (state == "success") {
             var json = JSON.parse(res);
-            setUserListData(json);
+            setUserListData(json.userAndLogList);
             setPageBar(json.page);
         }
     });
@@ -14,10 +14,17 @@ $(function () {
      * @param pageNum
      */
     function getUserList(pageNum) {
-        $.get("admin/user/getUsersByParams.do?pageNow=" + pageNum, function (res, state) {
+        var userType = $("#userType").find("option:selected").val();
+        var userStatus = $("#userStatus").find("option:selected").val();
+        var companyId = $("#companyId").val();
+        var keyWord = $("#keyWord").val();
+        var companyName = $("#selectCompanyInput").val();
+        var data = "keyWord=" + keyWord + "&companyId=" + companyId +
+            "&userType=" + userType + "&userState=" + userStatus + "&companyName=" + companyName + "&pageNow=" + pageNum;
+        $.post("admin/user/getUsersByParams.do", data, function (res, state) {
             if (state == "success") {
                 var json = JSON.parse(res);
-                setUserListData(json);
+                setUserListData(json.userAndLogList);
             }
         });
     }
@@ -28,7 +35,7 @@ $(function () {
      */
     function setUserListData(str) {
         $("#userList").empty();
-        $.each(str.userAndLogList, function (i, userAndLogList) {
+        $.each(str, function (i, userAndLogList) {
             var tr = $("<tr/>");
             var td1 = $("<td/>").text(userAndLogList.user.userName);
             var td2 = $("<td/>").text(userAndLogList.user.userCompany.companyName);
@@ -316,18 +323,7 @@ $(function () {
      * 按条件搜索用户
      */
     $("#selected").click(function () {
-        console.log($("#selectForm").serialize());
-        $.post("admin/user/getUsersByParams.do", $("#selectForm").serialize(), function (res, state) {
-            if (state == "success") {
-                var json = JSON.parse(res);
-                setUserListData(json);
-                setPageBar(json.page);
-            } else {
-                Modal.alert({
-                    msg: '操作失败！',
-                });
-            }
-        });
+        getUserList(1);
     });
 
     /**
@@ -431,9 +427,14 @@ $(function () {
                 if (res == "success") {
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function(){
+                    }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getUserList(pageNum);
+                        $.get("admin/user/getUsersByParams.do?pageNow="+pageNum, data, function (res, state) {
+                            if (state == "success") {
+                                var json = JSON.parse(res);
+                                setUserListData(json.userAndLogList);
+                            }
+                        });
                     });
                 } else {
                     Modal.alert({
@@ -488,9 +489,10 @@ $(function () {
                     $("#addUser").modal("hide");
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function(){
-                        var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getUserList(pageNum);
+                    }).on(function () {
+                        //var pageNum = parseInt($("#pageBar li.active").children().text());
+                        //getUserList(pageNum);
+                        location.reload();
                     });
                 } else {
                     Modal.alert({
