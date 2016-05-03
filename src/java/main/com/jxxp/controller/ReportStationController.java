@@ -163,12 +163,12 @@ public class ReportStationController {
 		String companyName = request.getParameter("companyName");
 		String strId = request.getParameter("companyId");
 		Company company = null;
-		
 		if(strId != null && strId.trim().length() > 0) {
-			if(strId == "-1") {
+			if("-1".equals(strId)) {
 				company = new Company();
 				company.setCompanyName(companyName);
 				companyService.saveCompanyInfo(company);
+				log.debug("company:" + company);
 			} else {
 				companyId = Long.parseLong(strId);
 				company = companyService.getCompanyById(companyId);
