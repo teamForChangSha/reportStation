@@ -93,10 +93,9 @@ $(function () {
 
     /*设置分页*/
     function setPageBar(str) {
-        $("#pageBar").createPage({
-            pageCount: str.totalPageCount,
-            current: str.pageNow,
-            backFn: function (p) {
+        $("#pageBar").extendPagination({
+            totalCount: str.totalPageCount,
+            callback: function (p, limit, totalCount) {
                 getCompanyList(p);
             }
         });
@@ -292,7 +291,15 @@ $(function () {
     };
 
     $("#selected").click(function () {
-        getCompanyList(1);
+        var name = $("#companyName").val();
+        var data = "companyName=" + name + "&pageNow=" + 1;
+        $.post("admin/companyBack/getCompanyPage.do", data, function (res, state) {
+            if (state == "success") {
+                var json = JSON.parse(res);
+                setCompanyListData(json.companyList);
+                setPageBar(json.page);
+            }
+        });
     });
 
     /**

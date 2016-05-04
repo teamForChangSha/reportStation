@@ -220,11 +220,10 @@ $(function () {
      * 分页操作
      */
     function setPageBar(str) {
-        $("#pageBar").createPage({
-            pageCount: str.totalPageCount,
-            current: str.pageNow,
-            backFn: function (p) {
-                getUserList(p);
+        $('#pageBar').extendPagination({
+            totalCount: str.totalPageCount,
+            callback: function (p, limit, totalCount) {
+                getUserList(p)
             }
         });
         $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
@@ -323,7 +322,20 @@ $(function () {
      * 按条件搜索用户
      */
     $("#selected").click(function () {
-        getUserList(1);
+        var userType = $("#userType").find("option:selected").val();
+        var userStatus = $("#userStatus").find("option:selected").val();
+        var companyId = $("#companyId").val();
+        var keyWord = $("#keyWord").val();
+        var companyName = $("#selectCompanyInput").val();
+        var data = "keyWord=" + keyWord + "&companyId=" + companyId +
+            "&userType=" + userType + "&userState=" + userStatus + "&companyName=" + companyName + "&pageNow=" + 1;
+        $.post("admin/user/getUsersByParams.do", data, function (res, state) {
+            if (state == "success") {
+                var json = JSON.parse(res);
+                setUserListData(json.userAndLogList);
+                setPageBar(json.page);
+            }
+        });
     });
 
     /**
