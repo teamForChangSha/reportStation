@@ -38,7 +38,7 @@ $(function () {
         $.each(str, function (i, userAndLogList) {
             var tr = $("<tr/>");
             var td1 = $("<td/>").text(userAndLogList.user.userName);
-            var td2 = $("<td/>").text(userAndLogList.user.userCompany.companyName);
+            var td2 = $("<td/>").text(userAndLogList.user.userCompany==null?"":userAndLogList.user.userCompany.companyName);
             var td3 = $("<td/>");
             switch (userAndLogList.user.userType) {
                 case 1:
@@ -220,13 +220,13 @@ $(function () {
      * 分页操作
      */
     function setPageBar(str) {
-        $('#pageBar').extendPagination({
-            totalCount: str.totalPageCount,
-            callback: function (p, limit, totalCount) {
-                getUserList(p)
+        $("#pageBar").bs_pagination({
+            totalPages: str.totalPageCount,
+            totalCount: str.totalCount,
+            onChangePage: function(event, data) {
+                getUserList(data.currentPage);
             }
         });
-        $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
     }
 
     /**

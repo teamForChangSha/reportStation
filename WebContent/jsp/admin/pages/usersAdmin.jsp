@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="jsp/js/jquery.page.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/jquery.bs_pagination.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
         .table-info {
@@ -167,7 +167,6 @@
         <div class="col-sm-10">
             <div class="row text-center">
                 <div id="pageBar"></div>
-                <span id="pageText"></span>
             </div>
         </div>
     </div>

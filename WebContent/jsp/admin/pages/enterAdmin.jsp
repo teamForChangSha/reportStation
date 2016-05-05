@@ -100,11 +100,7 @@
     </div>
     <div class="col-sm-12">
         <div class="row text-center">
-            <nav>
-                <ul class="pagination pagination-sm" id="pageBar">
-                </ul>
-            </nav>
-            <span id="pageText"></span>
+            <div id="pageBar"></div>
         </div>
     </div>
 
@@ -526,7 +522,7 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
-<script type="text/javascript" src="jsp/js/jquery.page.js"></script>
+<script type="text/javascript" src="jsp/js/jquery.bs_pagination.js"></script>
 <script type="text/javascript" src="jsp/js/enterAdmin.js"></script>
 <script type="text/javascript" src="jsp/js/jquery.form.js"></script>
 </html>

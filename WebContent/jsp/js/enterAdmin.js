@@ -93,13 +93,14 @@ $(function () {
 
     /*设置分页*/
     function setPageBar(str) {
-        $("#pageBar").extendPagination({
-            totalCount: str.totalPageCount,
-            callback: function (p, limit, totalCount) {
-                getCompanyList(p);
+        $("#pageBar").bs_pagination({
+            totalPages: str.totalPageCount,
+            totalCount: str.totalCount,
+            onChangePage: function(event, data) {
+                getCompanyList(data.currentPage);
+                console.log(event + "===" + data.currentPage);
             }
         });
-        $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
     }
 
     /*格式化时间*/
