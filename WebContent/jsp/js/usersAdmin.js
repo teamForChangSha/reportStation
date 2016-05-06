@@ -344,7 +344,12 @@ $(function () {
             $("#stopAllUsers").addClass("hide");
         }
         $(ele).prev().val('');
-        AutoComple(ele);
+        if($(ele).val()==''){
+            $(ele).next().hide();
+        }else{
+            AutoComple(ele);
+        }
+
     };
     window.searchCompanyFoucs = function (ele) {
         AutoComple(ele);
