@@ -255,12 +255,7 @@ $(function () {
                         msg: '操作成功！',
                     }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        $.get("admin/companyBack/getCompanyPage.do?pageNow" + pageNum, data, function (res, state) {
-                            if (state == "success") {
-                                var json = JSON.parse(res);
-                                setCompanyListData(json.companyList);
-                            }
-                        });
+                        getCompanyList(pageNum);
                     });
                 } else {
                     Modal.alert({

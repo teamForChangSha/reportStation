@@ -117,11 +117,8 @@ $(function () {
                 a2.bind("click", function updataInfo() {
                     $("#userId").val(userAndLogList.user.userId);
                     $("#upStae").get(0).value = userAndLogList.user.userState;
-                    console.log(typeof userAndLogList.user.userState);
                     $("#upName").val(userAndLogList.user.userName);
                     $("#upType").get(0).value = userAndLogList.user.userType;
-                    console.log(userAndLogList.user.userCompany.companyId);
-                    console.log(userAndLogList.user.userCompany.companyName);
                     $("#upCompany").val(userAndLogList.user.userCompany.companyId);
                     $("#upCompanyInput").val(userAndLogList.user.userCompany.companyName);
                     $("#upMobile").val(userAndLogList.user.mobile);
@@ -441,12 +438,7 @@ $(function () {
                         msg: '操作成功！',
                     }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        $.get("admin/user/getUsersByParams.do?pageNow="+pageNum, data, function (res, state) {
-                            if (state == "success") {
-                                var json = JSON.parse(res);
-                                setUserListData(json.userAndLogList);
-                            }
-                        });
+                        getUserList(pageNum);
                     });
                 } else {
                     Modal.alert({
