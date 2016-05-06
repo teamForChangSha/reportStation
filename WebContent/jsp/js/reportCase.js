@@ -6,6 +6,7 @@ $(function () {
     $("input[type=radio]").removeAttr("checked");
     $("select").find("option[value='-1']").attr("selected", true);
     $("textarea").val("");
+    $("#getCode").removeAttr("disabled");
 
     /**
      * 将表单转换成json对象
@@ -204,8 +205,7 @@ $(function () {
         }
         if (quest.isAnonymous.filter(':checked').val() == "false") {
             if (!validationUser()) {
-                $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
-                return Modal.alert({msg: "您的实名信息填写有误!"});
+                return;
             }
         } else {
             if (!showErrorIcon(userAndOther.contactWay)) {
@@ -383,7 +383,7 @@ $(function () {
     var t, i = 60;
     userAndOther.getCode.click(function () {
         if (!regFun(userAndOther.mobile, regStr.phoneReg)) {
-            return;
+            return Modal.alert({msg:'请输入正确的手机号!'});
         }
         userAndOther.getCode.attr("disabled", true);
         userAndOther.getCode.html("(" + i + ")秒后重试");
@@ -472,21 +472,33 @@ $(function () {
 
     function validationUser() {
         if (!regFun(userAndOther.mobile, regStr.phoneReg)) {
+            $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
+            Modal.alert({msg: "请填写正确的手机号!"});
             return false;
         }
         if (!showErrorIcon(userAndOther.code)) {
+            $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
+            Modal.alert({msg: "请输入正确的验证码!"});
             return false;
         }
         if (!showErrorIcon(userAndOther.name)) {
+            $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
+            Modal.alert({msg: "请填写姓名!"});
             return false;
         }
         if (!showSelectError(userAndOther.idName)) {
+            $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
+            Modal.alert({msg: "请选择证件类型!"});
             return false;
         }
         if (!regCardFun(userAndOther.idNo)) {
+            $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
+            Modal.alert({msg: "证件号与选择的类型不匹配!"});
             return false;
         }
         if (!regFun(userAndOther.email, regStr.emailReg)) {
+            $("html,body").animate({scrollTop: $("input[name=isAnonymous]").offset().top}, 500);
+            Modal.alert({msg: "请填写正确的E-mail地址!"});
             return false;
         }
         return true;
