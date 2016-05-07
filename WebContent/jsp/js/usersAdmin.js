@@ -38,7 +38,7 @@ $(function () {
         $.each(str, function (i, userAndLogList) {
             var tr = $("<tr/>");
             var td1 = $("<td/>").text(userAndLogList.user.userName);
-            var td2 = $("<td/>").text(userAndLogList.user.userCompany.companyName);
+            var td2 = $("<td/>").text(userAndLogList.user.userCompany==null?"":userAndLogList.user.userCompany.companyName);
             var td3 = $("<td/>");
             switch (userAndLogList.user.userType) {
                 case 1:
@@ -117,11 +117,8 @@ $(function () {
                 a2.bind("click", function updataInfo() {
                     $("#userId").val(userAndLogList.user.userId);
                     $("#upStae").get(0).value = userAndLogList.user.userState;
-                    console.log(typeof userAndLogList.user.userState);
                     $("#upName").val(userAndLogList.user.userName);
                     $("#upType").get(0).value = userAndLogList.user.userType;
-                    console.log(userAndLogList.user.userCompany.companyId);
-                    console.log(userAndLogList.user.userCompany.companyName);
                     $("#upCompany").val(userAndLogList.user.userCompany.companyId);
                     $("#upCompanyInput").val(userAndLogList.user.userCompany.companyName);
                     $("#upMobile").val(userAndLogList.user.mobile);
@@ -220,14 +217,13 @@ $(function () {
      * 分页操作
      */
     function setPageBar(str) {
-        $("#pageBar").createPage({
-            pageCount: str.totalPageCount,
-            current: str.pageNow,
-            backFn: function (p) {
-                getUserList(p);
+        $("#pageBar").bs_pagination({
+            totalPages: str.totalPageCount,
+            totalCount: str.totalCount,
+            onChangePage: function(event, data) {
+                getUserList(data.currentPage);
             }
         });
-        $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
     }
 
     /**
@@ -323,7 +319,20 @@ $(function () {
      * 按条件搜索用户
      */
     $("#selected").click(function () {
-        getUserList(1);
+        var userType = $("#userType").find("option:selected").val();
+        var userStatus = $("#userStatus").find("option:selected").val();
+        var companyId = $("#companyId").val();
+        var keyWord = $("#keyWord").val();
+        var companyName = $("#selectCompanyInput").val();
+        var data = "keyWord=" + keyWord + "&companyId=" + companyId +
+            "&userType=" + userType + "&userState=" + userStatus + "&companyName=" + companyName + "&pageNow=" + 1;
+        $.post("admin/user/getUsersByParams.do", data, function (res, state) {
+            if (state == "success") {
+                var json = JSON.parse(res);
+                setUserListData(json.userAndLogList);
+                setPageBar(json.page);
+            }
+        });
     });
 
     /**
@@ -335,7 +344,12 @@ $(function () {
             $("#stopAllUsers").addClass("hide");
         }
         $(ele).prev().val('');
-        AutoComple(ele);
+        if($(ele).val()==''){
+            $(ele).next().hide();
+        }else{
+            AutoComple(ele);
+        }
+
     };
     window.searchCompanyFoucs = function (ele) {
         AutoComple(ele);
@@ -429,12 +443,7 @@ $(function () {
                         msg: '操作成功！',
                     }).on(function () {
                         var pageNum = parseInt($("#pageBar li.active").children().text());
-                        $.get("admin/user/getUsersByParams.do?pageNow="+pageNum, data, function (res, state) {
-                            if (state == "success") {
-                                var json = JSON.parse(res);
-                                setUserListData(json.userAndLogList);
-                            }
-                        });
+                        getUserList(pageNum);
                     });
                 } else {
                     Modal.alert({

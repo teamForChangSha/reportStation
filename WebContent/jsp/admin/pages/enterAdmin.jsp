@@ -58,6 +58,11 @@
         .pagination li a {
             cursor: default;
         }
+        .xinghao {
+            color: #C12E2A;
+            font-weight: bold;
+            padding: 4px;
+        }
     </style>
 </head>
 
@@ -100,11 +105,7 @@
     </div>
     <div class="col-sm-12">
         <div class="row text-center">
-            <nav>
-                <ul class="pagination pagination-sm" id="pageBar">
-                </ul>
-            </nav>
-            <span id="pageText"></span>
+            <div id="pageBar"></div>
         </div>
     </div>
 
@@ -277,12 +278,12 @@
                 <button type="button" class="close" id="addClose">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title text-center">添加企业</h5>
+                <h5 class="modal-title text-center">添加企业（带<span class="xinghao">*</span>为必填）</h5>
             </div>
             <div class="modal-body" id="addCompanHtml">
                 <form id="addForm" action="admin/companyBack/addWholeCompany.do" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">公司名字：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司名字：</label>
 
                         <div class="col-sm-5">
                             <input type="text" id="addCompanyName" name="company.companyName" class="form-control"/>
@@ -303,7 +304,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">公司联系电话：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司联系电话：</label>
 
                         <div class="col-sm-5">
                             <input type="text" id="addPhone" name="company.phone" class="form-control"/>
@@ -320,7 +321,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">公司类型：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司类型：</label>
 
                         <div class="col-sm-5">
                             <select id="addCompanyType" name="company.companyType" class="form-control">
@@ -332,7 +333,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">所属行业：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>所属行业：</label>
 
                         <div class="col-sm-5">
                             <div class="input-group">
@@ -404,14 +405,14 @@
                 <button type="button" class="close" id="upClose">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title text-center">修改企业</h5>
+                <h5 class="modal-title text-center">修改企业（带<span class="xinghao">*</span>为必填）</h5>
             </div>
             <div class="modal-body" id="upCompanHtml">
                 <form id="upForm" action="admin/companyBack/updateCompanyWholeInfo.do" method="post" class="form-horizontal" enctype="multipart/form-data">
                     <input type="text" id="upCompanyId" name="company.companyId" hidden/>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">公司名字：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司名字：</label>
 
                         <div class="col-sm-5">
                             <input type="text" id="upCompanyName" name="company.companyName" class="form-control"/>
@@ -432,7 +433,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">公司联系电话：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司联系电话：</label>
 
                         <div class="col-sm-5">
                             <input type="text" id="upPhone" name="company.phone" class="form-control"/>
@@ -449,7 +450,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">公司类型：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司类型：</label>
 
                         <div class="col-sm-5">
                             <select id="upCompanyType" name="company.companyType" class="form-control">
@@ -461,7 +462,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">所属行业：</label>
+                        <label class="col-sm-4 control-label"><span class="xinghao">*</span>所属行业：</label>
 
                         <div class="col-sm-5">
                             <div class="input-group">
@@ -526,7 +527,7 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
-<script type="text/javascript" src="jsp/js/jquery.page.js"></script>
+<script type="text/javascript" src="jsp/js/jquery.bs_pagination.js"></script>
 <script type="text/javascript" src="jsp/js/enterAdmin.js"></script>
 <script type="text/javascript" src="jsp/js/jquery.form.js"></script>
 </html>

@@ -12,7 +12,7 @@
 <head>
     <base href="<%=basePath%>"/>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=8,IE=edge">
     <meta http-equiv="cache-control" content="no-cache">
     <title>51report-举报类型</title>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>

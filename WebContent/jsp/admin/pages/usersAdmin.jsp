@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/jquery.bs_pagination.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/md5.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
         .table-info {
@@ -88,6 +89,11 @@
 
         .btn-group{
             display: inline;
+        }
+        .xinghao {
+            color: #C12E2A;
+            font-weight: bold;
+            padding: 4px;
         }
     </style>
 </head>
@@ -165,11 +171,7 @@
         </div>
         <div class="col-sm-10">
             <div class="row text-center">
-                <nav>
-                    <ul class="pagination pagination-sm" id="pageBar">
-                    </ul>
-                </nav>
-                <span id="pageText"></span>
+                <div id="pageBar"></div>
             </div>
         </div>
     </div>
@@ -183,7 +185,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h5 class="modal-title text-center">修改用户信息</h5>
+                    <h5 class="modal-title text-center">修改用户信息（带<span class="xinghao">*</span>为必填）</h5>
                 </div>
                 <div class="modal-body" id="upHtml"/>
                 <div class="row">
@@ -192,14 +194,14 @@
                             <input type="text" id="userId" hidden name="userId">
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户名字：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户名字：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upName" name="userName" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户类型：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户类型：</label>
 
                                 <div class="col-sm-8">
                                     <select id="upType" name="userType" class="form-control">
@@ -214,7 +216,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户状态：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户状态：</label>
 
                                 <div class="col-sm-8">
                                     <select id="upStae" name="userState" class="form-control">
@@ -226,7 +228,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">选择公司：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>选择公司：</label>
 
                                 <div class="col-sm-8">
                                     <div class="btn-group">
@@ -238,7 +240,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">手机号码：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>手机号码：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upMobile" name="mobile" class="form-control">
@@ -252,7 +254,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">邮箱地址：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>邮箱地址：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upEmail" name="email" class="form-control">
@@ -294,7 +296,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">有效期至：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>有效期至：</label>
                                 <input type="text" id="upToDate" name="expiryDate" hidden>
 
                                 <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
@@ -370,35 +372,35 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title text-center">添加用户</h5>
+                <h5 class="modal-title text-center">添加用户（带<span class="xinghao">*</span>为必填）</h5>
             </div>
             <div class="modal-body" id="addHtml">
                 <div class="row">
                     <div class="col-sm-12">
                         <form id="addForm" class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户名字：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户名字：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addName" name="userName" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户账号：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户账号：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addLoginName" name="loginName" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户密码：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户密码：</label>
 
                                 <div class="col-sm-8">
                                     <input type="password" id="addUserPwd" name="userPwd" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户类型：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户类型：</label>
 
                                 <div class="col-sm-8">
                                     <select id="addType" name="userType" class="form-control">
@@ -413,7 +415,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">用户状态：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>用户状态：</label>
 
                                 <div class="col-sm-8">
                                     <select id="addStae" name="userState" class="form-control">
@@ -425,7 +427,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">选择公司：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>选择公司：</label>
 
                                 <div class="col-sm-8">
                                     <div class="btn-group">
@@ -437,7 +439,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">手机号码：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>手机号码：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addMobile" name="mobile" class="form-control">
@@ -451,7 +453,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">邮箱地址：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>邮箱地址：</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addEmail" name="email" class="form-control">
@@ -493,7 +495,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">有效期至：</label>
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>有效期至：</label>
                                 <input type="text" id="addToDate" name="expiryDate" hidden>
 
                                 <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
@@ -606,7 +608,6 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
-<script type="text/javascript" src="jsp/js/jquery.page.js"></script>
 <script type="text/javascript" src="jsp/js/usersAdmin.js"></script>
 
 </html>

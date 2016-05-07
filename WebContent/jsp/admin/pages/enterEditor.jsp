@@ -12,6 +12,7 @@
 
 <head>
     <base href="<%=basePath%>"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=8,IE=edge">
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap.min.css"/>

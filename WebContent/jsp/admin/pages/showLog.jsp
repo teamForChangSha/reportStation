@@ -12,6 +12,7 @@
 
 <head>
     <base href="<%=basePath%>"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=8,IE=edge">
     <meta charset="UTF-8">
     <title></title>
     <link href="jsp/css/datepicker.min.css" rel="stylesheet" type="text/css">
@@ -97,17 +98,13 @@
 
     <div class="row">
         <div class="col-sm-8  text-center">
-            <nav>
-                <ul class="pagination pagination-sm" id="pageBar">
-                </ul>
-            </nav>
-            <span id="pageText"></span>
+            <div id="pageBar"></div>
         </div>
     </div>
 </div>
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
-<script type="text/javascript" src="jsp/js/jquery.page.js"></script>
+<script type="text/javascript" src="jsp/js/jquery.bs_pagination.js"></script>
 <script type="text/javascript" src="jsp/js/jquery.form.js"></script>
 <script>
     $(function () {
@@ -139,8 +136,9 @@
         /**
          * 获取日志列表
          */
-        function getLogList(a, b, c, d) {
-            var data = "beginTime=" + a + "&endTime=" + b + "&oprator=" + c + "&pageNow=" + d;
+        function getLogList(d) {
+            var data = "beginTime=" + logDate.val() + "&endTime=" + endDate.val()
+                    + "&oprator=" + $("input[name=oprator]").val() + "&pageNow=" + d;
             $.post("admin/user/getLogByParams.do", data, function (res, state) {
                 if (state == "success") {
                     var json = JSON.parse(res);
@@ -169,27 +167,26 @@
          * @param str
          */
         function setPageBar(str) {
-            $("#pageBar").createPage({
-                pageCount: str.totalPageCount,
-                current: str.pageNow,
-                backFn: function (p) {
-                    getLogList("", "", "", p);
+            $("#pageBar").bs_pagination({
+                totalPages: str.totalPageCount,
+                totalCount: str.totalCount,
+                onChangePage: function(event, data) {
+                    getLogList(data.currentPage);
                 }
             });
-            $("#pageText").text('共' + str.totalPageCount + "页，" + str.totalCount + "条");
         }
 
         /**
          * 搜索操作
          */
         $("#selected").click(function(){
-            $("form").ajaxSubmit(function(res,state){
+            var data = "beginTime=" + logDate.val() + "&endTime=" + endDate.val()
+                    + "&oprator=" + $("input[name=oprator]").val() + "&pageNow=" + 1;
+            $.post("admin/user/getLogByParams.do", data, function (res, state) {
                 if (state == "success") {
                     var json = JSON.parse(res);
                     setLogListData(json.logList);
                     setPageBar(json.page);
-                }else{
-                    Modal.alert({msg:"操作失败!"});
                 }
             });
         });
