@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.jxxp.controller.CaseController;
 import com.jxxp.pojo.CaseChangeLog;
 import com.jxxp.pojo.CaseComment;
@@ -74,12 +75,16 @@ public class CaseBackController {
 		map.put("keyWord", keyWord);
 		map.put("caseState", caseState);
 		map.put("trackingNo", trackingNo);
-		log.debug("Map:" + map);
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
-		log.debug("caseList:" + caseList);
-		modelMap.put("caseList", caseList);
-		return "jsp/admin/pages/reportAdmin";
+		PrintWriter out = null;
+		out = response.getWriter();
+		String jsonCaseList = JSON.toJSONString(caseList);
+		out.print(jsonCaseList);
+		log.debug("caseList=====:" + caseList);
+		log.debug("jsonCaseList=====:" + jsonCaseList);
+		return null;
+		// return "jsp/admin/pages/reportAdmin";
 	}
 
 	/***

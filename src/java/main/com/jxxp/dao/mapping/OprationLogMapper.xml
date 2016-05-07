@@ -23,7 +23,7 @@
    select <include refid="Base_Column_List"/>
    from oprationlog where 1=1
     <!-- 操作人姓名 -->
-   <if test="oprator!=null">
+   <if test="oprator!=null and oprator!=''">
    and oprator in (select user_id from userinfo where user_name like concat(concat('%',#{oprator},'%')))
    </if>
     <!-- 操作人id -->

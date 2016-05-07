@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -470,9 +469,16 @@ public class CompanyBackController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("/delCompanyByIds.do")
-	public String delCompanyByIds(@RequestParam(value = "companyIds[]") Long[] companyIds,
-			HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		boolean flag = companyService.delCompanyByIds(companyIds);
+	public String delCompanyByIds(HttpServletRequest request, HttpServletResponse response,
+			ModelMap model) {
+		String companyIds = request.getParameter("companyIds");
+		log.debug("companyIds====" + companyIds);
+		String[] strIds = companyIds.split(",");
+		Long ids[] = new Long[strIds.length];
+		for (int i = 0; i < strIds.length; i++) {
+			ids[i] = Long.parseLong(strIds[i]);
+		}
+		boolean flag = companyService.delCompanyByIds(ids);
 		response.setCharacterEncoding("UTF-8");
 		try {
 			PrintWriter out = response.getWriter();
@@ -484,7 +490,6 @@ public class CompanyBackController extends BaseController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 

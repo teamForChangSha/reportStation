@@ -220,6 +220,10 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean delCompanyByIds(Long[] company_ids) {
 		if (company_ids.length > 0) {
 			int count = companyMapper.deleteByIds(company_ids);
+			// 如果是客户公司，同时删除客户公司信息
+			for (int i = 0; i < company_ids.length; i++) {
+				clientCompanyMapper.delClientCompany(company_ids[i]);
+			}
 			if (count == company_ids.length) {
 				return true;
 			}
