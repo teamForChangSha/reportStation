@@ -341,7 +341,8 @@ public class CaseServiceTest {
 		caseInfo = getFullReportCase(CaseTest.getReportCase());
 
 		HashMap<String, String> params = new HashMap<String, String>();
-		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList1 = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		List<ReportCase> caseList2 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
 				.getCompanyId());
 
@@ -362,7 +363,8 @@ public class CaseServiceTest {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("endTime", format.format(caseInfo.getCreateTime()));
-		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList1 = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		List<ReportCase> caseList2 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
 				.getCompanyId());
 		assertTrue(caseList2.size() >= 1);
@@ -383,7 +385,8 @@ public class CaseServiceTest {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("startTime", format.format(caseInfo.getCreateTime()));
-		List<ReportCase> caseList1 = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList1 = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		List<ReportCase> caseList2 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
 				.getCompanyId());
 
@@ -407,7 +410,8 @@ public class CaseServiceTest {
 		params.put("startTime", format.format(caseInfo.getCreateTime()));
 		params.put("endTime", format.format(caseInfo.getCreateTime()));
 
-		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		assertTrue(caseList.size() == 1);
 		assertTrue(TestUtil.isEqual(caseInfo, caseList.get(0)));
 	}
@@ -422,7 +426,8 @@ public class CaseServiceTest {
 		params.put("endTime", format.format(caseInfo.getCreateTime()));
 		params.put("rtList", "noThisType");
 
-		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		assertTrue(caseList.size() == 0);
 
 	}
@@ -456,7 +461,8 @@ public class CaseServiceTest {
 		params.put("keyWord",
 				answer.getQuestValue().substring(0, answer.getQuestValue().length() / 2));
 
-		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		assertTrue(caseList.size() == 1);
 		assertTrue(TestUtil.isEqual(caseInfo, caseList.get(0)));
 
@@ -473,7 +479,8 @@ public class CaseServiceTest {
 		params.put("rtList", caseInfo.getRtList().substring(0, caseInfo.getRtList().length() / 2));
 		params.put("keyWord", "noKeyWord");
 
-		List<ReportCase> caseList = caseService.getCaseByCompany(caseInfo.getCompany(), params);
+		List<ReportCase> caseList = caseService.getCaseByCompany(null, caseInfo.getCompany(),
+				params);
 		assertTrue(caseList.size() == 0);
 
 	}
