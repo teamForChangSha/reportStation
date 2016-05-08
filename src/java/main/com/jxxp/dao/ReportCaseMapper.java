@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.ReportCase;
 import com.jxxp.pojo.Reporter;
 import com.jxxp.pojo.User;
@@ -83,6 +84,7 @@ public interface ReportCaseMapper {
 	 * @return
 	 */
 	/**
+	 * @param page
 	 * @param companyId
 	 *            公司id
 	 * @param startTime
@@ -97,10 +99,11 @@ public interface ReportCaseMapper {
 	 * @param rcId
 	 * @return
 	 */
-	List<ReportCase> searchByKeys(@Param("companyId") long companyId,
-			@Param("startTime") String startTime, @Param("endTime") String endTime,
-			@Param("keyWord") String keyWord, @Param("rtList") String rtList,
-			@Param("caseState") Integer caseState, @Param("trackingNo") String trackingNo);
+	List<ReportCase> searchByKeysWithPage(@Param("page") Page page,
+			@Param("companyId") long companyId, @Param("startTime") String startTime,
+			@Param("endTime") String endTime, @Param("keyWord") String keyWord,
+			@Param("rtList") String rtList, @Param("caseState") Integer caseState,
+			@Param("trackingNo") String trackingNo);
 
 	/**
 	 * @param companyId

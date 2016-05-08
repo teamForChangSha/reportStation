@@ -20,6 +20,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.jxxp.comms.web.Page;
 import com.jxxp.controller.CaseController;
 import com.jxxp.pojo.CaseChangeLog;
 import com.jxxp.pojo.CaseComment;
@@ -76,13 +78,26 @@ public class CaseBackController {
 		map.put("caseState", caseState);
 		map.put("trackingNo", trackingNo);
 		User user = (User) request.getSession().getAttribute("user");
-		List<ReportCase> caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+		Page page = null;
+		// 当前页
+		String pageNow = request.getParameter("pageNow");
+		int totalCount = caseService.getCaseByCompany(null, user.getUserCompany(), map).size();
+		if (pageNow != null && !pageNow.equals("")) {
+			page = new Page(totalCount, Integer.valueOf(pageNow));
+		} else {
+			page = new Page(totalCount, 1);
+		}
+		List<ReportCase> caseList = caseService.getCaseByCompany(page, user.getUserCompany(), map);
+		Map<String, Object> companyResultMap = new HashMap<String, Object>();
+		companyResultMap.put("page", page);
+		companyResultMap.put("caseList", caseList);
+		// 将公司信息集合和page组装成map，返回给前台
+		String caseMapJson = JSON.toJSONString(companyResultMap,
+				SerializerFeature.WriteMapNullValue);
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = null;
 		out = response.getWriter();
-		String jsonCaseList = JSON.toJSONString(caseList);
-		out.print(jsonCaseList);
-		log.debug("caseList=====:" + caseList);
-		log.debug("jsonCaseList=====:" + jsonCaseList);
+		out.print(caseMapJson);
 		return null;
 		// return "jsp/admin/pages/reportAdmin";
 	}
@@ -263,7 +278,7 @@ public class CaseBackController {
 		User user = (User) request.getSession().getAttribute("user");
 		List<ReportCase> caseList = new ArrayList<ReportCase>();
 		if (user.getUserType() <= 2) {// 客户公司用户和试用
-			caseList = caseService.getCaseByCompany(user.getUserCompany(), map);
+			caseList = caseService.getCaseByCompany(null, user.getUserCompany(), map);
 			modelMap.put("caseList", caseList);
 		} else {// 管理员和超级管理员
 			List<Map<String, Object>> userLogList = oprationLogService.getLastOpration();
