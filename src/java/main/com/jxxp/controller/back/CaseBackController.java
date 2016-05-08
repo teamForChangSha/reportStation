@@ -93,6 +93,7 @@ public class CaseBackController {
 		companyResultMap.put("caseList", caseList);
 		// 将公司信息集合和page组装成map，返回给前台
 		String caseMapJson = JSON.toJSONString(companyResultMap,
+				SerializerFeature.DisableCircularReferenceDetect,
 				SerializerFeature.WriteMapNullValue);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = null;
