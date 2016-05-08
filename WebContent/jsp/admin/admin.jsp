@@ -97,6 +97,7 @@
                         <span>后台首页</span>
                     </a>
                 </li>
+                <c:if test="${user.userType<4}">
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -113,6 +114,7 @@
                         <li><a class="" href="admin/companyBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
                     </ul>
                 </li>
+                </c:if>
                 <c:if test="${user.userType>1}">
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
@@ -139,7 +141,7 @@
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li><a class="" href="admin/caseBack/showCaseByCompany.do" target="MainIframe">所有举报<span
+                        <li><a class="" href="jsp/admin/pages/reportAdmin.jsp" target="MainIframe">所有举报<span
                                 class="badge"></span></a>
                         </li>
                         <li><a class="" href="javascript:;" target="MainIframe">举报统计</a>

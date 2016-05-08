@@ -367,18 +367,20 @@ $(function () {
             if (res == null || res.length < 0)
                 return;
             $.each(JSON.parse(res), function (i, company) {
-                var li = $("<li/>");
-                var a = $("<a/>").attr("data-id", company.companyId).text(
-                    company.companyName);
-                a.click(function () {
-                    $(ele).val(this.innerHTML);
-                    $(ele).prev().val($(this).attr("data-id"));
-                    $(ele).next().hide();
-                    if ($(ele).get(0).id == $("#selectCompanyInput").get(0).id) {
-                        $("#stopAllUsers").removeClass("hide");
-                    }
-                });
-                li.append(a);
+                if(company.companyId!=0){
+                    var li = $("<li/>");
+                    var a = $("<a/>").attr("data-id", company.companyId).text(
+                        company.companyName);
+                    a.click(function () {
+                        $(ele).val(this.innerHTML);
+                        $(ele).prev().val($(this).attr("data-id"));
+                        $(ele).next().hide();
+                        if ($(ele).get(0).id == $("#selectCompanyInput").get(0).id) {
+                            $("#stopAllUsers").removeClass("hide");
+                        }
+                    });
+                    li.append(a);
+                }
                 $(ele).next().append(li);
                 $(ele).next().show();
             });

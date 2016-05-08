@@ -87,9 +87,10 @@
             cursor: default;
         }
 
-        .btn-group{
+        .btn-group {
             display: inline;
         }
+
         .xinghao {
             color: #C12E2A;
             font-weight: bold;
@@ -112,7 +113,9 @@
                     <option value="">-请选择-</option>
                     <option value="1">试用</option>
                     <option value="2">公司用户</option>
-                    <option value="3">系统操作员</option>
+                    <c:if test="${user.userType>2}">
+                        <option value="3">系统操作员</option>
+                    </c:if>
                     <c:if test="${user.userType==4}">
                         <option value="4">系统管理员</option>
                     </c:if>
@@ -208,7 +211,9 @@
                                         <option value="0">-请选择-</option>
                                         <option value="1">试用</option>
                                         <option value="2">公司用户</option>
-                                        <option value="3">系统操作员</option>
+                                        <c:if test="${user.userType>2}">
+                                            <option value="3">系统操作员</option>
+                                        </c:if>
                                         <c:if test="${user.userType==4}">
                                             <option value="4">系统管理员</option>
                                         </c:if>
@@ -407,7 +412,9 @@
                                         <option value="0">-请选择-</option>
                                         <option value="1">试用</option>
                                         <option value="2">公司用户</option>
-                                        <option value="3">系统操作员</option>
+                                        <c:if test="${user.userType>2}">
+                                            <option value="3">系统操作员</option>
+                                        </c:if>
                                         <c:if test="${user.userType==4}">
                                             <option value="4">系统管理员</option>
                                         </c:if>
