@@ -338,8 +338,9 @@ public class UserController extends BaseController {
 				&& strUserState.matches("^[0-9]*$")) {
 			params.put("userState", new Integer(strUserState));
 		}
-		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
-		if (user.getUserType() <= 2) {
+		// 用户级别判断,客户公司或者测试的只能查询本公司用户
+		if (user.getUserType() == User.USER_TYPE_COMPANY
+				|| user.getUserType() == User.USER_TYPE_TEST) {
 			params.put("companyId", user.getUserCompany().getCompanyId());
 		} else if (strCompanyId != null && strCompanyId.length() > 0
 				&& strCompanyId.matches("^[0-9]*$")) {
@@ -380,8 +381,6 @@ public class UserController extends BaseController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		log.debug("user总记录数------------------=" + userJson);
-
 		return null;
 	}
 
@@ -401,8 +400,9 @@ public class UserController extends BaseController {
 		String pageNow = request.getParameter("pageNow");
 		// 查询参数设置
 		Map<String, Object> params = new HashMap<String, Object>();
-		// 用户级别判断,客户公司只能查询本公司用户的日志,客户公司类型值为2
-		if (user.getUserType() <= 2) {
+		// 用户级别判断,客户公司或者测试只能查询本公司用户的日志
+		if (user.getUserType() == User.USER_TYPE_COMPANY
+				|| user.getUserType() == User.USER_TYPE_TEST) {
 			params.put("companyId", user.getUserCompany().getCompanyId());
 		}
 		params.put("beginTime", beginTime);
@@ -435,8 +435,6 @@ public class UserController extends BaseController {
 		} catch (IOException e) {
 			log.error("add company failed", e);
 		}
-		log.debug("看前台传递的参数是否每次都带过来了beginTime=" + beginTime + "--endTime=" + endTime + "--oprator="
-				+ oprator + "--pageNow=" + pageNow);
 		return null;
 	}
 
