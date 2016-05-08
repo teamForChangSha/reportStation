@@ -96,7 +96,7 @@ $(function () {
         $("#pageBar").bs_pagination({
             totalPages: str.totalPageCount,
             totalCount: str.totalCount,
-            onChangePage: function(event, data) {
+            onChangePage: function (event, data) {
                 getCompanyList(data.currentPage);
                 console.log(event + "===" + data.currentPage);
             }
@@ -304,7 +304,7 @@ $(function () {
     function delCompany(id) {
         Modal.confirm({
             title: '警告',
-            msg: '你确定要删除吗?',
+            msg: '您确定要删除吗?',
         }).on(function (e) {
             if (e) {
                 $.post("admin/companyBack/delCompanyByIds.do", "companyId=" + id, function (res, state) {
@@ -345,20 +345,26 @@ $(function () {
             }
         });
         if (i > 0) {
-            alert(ids)
-            $.get("admin/companyBack/delCompanyByIds.do?companyIds=" + ids, function (res, state) {
-                if (state == "success") {
-                    if (res == "success") {
-                        Modal.alert({msg: '操作成功!'}).on(function () {
-                            //var pageNum = parseInt($("#pageBar li.active").children().text());
-                            //getCompanyList(pageNum, companyName.val());
-                            location.reload();
-                        });
-                    } else {
-                        Modal.alert({msg: '操作失败!'});
-                    }
-                } else {
-                    Modal.alert({msg: '操作失败!'});
+            Modal.confirm({
+                title: '警告',
+                msg: '您确定要删除这些企业吗?'
+            }).on(function (e) {
+                if (e) {
+                    $.get("admin/companyBack/delCompanyByIds.do?companyIds=" + ids, function (res, state) {
+                        if (state == "success") {
+                            if (res == "success") {
+                                Modal.alert({msg: '操作成功!'}).on(function () {
+                                    //var pageNum = parseInt($("#pageBar li.active").children().text());
+                                    //getCompanyList(pageNum, companyName.val());
+                                    location.reload();
+                                });
+                            } else {
+                                Modal.alert({msg: '操作失败!'});
+                            }
+                        } else {
+                            Modal.alert({msg: '操作失败!'});
+                        }
+                    });
                 }
             });
         } else {

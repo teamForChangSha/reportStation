@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
     <style type="text/css">
         .container {
             padding: 30px 0;
@@ -76,7 +77,7 @@
                 <label class="col-sm-2 control-label">公司联系电话：</label>
 
                 <div class="col-sm-3">
-                    <input type="text" value="${company.phone}" name="company.phone" class="form-control"/>
+                    <input type="text" id="tel" value="${company.phone}" name="company.phone" class="form-control"/>
                 </div>
             </div>
             <div class="form-group">
@@ -446,9 +447,15 @@
         });
 
         /* 更新企业信息 */
+        var telReg = /^\(?\d{3,4}[-\)]?\d{7,8}$/;
         $("#updata").click(function () {
             if ($("#type").find("option:selected").val() == "0") {
-                return alert('请选择企业类型');
+                return Modal.alert({msg:'请选择企业类型'});
+            }
+            if($("#tel").val()!=''){
+                if(!telReg.test($("#tel").val())){
+                    return Modal.alert({msg:'请输入正确的电话号码!'});
+                }
             }
             if ($("#isSend").is(':checked')) {
                 for (var i = 1; i < 4; i++) {
@@ -482,22 +489,23 @@
                     $("#email" + i).val("");
                 }
             }
-            $("#enterInfo").submit();
+            $("#enterInfo").ajaxSubmit(function (res, state) {
+                if(state=="success"){
+                    if(res=="success"){
+                        Modal.alert({msg:"操作成功!"});
+                    }else{
+                        Modal.alert({msg:"操作失败!"});
+                    }
+                }else{
+                    Modal.alert({msg:"操作失败!"});
+                }
+            })
         });
 
         $("td a").click(function () {
             $("#selectIndustry").modal('hide');
             $("#industry").val($(this).text());
         });
-
-        var masg = "${msg}";
-        if (masg != "") {
-            Modal.alert({
-                msg: masg,
-            }).on(function (e) {
-                location.href = "admin/companyBack/getOwnerCompanyInfo.do";
-            });
-        }
 
         /**
          * 判断是否为空
@@ -513,7 +521,7 @@
             return false;
         }
 
-        var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        var emailReg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
         function regEmail(ele) {
             if (!emailReg.test(ele.val())) {

@@ -51,6 +51,7 @@
         .col-sm-8 {
             padding-left: 0;
         }
+
         .pagination li a {
             cursor: default;
         }
@@ -137,8 +138,11 @@
          * 获取日志列表
          */
         function getLogList(d) {
-            var data = "beginTime=" + logDate.val() + "&endTime=" + endDate.val()
-                    + "&oprator=" + $("input[name=oprator]").val() + "&pageNow=" + d;
+            var data = "beginTime=" + logDate.val() + "&endTime=" + endDate.val() + "&pageNow=" + d;
+            <c:if test="${user.userType>=3}">
+            data += "&oprator=" + $("input[name=oprator]").val();
+            </c:if>
+            console.log(data);
             $.post("admin/user/getLogByParams.do", data, function (res, state) {
                 if (state == "success") {
                     var json = JSON.parse(res);
@@ -152,7 +156,7 @@
          */
         function setLogListData(logs) {
             $("#logList").empty();
-            $.each(logs,function(i,log){
+            $.each(logs, function (i, log) {
                 var tr = $("<tr/>");
                 var td1 = $("<td/>").text(formatDate(log.logDate));
                 var td2 = $("<td/>").text(log.opration);
@@ -170,7 +174,7 @@
             $("#pageBar").bs_pagination({
                 totalPages: str.totalPageCount,
                 totalCount: str.totalCount,
-                onChangePage: function(event, data) {
+                onChangePage: function (event, data) {
                     getLogList(data.currentPage);
                 }
             });
@@ -179,9 +183,12 @@
         /**
          * 搜索操作
          */
-        $("#selected").click(function(){
-            var data = "beginTime=" + logDate.val() + "&endTime=" + endDate.val()
-                    + "&oprator=" + $("input[name=oprator]").val() + "&pageNow=" + 1;
+        $("#selected").click(function () {
+            var data = "beginTime=" + logDate.val() + "&endTime=" + endDate.val() + "&pageNow=" + 1;
+            <c:if test="${user.userType>=3}">
+            data += "&oprator=" + $("input[name=oprator]").val();
+            </c:if>
+            console.log(data);
             $.post("admin/user/getLogByParams.do", data, function (res, state) {
                 if (state == "success") {
                     var json = JSON.parse(res);

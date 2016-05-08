@@ -201,7 +201,7 @@ $(function () {
                 }
                 var line = $("<li/>").attr("role", "separator").addClass("divider");
                 var lookLog = $("<li/>");
-                var a5 = $("<a/>").text("查看操纵日志")
+                var a5 = $("<a/>").text("查看操作日志")
                     .attr("data-toggle", "modal").attr("data-target", "#toViewUseLog")
                     .attr("onclick", "lookUseLog(" + userAndLogList.user.userId + ")");
                 lookLog.append(a5);
@@ -245,7 +245,8 @@ $(function () {
     }
 
     var phoneReg = /(1[3-9]\d{9}$)/;
-    var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+    var telReg = /^\(?\d{3,4}[-\)]?\d{7,8}$/;
+    var emailReg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     var userNameReg = /^[A-Za-z0-9]+$/;
     /*添加用户日期设置*/
     var tempDate = new Date();
@@ -427,6 +428,11 @@ $(function () {
         if ($("#upType").find("option:selected").val() == "0") {
             return alr("请选择用户类型");
         }
+        if($("#upPhone").val()!=''){
+            if(!telReg.test($("#upPhone").val())){
+                return alr("请输入正确的电话，如010-00000000");
+            }
+        }
         if (isEmty($("#upCompany").val())) {
             return alr("请选择所属公司");
         }
@@ -489,6 +495,11 @@ $(function () {
         if (!rePhone($("#addMobile").val())) {
             return alr("请输入正确的手机号");
         }
+        if($("#addPhone").val()!=''){
+            if(!telReg.test($("#addPhone").val())){
+                return alr("请输入正确的电话，如010-00000000");
+            }
+        }
         if (!reEmail($("#addEmail").val())) {
             return alr("请输入正确的E-Mail");
         }
@@ -520,13 +531,14 @@ $(function () {
         });
     };
 
-//        $(document).bind('click', function (e) {
-//            console.log($(e.target).get(0).id);
-//            if ($(e.target).get(0).id != $("#selectCompanyInput").get(0).id || $(e.target).get(0).id != $("#searchCompanyMenu").get(0).id
-//            )
-//                return;
-//            leftEle.companyName.next().next().hide();
-//        });
+    $(document).bind('click', function (e) {
+        if ($(e.target).get(0).id == "selectCompanyInput" || $(e.target).get(0).id == "upCompanyInput" ||
+            $(e.target).get(0).id == "addCompanyInput")
+            return;
+        $("#searchCompanyMenu").hide();
+        $("#upCompanyMenu").hide();
+        $("#addCompanyMenu").hide();
+    });
 
     /* 判断是否为空 */
     function isEmty(str) {

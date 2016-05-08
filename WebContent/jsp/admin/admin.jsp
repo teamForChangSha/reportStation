@@ -177,12 +177,22 @@
                         <span>修改密码</span>
                     </a>
                 </li>
-                <li class="sub-menu">
-                    <a href="mailto:178972841@qq.com" class="">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                        <span>联系管理</span>
-                    </a>
-                </li>
+                <c:if test="${user.userType<4}">
+                    <li class="sub-menu">
+                        <c:if test="${user.userType<3}">
+                            <a href="mailto:pingtaigongsi@qq.com" class="">
+                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                <span>联系管理</span>
+                            </a>
+                        </c:if>
+                        <c:if test="${user.userType==3}">
+                            <a href="mailto:xitonggongsi@qq.com" class="">
+                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                <span>联系管理</span>
+                            </a>
+                        </c:if>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
