@@ -3,9 +3,9 @@ $(function () {
         startTime: $("input[name=startTime]"),
         endTime: $("input[name=endTime]"),
         rtList: $("input[name=rtList]"),
-        keyword: $("input[name=keyword]"),
+        keyword: $("input[name=keyWord]"),
         trackingNo: $("input[name=trackingNo]"),
-        caseState: $("input[name=caseState]")
+        caseState: $("select[name=caseState]")
     }
     search.startTime.datepicker({
         language: 'zh',
@@ -59,6 +59,7 @@ $(function () {
     function getReports(pageNum) {
         var data = "startTime=" + search.startTime.val() + "&endTime=" + search.endTime.val() + "&caseState=" + search.caseState.find("option:selected").val()
             + "&trackingNo=" + search.trackingNo.val() + "&rtList=" + search.rtList.val() + "&keyWord=" + search.keyword.val() + "&pageNow=" + pageNum;
+        console.log(data);
         $.post("admin/caseBack/showCaseByCompany.do", data, function (res, state) {
             if (state == "success") {
                 var json = JSON.parse(res);
