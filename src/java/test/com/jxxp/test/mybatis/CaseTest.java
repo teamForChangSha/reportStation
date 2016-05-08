@@ -121,10 +121,10 @@ public class CaseTest {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date createTime = caseInfo.getCreateTime();
-		List<ReportCase> caseList = reportCaseMapper.searchByKeys(caseInfo.getCompany()
-				.getCompanyId(), format.format(createTime), fullFormat.format(createTime), answer
-				.getQuestValue(), caseInfo.getRtList(), caseInfo.getCaseState(), caseInfo
-				.getTrackingNo());
+		List<ReportCase> caseList = reportCaseMapper.searchByKeysWithPage(null, caseInfo
+				.getCompany().getCompanyId(), format.format(createTime), fullFormat
+				.format(createTime), answer.getQuestValue(), caseInfo.getRtList(), caseInfo
+				.getCaseState(), caseInfo.getTrackingNo());
 		System.out.println(caseList.size());
 		assertTrue(caseList.size() == 1);
 	}
@@ -144,8 +144,8 @@ public class CaseTest {
 
 		List<ReportCase> caseList1 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
 				.getCompanyId());
-		List<ReportCase> caseList2 = reportCaseMapper.searchByKeys(caseInfo.getCompany()
-				.getCompanyId(), "", "2016-02-28", null, null, null, null);
+		List<ReportCase> caseList2 = reportCaseMapper.searchByKeysWithPage(null, caseInfo
+				.getCompany().getCompanyId(), "", "2016-02-28", null, null, null, null);
 		assertTrue(caseList2.size() >= 1);
 		assertTrue(caseList1.size() == caseList2.size());
 
@@ -164,8 +164,8 @@ public class CaseTest {
 
 		List<ReportCase> caseList1 = reportCaseMapper.getAllByCompanyId(caseInfo.getCompany()
 				.getCompanyId());
-		List<ReportCase> caseList2 = reportCaseMapper.searchByKeys(caseInfo.getCompany()
-				.getCompanyId(), null, null, null, null, null, null);
+		List<ReportCase> caseList2 = reportCaseMapper.searchByKeysWithPage(null, caseInfo
+				.getCompany().getCompanyId(), null, null, null, null, null, null);
 		assertTrue(caseList2.size() >= 1);
 		assertTrue(caseList1.size() == caseList2.size());
 

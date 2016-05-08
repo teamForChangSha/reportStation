@@ -82,29 +82,7 @@
                         <th>是否必填</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <c:forEach items="${questList}" var="quest" varStatus="i">
-                        <tr>
-                            <td>${quest.questId}</td>
-                            <td class="overflow-text">${quest.quest}</td>
-                            <td>
-                                <c:if test="${quest.mark=='1'}">
-                                    <input type="checkbox" name="questId" checked value="${quest.questId}"/>
-                                </c:if>
-                                <c:if test="${quest.mark!='1'}">
-                                    <input type="checkbox" name="questId" value="${quest.questId}"/>
-                                </c:if>
-                            </td>
-                            <td>
-                                <c:if test="${quest.isNeeded=='1'}">
-                                    <input type="checkbox" name="isNeeded" checked/>
-                                </c:if>
-                                <c:if test="${quest.isNeeded!='1'}">
-                                    <input type="checkbox" name="isNeeded"/>
-                                </c:if>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <tbody id="quests">
                     </tbody>
                 </table>
             </div>
@@ -120,9 +98,35 @@
 </body>
 <script type="text/javascript">
     $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
+        <c:forEach items="${questList}" var="quest" varStatus="i">
+        var tr = $("<tr/>");
+        var td1 = $("<td/>").text("${quest.questId}");
+        var txt = "${quest.quest}";
+        var td2 = $("<td/>").addClass("overflow-text")
+                .attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", txt)
+                .text(txt);
+        var td3 = $("<td/>");
+        var input1 = $("<input/>").attr("type","checkbox").val("${quest.questId}");
+        if(${quest.mark=='1'}){
+            input1.attr("checked",true);
+        }
+        td3.append(input1);
+        var td4 = $("<td/>");
+        var input2 = $("<input/>").attr("type","checkbox").val("${quest.questId}");
+        if(${quest.isNeeded=='1'}){
+            input2.attr("checked",true);
+        }
+        td4.append(input2);
+        tr.append(td1).append(td2).append(td3).append(td4);
+        $("#quests").append(tr);
+        </c:forEach>
+
         $("input[type=button]").click(function () {
-            if ($("input[type=checkbox]:checked").length <= 0) {
-                return Modal.alert({msg: "您未选择问题将使用系统默认的问题!"})
+            if ($("tbody tr td:nth-child(3) input[type=checkbox]:checked").length <= 0){
+                console.log($("tbody tr td:nth-child(3) input[type=checkbox]:checked").length);
+            return Modal.alert({msg: "您未选择问题将使用系统默认的问题!"})
                         .on(function (e) {
                             if (e) {
                                 sendForm();

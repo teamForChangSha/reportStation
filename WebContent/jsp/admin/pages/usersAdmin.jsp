@@ -87,9 +87,10 @@
             cursor: default;
         }
 
-        .btn-group{
+        .btn-group {
             display: inline;
         }
+
         .xinghao {
             color: #C12E2A;
             font-weight: bold;
@@ -112,7 +113,9 @@
                     <option value="">-请选择-</option>
                     <option value="1">试用</option>
                     <option value="2">公司用户</option>
-                    <option value="3">系统操作员</option>
+                    <c:if test="${user.userType>2}">
+                        <option value="3">系统操作员</option>
+                    </c:if>
                     <c:if test="${user.userType==4}">
                         <option value="4">系统管理员</option>
                     </c:if>
@@ -136,7 +139,7 @@
                 <div class="btn-group">
                     <input type="text" id="companyId" name="companyId" hidden/>
                     <input type="text" id="selectCompanyInput" class="form-control"
-                           placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"/>
+                           placeholder="请输入公司名" autocomplete="off" onkeyup="searchCompany(this)"/>
                     <ul id="searchCompanyMenu" class="dropdown-menu"></ul>
                 </div>
             </div>
@@ -208,7 +211,9 @@
                                         <option value="0">-请选择-</option>
                                         <option value="1">试用</option>
                                         <option value="2">公司用户</option>
-                                        <option value="3">系统操作员</option>
+                                        <c:if test="${user.userType>2}">
+                                            <option value="3">系统操作员</option>
+                                        </c:if>
                                         <c:if test="${user.userType==4}">
                                             <option value="4">系统管理员</option>
                                         </c:if>
@@ -234,7 +239,7 @@
                                     <div class="btn-group">
                                         <input type="text" id="upCompany" name="userCompany.companyId" hidden/>
                                         <input type="text" id="upCompanyInput" class="form-control"
-                                               placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"/>
+                                               placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)" onfocus="searchCompanyFoucs(this)"/>
                                         <ul id="upCompanyMenu" class="dropdown-menu"></ul>
                                     </div>
                                 </div>
@@ -407,7 +412,9 @@
                                         <option value="0">-请选择-</option>
                                         <option value="1">试用</option>
                                         <option value="2">公司用户</option>
-                                        <option value="3">系统操作员</option>
+                                        <c:if test="${user.userType>2}">
+                                            <option value="3">系统操作员</option>
+                                        </c:if>
                                         <c:if test="${user.userType==4}">
                                             <option value="4">系统管理员</option>
                                         </c:if>
@@ -433,7 +440,7 @@
                                     <div class="btn-group">
                                         <input type="text" id="addCompany" name="userCompany.companyId" hidden/>
                                         <input type="text" id="addCompanyInput" class="form-control"
-                                               placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)"/>
+                                               placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)" onfocus="searchCompanyFoucs(this)"/>
                                         <ul id="addCompanyMenu" class="dropdown-menu"></ul>
                                     </div>
                                 </div>
@@ -608,6 +615,9 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
+<script>
+    var userId = "${user.userId}"
+</script>
 <script type="text/javascript" src="jsp/js/usersAdmin.js"></script>
 
 </html>

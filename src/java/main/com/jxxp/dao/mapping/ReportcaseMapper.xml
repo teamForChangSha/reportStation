@@ -57,7 +57,7 @@
   select * from reportcase where company_id=#{companyId,jdbcType=BIGINT}
   </select>
   
-  <select id="searchByKeys" resultMap="BaseResultMap">
+  <select id="searchByKeysWithPage" resultMap="BaseResultMap">
    select * from reportcase rc  where 1=1
    <if test="companyId!=1 and companyId!=0">
    and rc.company_id=#{companyId,jdbcType=BIGINT}
@@ -91,6 +91,9 @@
     </if>
      )
     order by create_time desc,case_state asc
+   <if test="page!=null">
+    limit #{page.startPos},#{page.pageSize};
+  </if>
   </select>
   
   <select id="getCaseByReporter" resultMap="BaseResultMap">

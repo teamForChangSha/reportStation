@@ -3,6 +3,7 @@ package com.jxxp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.jxxp.comms.web.Page;
 import com.jxxp.pojo.CaseComment;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.ReportAnswer;
@@ -98,7 +99,7 @@ public interface CaseService {
 	 *            公司对象
 	 * @return 返回ReportCase列表，失败返回的列表长度为0
 	 */
-	List<ReportCase> getCaseByCompany(Company company, Map<String, String> map);
+	List<ReportCase> getCaseByCompany(Page page, Company company, Map<String, String> map);
 
 	/**
 	 * 修改一个举报信息<br>
@@ -122,14 +123,17 @@ public interface CaseService {
 	 * @return
 	 */
 	List<ReportCase> getNotClientCase();
-	
+
 	/**
 	 * 获取所选案件打包后的路径
-	 * @param cases	需要获取的案件编号
-	 * @param resPath 服务器资源路径
+	 * 
+	 * @param cases
+	 *            需要获取的案件编号
+	 * @param resPath
+	 *            服务器资源路径
 	 * @return 压缩文件的资源路径
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	String downloadCases(String[] cases,String webPath) throws Exception;
+	String downloadCases(String[] cases, String webPath) throws Exception;
 
 }

@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 <div class="container">
@@ -158,18 +159,32 @@
     $(function () {
         $("#upBtn").click(function () {
             var phoneReg = /(1[3-9]\d{9}$)/;
-            var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+            var telReg = /^\(?\d{3,4}[-\)]?\d{7,8}$/;
+            var emailReg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             if (!phoneReg.test($("input[name=mobile]").val())) {
                 $("html,body").animate({scrollTop: $("input[name=mobile]").offset().top}, 500);
-                return alert('请输入正确的手机号!');
+                return Modal.alert({msg:'请输入正确的手机号!'});
+            }
+            if(!telReg.test($("input[name=phone]").val())){
+                return Modal.alert({msg:"请输入正确的电话号码!"});
             }
             if ($.trim($("input[name=email]").val()) != '') {
-                if (!emailReg.test($("input[name=email]"))) {
+                if (!emailReg.test($("input[name=email]").val())) {
                     $("html,body").animate({scrollTop: $("input[name=email]").offset().top}, 500);
-                    return alert('请输入正确的邮箱地址!');
+                    return Modal.alert({msg:'请输入正确的邮箱地址!'});
                 }
             }
-            $("#upForm").submit();
+            $("#upForm").ajaxSubmit(function (res, state) {
+                if(state=="success"){
+                    if(res=="success"){
+                        Modal.alert({msg:"操作成功!"});
+                    }else{
+                        Modal.alert({msg:"操作失败!"});
+                    }
+                }else{
+                    Modal.alert({msg:"操作失败!"});
+                }
+            })
         });
     });
 </script>

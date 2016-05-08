@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="jsp/css/bootstrap-theme.min.css"/>
     <script src="jsp/js/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jsp/js/jquery.bs_pagination.js" type="text/javascript" charset="utf-8"></script>
     <script src="jsp/js/datepicker.min.js"></script>
     <!-- Include English language -->
     <script src="jsp/js/datepicker.en.js"></script>
@@ -77,7 +78,7 @@
                 <div class="form-group" style="margin-left: 10px;">
                     <label class="control-label">审批状态</label>
                     <select id="selectStatus" class="form-control" name="caseState">
-                        <option value="-1">-请选择-</option>
+                        <option value="">-请选择-</option>
                         <option value="1">新建</option>
                         <option value="2">已查看</option>
                         <option value="3">处理中</option>
@@ -144,38 +145,14 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                <c:forEach items="${caseList}" var="caseInfo" varStatus="i">
-                    <tr>
-                        <td style="width: 50px">
-                            <input type="checkbox" value="true" data-id="${caseInfo.rcId}"/>
-                        </td>
-                        <td style="width: 60px">
-                            <c:if test='${caseInfo.reporter.name==null}'>匿名</c:if>
-                            <c:if test='${caseInfo.reporter.name!=null}'>${caseInfo.reporter.name}</c:if>
-                        </td>
-                        <td>${caseInfo.trackingNo}</td>
-                        <td style="width: 180px"><fmt:formatDate value="${caseInfo.createTime}" type="date"
-                                                                 pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
-                        <td style="width: 80px">
-                            <c:if test='${caseInfo.caseState==1}'>新建</c:if>
-                            <c:if test='${caseInfo.caseState==2}'>已查看</c:if>
-                            <c:if test='${caseInfo.caseState==3}'>处理中</c:if>
-                            <c:if test='${caseInfo.caseState==4}'>处理完毕</c:if>
-                            <c:if test='${caseInfo.caseState==5}'>关闭案件</c:if>
-                        </td>
-                        <td style="width: 240px">${caseInfo.company.companyName}</td>
-                        <td>${caseInfo.rtList}</td>
-                        <td style="width: 130px">
-                            <input type="button" class="btn btn-link" value="修改"
-                                   onclick="upState(${caseInfo.rcId},this,${caseInfo.currentHandler.companyId})"/>
-                            <input type="button" class="btn btn-link" value="查看"
-                                   onclick="look(${caseInfo.rcId},${caseInfo.caseState},this)"/>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <tbody id="reports">
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="col-sm-10">
+        <div class="row text-center">
+            <div id="pageBar"></div>
         </div>
     </div>
 </div>
@@ -192,15 +169,15 @@
                 <h5 class="modal-title text-center">更改案件状态</h5>
             </div>
             <div class="modal-body">
-                <div class="form-horizontal">
-                    <p class="hidden alert alert-warning">当前案件已交由平台方处理，您暂时无法更改，请等待平台处理结果或致电管理员</p>
+                <div class="form-horizontal" id="upStatePanle">
+                    <input type="text" id="upStateId" hidden>
+                    <input type="text" id="upStateCompanyId" hidden>
+                    <p class="text-center"></p>
 
                     <div class="form-group">
-                        <label class="col-sm-1 control-label"></label>
-
-                        <div class="col-sm-10">
+                        <div class="col-sm-10 col-sm-offset-1">
                             <select id="status" class="form-control">
-                                <option value="-1">-请选择-</option>
+                                <option value="">-请选择-</option>
                                 <option value="1">新建</option>
                                 <option value="2">已查看</option>
                                 <option value="3">处理中</option>
@@ -246,248 +223,9 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
-<script type="text/javascript">
-    $(function () {
-        var search = {
-            startTime: $("input[name=startTime]"),
-            endTime: $("input[name=endTime]"),
-            rtList: $("input[name=rtList]"),
-            keyword: $("input[name=keyword]")
-        }
-        search.startTime.datepicker({
-            language: 'zh',
-            autoClose: true,
-            navTitles: {
-                days: '<h6>当前日期:yyyy年mm月dd日</h6> '
-            }
-        });
-        search.endTime.datepicker({
-            language: 'zh',
-            autoClose: true,
-            navTitles: {
-                days: '<h6>当前日期:yyyy年mm月dd日</h6> '
-            }
-        });
-        search.endTime.blur(function () {
-            if (new Date(search.endTime.val()) < new Date(search.startTime.val())) {
-                search.endTime.val("");
-                return alert("结束时间应大于开始时间!");
-            }
-        });
-        search.startTime.blur(function () {
-            if (new Date(search.endTime.val()) < new Date(search.startTime.val())) {
-                search.startTime.val("");
-                return alert("开始时间应小于结束时间!");
-            }
-        });
-
-        search.startTime.keyup(function () {
-            search.startTime.val("");
-        });
-        search.endTime.keyup(function () {
-            search.endTime.val("");
-        });
-
-        $("#submitSelect").click(function () {
-            if (search.startTime.val() != "") {
-                if (search.endTime.val() == "") {
-                    return alert("请选择结束时间");
-                }
-            }
-            if (search.endTime.val() != "") {
-                if (search.startTime.val() == "") {
-                    return alert("请选择起始时间");
-                }
-            }
-            $("#selectForm").submit();
-        });
-
-
-        var caseId;
-        var ele = {
-            status: $("#status"),
-            sendToPlatform: $("#sendToPlatform"),
-            updataCancel: $("#updataCancel"),
-            updataBtn: $("#updataBtn")
-        }
-
-        window.look = function (rcId, caseState, ele) {
-            var url = "admin/caseBack/updateCaseState.do";
-            var data = "rcId=" + rcId + "&state=" + 2
-                    + "&sendToPlatform=0&companyId=${user.userCompany.companyId}";
-            if (caseState < 2 && "${user.userType==1}") {
-                $.post(url, data, function (res, status) {
-                    if (status == "success") {
-                        if (res == "success") {
-                            $(ele).parent().prev().prev().prev().text("已查看")
-                        }
-                    }
-                });
-            }
-            $("#reprotInfoPanel iframe").attr("src", "admin/caseBack/showCaseById.do?rcId=" + rcId);
-            $("#reprotInfoPanel").modal('show');
-        };
-
-        window.upState = function (rcId, e, currentCompanyId) {
-            caseId = rcId;
-            if ("${user.userCompany.companyId}" != currentCompanyId) {
-                if ("${user.userCompany.companyId}" == "1") {
-                    return alert('案件未交由平台方处理，您目前只能查看');
-                } else {
-                    return alert('案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方');
-                }
-            }
-
-            $("tbody tr").removeClass("danger");
-            $(e).parent().parent().addClass("danger");
-            $("#updataReportStatus").modal('show');
-            var tempTxt = $.trim($(e).parent().prev().prev().prev().text());
-            for (var i = 0; i < ele.status.get(0).options.length; i++) {
-                if (ele.status.get(0).options[i].text == tempTxt) {
-                    ele.status.get(0).options[i].selected = true;
-                }
-            }
-            if ("${user.userCompany.companyId}" == "1") {
-                if ("${user.userCompany.companyId}" == currentCompanyId) {
-                    $("#updataReportStatus p").removeClass("hidden");
-                    ele.sendToPlatform.get(0).checked = true;
-                    ele.updataBtn.removeAttr("disabled");
-                } else {
-                    $("#updataReportStatus p").addClass("hidden");
-                    ele.sendToPlatform.get(0).checked = false;
-                    ele.updataBtn.attr("disabled", true);
-                }
-            } else {
-                if ("${user.userCompany.companyId}" == currentCompanyId) {
-                    $("#updataReportStatus p").addClass("hidden");
-                    ele.sendToPlatform.get(0).checked = false;
-                    ele.updataBtn.removeAttr("disabled");
-                } else {
-                    $("#updataReportStatus p").removeClass("hidden");
-                    ele.sendToPlatform.get(0).checked = true;
-                    ele.updataBtn.attr("disabled", true);
-                }
-            }
-        };
-
-        /**
-         * 导出操作
-         */
-        $("#exportBtn").click(function () {
-            var i = 0 ;
-            var ids = [];
-           $('tbody tr td:nth-child(1) input').each(function () {
-               if($(this).filter(':checked').val()){
-                   i++;
-                   ids.push($(this).attr("data-id"));
-               }
-           });
-            if(i>0){
-                $.get("admin/caseBack/downloadCases.do?case="+ids,function(res,state){
-                    if(state=="success"){
-                        console.log(res);
-                        location.href = res;
-                    }else{
-                        alert('导出失败!');
-                    }
-                });
-                //TODO
-            }else{
-                alert("请选择需要导出的举报信息!");
-            }
-        });
-
-
-//        $(window.parent.document).find(".badge").text("" + i);
-
-        $("#updataReportStatus .close").click(function () {
-            $("tbody tr").removeClass("danger");
-        });
-        ele.updataCancel.click(function () {
-            $("tbody tr").removeClass("danger");
-            $("#updataReportStatus").modal('hide');
-        });
-        ele.updataBtn.click(function () {
-            if (ele.status.find("option:selected").val() == "-1") {
-                return alert("请选择需要改变的状态!");
-            }
-            var url = "admin/caseBack/updateCaseState.do";
-            var sendToPlatform = "0";
-            if (ele.sendToPlatform.is(':checked')) {
-                sendToPlatform = "1";
-            }
-            var data = "rcId=" + caseId + "&state=" + ele.status.find("option:selected").val()
-                    + "&sendToPlatform=" + sendToPlatform + "&companyId=" + "${user.userCompany.companyId}";
-            console.log(data);
-            $.post(url, data, function (res, status) {
-                if (status == "success") {
-                    if (res == "success") {
-                        $("#updataReportStatus").modal('hide');
-                        Modal.alert({msg: "操作成功!"})
-                                .on(function (e) {
-                                    location.href = "admin/caseBack/showCaseByCompany.do";
-                                    $("tbody tr").removeClass("danger");
-                                });
-
-                    } else {
-                        alert("操作失败!");
-                    }
-                } else {
-                    alert("操作失败!");
-                }
-            });
-        });
-
-        /*$("#selectStatus").change(function () {
-            $("tbody tr td:nth-child(3)").each(function () {
-                if ($(this).text() == $("#selectStatus").find("option:selected").text()) {
-                    $(this).parent().removeClass("hidden");
-                } else {
-                    $(this).parent().addClass("hidden");
-                }
-                if ($("#selectStatus").find("option:selected").val() == "-1") {
-                    $(this).parent().removeClass("hidden");
-                }
-            });
-        });*/
-
-        var dateBtn = {
-            oneMounth: $("#oneMounth"),
-            threeMounth: $("#threeMounth"),
-            oneYear: $("#oneYear")
-        }
-        dateBtn.oneMounth.click(function () {
-            selectByDate(1);
-        });
-        dateBtn.threeMounth.click(function () {
-            selectByDate(3);
-        });
-        dateBtn.oneYear.click(function () {
-            var cDate = new Date();
-            var year = cDate.getFullYear();
-            var mounth = cDate.getMonth() + 1;
-            var day = cDate.getDate();
-            var cTime = year + "-" + (mounth < 10 ? "0" + mounth : mounth) + "-" + (day < 10 ? "0" + day : day);
-            var nTime = (year - 1) + "-" + (mounth < 10 ? "0" + mounth : mounth) + "-" + (day < 10 ? "0" + day : day);
-            search.startTime.val(nTime);
-            search.endTime.val(cTime);
-            $("#selectForm").submit();
-        });
-
-        function selectByDate(n) {
-            var cDate = new Date();
-            var year = cDate.getFullYear();
-            var mounth = cDate.getMonth() + 1;
-            var day = cDate.getDate();
-            var cTime = year + "-" + (mounth < 10 ? "0" + mounth : mounth) + "-" + (day < 10 ? "0" + day : day);
-            var nTime = year + "-" + (mounth - n < 10 ? "0" + (mounth - n) : mounth - n) + "-" + (day < 10 ? "0" + day : day);
-            search.startTime.val(nTime);
-            search.endTime.val(cTime);
-            $("#selectForm").submit();
-        }
-
-        return look, upState;
-    });
+<script>
+    var userCompanyId = ${user.userCompany.companyId};
 </script>
+<script src="jsp/js/reportAdmin.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

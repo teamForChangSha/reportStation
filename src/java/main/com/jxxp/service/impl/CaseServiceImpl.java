@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.jxxp.comms.util.PDFUtil;
 import com.jxxp.comms.util.ZipUtil;
+import com.jxxp.comms.web.Page;
 import com.jxxp.controller.CaseController;
 import com.jxxp.dao.CaseAttachMapper;
 import com.jxxp.dao.CaseCommentMapper;
@@ -161,7 +162,7 @@ public class CaseServiceImpl implements CaseService {
 	}
 
 	@Override
-	public List<ReportCase> getCaseByCompany(Company company, Map<String, String> map) {
+	public List<ReportCase> getCaseByCompany(Page page, Company company, Map<String, String> map) {
 		List<ReportCase> caseList = new ArrayList<ReportCase>();
 		if (company == null) {
 			return caseList;
@@ -178,8 +179,8 @@ public class CaseServiceImpl implements CaseService {
 				&& map.get("caseState").matches("^[0-9]*$")) {
 			caseState = Integer.valueOf(map.get("caseState"));
 		}
-		caseList = reportCaseMapper.searchByKeys(company.getCompanyId(), startTime, endTime,
-				keyWord, rtList, caseState, trackingNo);
+		caseList = reportCaseMapper.searchByKeysWithPage(page, company.getCompanyId(), startTime,
+				endTime, keyWord, rtList, caseState, trackingNo);
 		return caseList;
 	}
 

@@ -97,6 +97,7 @@
                         <span>后台首页</span>
                     </a>
                 </li>
+                <c:if test="${user.userType<4}">
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -113,6 +114,7 @@
                         <li><a class="" href="admin/companyBack/getQuestTemlate.do" target="MainIframe">公司问题设置</a></li>
                     </ul>
                 </li>
+                </c:if>
                 <c:if test="${user.userType>1}">
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
@@ -121,7 +123,7 @@
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
-                            <c:if test="${user.userType==2}">
+                            <c:if test="${user.userType<=3}">
                                 <li><a class="" href="jsp/admin/pages/updataUserInfo.jsp" target="MainIframe">信息修改</a>
                                 </li>
                             </c:if>
@@ -139,7 +141,7 @@
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li><a class="" href="admin/caseBack/showCaseByCompany.do" target="MainIframe">所有举报<span
+                        <li><a class="" href="jsp/admin/pages/reportAdmin.jsp" target="MainIframe">所有举报<span
                                 class="badge"></span></a>
                         </li>
                         <li><a class="" href="javascript:;" target="MainIframe">举报统计</a>
@@ -175,12 +177,22 @@
                         <span>修改密码</span>
                     </a>
                 </li>
-                <li class="sub-menu">
-                    <a href="mailto:178972841@qq.com" class="">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                        <span>联系管理</span>
-                    </a>
-                </li>
+                <c:if test="${user.userType<4}">
+                    <li class="sub-menu">
+                        <c:if test="${user.userType<3}">
+                            <a href="mailto:pingtaigongsi@qq.com" class="">
+                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                <span>联系管理</span>
+                            </a>
+                        </c:if>
+                        <c:if test="${user.userType==3}">
+                            <a href="mailto:xitonggongsi@qq.com" class="">
+                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                                <span>联系管理</span>
+                            </a>
+                        </c:if>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
