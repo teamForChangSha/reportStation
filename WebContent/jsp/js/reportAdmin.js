@@ -59,7 +59,6 @@ $(function () {
     function getReports(pageNum) {
         var data = "startTime=" + search.startTime.val() + "&endTime=" + search.endTime.val() + "&caseState=" + search.caseState.find("option:selected").val()
             + "&trackingNo=" + search.trackingNo.val() + "&rtList=" + search.rtList.val() + "&keyWord=" + search.keyword.val() + "&pageNow=" + pageNum;
-        console.log(data);
         $.post("admin/caseBack/showCaseByCompany.do", data, function (res, state) {
             if (state == "success") {
                 var json = JSON.parse(res);
@@ -75,7 +74,6 @@ $(function () {
     function setReportData(a) {
         $("#reports").empty();
         $.each(a, function (i, caseInfo) {
-            console.log(caseInfo.company);
             var tr = $("<tr/>");
             var td1 = $("<td/>").css("width", "50px");
             var input1 = $("<input/>").attr("type", "checkbox").attr("data-id", caseInfo.rcId).val(true);
@@ -90,14 +88,17 @@ $(function () {
             var td8 = $("<td/>").css("width", "130px");
             var up = $("<input/>").attr("type", "button").addClass("btn btn-link").val("修改");
             up.click(function () {
-                //if (caseInfo.currentHandler.companyId <= 1) {
-                //    return alert('案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方');
-                //} else {
-                //    return alert('案件未交由平台方处理，您目前只能查看');
-                //}
+                if(userCompanyId!=caseInfo.currentHandler.companyId){
+                    if (caseInfo.currentHandler.companyId <= 1) {
+                        return alert('案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方');
+                    } else {
+                        return alert('案件未交由平台方处理，您目前只能查看');
+                    }
+                }
 
                 var upStatePanle = $("#upStatePanle");
                 $("#upStateId").val(caseInfo.rcId);
+                $("#upStateCompanyId").val(caseInfo.company.companyId);
                 upStatePanle.find("p").text("案件编号："+caseInfo.trackingNo);
                 upStatePanle.find("select").get(0).value = caseInfo.caseState;
                 if(caseInfo.currentHandler.companyId<=1){
@@ -113,7 +114,6 @@ $(function () {
                 var url = "admin/caseBack/updateCaseState.do";
                 var data = "rcId=" + caseInfo.rcId + "&state=" + 2
                     + "&sendToPlatform=0&companyId=" + caseInfo.company.companyId;
-                console.log(userCompanyId == caseInfo.currentHandler.companyId);
                 if (caseInfo.caseState < 2 && "${user.userCompany.companyId}" == caseInfo.currentHandler.companyId) {
                     $.post(url, data, function (res, status) {
                         if (status == "success") {
@@ -211,7 +211,7 @@ $(function () {
             sendToPlatform = "1";
         }
         var data = "rcId=" + $("#upStateId").val() + "&state=" + $("#status").find("option:selected").val()
-            + "&sendToPlatform=" + sendToPlatform + "&companyId=" + "${user.userCompany.companyId}";
+            + "&sendToPlatform=" + sendToPlatform + "&companyId=" + $("#upStateCompanyId").val();
         console.log(data);
         $("#updataReportStatus").modal('hide');
         $.post(url, data, function (res, status) {

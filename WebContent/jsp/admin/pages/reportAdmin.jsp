@@ -171,6 +171,7 @@
             <div class="modal-body">
                 <div class="form-horizontal" id="upStatePanle">
                     <input type="text" id="upStateId" hidden>
+                    <input type="text" id="upStateCompanyId" hidden>
                     <p class="text-center"></p>
 
                     <div class="form-group">
