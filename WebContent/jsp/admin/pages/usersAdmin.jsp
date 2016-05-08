@@ -615,6 +615,9 @@
 
 <script src="jsp/js/model.js" type="text/javascript" charset="utf-8"></script>
 </body>
+<script>
+    var userId = "${user.userId}"
+</script>
 <script type="text/javascript" src="jsp/js/usersAdmin.js"></script>
 
 </html>

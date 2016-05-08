@@ -132,10 +132,10 @@
         user.btn.get(0).onclick = login;
         function login() {
             if (!showError(user.name)) {
-                return;
+                return Modal.alert({msg:'请输入用户名!'});
             }
             if (!showError(user.pwd)) {
-                return;
+                return Modal.alert({msg:'请输入密码!'});
             }
             var data = "loginName=" + user.name.val() + "&userPwd=" + md5(user.pwd.val());
             $.post("admin/user/login.do", data, function (res, status) {
