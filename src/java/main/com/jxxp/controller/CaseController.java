@@ -177,6 +177,11 @@ public class CaseController {
 		Reporter reporter = null;
 		if ("false".equalsIgnoreCase(isAnonymous)) {
 			reporter = JSON.parseObject(reporterJson, Reporter.class);
+			//session失效验证码会为空
+			if(trueMobile == null || trueCode == null) {
+				trueMobile = "";
+				trueCode = "";
+			}
 			flag = trueMobile.equals(reporter.getMobile()) && trueCode.equals(verifyCode);
 		}
 
@@ -184,7 +189,7 @@ public class CaseController {
 //		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
 //				"companyBranch");
 		Company company = (Company) request.getSession().getAttribute("company");
-
+		log.debug("company:" + company);
 		// 保存ReportCase对象
 		ReportCase reportCase = new ReportCase();
 		reportCase.setRtList(rtList);
@@ -216,15 +221,15 @@ public class CaseController {
 
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
-		try {
-			out = response.getWriter();
-			if (flag) {
-				if (caseService.saveCase(reporter, reportCase, answerList)) {
-					log.debug(reportCase.getTrackingNo() + "案件提交成功！");
-					if(reportCase.getCompany().getOtherInfo().getIsSend() == CompanyOther.IS_SEND_YES && reportCase.getCompany().getOtherInfo().getSendType() == CompanyOther.SEND_TYPE_ONCE) {
+		out = response.getWriter();
+		if (flag) {
+			if (caseService.saveCase(reporter, reportCase, answerList)) {
+				log.debug(reportCase.getTrackingNo() + "案件提交成功！");
+				if(reportCase.getCompany().getOtherInfo() != null ) {
+					if( reportCase.getCompany().getOtherInfo().getIsSend() == CompanyOther.IS_SEND_YES && reportCase.getCompany().getOtherInfo().getSendType() == CompanyOther.SEND_TYPE_ONCE) {
 						MailBean mailBean = new MailBean();
 						mailBean.setFrom("15364060309@163.com");
-						mailBean.setSubject("hello world");
+						mailBean.setSubject("贵公司收到一封举报信息，");
 						mailBean.setToEmails(new String[]{"9466672@qq.com"});
 						mailBean.setTemplate("hello ${userName} !<a href='www.baidu.com' >baidu</a>");
 						Map map = new HashMap();
@@ -233,17 +238,15 @@ public class CaseController {
 						
 						mailUtil.send(mailBean);
 					}
-					
-					out.print(reportCase.getTrackingNo());
-				} else {
-					out.print("saveError");
 				}
+				out.print(reportCase.getTrackingNo());
 			} else {
-				out.print("checkError");
+				out.print("saveError");
 			}
-		} catch (IOException e) {
-			log.error("流获取失败！", e);
+		} else {
+			out.print("checkError");
 		}
+		
 		return null;
 	}
 
