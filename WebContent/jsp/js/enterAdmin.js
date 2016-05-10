@@ -201,13 +201,14 @@ $(function () {
         $("#addForm").ajaxSubmit(function (res, state) {
             if (state == "success") {
                 if (res == "success") {
+                    location.reload();
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function () {
+                    })
+                        //.on(function () {
                         //var pageNum = parseInt($("#pageBar li.active").children().text());
                         //getCompanyList(pageNum, companyName.val());
-                        location.reload();
-                    });
+                    //});
                 } else {
                     Modal.alert({
                         msg: '操作失败！',
@@ -251,11 +252,10 @@ $(function () {
         $("#upForm").ajaxSubmit(function (res, state) {
             if (state == "success") {
                 if (res == "success") {
+                    var pageNum = parseInt($("#pageBar li.active").children().text());
+                    getCompanyList(pageNum);
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function () {
-                        var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getCompanyList(pageNum);
                     });
                 } else {
                     Modal.alert({
@@ -310,13 +310,14 @@ $(function () {
                 $.post("admin/companyBack/delCompanyByIds.do", "companyId=" + id, function (res, state) {
                     if (state == "success") {
                         if (res == "success") {
+                            location.reload();
                             Modal.alert({
                                 msg: '操作成功！',
-                            }).on(function () {
+                            });
+                                //.on(function () {
                                 //var pageNum = parseInt($("#pageBar li.active").children().text());
                                 //getCompanyList(pageNum, companyName.val());
-                                location.reload();
-                            });
+                            //});
                         } else {
                             Modal.alert({
                                 msg: '操作失败！',

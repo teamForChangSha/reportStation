@@ -417,6 +417,25 @@ $(function () {
     }
 
 
+    var cid,cname,bool=true;
+    $("#upType").change(function () {
+        if ($("#upType").find("option:selected").val() == "3"||$("#upType").find("option:selected").val() == "4") {
+            $("#upCompanyInput").attr("disabled", "disabled");
+            if(bool){
+                cid = $("#upCompany").val();
+                cname = $("#upCompanyInput").val();
+                bool = false;
+            }
+            $("#upCompanyInput").val("平台管理公司");
+            $("#upCompany").val(1);
+        } else {
+            $("#upCompanyInput").attr("disabled", false);
+            $("#upCompany").val(cid);
+            $("#upCompanyInput").val(cname);
+            bool = true;
+        }
+    });
+
     /**
      * 更新用户信息
      * @returns {*}
@@ -428,8 +447,8 @@ $(function () {
         if ($("#upType").find("option:selected").val() == "0") {
             return alr("请选择用户类型");
         }
-        if($("#upPhone").val()!=''){
-            if(!telReg.test($("#upPhone").val())){
+        if ($("#upPhone").val() != '') {
+            if (!telReg.test($("#upPhone").val())) {
                 return alr("请输入正确的电话，如010-00000000");
             }
         }
@@ -449,11 +468,10 @@ $(function () {
         $.post("admin/user/updateUser.do", $("#upForm").serialize(), function (res, status) {
             if (status == "success") {
                 if (res == "success") {
+                    var pageNum = parseInt($("#pageBar li.active").children().text());
+                    getUserList(pageNum);
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function () {
-                        var pageNum = parseInt($("#pageBar li.active").children().text());
-                        getUserList(pageNum);
                     });
                 } else {
                     Modal.alert({
@@ -467,6 +485,25 @@ $(function () {
             }
         });
     };
+
+    var cid1,cname1,flag=true;
+    $("#addType").change(function () {
+        if ($("#addType").find("option:selected").val() == "3"||$("#addType").find("option:selected").val() == "4") {
+            $("#addCompanyInput").attr("disabled", "disabled");
+            if(flag){
+                cid1 = $("#addCompany").val();
+                cname1 = $("#addCompanyInput").val();
+                flag = false;
+            }
+            $("#addCompanyInput").val("平台管理公司");
+            $("#addCompany").val(1);
+        } else {
+            $("#addCompanyInput").attr("disabled", false);
+            $("#addCompany").val(cid1);
+            $("#addCompanyInput").val(cname1);
+            flag = true;
+        }
+    });
 
     /**
      * 添加企业用户
@@ -495,8 +532,8 @@ $(function () {
         if (!rePhone($("#addMobile").val())) {
             return alr("请输入正确的手机号");
         }
-        if($("#addPhone").val()!=''){
-            if(!telReg.test($("#addPhone").val())){
+        if ($("#addPhone").val() != '') {
+            if (!telReg.test($("#addPhone").val())) {
                 return alr("请输入正确的电话，如010-00000000");
             }
         }
@@ -511,13 +548,14 @@ $(function () {
             if (status == "success") {
                 if (res == "success") {
                     $("#addUser").modal("hide");
+                    location.reload();
                     Modal.alert({
                         msg: '操作成功！',
-                    }).on(function () {
+                    });
+                        //.on(function () {
                         //var pageNum = parseInt($("#pageBar li.active").children().text());
                         //getUserList(pageNum);
-                        location.reload();
-                    });
+                    //});
                 } else {
                     Modal.alert({
                         msg: '操作失败！',

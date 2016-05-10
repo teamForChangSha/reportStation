@@ -57,6 +57,7 @@ $(function () {
      * @param pageNum
      */
     function getReports(pageNum) {
+        console.log("adsfadf");
         var data = "startTime=" + search.startTime.val() + "&endTime=" + search.endTime.val() + "&caseState=" + search.caseState.find("option:selected").val()
             + "&trackingNo=" + search.trackingNo.val() + "&rtList=" + search.rtList.val() + "&keyWord=" + search.keyword.val() + "&pageNow=" + pageNum;
         $.post("admin/caseBack/showCaseByCompany.do", data, function (res, state) {
@@ -73,6 +74,7 @@ $(function () {
      */
     function setReportData(a) {
         $("#reports").empty();
+        console.log("====");
         $.each(a, function (i, caseInfo) {
             var tr = $("<tr/>");
             var td1 = $("<td/>").css("width", "50px");
@@ -88,6 +90,7 @@ $(function () {
             var td8 = $("<td/>").css("width", "130px");
             var up = $("<input/>").attr("type", "button").addClass("btn btn-link").val("修改");
             up.click(function () {
+                console.log(caseInfo.currentHandler.companyId);
                 if(userCompanyId!=caseInfo.currentHandler.companyId){
                     if (caseInfo.currentHandler.companyId <= 1) {
                         return alert('案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方');
@@ -102,9 +105,11 @@ $(function () {
                 upStatePanle.find("p").text("案件编号："+caseInfo.trackingNo);
                 upStatePanle.find("select").get(0).value = caseInfo.caseState;
                 if(caseInfo.currentHandler.companyId<=1){
-                    upStatePanle.find("input[type=checkbox]").get(0).checked = true;
+                    $("#platform").hide();
+                    $("#client").show();
                 }else{
-                    upStatePanle.find("input[type=checkbox]").get(0).checked = false;
+                    $("#platform").show();
+                    $("#client").hide();
                 }
 
                 $("#updataReportStatus").modal('show');
@@ -206,9 +211,20 @@ $(function () {
             return alert("请选择需要改变的状态!");
         }
         var url = "admin/caseBack/updateCaseState.do";
-        var sendToPlatform = "0";
-        if ($("#sendToPlatform").is(':checked')) {
-            sendToPlatform = "1";
+        var sendToPlatform;
+        if($("#platform").css("display")!="none"){
+            if ($("#sendToPlatform").is(':checked')) {
+                sendToPlatform = "1";
+            }else{
+                sendToPlatform = "0";
+            }
+        }
+        if($("#client").css("display")!="none"){
+            if ($("#sendToClient").is(':checked')) {
+                sendToPlatform = "0";
+            }else{
+                sendToPlatform = "1";
+            }
         }
         var data = "rcId=" + $("#upStateId").val() + "&state=" + $("#status").find("option:selected").val()
             + "&sendToPlatform=" + sendToPlatform + "&companyId=" + $("#upStateCompanyId").val();
@@ -217,12 +233,9 @@ $(function () {
         $.post(url, data, function (res, status) {
             if (status == "success") {
                 if (res == "success") {
-                    Modal.alert({msg: "操作成功!"})
-                        .on(function (e) {
-                            var pageNum = parseInt($("#pageBar li.active").children().text());
-                            getReports(pageNum);
-                        });
-
+                    var pageNum = parseInt($("#pageBar li.active").children().text());
+                    getReports(pageNum);
+                    Modal.alert({msg: "操作成功!"});
                 } else {
                     alert("操作失败!");
                 }

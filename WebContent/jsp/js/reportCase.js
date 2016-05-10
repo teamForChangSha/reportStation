@@ -139,7 +139,7 @@ $(function () {
 
     var regStr = {
         phoneReg: /(1[3-9]\d{9}$)/,
-        emailReg: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
+        emailReg: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
         passport: /^[a-zA-Z0-9]{5,17}$/,
         idCard: /^\d{15}|(\d{17}(\d|x|X))$/
     };

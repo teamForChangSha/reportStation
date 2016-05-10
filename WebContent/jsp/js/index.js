@@ -171,8 +171,13 @@
 
     leftEle.companyName.keyup(function () {
         leftEle.companyId.val("-1");
-        hiddenEle();
-        AutoComplete();
+        console.log(leftEle.companyName.val() == '');
+        if(leftEle.companyName.val()==''){
+            hiddenEle();
+            leftEle.companyName.next().next().css("display", "none");
+        }else{
+            AutoComplete();
+        }
     });
 
     /**

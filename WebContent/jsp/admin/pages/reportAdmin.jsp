@@ -188,8 +188,11 @@
                     </div>
                     <div class="form-group text-center">
                         <div class="checkbox">
-                            <label>
-                                <input id="sendToPlatform" type="checkbox"/> 是否交由平台方处理
+                            <label id="platform">
+                                <input id="sendToPlatform" type="checkbox"/> 交由平台方处理
+                            </label>
+                            <label id="client">
+                                <input id="sendToClient" type="checkbox"/> 交由客户公司处理
                             </label>
                         </div>
                     </div>
