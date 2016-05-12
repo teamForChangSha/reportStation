@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">案件处理流程：</label>
+                <label class="col-sm-4 control-label">案件处理日志：</label>
 
                 <div class="col-sm-8">
                     <c:forEach items="${reportCase.changeList}" var="change" varStatus="i">
