@@ -169,14 +169,18 @@
     //    leftEle.companyName.next().next().css("display", "block");
     //});
 
-    leftEle.companyName.keyup(function () {
+    leftEle.companyName.keyup(function (e) {
         leftEle.companyId.val("-1");
-        console.log(leftEle.companyName.val() == '');
-        if(leftEle.companyName.val()==''){
+        if (leftEle.companyName.val() == '') {
             hiddenEle();
             leftEle.companyName.next().next().css("display", "none");
-        }else{
-            AutoComplete();
+        } else {
+            if (e.keyCode == 32) {
+                AutoComplete();
+            }
+            if(e.keyCode == 8){
+                setTimeout(AutoComplete,200);
+            }
         }
     });
 

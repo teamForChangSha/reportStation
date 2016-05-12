@@ -237,30 +237,30 @@ $(function () {
             send.quest_1.val(quest.quest_1_select.find("option:selected").text());
         }
         if (quest.quest_1_select.find("option:selected").text() == "其它") {
-            send.quest_1.val(send.quest_1.val() + ";" + quest.quest_1_textarea.val());
+            send.quest_1.val(send.quest_1.val() + "；" + quest.quest_1_textarea.val());
         }
 
         var aboutUser = "";
         if (!isEmty(quest.quest_2_input1_name.val())) {
-            aboutUser += "姓名：" + quest.quest_2_input1_name.val() + ",职位："
-                + quest.quest_2_input1_position.val() + ",部门：" + quest.quest_2_input1_department.val();
+            aboutUser += "姓名：" + quest.quest_2_input1_name.val() + "，职位："
+                + quest.quest_2_input1_position.val() + "，部门：" + quest.quest_2_input1_department.val();
         }
         if (!isEmty(quest.quest_2_input2_name.val())) {
             if (isEmty(aboutUser)) {
-                aboutUser += "姓名：" + quest.quest_2_input2_name.val() + ",职位："
+                aboutUser += "姓名：" + quest.quest_2_input2_name.val() + "，职位："
                     + quest.quest_2_input2_position.val() + ",部门：" + quest.quest_2_input2_department.val();
             } else {
-                aboutUser += ";姓名：" + quest.quest_2_input2_name.val() + ",职位："
-                    + quest.quest_2_input2_position.val() + ",部门：" + quest.quest_2_input2_department.val();
+                aboutUser += "；姓名：" + quest.quest_2_input2_name.val() + "，职位："
+                    + quest.quest_2_input2_position.val() + "，部门：" + quest.quest_2_input2_department.val();
             }
         }
         if (!isEmty(quest.quest_2_input3_name.val())) {
             if (isEmty(aboutUser)) {
-                aboutUser += "姓名：" + quest.quest_2_input3_name.val() + "," + "职位："
-                    + quest.quest_2_input3_position.val() + ",部门：" + quest.quest_2_input3_department.val();
+                aboutUser += "姓名：" + quest.quest_2_input3_name.val() + "，" + "职位："
+                    + quest.quest_2_input3_position.val() + "，部门：" + quest.quest_2_input3_department.val();
             } else {
-                aboutUser += ";姓名：" + quest.quest_2_input3_name.val() + "," + "职位："
-                    + quest.quest_2_input3_position.val() + ",部门：" + quest.quest_2_input3_department.val();
+                aboutUser += "；姓名：" + quest.quest_2_input3_name.val() + "，" + "职位："
+                    + quest.quest_2_input3_position.val() + "，部门：" + quest.quest_2_input3_department.val();
             }
         }
         send.quest_2.val(aboutUser);
@@ -269,7 +269,7 @@ $(function () {
             send.quest_3.val(quest.quest_3_radio.filter(':checked').val());
         }
         if (quest.quest_3_radio.filter(':checked').val() == "是") {
-            send.quest_3.val(send.quest_3.val() + ";" + quest.quest_3_textarea.val());
+            send.quest_3.val(send.quest_3.val() + "；" + quest.quest_3_textarea.val());
         }
 
 
@@ -283,27 +283,27 @@ $(function () {
             send.quest_6.val(quest.quest_6_select.find("option:selected").text());
         }
         if (quest.quest_6_select.find("option:selected").text() == "其它") {
-            send.quest_6.val(send.quest_6.val() + ";" + quest.quest_6_textarea.val());
+            send.quest_6.val(send.quest_6.val() + "；" + quest.quest_6_textarea.val());
         }
 
         send.quest_7.val(quest.quest_7_textarea.val());
 
         if (quest.quest_8_select1.find("option:selected").val() != "-1") {
-            send.quest_8.val(quest.quest_8_select1.find("option:selected").text() + ":" + quest.quest_8_select2.find("option:selected").text());
+            send.quest_8.val(quest.quest_8_select1.find("option:selected").text() + "：" + quest.quest_8_select2.find("option:selected").text());
         }
 
         if (quest.quest_9_select.find("option:selected").val() != "-1") {
             send.quest_9.val(quest.quest_9_select.find("option:selected").text());
         }
         if (quest.quest_9_select.find("option:selected").text() == "其它") {
-            send.quest_9.val(send.quest_9.val() + ";" + quest.quest_9_textarea.val());
+            send.quest_9.val(send.quest_9.val() + "；" + quest.quest_9_textarea.val());
         }
 
         if (quest.quest_10_radio.filter(':checked').val() != undefined) {
             send.quest_10.val(quest.quest_10_radio.filter(':checked').val());
         }
         if (quest.quest_10_radio.filter(':checked').val() == "是") {
-            send.quest_10.val(send.quest_10.val() + ";" + quest.quest_10_textarea.val());
+            send.quest_10.val(send.quest_10.val() + "；" + quest.quest_10_textarea.val());
         }
 
         send.quest_11.val(quest.quest_11_textarea.val());
@@ -734,7 +734,7 @@ $(function () {
                         if (quest.quest_3_radio.filter(':checked').val() == undefined) {
                             bool = false;
                             showErrorMsg(questPanle.quest_3, '#quest_3',
-                                '请选择是否怀疑或知道有领导或管理人员与该事件或违规行为有关，如果是请说明是谁!');
+                                '请选择是否怀疑或知道有领导或管理人员与该事件或违规行为有关,如果是请说明是谁!');
                         }
                         if (quest.quest_3_radio.filter(':checked').val() == "是") {
                             if (isEmty(quest.quest_3_textarea.val())) {
@@ -811,13 +811,13 @@ $(function () {
                         if (quest.quest_8_select2.find("option:selected").val() != "-1") {
                             if (quest.quest_8_select1.find("option:selected").val() == "-1") {
                                 bool = false;
-                                showErrorMsg(questPanle.quest_8, '#quest_8', '您选择了金额，请选择货币种类!');
+                                showErrorMsg(questPanle.quest_8, '#quest_8', '您选择了金额,请选择货币种类!');
                             }
                         }
                         if (quest.quest_8_select1.find("option:selected").val() != "-1") {
                             if (quest.quest_8_select2.find("option:selected").val() == "-1") {
                                 bool = false;
-                                showErrorMsg(questPanle.quest_8, '#quest_8', '您选择了货币种类，请选择金额!');
+                                showErrorMsg(questPanle.quest_8, '#quest_8', '您选择了货币种类,请选择金额!');
                             }
                         }
                     }
