@@ -132,13 +132,12 @@ $(function () {
                         $("#upAddress").val(userAndLogList.user.address);
                         $("#upRemark").text(userAndLogList.user.remark);
                         $("#upStateChanged").text(formatDate(userAndLogList.user.stateChanged));
+                        uchangeDay();
                         if (userAndLogList.user.expiryDate != null) {
                             var temp = formatDate(userAndLogList.user.expiryDate).split("-");
-                            for (var i = 0; i < temp.length; i++) {
-                                $("#ufullYear").get(0).value = (temp[i] * 1);
-                                $("#ufullMounth").get(0).value = (temp[i] * 1);
-                                $("#ufullDay").get(0).value = (temp[i].substr(0, 2) * 1);
-                            }
+                            $("#ufullYear").get(0).value = parseInt(temp[0] * 1);
+                            $("#ufullMounth").get(0).value = parseInt(temp[1] * 1);
+                            $("#ufullDay").get(0).value = parseInt(temp[2].substr(0, 2) * 1);
                         } else {
                             $("#ufullYear").get(0).value = tempYear;
                             $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
@@ -205,6 +204,11 @@ $(function () {
                     .attr("data-toggle", "modal").attr("data-target", "#toViewUseLog")
                     .attr("onclick", "lookUseLog(" + userAndLogList.user.userId + ")");
                 lookLog.append(a5);
+                if (userType < userAndLogList.user.userType) {
+                    menu.append(lookLog);
+                } else {
+                    menu.append(li1).append(li2).append(li3).append(li4).append(line).append(lookLog);
+                }
                 menu.append(li1).append(li2).append(li3).append(li4).append(line).append(lookLog);
                 btn.append(span);
                 div.append(btn).append(menu);
@@ -213,6 +217,16 @@ $(function () {
                 $("#userList").append(tr);
             }
         });
+    }
+
+    function setDataSelect(a, b) {
+        var count = a.find("option").length;
+        console.log(count);
+        for (var i = 0; i < count; i++) {
+            if (a.find("option:selected").val() == b) {
+                a.get(0).options[i].selectedIndex = true;
+            }
+        }
     }
 
     /**
@@ -251,13 +265,9 @@ $(function () {
     /*添加用户日期设置*/
     var tempDate = new Date();
     var tempYear = tempDate.getFullYear();
-    for (var i = 10; i > 0; i--) {
+    for (var i = 0; i < 10; i++) {
         var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
-        $("#fullYear").append(opt);
-    }
-    for (var i = 0; i < 41; i++) {
-        var opt = $("<option/>").text((tempYear - i)).val((tempYear - i));
-        $("#fullYear").append(opt);
+        $("#fullYear").prepend(opt);
     }
     $("#fullYear").get(0).value = tempYear;
     $("#fullMounth").get(0).value = (tempDate.getMonth() + 1);
@@ -276,16 +286,12 @@ $(function () {
     /*添加用户日期设置 END*/
 
     /*修改用户信息日期设置*/
-    for (var i = 10; i > 0; i--) {
+    for (var i = 0; i < 10; i++) {
         var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
-        $("#ufullYear").append(opt);
+        $("#ufullYear").prepend(opt);
     }
-    for (var i = 0; i < 41; i++) {
-        var opt = $("<option/>").text((tempYear - i)).val((tempYear - i));
-        $("#ufullYear").append(opt);
-    }
-    $("#ufullYear").get(0).value = tempYear;
-    $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
+    //$("#ufullYear").get(0).value = tempYear;
+    //$("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
     window.uchangeDay = function () {
         $("#ufullDay").empty();
         var y = $("#ufullYear").find("option:selected").val();
@@ -295,9 +301,9 @@ $(function () {
             var opt = $("<option/>").text((i < 10 ? "0" + i : i)).val(i);
             $("#ufullDay").append(opt);
         }
-        $("#ufullDay").get(0).value = tempDate.getDate();
+        //$("#ufullDay").get(0).value = tempDate.getDate();
     }
-    uchangeDay();
+
     /*修改用户信息日期设置 END*/
 
     /**
@@ -417,11 +423,11 @@ $(function () {
     }
 
 
-    var cid,cname,bool=true;
+    var cid, cname, bool = true;
     $("#upType").change(function () {
-        if ($("#upType").find("option:selected").val() == "3"||$("#upType").find("option:selected").val() == "4") {
+        if ($("#upType").find("option:selected").val() == "3" || $("#upType").find("option:selected").val() == "4") {
             $("#upCompanyInput").attr("disabled", "disabled");
-            if(bool){
+            if (bool) {
                 cid = $("#upCompany").val();
                 cname = $("#upCompanyInput").val();
                 bool = false;
@@ -486,11 +492,11 @@ $(function () {
         });
     };
 
-    var cid1,cname1,flag=true;
+    var cid1, cname1, flag = true;
     $("#addType").change(function () {
-        if ($("#addType").find("option:selected").val() == "3"||$("#addType").find("option:selected").val() == "4") {
+        if ($("#addType").find("option:selected").val() == "3" || $("#addType").find("option:selected").val() == "4") {
             $("#addCompanyInput").attr("disabled", "disabled");
-            if(flag){
+            if (flag) {
                 cid1 = $("#addCompany").val();
                 cname1 = $("#addCompanyInput").val();
                 flag = false;
@@ -552,9 +558,9 @@ $(function () {
                     Modal.alert({
                         msg: '操作成功！',
                     });
-                        //.on(function () {
-                        //var pageNum = parseInt($("#pageBar li.active").children().text());
-                        //getUserList(pageNum);
+                    //.on(function () {
+                    //var pageNum = parseInt($("#pageBar li.active").children().text());
+                    //getUserList(pageNum);
                     //});
                 } else {
                     Modal.alert({

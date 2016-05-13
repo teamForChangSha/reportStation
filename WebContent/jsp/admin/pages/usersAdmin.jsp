@@ -617,6 +617,7 @@
 </body>
 <script>
     var userId = "${user.userId}"
+    var userType = '${user.userType}';
 </script>
 <script type="text/javascript" src="jsp/js/usersAdmin.js"></script>
 
