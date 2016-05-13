@@ -83,7 +83,7 @@
             </table>
         </div>
     </div>
-    <div class="row hidden" id="enterTypeList" style="padding: 0 15px;">
+    <div class="row" id="enterTypeList" style="padding: 0 15px;">
         <div class="row">
             <div class="page-header"></div>
             <p>企业订制举报类型</p>
@@ -97,7 +97,8 @@
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -158,91 +159,74 @@
             reported: $("#reported")
         }
         $('[data-toggle="tooltip"]').tooltip();
+
         /**
          * 添加系统提供的默认举报类型
          */
-                <c:forEach items="${delfRtList}" var="reportType" varStatus = "i">
-        var tr = $("<tr/>");
-        var td1 = $("<td/>").text("${reportType.rtTitle}");
-        var txt = "${reportType.rtDesc}";
-        var td2 = $("<td/>").addClass("overflow-text")
-                .attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", txt)
-                .text(txt);
-        var checkbox = $("<input/>").attr("type", "checkbox");
-        checkbox.change(function () {
-            if ($(this).is(":checked")) {
-                if (ele.enterType.hasClass("hidden")) {
-                    ele.enterType.removeClass("hidden");
-                }
-                $(this).parent().parent().addClass("hidden");
-                var tr = $("<tr/>");
-                var td1 = $("<td/>").text($(this).parent().prev().prev().text());
-                var td2 = $("<td/>").addClass("overflow-text")
-                        .attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", $(this).parent().prev().text())
-                        .text($(this).parent().prev().text());
-                var cancel = $("<input/>").attr("type", "button").addClass("btn btn-link").val("取消");
-                cancel.click(function () {
-                    $(this).parent().parent().remove();
-                    if ($("#enterTypeList tbody tr").length == 0) {
-                        ele.enterType.addClass("hidden");
-                    }
-                    $("#systemTypeList tbody tr td:nth-child(1)").each(function () {
-                        if ($(this).text() == cancel.parent().prev().prev().text()) {
-                            $(this).parent().removeClass("hidden");
-                            $(this).parent().find("input").removeAttr("checked");
-                        }
-                    });
-                });
-                var td3 = $("<td/>").append(cancel);
-                tr.append(td1).append(td2).append(td3);
-                $("#enterTypeList tbody").append(tr);
-            } else {
+        <c:forEach items="${delfRtList}" var="reportType" varStatus = "i">
+            var tr = $("<tr/>");
+            var td1 = $("<td/>").text("${reportType.rtTitle}");
+            var txt = "${reportType.rtDesc}";
+            var td2 = $("<td/>").addClass("overflow-text")
+                    .attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", txt)
+                    .text(txt);
+            var add = $("<input/>").attr("type", "button").addClass("btn btn-link").val("添加");
+            add.click(function () {
+                console.log("adsfasdf");
+                var flag = false;
                 $("#enterTypeList tbody tr td:nth-child(1)").each(function () {
-                    if ($(this).text() == checkbox.parent().prev().prev().text()) {
-                        $(this).parent().remove();
+                    if ($(this).text() == add.parent().prev().prev().text()) {
+                        flag = true;
                     }
                 });
-            }
-        });
-        var td3 = $("<td/>").append(checkbox);
-        tr.append(td1).append(td2).append(td3);
-        $("#systemTypeList tbody").append(tr);
+                if(!flag){
+                    console.log($(this).parent().parent());
+                    $(this).parent().parent().addClass("hidden");
+                    $("#enterTypeList tbody").append($(this).parent().parent().removeClass("hidden").find("input").val("取消"));
+                }
+            });
+            var td3 = $("<td/>").append(add);
+            tr.append(td1).append(td2).append(td3);
+            $("#systemTypeList tbody").append(tr);
         </c:forEach>
 
         /**
          * 添加企业订制的问题类型
          */
         <c:forEach items="${rtList}" var="reportType" varStatus = "i">
-        $("#systemTypeList tbody tr td:nth-child(1)").each(function () {
-            if ($(this).text() == "${reportType.rtTitle}") {
-                $(this).parent().addClass("hidden");
-            }
-        });
-        var tr = $("<tr/>");
-        var td1 = $("<td/>").text("${reportType.rtTitle}");
-        var txt = "${reportType.rtDesc}";
-        var td2 = $("<td/>").addClass("overflow-text")
-                .attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", txt)
-                .text(txt);
-        var cancel = $("<input/>").attr("type", "button").addClass("btn btn-link").val("取消");
-        cancel.click(function () {
-            $("#systemTypeList tbody tr td:nth-child(1)").each(function () {
-                if ($(this).text() == cancel.parent().prev().prev().text()) {
-                    $(this).parent().removeClass("hidden");
-                }
+            var tr = $("<tr/>");
+            var td1 = $("<td/>").text("${reportType.rtTitle}");
+            var txt = "${reportType.rtDesc}";
+            var td2 = $("<td/>").addClass("overflow-text")
+                    .attr("data-toggle", "tooltip").attr("data-placement", "bottom").attr("title", txt)
+                    .text(txt);
+            var cancel = $("<input/>").attr("type", "button").addClass("btn btn-link").val("取消");
+            cancel.click(function () {
+                $("#systemTypeList tbody tr td:nth-child(1)").each(function () {
+                    if ($(this).text() == cancel.parent().prev().prev().text()) {
+                        $(this).parent().removeClass("hidden");
+                    }
+                });
+                $(this).parent().parent().remove();
             });
-            $(this).parent().parent().remove();
-            if ($("#enterTypeList tbody tr").length == 0) {
-                ele.enterType.addClass("hidden");
-            }
-        });
-        var td3 = $("<td/>").append(cancel);
-        tr.append(td1).append(td2).append(td3);
-        $("#enterTypeList tbody").append(tr);
+            var td3 = $("<td/>").append(cancel);
+            tr.append(td1).append(td2).append(td3);
+            $("#enterTypeList tbody").append(tr);
         </c:forEach>
-        if ($("#enterTypeList tbody tr").length > 0) {
-            ele.enterType.removeClass("hidden");
-        }
+
+        <%--$("#systemTypeList tbody tr td:nth-child(1)").each(function () {--%>
+        <%--var temp = $(this).text();--%>
+        <%--$("#enterTypeList tbody tr td:nth-child(1)").each(function () {--%>
+        <%--console.log($(this).text() == temp);--%>
+        <%--if ($(this).text() == temp) {--%>
+        <%--$(this).parent().addClass("hidden");--%>
+        <%--}--%>
+        <%--});--%>
+        <%--if ($(this).text() == "${reportType.rtTitle}") {--%>
+        <%--$(this).parent().addClass("hidden");--%>
+        <%--}--%>
+        <%--});--%>
+
         ele.reported.click(function () {
             $("#enterTypeList tbody tr").each(function () {
                 var title = $(this).find("td:nth-child(1)").text();
@@ -273,7 +257,7 @@
         ele.addTypeBtn.click(function () {
             ele.addType.removeClass("hidden");
             $(this).addClass("hidden");
-            $("html,body").animate({scrollTop:$("#addType").offset().top},500);
+            $("html,body").animate({scrollTop: $("#addType").offset().top}, 500);
         });
         ele.cancel.click(function () {
             ele.addType.addClass("hidden");
