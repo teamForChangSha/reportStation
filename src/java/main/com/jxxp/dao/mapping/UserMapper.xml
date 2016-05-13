@@ -60,9 +60,9 @@
   or mobile like concat(concat('%',#{keyWord},'%')) 
   )
   </if>
-  <if test="user!=null">
+  <!-- <if test="user!=null">
     and user_type &lt;=#{user.userType}
-  </if>
+  </if> -->
   <if test="userState!=null">
   and user_state=#{userState} 
   </if>
