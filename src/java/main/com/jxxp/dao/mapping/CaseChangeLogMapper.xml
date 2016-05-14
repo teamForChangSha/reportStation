@@ -35,10 +35,10 @@
   <insert id="insert" parameterType="com.jxxp.pojo.CaseChangeLog" useGeneratedKeys="true" keyProperty="caseLog.cclId">
     insert into casechangelog (cc_id, rc_id, change_time, 
       state_before, state_after, user_id, 
-      handler_before, handler_after)
+      handler_before, handler_after, action_name)
     values (#{caseLog.cclId,jdbcType=BIGINT}, #{rcId,jdbcType=BIGINT}, #{caseLog.changeTime,jdbcType=TIMESTAMP}, 
       #{caseLog.stateBefore,jdbcType=INTEGER}, #{caseLog.stateAfter,jdbcType=INTEGER}, #{caseLog.operator.userId,jdbcType=BIGINT}, 
-      #{caseLog.handlerBefore.companyId,jdbcType=INTEGER}, #{caseLog.handlerAfter.companyId,jdbcType=INTEGER})
+      #{caseLog.handlerBefore.companyId,jdbcType=INTEGER}, #{caseLog.handlerAfter.companyId,jdbcType=INTEGER}, #{caseLog.actionName,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.jxxp.pojo.CaseChangeLog" >

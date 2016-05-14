@@ -178,6 +178,15 @@ public class CaseBackController {
 		caseChangeLog.setStateAfter(reportCase.getCaseState());
 		caseChangeLog.setHandlerBefore(beforeCompany);
 		caseChangeLog.setHandlerAfter(reportCase.getCurrentHandler());
+		if(beforeState != reportCase.getCaseState()) {
+			caseChangeLog.setActionName("变更案件状态");
+		} else if(beforeCompany.getCompanyId() != reportCase.getCurrentHandler().getCompanyId()) {
+			if(beforeCompany.getCompanyId() != 1 && reportCase.getCurrentHandler().getCompanyId() == 1) {
+				caseChangeLog.setActionName("案件转交给平台公司");
+			} else if(beforeCompany.getCompanyId() == 1 && reportCase.getCurrentHandler().getCompanyId() != 1) {
+				caseChangeLog.setActionName("案件交回客户公司");
+			}
+		}
 
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;

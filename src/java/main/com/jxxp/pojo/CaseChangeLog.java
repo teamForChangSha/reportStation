@@ -41,6 +41,12 @@ public class CaseChangeLog {
 	 */
 	private Company handlerAfter;
 
+	/**
+	 * 具体操作
+	 */
+	private String actionName;
+	
+
 	public long getCclId() {
 		return cclId;
 	}
@@ -96,5 +102,16 @@ public class CaseChangeLog {
 	public void setHandlerAfter(Company handlerAfter) {
 		this.handlerAfter = handlerAfter;
 	}
+
+	public String getActionName() {
+		return actionName;
+	}
+
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
+	}
+
+	
+	
 
 }
