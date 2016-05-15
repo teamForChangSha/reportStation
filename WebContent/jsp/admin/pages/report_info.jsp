@@ -110,7 +110,7 @@
 
                 <div class="col-sm-8">
                     <c:forEach items="${reportCase.changeList}" var="change" varStatus="i">
-								<span class="form-info">${change.operator.userName }
+								<span class="form-info">${change.operator.userName }:${change.actionName}
 									<time class="pull-right"><fmt:formatDate value="${change.changeTime}" type="date"
                                                                              pattern="yyyy年MM月dd日 HH:mm:ss"/></time>
 								</span>

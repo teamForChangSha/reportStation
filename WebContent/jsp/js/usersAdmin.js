@@ -36,186 +36,184 @@ $(function () {
     function setUserListData(str) {
         $("#userList").empty();
         $.each(str, function (i, userAndLogList) {
-            if (userAndLogList.user.userId != userId) {
-                var tr = $("<tr/>");
-                var td1 = $("<td/>").text(userAndLogList.user.userName);
-                var td2 = $("<td/>").text(userAndLogList.user.userCompany == null ? "" : userAndLogList.user.userCompany.companyName);
-                var td3 = $("<td/>");
-                switch (userAndLogList.user.userType) {
-                    case 1:
-                        td3.text("试用");
-                        break;
-                    case 2:
-                        td3.text("公司用户");
-                        break;
-                    case 3:
-                        td3.text("系统操作员");
-                        break;
-                    case 4:
-                        td3.text("系统管理员");
-                        break;
-                }
+            var tr = $("<tr/>");
+            var td1 = $("<td/>").text(userAndLogList.user.userName);
+            var td2 = $("<td/>").text(userAndLogList.user.userCompany == null ? "" : userAndLogList.user.userCompany.companyName);
+            var td3 = $("<td/>");
+            switch (userAndLogList.user.userType) {
+                case 1:
+                    td3.text("试用");
+                    break;
+                case 2:
+                    td3.text("公司用户");
+                    break;
+                case 3:
+                    td3.text("系统操作员");
+                    break;
+                case 4:
+                    td3.text("系统管理员");
+                    break;
+            }
 
-                var td4 = $("<td/>");
-                if (userAndLogList.lastLoginLog != null) {
-                    td4.text(formatDate(userAndLogList.lastLoginLog.logDate))
-                }
-                var td5 = $("<td/>");
-                switch (userAndLogList.user.userState) {
-                    case 1:
-                        td5.text("新增");
-                        break;
-                    case 2:
-                        td5.text("有效");
-                        break;
-                    case 3:
-                        td5.text("停用");
-                        break;
-                    case 4:
-                        td5.text("注销");
-                        break;
-                }
-                var td6 = $("<td/>").text(formatDate(userAndLogList.user.expiryDate));
-                var td7 = $("<td/>");
-                var div = $("<div/>").addClass("btn-group");
-                var btn = $("<button/>").addClass("btn btn-default dropdown-toggle")
-                    .attr("data-toggle", "dropdown").attr("aria-haspopup", "true").attr("aria-expanded", "false").text("操作");
-                var span = $("<span/>").addClass("caret");
-                var menu = $("<ul/>").addClass("dropdown-menu");
+            var td4 = $("<td/>");
+            if (userAndLogList.lastLoginLog != null) {
+                td4.text(formatDate(userAndLogList.lastLoginLog.logDate))
+            }
+            var td5 = $("<td/>");
+            switch (userAndLogList.user.userState) {
+                case 1:
+                    td5.text("新增");
+                    break;
+                case 2:
+                    td5.text("有效");
+                    break;
+                case 3:
+                    td5.text("停用");
+                    break;
+                case 4:
+                    td5.text("注销");
+                    break;
+            }
+            var td6 = $("<td/>").text(formatDate(userAndLogList.user.expiryDate));
+            var td7 = $("<td/>");
+            var div = $("<div/>").addClass("btn-group");
+            var btn = $("<button/>").addClass("btn btn-default dropdown-toggle")
+                .attr("data-toggle", "dropdown").attr("aria-haspopup", "true").attr("aria-expanded", "false").text("操作");
+            var span = $("<span/>").addClass("caret");
+            var menu = $("<ul/>").addClass("dropdown-menu");
 
-                var li1 = $("<li/>");
-                var a1 = $("<a/>").text("重置密码");
-                li1.append(a1);
-                var li2 = $("<li/>");
-                var a2 = $("<a/>").text("修改信息");
-                li2.append(a2);
-                var li3 = $("<li/>");
-                var a3 = $("<a/>").text("停用");
-                li3.append(a3);
-                var li4 = $("<li/>");
-                var a4 = $("<a/>").text("注销");
-                li4.append(a4);
-                if (userAndLogList.user.userState == 4) {
-                    li1.addClass("disabled");
-                    li2.addClass("disabled");
-                    li3.addClass("disabled");
-                    li4.addClass("disabled");
-                } else {
-                    a1.bind("click", function resetPwd() {
-                        Modal.confirm({
-                            msg: '重置后默认密码为"123456"',
-                        }).on(function (e) {
-                            if (e) {
-                                var url = "admin/user/resetUserPwd.do";
-                                var data = "userId=" + userAndLogList.user.userId + "&userPwd=" + md5("123456");
-                                $.post(url, data, function (res, status) {
-                                    alertMsg(res, status);
-                                });
-                            }
-                        });
-                    });
-                    a2.attr("data-toggle", "modal").attr("data-target", "#updataUserInfo");
-                    a2.bind("click", function updataInfo() {
-                        $("#userId").val(userAndLogList.user.userId);
-                        $("#upStae").get(0).value = userAndLogList.user.userState;
-                        $("#upName").val(userAndLogList.user.userName);
-                        $("#upType").get(0).value = userAndLogList.user.userType;
-                        $("#upCompany").val(userAndLogList.user.userCompany.companyId);
-                        $("#upCompanyInput").val(userAndLogList.user.userCompany.companyName);
-                        $("#upMobile").val(userAndLogList.user.mobile);
-                        $("#upPhone").val(userAndLogList.user.phone);
-                        $("#upEmail").val(userAndLogList.user.email);
-                        $("#upWechat").val(userAndLogList.user.weixin);
-                        $("#upDepartment").val(userAndLogList.user.department);
-                        $("#upPosition").val(userAndLogList.user.position);
-                        $("#upWorkNo").val(userAndLogList.user.workNo);
-                        $("#upAddress").val(userAndLogList.user.address);
-                        $("#upRemark").text(userAndLogList.user.remark);
-                        $("#upStateChanged").text(formatDate(userAndLogList.user.stateChanged));
-                        uchangeDay();
-                        if (userAndLogList.user.expiryDate != null) {
-                            var temp = formatDate(userAndLogList.user.expiryDate).split("-");
-                            $("#ufullYear").get(0).value = parseInt(temp[0] * 1);
-                            $("#ufullMounth").get(0).value = parseInt(temp[1] * 1);
-                            $("#ufullDay").get(0).value = parseInt(temp[2].substr(0, 2) * 1);
-                        } else {
-                            $("#ufullYear").get(0).value = tempYear;
-                            $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
-                            $("#ufullDay").get(0).value = tempDate.getDate();
-                        }
-                    });
-
-                    if (userAndLogList.user.userState == 3) {
-                        a3.text("启用");
-                    } else {
-                        a3.text("停用");
-                    }
-                    a3.bind('click', function () {
-                        if (a3.text() == "启用") {
-                            var url = "admin/user/changeUserState.do?userId=" + userAndLogList.user.userId + "&userState=2";
-                            $.get(url, function (res, status) {
-                                a3.text("停用");
-                                td5.text("有效");
+            var li1 = $("<li/>");
+            var a1 = $("<a/>").text("重置密码");
+            li1.append(a1);
+            var li2 = $("<li/>");
+            var a2 = $("<a/>").text("修改信息");
+            li2.append(a2);
+            var li3 = $("<li/>");
+            var a3 = $("<a/>").text("停用");
+            li3.append(a3);
+            var li4 = $("<li/>");
+            var a4 = $("<a/>").text("注销");
+            li4.append(a4);
+            if (userAndLogList.user.userState == 4) {
+                li1.addClass("disabled");
+                li2.addClass("disabled");
+                li3.addClass("disabled");
+                li4.addClass("disabled");
+            } else {
+                a1.bind("click", function resetPwd() {
+                    Modal.confirm({
+                        msg: '重置后默认密码为"123456"',
+                    }).on(function (e) {
+                        if (e) {
+                            var url = "admin/user/resetUserPwd.do";
+                            var data = "userId=" + userAndLogList.user.userId + "&userPwd=" + md5("123456");
+                            $.post(url, data, function (res, status) {
                                 alertMsg(res, status);
                             });
                         }
-                        if (a3.text() == "停用") {
-                            Modal.confirm({
-                                title: '警告',
-                                msg: '你确定要停用该用户吗?',
-                            }).on(function (e) {
-                                if (e) {
-                                    var url = "admin/user/changeUserState.do?userId=" + userAndLogList.user.userId + "&userState=3";
-                                    $.get(url, function (res, status) {
-                                        a3.text("启用");
-                                        td5.text("停用");
-                                        alertMsg(res, status);
-                                    });
-                                }
-                            });
-                        }
                     });
-                    /*注销该用户*/
-                    a4.click(function () {
+                });
+                a2.attr("data-toggle", "modal").attr("data-target", "#updataUserInfo");
+                a2.bind("click", function updataInfo() {
+                    $("#userId").val(userAndLogList.user.userId);
+                    $("#upStae").get(0).value = userAndLogList.user.userState;
+                    $("#upName").val(userAndLogList.user.userName);
+                    $("#upType").get(0).value = userAndLogList.user.userType;
+                    $("#upCompany").val(userAndLogList.user.userCompany.companyId);
+                    $("#upCompanyInput").val(userAndLogList.user.userCompany.companyName);
+                    $("#upMobile").val(userAndLogList.user.mobile);
+                    $("#upPhone").val(userAndLogList.user.phone);
+                    $("#upEmail").val(userAndLogList.user.email);
+                    $("#upWechat").val(userAndLogList.user.weixin);
+                    $("#upDepartment").val(userAndLogList.user.department);
+                    $("#upPosition").val(userAndLogList.user.position);
+                    $("#upWorkNo").val(userAndLogList.user.workNo);
+                    $("#upAddress").val(userAndLogList.user.address);
+                    $("#upRemark").text(userAndLogList.user.remark);
+                    $("#upStateChanged").text(formatDate(userAndLogList.user.stateChanged));
+                    uchangeDay();
+                    if (userAndLogList.user.expiryDate != null) {
+                        var temp = formatDate(userAndLogList.user.expiryDate).split("-");
+                        $("#ufullYear").get(0).value = parseInt(temp[0] * 1);
+                        $("#ufullMounth").get(0).value = parseInt(temp[1] * 1);
+                        $("#ufullDay").get(0).value = parseInt(temp[2].substr(0, 2) * 1);
+                    } else {
+                        $("#ufullYear").get(0).value = tempYear;
+                        $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
+                        $("#ufullDay").get(0).value = tempDate.getDate();
+                    }
+                });
+
+                if (userAndLogList.user.userState == 3) {
+                    a3.text("启用");
+                } else {
+                    a3.text("停用");
+                }
+                a3.bind('click', function () {
+                    if (a3.text() == "启用") {
+                        var url = "admin/user/changeUserState.do?userId=" + userAndLogList.user.userId + "&userState=2";
+                        $.get(url, function (res, status) {
+                            a3.text("停用");
+                            td5.text("有效");
+                            alertMsg(res, status);
+                        });
+                    }
+                    if (a3.text() == "停用") {
                         Modal.confirm({
                             title: '警告',
-                            msg: '注销后该用将无法再启用，你确定要注销吗?',
+                            msg: '你确定要停用该用户吗?',
                         }).on(function (e) {
                             if (e) {
-                                var url = "admin/user/changeUserState.do?userId=" + userAndLogList.user.userId + "&userState=4";
+                                var url = "admin/user/changeUserState.do?userId=" + userAndLogList.user.userId + "&userState=3";
                                 $.get(url, function (res, status) {
-                                    li1.addClass("disabled");
-                                    a1.unbind('click');
-                                    li2.addClass("disabled");
-                                    a2.unbind('click');
-                                    li3.addClass("disabled");
-                                    a3.unbind('click');
-                                    li4.addClass("disabled");
-                                    a4.unbind('click');
+                                    a3.text("启用");
+                                    td5.text("停用");
                                     alertMsg(res, status);
                                 });
                             }
                         });
+                    }
+                });
+                /*注销该用户*/
+                a4.click(function () {
+                    Modal.confirm({
+                        title: '警告',
+                        msg: '注销后该用将无法再启用，你确定要注销吗?',
+                    }).on(function (e) {
+                        if (e) {
+                            var url = "admin/user/changeUserState.do?userId=" + userAndLogList.user.userId + "&userState=4";
+                            $.get(url, function (res, status) {
+                                li1.addClass("disabled");
+                                a1.unbind('click');
+                                li2.addClass("disabled");
+                                a2.unbind('click');
+                                li3.addClass("disabled");
+                                a3.unbind('click');
+                                li4.addClass("disabled");
+                                a4.unbind('click');
+                                alertMsg(res, status);
+                            });
+                        }
                     });
-                }
-                var line = $("<li/>").attr("role", "separator").addClass("divider");
-                var lookLog = $("<li/>");
-                var a5 = $("<a/>").text("查看操作日志")
-                    .attr("data-toggle", "modal").attr("data-target", "#toViewUseLog")
-                    .attr("onclick", "lookUseLog(" + userAndLogList.user.userId + ")");
-                lookLog.append(a5);
-                console.log(userType < userAndLogList.user.userType);
-                if (userType < userAndLogList.user.userType) {
-                    menu.append(lookLog);
-                } else {
-                    menu.append(li1).append(li2).append(li3).append(li4).append(line).append(lookLog);
-                }
-                btn.append(span);
-                div.append(btn).append(menu);
-                td7.append(div);
-                tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7);
-                $("#userList").append(tr);
+                });
             }
+            var line = $("<li/>").attr("role", "separator").addClass("divider");
+            var lookLog = $("<li/>");
+            var a5 = $("<a/>").text("查看操作日志")
+                .attr("data-toggle", "modal").attr("data-target", "#toViewUseLog")
+                .attr("onclick", "lookUseLog(" + userAndLogList.user.userId + ")");
+            lookLog.append(a5);
+            console.log(userType < userAndLogList.user.userType);
+            if (userType < userAndLogList.user.userType) {
+                menu.append(lookLog);
+            } else {
+                menu.append(li1).append(li2).append(li3).append(li4).append(line).append(lookLog);
+            }
+            btn.append(span);
+            div.append(btn).append(menu);
+            td7.append(div);
+            tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7);
+            $("#userList").append(tr);
         });
     }
 

@@ -307,7 +307,7 @@ $(function () {
             msg: '您确定要删除吗?',
         }).on(function (e) {
             if (e) {
-                $.post("admin/companyBack/delCompanyByIds.do", "companyId=" + id, function (res, state) {
+                $.post("admin/companyBack/delCompanyByIds.do", "companyIds=" + id, function (res, state) {
                     if (state == "success") {
                         if (res == "success") {
                             location.reload();
