@@ -59,8 +59,10 @@
   
   <select id="searchByKeysWithPage" resultMap="BaseResultMap">
    select * from reportcase rc  where 1=1
+   <!-- 后续改bug屏蔽已经删除的公司的所属案件 增加条件company_id in (select company_id from company) -->
+   and rc.company_id in (select c.company_id from company c where c.company_id=rc.company_id) 
    <if test="companyId!=1 and companyId!=0">
-   and rc.company_id=#{companyId,jdbcType=BIGINT}
+   and rc.company_id=#{companyId,jdbcType=BIGINT} 
    </if>
    <if test="startTime!=null and startTime!=''">
    and rc.create_time &gt;=#{startTime} 
@@ -252,16 +254,18 @@
   
   <!--客户公司和非客户公司的案件  -->
   <select id="getCaseByIsClient" resultMap="BaseResultMap" parameterType="int">
-   select <include refid="Base_Column_List"/> from reportcase 
+   select <include refid="Base_Column_List"/> from reportcase  rc
    where 1=1
    <if test="isClient==1">
    and   
-   company_id in (select company_id from client_company)
+   rc.company_id in (select company_id from client_company)
    </if>
    <if test="isClient==0">
    and   
-   company_id not in (select company_id from client_company)
+   rc.company_id not in (select company_id from client_company)
    </if>
+    <!-- 后续改bug屏蔽已经删除的公司的所属案件 增加条件company_id in (select company_id from company) -->
+   and rc.company_id in (select company_id from company c where c.company_id=rc.company_id) 
    order by create_time desc ,case_state asc
   </select>
 </mapper>
