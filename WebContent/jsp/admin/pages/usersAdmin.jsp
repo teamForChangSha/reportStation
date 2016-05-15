@@ -346,7 +346,7 @@
                             </div>
                             <div id="upDateError" class="form-group hide">
                                 <div class="col-sm-9 col-sm-offset-3">
-                                    <span class="xinghao">有效期不能在当前时间之后</span>
+                                    <span class="xinghao">有效期应在当前时间之后</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -560,7 +560,7 @@
                             </div>
                             <div id="addDateError" class="form-group hide">
                                 <div class="col-sm-9 col-sm-offset-3">
-                                    <span class="xinghao">有效期不能在当前时间之后</span>
+                                    <span class="xinghao">有效期应在当前时间之后</span>
                                 </div>
                             </div>
                             <div class="form-group">

@@ -160,7 +160,7 @@ $(function () {
         var d = $("#fullDay").find("option:selected").text();
         var dd = new Date(y,(m-1),d);
         if(dd<tempDate){
-            return Modal.alert({msg:'有效期不能在当前时间之后'});
+            return Modal.alert({msg:'有效期应在当前时间之后'});
         }
         $("#addToDate").val($("#fullYear").find("option:selected").text() + "-"
             + $("#fullMounth").find("option:selected").text() + "-" + $("#fullDay").find("option:selected").text());
