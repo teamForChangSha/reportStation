@@ -54,7 +54,7 @@ public class CompanyController {
 			out = response.getWriter();
 			out.print(companyJson);
 		} catch (IOException e) {
-			log.error("add company failed", e);
+			log.error("get company failed", e);
 		}
 		return null;
 

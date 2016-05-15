@@ -19,6 +19,7 @@ import com.jxxp.dao.CompanyOtherMapper;
 import com.jxxp.dao.CompanyQuestionMapper;
 import com.jxxp.dao.QuestionInfoMapper;
 import com.jxxp.dao.ReportTypeMapper;
+import com.jxxp.dao.UserMapper;
 import com.jxxp.pojo.ClientCompany;
 import com.jxxp.pojo.Company;
 import com.jxxp.pojo.CompanyBranch;
@@ -27,6 +28,7 @@ import com.jxxp.pojo.CompanyQuestion;
 import com.jxxp.pojo.CompanyWholeInfo;
 import com.jxxp.pojo.QuestionInfo;
 import com.jxxp.pojo.ReportType;
+import com.jxxp.pojo.User;
 import com.jxxp.service.CompanyService;
 
 /**
@@ -50,6 +52,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private CompanyQuestionMapper companyQuestionMapper;
 	@Resource
 	private ClientCompanyMapper clientCompanyMapper;
+	@Resource
+	private UserMapper userMapper;
 
 	@Override
 	public boolean saveCompanyInfo(Company company) {
@@ -236,4 +240,32 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyMapper.getCompanyPaging(page, companyName);
 	}
 
+	@Override
+	public boolean updateCompanies(List<Company> companyList) {
+		boolean flag = false;
+		if (companyList.size() > 0) {
+			int count = companyMapper.updateCompanies(companyList);
+			if (count == 1) {
+				flag = true;
+			}
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean delCompaniesWithMark(List<Company> companyList) {
+		boolean flag = false;
+		if (companyList.size() > 0) {
+			int count = companyMapper.updateCompanies(companyList);
+			// 同时让该公司的所有用户状态改为注销
+			for (int i = 0; i < companyList.size(); i++) {
+				userMapper.changeUserStateByCompany(companyList.get(i).getCompanyId(),
+						User.USER_STATE_OFF);
+			}
+			if (count == 1) {
+				flag = true;
+			}
+		}
+		return flag;
+	}
 }

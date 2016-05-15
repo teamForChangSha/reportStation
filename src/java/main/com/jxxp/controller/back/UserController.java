@@ -453,7 +453,7 @@ public class UserController extends BaseController {
 	@RequestMapping("/stopCompanyAllUsers.do")
 	public String stopCompanyAllUsers(Long companyId, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {
-		boolean falg = userService.stopAllUsersByCompanyId(companyId);
+		boolean falg = userService.changeUserStateByCompany(companyId, User.USER_STATE_STOP);
 		Company stopedCompany = companyService.getCompanyById(companyId);
 		try {
 			PrintWriter out = response.getWriter();

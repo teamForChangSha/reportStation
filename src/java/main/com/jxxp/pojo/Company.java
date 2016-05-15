@@ -10,6 +10,21 @@ import java.util.List;
  * 
  */
 public class Company {
+
+	// 国有
+	public static final int COMPANY_TYPE_PUBLIC = 1;
+	// 民营
+	public static final int COMPANY_TYPE_PRIVATE = 2;
+	// 股份
+	public static final int COMPANY_TYPE_STOCK = 3;
+
+	// 正常
+	public static final int COMPANY_STATE_NORMAL = 1;
+	// 待审核
+	public static final int COMPANY_STATE_CHECK = 2;
+	// 失效
+	public static final int COMPANY_STATE_INVALID = 3;
+
 	private long companyId;
 
 	/**
