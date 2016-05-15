@@ -68,7 +68,7 @@
     </h1>
     <div class="page-header"></div>
     <div class="row">
-        请选择需要展示的问题
+        请选择需要展示的问题(<strong>如未选择任何问题，将默认使用系统提供的所有问题</strong>)
     </div>
     <form>
         <div class="row">
@@ -123,6 +123,12 @@
         $("#quests").append(tr);
         </c:forEach>
 
+        if ($("tbody tr td:nth-child(3) input[type=checkbox]:checked").length <= 0){
+            $("tbody tr td:nth-child(3)").each(function (i, e) {
+                $(e).find("input").get(0).checked = true;
+            });
+        }
+
         $("input[type=button]").click(function () {
             if ($("tbody tr td:nth-child(3) input[type=checkbox]:checked").length <= 0){
                 console.log($("tbody tr td:nth-child(3) input[type=checkbox]:checked").length);
@@ -159,10 +165,10 @@
                                     location.reload();
                                 });
                             } else {
-                                alert('操作失败！');
+                                Modal.alert({msg:'操作失败！'});
                             }
                         } else {
-                            alert('操作失败！');
+                            Modal.alert({msg:'操作失败！'});
                         }
                     });
         }

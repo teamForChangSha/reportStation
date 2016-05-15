@@ -24,13 +24,13 @@ $(function () {
     search.endTime.blur(function () {
         if (new Date(search.endTime.val()) < new Date(search.startTime.val())) {
             search.endTime.val("");
-            return alert("结束时间应大于开始时间!");
+            return Modal.alert({msg:"结束时间应大于开始时间!"});
         }
     });
     search.startTime.blur(function () {
         if (new Date(search.endTime.val()) < new Date(search.startTime.val())) {
             search.startTime.val("");
-            return alert("开始时间应小于结束时间!");
+            return Modal.alert({msg:"开始时间应小于结束时间!"});
         }
     });
 
@@ -93,9 +93,9 @@ $(function () {
                 console.log(caseInfo.currentHandler.companyId);
                 if(userCompanyId!=caseInfo.currentHandler.companyId){
                     if (caseInfo.currentHandler.companyId <= 1) {
-                        return alert('案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方');
+                        return Modal.alert({msg:'案件已交由平台方处理，请耐心等待处理结果，或联系平台管理方'});
                     } else {
-                        return alert('案件未交由平台方处理，您目前只能查看');
+                        return Modal.alert({msg:'案件未交由平台方处理，您目前只能查看'});
                     }
                 }
 
@@ -194,7 +194,7 @@ $(function () {
             });
             //TODO
         } else {
-            alert("请选择需要导出的举报信息!");
+            Modal.alert({msg:"请选择需要导出的举报信息!"});
         }
     });
 
@@ -208,7 +208,7 @@ $(function () {
      */
     $("#updataBtn").click(function () {
         if ($("#status").find("option:selected").val() == "") {
-            return alert("请选择需要改变的状态!");
+            return Modal.alert({msg:"请选择需要改变的状态!"});
         }
         var url = "admin/caseBack/updateCaseState.do";
         var sendToPlatform;
@@ -237,10 +237,10 @@ $(function () {
                     getReports(pageNum);
                     Modal.alert({msg: "操作成功!"});
                 } else {
-                    alert("操作失败!");
+                    Modal.alert({msg:"操作失败!"});
                 }
             } else {
-                alert("操作失败!");
+                Modal.alert({msg:"操作失败!"});
             }
         });
     });

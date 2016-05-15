@@ -449,13 +449,13 @@
         /* 更新企业信息 */
         var telReg = /^\(?\d{3,4}[-\)]?\d{7,8}$/;
         $("#updata").click(function () {
-            if ($("#type").find("option:selected").val() == "0") {
-                return Modal.alert({msg:'请选择企业类型'});
-            }
             if($("#tel").val()!=''){
                 if(!telReg.test($("#tel").val())){
                     return Modal.alert({msg:'请输入正确的电话号码!'});
                 }
+            }
+            if ($("#type").find("option:selected").val() == "0") {
+                return Modal.alert({msg:'请选择企业类型'});
             }
             if ($("#isSend").is(':checked')) {
                 for (var i = 1; i < 4; i++) {

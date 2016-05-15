@@ -382,9 +382,10 @@ $(function () {
         return false;
     }
 
-    var phoneReg = /^((0?1[358]\d{9})|((0(10|2[1-3]|[3-9]\d{2}))?[1-9]\d{6,7}))$/;
+    var phoneReg = /^\(?\d{3,4}[-\)]?\d{7,8}$/;
 
     function rePhone(str) {
+        console.log(str);
         if (!phoneReg.test(str)) {
             return false;
         }

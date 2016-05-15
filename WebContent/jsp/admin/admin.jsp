@@ -271,16 +271,16 @@
             var newPwd = $("#newPwd").val();
             var reNewPwd = $("#reNewPwd").val();
             if (isEmty(oldPwd)) {
-                return alert("请输入旧密码");
+                return Modal.alert({msg:"请输入旧密码"});
             }
             if (isEmty(newPwd)) {
-                return alert("请输入新密码");
+                return Modal.alert({msg:"请输入新密码"});
             }
             if(newPwd.length<6){
-                return alert("新密码长度不能少于6位!");
+                return Modal.alert({msg:"新密码长度不能少于6位!"});
             }
             if (newPwd != reNewPwd) {
-                return alert("两次新密码不一致");
+                return Modal.alert({msg:"两次新密码不一致"});
             }
             var url = "admin/user/updatePwd.do?newPwd=" + md5(newPwd) + "&oldPwd=" + md5(oldPwd);
             $.get(url, function (res, status) {

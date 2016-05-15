@@ -204,12 +204,12 @@ $(function () {
                     .attr("data-toggle", "modal").attr("data-target", "#toViewUseLog")
                     .attr("onclick", "lookUseLog(" + userAndLogList.user.userId + ")");
                 lookLog.append(a5);
+                console.log(userType < userAndLogList.user.userType);
                 if (userType < userAndLogList.user.userType) {
                     menu.append(lookLog);
                 } else {
                     menu.append(li1).append(li2).append(li3).append(li4).append(line).append(lookLog);
                 }
-                menu.append(li1).append(li2).append(li3).append(li4).append(line).append(lookLog);
                 btn.append(span);
                 div.append(btn).append(menu);
                 td7.append(div);
@@ -217,16 +217,6 @@ $(function () {
                 $("#userList").append(tr);
             }
         });
-    }
-
-    function setDataSelect(a, b) {
-        var count = a.find("option").length;
-        console.log(count);
-        for (var i = 0; i < count; i++) {
-            if (a.find("option:selected").val() == b) {
-                a.get(0).options[i].selectedIndex = true;
-            }
-        }
     }
 
     /**

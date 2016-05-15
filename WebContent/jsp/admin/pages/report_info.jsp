@@ -179,7 +179,7 @@
         }
         ele.append.click(function () {
             if (${user.userCompany.companyId!=reportCase.currentHandler.companyId}) {
-                return alert("案件未交由平台方处理，您目前只能查看!");
+                return Modal.alert({msg: "案件未交由平台方处理，您目前只能查看!"});
             }
             ele.appendPanel.removeClass("hidden");
             ele.append.addClass("hidden");
