@@ -237,16 +237,18 @@
         }
 
         ele.reported.click(function () {
-            var reportType = {};
+            var reportTypes = [];
             $("#enterTypeList tbody tr").each(function () {
                 var title = $(this).find("td:nth-child(1)").text();
                 title = title.replace(/[\r\n]/g, "").replace(/\"/g, "'");
                 var desc = $(this).find("td:nth-child(2)").text();
                 desc = desc.replace(/[\r\n]/g, "").replace(/\"/g, "'");
+                var reportType = {};
                 reportType["rtTitle"] = title;
                 reportType["rtDesc"] = desc;
                 reportTypes.unshift(reportType);
             });
+            console.log(JSON.stringify(reportTypes));
             $.post("admin/companyBack/addQuestionTypes.do", "reportType=" + JSON.stringify(reportTypes), function (res, status) {
                 if (status == "success") {
                     if (res == "success") {
