@@ -152,10 +152,10 @@
       <if test="phone != null and phone!=''" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="companyType != null" >
+      <if test="companyType != null and companyType!=0" >
         company_type = #{companyType,jdbcType=INTEGER},
       </if>
-      <if test="companyState != null" >
+      <if test="companyState != null companyState!=0" >
         company_state = #{companyState,jdbcType=INTEGER},
       </if>
       <if test="stateChanged != null" >
@@ -188,4 +188,41 @@
     limit #{page.startPos},#{page.pageSize};
   </if>
   </select>
+  <!--  批量更新公司-->
+   <update id="updateCompanies" parameterType="java.util.List">
+   <foreach collection="list" index="index" item="item" open="" separator=";" close="">   
+    update company
+    <set >
+      <if test="item.companyName != null and item.companyName!=''" >
+        company_name = #{item.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="item.description != null and item.description!=''" >
+        description = #{item.description,jdbcType=VARCHAR},
+      </if>
+      <if test="item.companyCode != null and item.companyCode!=''" >
+        company_code = #{item.companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="item.phone != null and item.phone!=''" >
+        phone = #{item.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="item.companyType != null" >
+        company_type = #{item.companyType,jdbcType=INTEGER},
+      </if>
+      <if test="item.companyState != null" >
+        company_state = #{item.companyState,jdbcType=INTEGER},
+      </if>
+      <if test="item.stateChanged != null" >
+        state_changed = #{item.stateChanged,jdbcType=TIMESTAMP},
+      </if>
+      <if test="item.industries != null and item.industries!=''" >
+       industries= #{item.industries,jdbcType=VARCHAR},
+      </if>
+       <if test="item.stockCode != null and item.stockCode!=''" >
+      stock_code=#{item.stockCode,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where company_id = #{item.companyId,jdbcType=INTEGER}
+    </foreach> 
+  </update>
+  
 </mapper>

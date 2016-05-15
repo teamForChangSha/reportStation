@@ -57,4 +57,12 @@ public interface CompanyMapper {
 	List<Company> getCompanyPaging(@Param("page") Page page,
 			@Param("companyName") String companyName);
 
+	/**
+	 * 批量更新公司信息
+	 * 
+	 * @param company_ids
+	 * @return
+	 */
+	int updateCompanies(List<Company> list);
+
 }

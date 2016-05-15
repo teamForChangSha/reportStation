@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean stopAllUsersByCompanyId(Long companyId) {
-		int flag = userMapper.stopAllUsersByCompanyId(companyId);
+	public boolean changeUserStateByCompany(Long companyId, Integer userState) {
+		int flag = userMapper.changeUserStateByCompany(companyId, userState);
 		if (flag > 0) {
 			return true;
 		}

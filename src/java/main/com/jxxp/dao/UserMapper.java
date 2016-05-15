@@ -70,7 +70,8 @@ public interface UserMapper {
 
 	List<User> getAllUers();
 
-	int stopAllUsersByCompanyId(Long companyId);
+	int changeUserStateByCompany(@Param("companyId") Long companyId,
+			@Param("userState") Integer userState);
 
 	List<User> getUserByLoginName(User user);
 

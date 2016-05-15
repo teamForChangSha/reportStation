@@ -97,10 +97,10 @@
       #{email},  #{phone},  #{address}, #{weixin},  #{department}, #{position},  #{expiryDate})
   </insert>
   
-  <update id="stopAllUsersByCompanyId" parameterType="java.lang.Long">
+  <update id="changeUserStateByCompany" parameterType="java.lang.Long">
 	  update userinfo 
 	  <set>
-	  user_state=4,
+	  user_state= #{userState},
 	  </set> 
 	  where company_id=#{companyId,jdbcType=BIGINT}
   </update>
@@ -157,7 +157,7 @@
         position= #{position,jdbcType=VARCHAR}, 
        </if>
        <if test="expiryDate != null" >
-        expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+        expiry_date = #{expiryDate},
       </if>
     </set>
     

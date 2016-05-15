@@ -56,9 +56,11 @@ public interface UserService {
 	boolean addUser(User user);
 
 	/**
-	 * 停用该公司所有用户，超级管理员和平台管理员由此权限
+	 * 改变公司所有用户的状态
 	 * 
 	 * @param companyId
+	 * @param userState
+	 * @return
 	 */
-	boolean stopAllUsersByCompanyId(Long companyId);
+	boolean changeUserStateByCompany(Long companyId, Integer userState);
 }

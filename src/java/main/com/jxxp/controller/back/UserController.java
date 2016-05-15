@@ -289,13 +289,14 @@ public class UserController extends BaseController {
 	@RequestMapping("/updateUser.do")
 	public String updateUser(User user, HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		user = userService.getUserById(user.getUserId());
 		log.debug("User:" + user);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;
 		try {
 			out = response.getWriter();
 			if (userService.update(user)) {
+				// 更新后获取被修改用户的信息
+				user = userService.getUserById(user.getUserId());
 				User oprator = (User) request.getSession().getAttribute("user");
 				if (saveOprationLog("修改了用户：" + user.getLoginName() + "的信息", oprator)) {
 					log.debug("用户操作日志记录成功！");
@@ -453,7 +454,7 @@ public class UserController extends BaseController {
 	@RequestMapping("/stopCompanyAllUsers.do")
 	public String stopCompanyAllUsers(Long companyId, HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws Exception {
-		boolean falg = userService.stopAllUsersByCompanyId(companyId);
+		boolean falg = userService.changeUserStateByCompany(companyId, User.USER_STATE_STOP);
 		Company stopedCompany = companyService.getCompanyById(companyId);
 		try {
 			PrintWriter out = response.getWriter();

@@ -185,4 +185,21 @@ public interface CompanyService {
 	 * @return
 	 */
 	List<Company> getCompanyPaging(Page page, String companyName);
+
+	/**
+	 * 批量更新公司信息
+	 * 
+	 * @param companyList
+	 *            公司集合
+	 * @return
+	 */
+	boolean updateCompanies(List<Company> companyList);
+
+	/**
+	 * 标记删除公司
+	 * 
+	 * @param companyList
+	 * @return
+	 */
+	boolean delCompaniesWithMark(List<Company> companyList);
 }

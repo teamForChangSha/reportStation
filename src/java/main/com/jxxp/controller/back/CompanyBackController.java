@@ -460,7 +460,7 @@ public class CompanyBackController extends BaseController {
 	}
 
 	/**
-	 * 批量删除企业
+	 * 批量删除企业,此处是标记删除，只是改变公司的状态设置为 company.state=Company.COMPANY_STATE_INVALID
 	 * 
 	 * @param companyIds
 	 * @param request
@@ -472,13 +472,16 @@ public class CompanyBackController extends BaseController {
 	public String delCompanyByIds(HttpServletRequest request, HttpServletResponse response,
 			ModelMap model) {
 		String companyIds = request.getParameter("companyIds");
-		log.debug("companyIds====" + companyIds);
 		String[] strIds = companyIds.split(",");
 		Long ids[] = new Long[strIds.length];
+		List<Company> companyList = new ArrayList<Company>();
 		for (int i = 0; i < strIds.length; i++) {
-			ids[i] = Long.parseLong(strIds[i]);
+			// ids[i] = Long.parseLong(strIds[i]);
+			Company com = companyService.getCompanyById(Long.parseLong(strIds[i]));
+			com.setCompanyState(Company.COMPANY_STATE_INVALID);
+			companyList.add(com);
 		}
-		boolean flag = companyService.delCompanyByIds(ids);
+		boolean flag = companyService.delCompaniesWithMark(companyList);
 		response.setCharacterEncoding("UTF-8");
 		try {
 			PrintWriter out = response.getWriter();
