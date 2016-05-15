@@ -289,7 +289,7 @@ public class UserController extends BaseController {
 	@RequestMapping("/updateUser.do")
 	public String updateUser(User user, HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) throws Exception {
-		user = userService.getUserById(user.getUserId());
+		// user = userService.getUserById(user.getUserId());
 		log.debug("User:" + user);
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out;

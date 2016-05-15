@@ -157,7 +157,7 @@
         position= #{position,jdbcType=VARCHAR}, 
        </if>
        <if test="expiryDate != null" >
-        expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+        expiry_date = #{expiryDate},
       </if>
     </set>
     
