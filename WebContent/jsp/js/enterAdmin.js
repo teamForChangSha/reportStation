@@ -37,6 +37,9 @@ $(function () {
                 case 2:
                     td4.text("待审核");
                     break;
+                case 3:
+                    td4.text("已注销");
+                    break;
             }
             var td5 = $("<td/>").text(company.clientCompany == null ? '' : formatDate(company.clientCompany.expiryDate));
             var td6 = $("<td/>").text(company.phone == null ? "" : company.phone);
