@@ -23,10 +23,12 @@
             background-image: linear-gradient(to bottom, #4a8bc2, #4a8bc2);
             color: #fff;
         }
+
         .tableTh_tSeach_list {
             background: #595d60;
             color: white;
         }
+
         .row {
             margin-top: 10px;
         }
@@ -52,12 +54,15 @@
         .table-hover > tbody > tr:hover {
             cursor: pointer;
         }
-        .form-control-static{
+
+        .form-control-static {
             width: 200px;
         }
+
         .pagination li a {
             cursor: default;
         }
+
         .xinghao {
             color: #C12E2A;
             font-weight: bold;
@@ -79,7 +84,8 @@
                 <input type="text" id="companyName" class="form-control" style="width: 300px;" placeholder="可模糊搜索企业名称">
             </div>
             <input type="button" id="selected" class="btn btn-default" value="搜索"/>
-            <input type="button" data-toggle="modal" data-target="#addCompanPanel" style="margin-left: 10px;margin-right: 10px" class="btn btn-default" value="添加企业"/>
+            <input type="button" data-toggle="modal" data-target="#addCompanPanel"
+                   style="margin-left: 10px;margin-right: 10px" class="btn btn-default" value="添加企业"/>
             <input type="button" id="import" class="btn btn-default" value="批量导入单位信息"/>
             <input type="button" onclick="delAll()" class="btn btn-default" value="批量删除"/>
         </div>
@@ -281,12 +287,15 @@
                 <h5 class="modal-title text-center">添加企业（带<span class="xinghao">*</span>为必填）</h5>
             </div>
             <div class="modal-body" id="addCompanHtml">
-                <form id="addForm" action="admin/companyBack/addWholeCompany.do" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form id="addForm" action="admin/companyBack/addWholeCompany.do" method="post" class="form-horizontal"
+                      enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><span class="xinghao">*</span>公司名字：</label>
 
                         <div class="col-sm-5">
                             <input type="text" id="addCompanyName" name="company.companyName" class="form-control"/>
+
+                            <p>adfad</p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -375,7 +384,8 @@
                         <label class="col-sm-4 control-label">公司LOGO：</label>
 
                         <div class="col-sm-3" id="addFileSave">
-                            <input type="file" id="addLogoChange" id="addLogo" name="logo" accept="image/*" class="form-control-static"/>
+                            <input type="file" id="addLogoChange" id="addLogo" name="logo" accept="image/*"
+                                   class="form-control-static"/>
                         </div>
                         <div class="col-sm-2">
                             <p class="thumbnail">
@@ -408,7 +418,8 @@
                 <h5 class="modal-title text-center">修改企业（带<span class="xinghao">*</span>为必填）</h5>
             </div>
             <div class="modal-body" id="upCompanHtml">
-                <form id="upForm" action="admin/companyBack/updateCompanyWholeInfo.do" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <form id="upForm" action="admin/companyBack/updateCompanyWholeInfo.do" method="post"
+                      class="form-horizontal" enctype="multipart/form-data">
                     <input type="text" id="upCompanyId" name="company.companyId" hidden/>
 
                     <div class="form-group">
@@ -504,7 +515,8 @@
                         <label class="col-sm-4 control-label">公司LOGO：</label>
 
                         <div class="col-sm-3">
-                            <input type="file" id="upLogoChange" name="logo" accept="image/*" class="form-control-static"/>
+                            <input type="file" id="upLogoChange" name="logo" accept="image/*"
+                                   class="form-control-static"/>
                         </div>
                         <div class="col-sm-2">
                             <p class="thumbnail">
@@ -520,6 +532,78 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--设为客户公司--%>
+<div class="modal fade bs-example-modal-md" id="addClient" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title text-center">设为客户公司</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form id="toClientForm" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><span class="xinghao">*</span>有效期至：</label>
+                                <input type="text" id="companyId" name="companyId" hidden/>
+                                <input type="text" id="addToDate" name="expiryDate" hidden/>
+
+                                <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
+                                    <select id="fullYear" class="form-control" onchange="changeDay()">
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">年</p>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;width: 12%">
+                                    <select id="fullMounth" class="form-control" onchange="changeDay()">
+                                        <option value="1">01</option>
+                                        <option value="2">02</option>
+                                        <option value="3">03</option>
+                                        <option value="4">04</option>
+                                        <option value="5">05</option>
+                                        <option value="6">06</option>
+                                        <option value="7">07</option>
+                                        <option value="8">08</option>
+                                        <option value="9">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">月</p>
+                                </div>
+                                <div class="col-sm-1" style="padding: 0;width: 12%">
+                                    <select id="fullDay" class="form-control">
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <p class="form-control-static">日</p>
+                                </div>
+                            </div>
+                            <div id="addDateError" class="form-group hide">
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <span class="xinghao">有效期不能在当前时间之后</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <input type="button" id="addBtn" class="btn btn-default form-control" value="提交">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

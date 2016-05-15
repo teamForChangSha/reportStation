@@ -62,7 +62,24 @@ $(function () {
                 delCompany(company.companyId);
             });
             li2.append(a2);
-            menu.append(li1).append(li2);
+            var li3 = $("<li/>");
+            var a3 = $("<a/>").text("设为客户").attr("data-toggle", "modal").attr("data-target", "#addClient");
+            a3.click(function(){
+                $("#companyId").val(company.companyId);
+                if (company.clientCompany.expiryDate != null) {
+                    var temp = formatDate(company.clientCompany.expiryDate).split("-");
+                    $("#fullYear").get(0).value = parseInt(temp[0] * 1);
+                    $("#fullMounth").get(0).value = parseInt(temp[1] * 1);
+                    $("#fullDay").get(0).value = parseInt(temp[2].substr(0, 2) * 1);
+                } else {
+                    $("#fullYear").get(0).value = tempYear;
+                    $("#fullMounth").get(0).value = (tempDate.getMonth() + 1);
+                    $("#fullDay").get(0).value = tempDate.getDate();
+                }
+                uchangeDay();
+            });
+            li3.append(a3);
+            menu.append(li1).append(li3).append(li2);
             btn.append(span);
             div.append(btn).append(menu);
             td7.append(div);
@@ -114,6 +131,62 @@ $(function () {
         var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
         return date.getFullYear() + "-" + mounth + "-" + day + " " + h + ":" + m + ":" + s;
     }
+
+
+    var tempDate = new Date();
+    var tempYear = tempDate.getFullYear();
+    for (var i = 0; i < 10; i++) {
+        var opt = $("<option/>").text((tempYear + i)).val((tempYear + i));
+        $("#fullYear").prepend(opt);
+    }
+    $("#fullYear").get(0).value = tempYear;
+    $("#fullMounth").get(0).value = (tempDate.getMonth() + 1);
+    window.changeDay = function () {
+        $("#fullDay").empty();
+        var y = $("#fullYear").find("option:selected").val();
+        var m = $("#fullMounth").find("option:selected").val();
+        var max = new Date(y, m, 0).getDate();
+        for (var i = 1; i <= max; i++) {
+            var opt = $("<option/>").text((i < 10 ? "0" + i : i)).val(i);
+            $("#fullDay").append(opt);
+        }
+        $("#fullDay").get(0).value = tempDate.getDate();
+    }
+    changeDay();
+
+    $("#addBtn").click(function(){
+        var y = $("#fullYear").find("option:selected").text();
+        var m = $("#fullMounth").find("option:selected").text();
+        var d = $("#fullDay").find("option:selected").text();
+        var dd = new Date(y,(m-1),d);
+        if(dd<tempDate){
+            return Modal.alert({msg:'有效期不能在当前时间之后'});
+        }
+        $("#addToDate").val($("#fullYear").find("option:selected").text() + "-"
+            + $("#fullMounth").find("option:selected").text() + "-" + $("#fullDay").find("option:selected").text());
+        console.log($("#toClientForm").serialize());
+        $("#addClient").modal("hide");
+        $.post("admin/companyBack/addClientCompany.do",$("#toClientForm").serialize(),function(){
+            if (status == "success") {
+                if (res == "success") {
+                    var pageNum = parseInt($("#pageBar li.active").children().text());
+                    getCompanyList(pageNum);
+                    Modal.alert({
+                        msg: '操作成功！',
+                    });
+                } else {
+                    Modal.alert({
+                        msg: '操作失败！',
+                    });
+                }
+            } else {
+                Modal.alert({
+                    msg: '操作失败！',
+                });
+            }
+        });
+    });
+
 
     var t = 0;
     var bool = true;
@@ -385,7 +458,6 @@ $(function () {
     var phoneReg = /^\(?\d{3,4}[-\)]?\d{7,8}$/;
 
     function rePhone(str) {
-        console.log(str);
         if (!phoneReg.test(str)) {
             return false;
         }

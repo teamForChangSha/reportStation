@@ -201,6 +201,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upName" name="userName" class="form-control">
+                                    <span class="xinghao hide">用户名不能为空</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -218,6 +219,7 @@
                                             <option value="4">系统管理员</option>
                                         </c:if>
                                     </select>
+                                    <span class="xinghao hide">请选择用户类型</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -242,6 +244,7 @@
                                                placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)" onfocus="searchCompanyFoucs(this)"/>
                                         <ul id="upCompanyMenu" class="dropdown-menu"></ul>
                                     </div>
+                                    <span id="upCompanyError" class="xinghao hide">请选择所属公司</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -249,6 +252,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upMobile" name="mobile" class="form-control">
+                                    <span class="xinghao hide">请输入正确的联系电话</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -256,6 +260,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upPhone" name="phone" class="form-control">
+                                    <span class="xinghao hide">请输入正确的电话，如010-00000000</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -263,6 +268,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="upEmail" name="email" class="form-control">
+                                    <span class="xinghao hide">请输入正确的E-Mail</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -302,7 +308,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label"><span class="xinghao">*</span>有效期至：</label>
-                                <input type="text" id="upToDate" name="expiryDate" hidden>
+                                <input type="text" id="upToDate" name="expiryDate" hidden/>
 
                                 <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
                                     <select id="ufullYear" class="form-control" onchange="uchangeDay()">
@@ -336,6 +342,11 @@
                                 </div>
                                 <div class="col-sm-1">
                                     <p class="form-control-static">日</p>
+                                </div>
+                            </div>
+                            <div id="upDateError" class="form-group hide">
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <span class="xinghao">有效期不能在当前时间之后</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -388,6 +399,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addName" name="userName" class="form-control">
+                                    <span class="xinghao hide">用户名不能为空</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -395,6 +407,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addLoginName" name="loginName" class="form-control">
+                                    <span class="xinghao hide">账号不能为空</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -402,6 +415,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="password" id="addUserPwd" name="userPwd" class="form-control">
+                                    <span class="xinghao hide">密码不能为空</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -419,6 +433,7 @@
                                             <option value="4">系统管理员</option>
                                         </c:if>
                                     </select>
+                                    <span class="xinghao hide">请选择用户类型</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -443,6 +458,7 @@
                                                placeholder="请选择公司" autocomplete="off" onkeyup="searchCompany(this)" onfocus="searchCompanyFoucs(this)"/>
                                         <ul id="addCompanyMenu" class="dropdown-menu"></ul>
                                     </div>
+                                    <span id="addCompanyError" class="xinghao hide">请选择所属公司</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -450,6 +466,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addMobile" name="mobile" class="form-control">
+                                    <span class="xinghao hide">请输入正确的联系电话</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -457,6 +474,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addPhone" name="phone" class="form-control">
+                                    <span class="xinghao hide">请输入正确的电话，如010-00000000</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -464,6 +482,7 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" id="addEmail" name="email" class="form-control">
+                                    <span class="xinghao hide">请输入正确的E-Mail</span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -503,7 +522,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label"><span class="xinghao">*</span>有效期至：</label>
-                                <input type="text" id="addToDate" name="expiryDate" hidden>
+                                <input type="text" id="addToDate" name="expiryDate" hidden/>
 
                                 <div class="col-sm-1" style="padding: 0;margin-left: 16px;width: 14%">
                                     <select id="fullYear" class="form-control" onchange="changeDay()">
@@ -537,6 +556,11 @@
                                 </div>
                                 <div class="col-sm-1">
                                     <p class="form-control-static">日</p>
+                                </div>
+                            </div>
+                            <div id="addDateError" class="form-group hide">
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <span class="xinghao">有效期不能在当前时间之后</span>
                                 </div>
                             </div>
                             <div class="form-group">

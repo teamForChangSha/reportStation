@@ -114,7 +114,7 @@ $(function () {
                     });
                 });
                 a2.attr("data-toggle", "modal").attr("data-target", "#updataUserInfo");
-                a2.bind("click", function updataInfo() {
+                a2.bind("click", function () {
                     $("#userId").val(userAndLogList.user.userId);
                     $("#upStae").get(0).value = userAndLogList.user.userState;
                     $("#upName").val(userAndLogList.user.userName);
@@ -131,7 +131,6 @@ $(function () {
                     $("#upAddress").val(userAndLogList.user.address);
                     $("#upRemark").text(userAndLogList.user.remark);
                     $("#upStateChanged").text(formatDate(userAndLogList.user.stateChanged));
-                    uchangeDay();
                     if (userAndLogList.user.expiryDate != null) {
                         var temp = formatDate(userAndLogList.user.expiryDate).split("-");
                         $("#ufullYear").get(0).value = parseInt(temp[0] * 1);
@@ -142,6 +141,7 @@ $(function () {
                         $("#ufullMounth").get(0).value = (tempDate.getMonth() + 1);
                         $("#ufullDay").get(0).value = tempDate.getDate();
                     }
+                    uchangeDay();
                 });
 
                 if (userAndLogList.user.userState == 3) {
@@ -203,7 +203,6 @@ $(function () {
                 .attr("data-toggle", "modal").attr("data-target", "#toViewUseLog")
                 .attr("onclick", "lookUseLog(" + userAndLogList.user.userId + ")");
             lookLog.append(a5);
-            console.log(userType < userAndLogList.user.userType);
             if (userType < userAndLogList.user.userType) {
                 menu.append(lookLog);
             } else {
@@ -434,26 +433,52 @@ $(function () {
      * 更新用户信息
      * @returns {*}
      */
+    hideError($("#upName"));
+    hideError($("#upPhone"));
+    hideError($("#upMobile"));
+    hideError($("#upEmail"));
+    $("#upCompanyInput").focus(function(){
+        $("#upCompanyError").addClass("hide");
+    });
+    $("#upType").change(function(){
+        $("#upType").next().addClass("hide");
+    });
+    $("#ufullYear").change(function(){
+        $("#upDateError").addClass("hide");
+    });
+    $("#ufullMounth").change(function(){
+        $("#upDateError").addClass("hide");
+    });
+    $("#ufullDay").change(function(){
+        $("#upDateError").addClass("hide");
+    });
     window.sendUp = function () {
         if (isEmty($("#upName").val())) {
-            return alr("请输入用户名字");
+            return $("#upName").next().removeClass("hide");
         }
         if ($("#upType").find("option:selected").val() == "0") {
-            return alr("请选择用户类型");
+            return $("#upType").next().removeClass("hide");
         }
         if ($("#upPhone").val() != '') {
             if (!telReg.test($("#upPhone").val())) {
-                return alr("请输入正确的电话，如010-00000000");
+                return $("#upPhone").next().removeClass("hide");
             }
         }
         if (isEmty($("#upCompany").val())) {
-            return alr("请选择所属公司");
+            return $("#upCompanyError").removeClass("hide");
         }
         if (!rePhone($("#upMobile").val())) {
-            return alr("请输入正确的手机号");
+            return $("#upMobile").next().removeClass("hide");
         }
         if (!reEmail($("#upEmail").val())) {
-            return alr("请输入正确的E-Mail");
+            return $("#upEmail").next().removeClass("hide");
+        }
+        var y = $("#ufullYear").find("option:selected").text();
+        var m = $("#ufullMounth").find("option:selected").text();
+        var d = $("#ufullDay").find("option:selected").text();
+        var dd = new Date(y,(m-1),d);
+        if(dd<tempDate){
+            return $("#upDateError").removeClass("hide");
         }
         $("#upToDate").val($("#ufullYear").find("option:selected").text() + "-"
             + $("#ufullMounth").find("option:selected").text() + "-" + $("#ufullDay").find("option:selected").text());
@@ -503,36 +528,64 @@ $(function () {
      * 添加企业用户
      * @returns {*}
      */
+    hideError($("#addName"));
+    hideError($("#addLoginName"));
+    hideError($("#addUserPwd"));
+    hideError($("#addMobile"));
+    hideError($("#addPhone"));
+    hideError($("#addEmail"));
+    $("#addCompanyInput").focus(function(){
+        $("#addCompanyError").addClass("hide");
+    });
+    $("#addType").change(function(){
+        $("#addType").next().addClass("hide");
+    });
+    $("#fullYear").change(function(){
+        $("#addDateError").addClass("hide");
+    });
+    $("#fullMounth").change(function(){
+        $("#addDateError").addClass("hide");
+    });
+    $("#fullDay").change(function(){
+        $("#addDateError").addClass("hide");
+    });
     window.sendAdd = function () {
         if (isEmty($("#addName").val())) {
-            return alr("请输入用户名字");
+            return $("#addName").next().removeClass("hide");
         }
         if (isEmty($("#addLoginName").val())) {
-            return alr("请输入登录账号");
+            return $("#addLoginName").next().removeClass("hide").text("请输入登录账号");
         } else if (!reUserName($("#addLoginName").val())) {
-            return alr("登录账号只能输入字母或数字");
+            return $("#addLoginName").next().removeClass("hide").text("登录账号只能输入字母或数字");
         } else if ($("#addLoginName").val().length < 6 || $("#addLoginName").val().length > 12) {
-            return alr("登录账号长度必须在6-12位之间");
+            return $("#addLoginName").next().removeClass("hide").text("登录账号长度必须在6-12位之间");
         }
         if (isEmty($("#addUserPwd").val())) {
-            return alr("请输入密码");
+            return $("#addUserPwd").next().removeClass("hide");
         }
         if ($("#addType").find("option:selected").val() == "0") {
-            return alr("请选择用户类型");
+            return $("#addType").next().removeClass("hide");
         }
         if (isEmty($("#addCompany").val())) {
-            return alr("请选择所属公司");
+            return $("#addCompanyError").removeClass("hide");
         }
         if (!rePhone($("#addMobile").val())) {
-            return alr("请输入正确的手机号");
+            return $("#addMobile").next().removeClass("hide");
         }
         if ($("#addPhone").val() != '') {
             if (!telReg.test($("#addPhone").val())) {
-                return alr("请输入正确的电话，如010-00000000");
+                return $("#addPhone").next().removeClass("hide");
             }
         }
         if (!reEmail($("#addEmail").val())) {
-            return alr("请输入正确的E-Mail");
+            return $("#addEmail").next().removeClass("hide");
+        }
+        var y = $("#fullYear").find("option:selected").text();
+        var m = $("#fullMounth").find("option:selected").text();
+        var d = $("#fullDay").find("option:selected").text();
+        var dd = new Date(y,(m-1),d);
+        if(dd<tempDate){
+            return $("#addDateError").removeClass("hide");
         }
         $("#addToDate").val($("#fullYear").find("option:selected").text() + "-"
             + $("#fullMounth").find("option:selected").text() + "-" + $("#fullDay").find("option:selected").text());
@@ -571,6 +624,12 @@ $(function () {
         $("#upCompanyMenu").hide();
         $("#addCompanyMenu").hide();
     });
+
+    function hideError(a){
+        a.focus(function(){
+            a.next().addClass("hide");
+        });
+    }
 
     /* 判断是否为空 */
     function isEmty(str) {
