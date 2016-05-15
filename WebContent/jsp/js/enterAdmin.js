@@ -66,7 +66,7 @@ $(function () {
             var a3 = $("<a/>").text("设为客户").attr("data-toggle", "modal").attr("data-target", "#addClient");
             a3.click(function(){
                 $("#companyId").val(company.companyId);
-                if (company.clientCompany.expiryDate != null) {
+                if (company.clientCompany != null) {
                     var temp = formatDate(company.clientCompany.expiryDate).split("-");
                     $("#fullYear").get(0).value = parseInt(temp[0] * 1);
                     $("#fullMounth").get(0).value = parseInt(temp[1] * 1);

@@ -123,7 +123,7 @@
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
-                            <c:if test="${user.userType<=3}">
+                            <c:if test="${user.userType<3}">
                                 <li><a class="" href="jsp/admin/pages/updataUserInfo.jsp" target="MainIframe">信息修改</a>
                                 </li>
                             </c:if>
