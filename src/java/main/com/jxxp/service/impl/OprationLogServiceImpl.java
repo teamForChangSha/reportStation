@@ -69,7 +69,6 @@ public class OprationLogServiceImpl implements OprationLogService {
 		List<OprationLog> logs = new ArrayList<OprationLog>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		logs = oprationLogMapper.getRecentOprationLog(10, "登录");
-		System.out.println("logsSize=====" + logs.size());
 		for (int i = 0; i < logs.size(); i++) {
 			// 存放一个用户登录日志key=oprationLog，停留时间key=times，以及操作key=oprationsStr
 			Map<String, Object> logsMap = new HashMap<String, Object>();
