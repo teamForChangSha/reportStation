@@ -294,8 +294,6 @@
 
                         <div class="col-sm-5">
                             <input type="text" id="addCompanyName" name="company.companyName" class="form-control"/>
-
-                            <p>adfad</p>
                         </div>
                     </div>
                     <div class="form-group">
