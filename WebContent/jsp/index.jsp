@@ -120,8 +120,8 @@
 		</nav>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4">
-					<div class="col-sm-10">
+				<div class="col-xs-4 col-sm-4 col-md-4">
+					<div class="col-xs-10 col-sm-10 col-md-10">
 						<div class="page-header text-center">
 							<h1>
 							<small>我要举报</small>
@@ -162,7 +162,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-7">
+				<div class="col-xs-7 col-sm-7 col-md-7">
 					<div class="page-header text-center">
 						<h1>
 						<small>我们承诺</small>
