@@ -169,8 +169,8 @@ $(function () {
             + $("#fullMounth").find("option:selected").text() + "-" + $("#fullDay").find("option:selected").text());
         console.log($("#toClientForm").serialize());
         $("#addClient").modal("hide");
-        $.post("admin/companyBack/addClientCompany.do",$("#toClientForm").serialize(),function(){
-            if (status == "success") {
+        $.post("admin/companyBack/addClientCompany.do",$("#toClientForm").serialize(),function(res,state){
+            if (state == "success") {
                 if (res == "success") {
                     var pageNum = parseInt($("#pageBar li.active").children().text());
                     getCompanyList(pageNum);
