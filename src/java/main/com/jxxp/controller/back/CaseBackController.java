@@ -104,7 +104,7 @@ public class CaseBackController {
 	}
 
 	/***
-	 * 根据举报人显示以往举报列表
+	 * 根据ID显示举报
 	 * 
 	 * @author cj
 	 * @param
@@ -252,6 +252,7 @@ public class CaseBackController {
 					caseChangeLog.setStateBefore(reportCase.getCaseState());
 					caseChangeLog.setHandlerAfter(user.getUserCompany());
 					caseChangeLog.setHandlerBefore(user.getUserCompany());
+					caseChangeLog.setActionName("追加了信息");
 
 					if (caseChangeLogService.addCaseChangeLog(caseChangeLog, rcId)) {
 						log.debug("日志信息添加成功！");

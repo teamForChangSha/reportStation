@@ -7,6 +7,7 @@
     <result column="state_before" property="stateBefore" jdbcType="INTEGER" />
     <result column="state_after" property="stateAfter" jdbcType="INTEGER" />
     <result column="handler_after" property="handlerAfter" jdbcType="INTEGER" />
+    <result column="action_name" property="actionName" jdbcType="VARCHAR" />
    <association property="operator" column="user_id" javaType="com.jxxp.pojo.User"
    select="com.jxxp.dao.UserMapper.getById">
    </association>
@@ -19,7 +20,7 @@
   
   </resultMap>
   <sql id="Base_Column_List" >
-    cc_id, rc_id, change_time, state_before, state_after, user_id, handler_before, handler_after
+    cc_id, rc_id, change_time, state_before, state_after, user_id, handler_before, handler_after, action_name
   </sql>
    <delete id="deleteById" parameterType="java.lang.Long" >
     delete from casechangelog
