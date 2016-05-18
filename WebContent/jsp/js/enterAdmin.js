@@ -60,7 +60,7 @@ $(function () {
             });
             li1.append(a1);
             var li2 = $("<li/>");
-            var a2 = $("<a/>").text("删除");
+            var a2 = $("<a/>").text("注销");
             a2.click(function () {
                 delCompany(company.companyId);
             });
@@ -380,7 +380,7 @@ $(function () {
     function delCompany(id) {
         Modal.confirm({
             title: '警告',
-            msg: '您确定要删除吗?',
+            msg: '您确定要注销吗?',
         }).on(function (e) {
             if (e) {
                 $.post("admin/companyBack/delCompanyByIds.do", "companyIds=" + id, function (res, state) {
@@ -424,7 +424,7 @@ $(function () {
         if (i > 0) {
             Modal.confirm({
                 title: '警告',
-                msg: '您确定要删除这些企业吗?'
+                msg: '您确定要注销这些企业吗?'
             }).on(function (e) {
                 if (e) {
                     $.get("admin/companyBack/delCompanyByIds.do?companyIds=" + ids, function (res, state) {

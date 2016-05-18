@@ -148,7 +148,7 @@
                         </li>
                     </ul>
                 </li>
-                <c:if test="${user.userType==4}">
+                <c:if test="${user.userType>=3}">
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
@@ -162,12 +162,12 @@
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            <span>企业管理</span>
+                            <span>公司管理</span>
                             <span class="arrow"></span>
                         </a>
                         <ul class="sub">
-                            <li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">企业数据维护</a></li>
-                            <li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">企业名称合并</a></li>
+                            <li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">公司信息设置</a></li>
+                            <li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">公司名称合并</a></li>
                         </ul>
                     </li>
                 </c:if>
