@@ -43,6 +43,7 @@ import com.jxxp.service.CaseAttachService;
 import com.jxxp.service.CaseChangeLogService;
 import com.jxxp.service.CaseCommentService;
 import com.jxxp.service.CaseService;
+import com.jxxp.service.CompanyService;
 import com.jxxp.service.MobileService;
 import com.jxxp.service.QuestionService;
 import com.jxxp.service.ReporterService;
@@ -71,6 +72,8 @@ public class CaseController {
 	private QuestionService questionService;
 	@Resource
 	private MailUtil mailUtil;
+	@Resource
+	private CompanyService companyService;
 
 	/***
 	 * 根据所输入的手机号，获取验证码
@@ -164,6 +167,7 @@ public class CaseController {
 		String contactWay = request.getParameter("contactWay");
 		String province = request.getParameter("province");
 		String city = request.getParameter("city");
+		String caseCompanyName = request.getParameter("caseCompanyName");
 
 		log.debug("trackingNo:" + trackingNo + "\t" + "accessCode:" + accessCode + "\t" + "rtList:"
 				+ rtList);
@@ -189,6 +193,9 @@ public class CaseController {
 //		CompanyBranch companyBranch = (CompanyBranch) request.getSession().getAttribute(
 //				"companyBranch");
 		Company company = (Company) request.getSession().getAttribute("company");
+		if(company == null) {
+			company = companyService.getCompanyById(Long.parseLong(request.getParameter("companyId")));
+		}
 		log.debug("company:" + company);
 		// 保存ReportCase对象
 		ReportCase reportCase = new ReportCase();
@@ -204,6 +211,7 @@ public class CaseController {
 		reportCase.setContactWay(contactWay);
 		reportCase.setProvince(province);
 		reportCase.setCity(city);
+		reportCase.setCaseCompanyName(caseCompanyName);
 
 		// 保存问题回答列表
 		List<ReportAnswer> answerList = JSON.parseArray(answersJson, ReportAnswer.class);
@@ -314,10 +322,21 @@ public class CaseController {
 		String trackingNo = request.getParameter("trackingNo");
 
 		List<CaseAttach> fileList = caseAttachService.getCaseAttachByTrackingNo(trackingNo);
-		if (fileList.size() > 0) {
-			modelMap.put("fileList", fileList);
+		
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if (fileList.size() > 0) {
+				String strFiles = JSON.toJSONString(fileList);
+				out.print(strFiles);
+			} else {
+				out.print("");
+			}
+		} catch (IOException e) {
+			log.error("流获取失败！", e);
 		}
-		return "/jsp/pages/upLoadFile";
+		return null;
 	}
 
 	/***

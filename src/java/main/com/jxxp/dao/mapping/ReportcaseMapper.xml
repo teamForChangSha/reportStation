@@ -13,6 +13,7 @@
     <result column="contact_way" property="contactWay" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="case_company_name" property="caseCompanyName" jdbcType="VARCHAR" />
     <!--后续加的字段end -->
     
     <association column="company_id" property="company" select="com.jxxp.dao.CompanyMapper.getById">
@@ -41,7 +42,7 @@
   </resultMap>
    <sql id="Base_Column_List" >
     rc_id, create_time, company_id, branch_id, report_id, handler_company, rt_list, case_state, 
-    state_changed, access_code, tracking_no, contact_way, province, city
+    state_changed, access_code, tracking_no, contact_way, province, city, case_company_name
   </sql> 
   <delete id="deleteById" parameterType="java.lang.Long" >
     delete from reportcase
@@ -156,7 +157,10 @@
       province,
       </if>
       <if test="city != null" >
-        city
+        city,
+      </if>
+      <if test="caseCompanyName != null" >
+        case_company_name
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -200,7 +204,10 @@
       #{province,jdbcType=VARCHAR},
       </if>
       <if test="city != null" >
-       #{city,jdbcType=VARCHAR}
+       #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCompanyName != null" >
+       #{caseCompanyName,jdbcType=VARCHAR}
       </if>
     </trim>
     
@@ -245,7 +252,10 @@
       province=#{province,jdbcType=VARCHAR},
       </if>
       <if test="city != null" >
-       city=#{city,jdbcType=VARCHAR}
+       city=#{city,jdbcType=VARCHAR},
+      </if>
+      <if test="caseCompanyName != null" >
+       case_company_name=#{caseCompanyName,jdbcType=VARCHAR}
       </if>
     </set>
     

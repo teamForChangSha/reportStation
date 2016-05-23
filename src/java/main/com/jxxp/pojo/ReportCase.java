@@ -100,6 +100,11 @@ public class ReportCase {
 	 * 城市
 	 */
 	private String city;
+	/**
+	 * 举报公司名
+	 */
+	private String caseCompanyName;
+	
 	
 	public long getRcId() {
 		return rcId;
@@ -243,6 +248,14 @@ public class ReportCase {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getCaseCompanyName() {
+		return caseCompanyName;
+	}
+
+	public void setCaseCompanyName(String caseCompanyName) {
+		this.caseCompanyName = caseCompanyName;
 	}
 
 	
