@@ -70,6 +70,14 @@
                     <span class="form-info" id="caseCity">${reportCase.city }</span>
                 </div>
             </div>
+            <c:if test="${reportCase.reporter==null}">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">匿名联系方式：</label>
+                    <div class="col-sm-8">
+                        <span class="form-info" >${reportCase.contactWay }</span>
+                    </div>
+                </div>
+            </c:if>
             <c:forEach items="${questionAnswerList}" var="quest" varStatus="i">
                 <c:if test="${i.index=='0'}">
                     <div class="page-header"></div>

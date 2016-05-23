@@ -213,6 +213,10 @@ $(function () {
                 return Modal.alert({msg: "匿名请提供一种联系方式!"});
             }
         }
+        if($("#companyName").val()==null||$("#companyName").val()==''){
+            $("html,body").animate({scrollTop: $("input[name=caseCompanyName]").offset().top - 120}, 500);
+            return Modal.alert({msg:'请输入公司名称!'});
+        }
         if (validationCompanyAddr()) {
             $("html,body").animate({scrollTop: $("select[name=province]").offset().top - 120}, 500);
             return Modal.alert({msg: "请选择该公司所在的省和市!"});
@@ -325,10 +329,12 @@ $(function () {
         var questions = "answers=" + setAnswers();
         var accessCode = "accessCode=" + quest.pass.val();
         var pro = "province=" + province.find("option:selected").text();
+        var companyId = "caseCompanyName="+$("#companyName").val();
+        var companyName = "companyId"+$("#companyId").val();
         var cit = "city=" + city.find("option:selected").text();
         var data = reporter + "&" + contactWay + "&" + verifyCode + "&"
             + anonymous + "&" + pro + "&" + cit + "&" + questions + "&" + trackingNo + "&"
-            + accessCode + "&" + rtList;
+            + accessCode + "&" + rtList+"&"+companyId+"&"+companyName;
         $.post(url, data, function (res, status) {
             if (status == "success") {
                 if (res == "saveError") { // 案件提交失败
@@ -978,6 +984,20 @@ $(function () {
             return true;
         }
         return false;
+    }
+
+    window.getFileList = function(files){
+        setFiles(files);
+    }
+
+    function setFiles(files){
+        $("#fSize").empty();
+        $.each(files,function(i,file){
+            var name = $("<a/>").attr("href",file.attachUrl).attr("target","_black").text(file.attachFileName);
+            var br = $("<br/>");
+            var desc = $("<span/>").addClass("pull-right").text(file.description);
+            $("#fSize").append(name).append(desc).append(br);
+        });
     }
 
 });

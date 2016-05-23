@@ -181,6 +181,11 @@
             if(e.keyCode == 8){
                 setTimeout(AutoComplete,200);
             }
+            if (e.keyCode == 13) {
+                if (!showErrorIcon(leftEle.companyName)) {
+                    leftEle.sendCompany.submit();
+                }
+            }
         }
     });
 

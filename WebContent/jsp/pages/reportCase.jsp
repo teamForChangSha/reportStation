@@ -266,8 +266,11 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">公司名称：</label>
 
-                    <div class="col-sm-8">
-                        <span class="form-info"><strong>${company.companyName}</strong></span>
+                    <div class="col-sm-4">
+
+                        <input type="text" id="companyName" name="caseCompanyName" value="${company.companyName}" class="form-control"/>
+                        <input type="text" name="companyId" hidden value="${company.companyId}"/>
+                        <%--<span class="form-info"><strong>${company.companyName}</strong></span>--%>
                     </div>
                 </div>
                 <%--<div class="form-group">
@@ -614,6 +617,8 @@
                     <br/>
 
                     <p>（可上传大多数常见的文件类型。）</p>
+                    <div id="fSize" style="height:115px; overflow:auto;" class="col-md-offset-3 col-md-6">
+                    </div>
                 </div>
                 <div class="page-header"></div>
                 <div class="form-group text-center">
@@ -702,7 +707,7 @@
                 <h5 class="modal-title" id="exampleModalLabel2">上传文件</h5>
             </div>
             <div class="modal-body">
-                <iframe src="case/showFileList.do?${trackingNo }" frameborder="0" width="100%" height="400px"></iframe>
+                <iframe src="jsp/pages/upLoadFile.jsp" frameborder="0" width="100%" height="400px"></iframe>
             </div>
         </div>
     </div>
@@ -714,6 +719,7 @@
         $("#citySelected").citySelect({prov: "北京", city: "东城区"});
     });
     var trackingNo = "trackingNo=${trackingNo }";
+    var tNo = "${trackingNo }";
     var rtList = "rtList=${rtList }";
     var questionList = [];
     <c:forEach items = "${questionMap}" var = "question" varStatus = "i" >
