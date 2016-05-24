@@ -102,7 +102,7 @@
                     <c:forEach items="${reportCase.attachList}" var="attach" varStatus="i">
                         <p class="form-info"><a href="${attach.attachUrl }"
                                                 target="_black">${attach.attachFileName }</a>
-                        <span>${attach.description}</span></p>
+                        <span class="pull-right">${attach.description}</span></p>
                     </c:forEach>
                 </div>
             </div>

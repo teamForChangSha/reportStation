@@ -227,7 +227,8 @@
 						<label class="col-sm-4 control-label">其他材料：</label>
 						<div class="col-sm-8">
 							<c:forEach items = "${reportCase.attachList}" var = "attach" varStatus = "i" >
-								<p><a href="${attach.attachUrl }" target="_black">${attach.attachFileName }</a></p>
+								<p><a href="${attach.attachUrl }" target="_black">${attach.attachFileName }</a>
+									<span class="pull-right">${attach.description}</span></p>
 							</c:forEach>
 						</div>
 					</div>
