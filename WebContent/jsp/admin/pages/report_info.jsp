@@ -53,7 +53,7 @@
 
                 <div class="col-sm-8">
                     <span class="form-info"
-                          id="organization"><strong>${reportCase.company.companyName }</strong></span>
+                          id="organization"><strong>${reportCase.caseCompanyName }</strong></span>
                 </div>
             </div>
             <div class="form-group">

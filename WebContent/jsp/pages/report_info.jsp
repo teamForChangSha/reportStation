@@ -83,7 +83,7 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">公司名称：</label>
 						<div class="col-sm-8">
-							<span class="form-info" id="organization"><strong>${reportCase.company.companyName}</strong></span>
+							<span class="form-info" id="organization"><strong>${reportCase.caseCompanyName}</strong></span>
 						</div>
 					</div>
 					<%--<div class="form-group">--%>

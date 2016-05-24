@@ -167,7 +167,7 @@
                         </a>
                         <ul class="sub">
                             <li><a class="" href="jsp/admin/pages/enterAdmin.jsp" target="MainIframe">公司信息设置</a></li>
-                            <li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">公司名称合并</a></li>
+                            <%--<li><a class="" href="jsp/admin/pages/enterMerge.jsp" target="MainIframe">公司名称合并</a></li>--%>
                         </ul>
                     </li>
                 </c:if>
