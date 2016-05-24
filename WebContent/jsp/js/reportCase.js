@@ -1,7 +1,5 @@
 $(function () {
-
     // 初始化控件，清除缓存
-    $("input[type=text]").val("");
     $("input[type=checkbox]").removeAttr("checked");
     $("input[type=radio]").removeAttr("checked");
     $("select").find("option[value='-1']").attr("selected", true);

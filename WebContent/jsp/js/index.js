@@ -170,7 +170,6 @@
     //});
 
     leftEle.companyName.keyup(function (e) {
-        leftEle.companyId.val("-1");
         if (leftEle.companyName.val() == '') {
             hiddenEle();
             leftEle.companyName.next().next().css("display", "none");
@@ -179,6 +178,7 @@
                 AutoComplete();
             }
             if(e.keyCode == 8){
+                leftEle.companyId.val("-1");
                 setTimeout(AutoComplete,200);
             }
             if (e.keyCode == 13) {
