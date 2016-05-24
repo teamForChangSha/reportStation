@@ -101,7 +101,8 @@
                 <div class="col-sm-8">
                     <c:forEach items="${reportCase.attachList}" var="attach" varStatus="i">
                         <p class="form-info"><a href="${attach.attachUrl }"
-                                                target="_black">${attach.attachFileName }</a></p>
+                                                target="_black">${attach.attachFileName }</a>
+                        <span>${attach.description}</span></p>
                     </c:forEach>
                 </div>
             </div>

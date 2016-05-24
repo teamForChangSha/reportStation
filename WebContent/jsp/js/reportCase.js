@@ -987,10 +987,6 @@ $(function () {
     }
 
     window.getFileList = function(files){
-        setFiles(files);
-    }
-
-    function setFiles(files){
         $("#fSize").empty();
         $.each(files,function(i,file){
             var name = $("<a/>").attr("href",file.attachUrl).attr("target","_black").text(file.attachFileName);
