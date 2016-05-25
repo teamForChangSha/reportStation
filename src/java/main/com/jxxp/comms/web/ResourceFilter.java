@@ -59,6 +59,7 @@ public class ResourceFilter implements Filter  {
 				response.sendRedirect("/reportStation/");
 			}
 		}
+		log.debug("do filter chain...");
 		chain.doFilter(request, response);
 	}
 
